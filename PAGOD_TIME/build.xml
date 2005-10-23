@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<project name="chrono" default="main" basedir=".">
+	 
+	<property name="src" location="pagod"/>
+	<property name="build" location="build"/>
+	<property name="dist"  location="dist"/>
+	
+	<mkdir dir="${build}"/>
+	<target name="main" depends=""
+	        description="compile the source " >
+		
+		<classpath>
+			<pathelement location="lib/jdic.jar"/>
+		</classpath>
+		<!-- Compile the java code from ${src} into ${build} -->
+	    <javac  fork="yes" srcdir="${src}" destdir="${build}"/>
+	  </target>
+	<target name="jarLinux" description="Construit le jar linux" >
+		
+		<jar jarfile="" basedir= "$build"/> 
+	</target>
+	<target name="jarWin" description="Construit le jar windows">
+	</target>
+</project>
