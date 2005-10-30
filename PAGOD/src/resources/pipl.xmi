@@ -1,0 +1,779 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMIPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:iepp="http://2xmi.free.fr" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/XMI xmi20.xsd http://2xmi.free.fr 2xmi.xsd">
+<xmi:XMI xmi:version="2.0">
+<iepp:processus xmi:id="PSP-PIPL" nom="PIP" nomAuteur="Claude Aubry" emailAuteur="claude@aubryconseil.com" description="" cheminGeneration="C:\Documents and Settings\Propriétaire\Bureau\pipl" dateExport="20050220154407">
+<iepp:composantId xmi:idref="PSP-Processus_d'ingénierie_des_processus"/>
+</iepp:processus>
+<iepp:composant xmi:id="PSP-Processus_d'ingénierie_des_processus" nom="Processus d'ingénierie des processus" version=" 1.0.1" nomAuteur="Claude Aubry" emailAuteur="claude@aubryconseil.com" datePlacement="20050220145323" description="" cheminDiagrammeFlots="./Processus_d_ingenierie_des_processus/Diagramme_de_sous_processus/diagramme.png">
+<iepp:roleId xmi:idref="_10154_rol"/>
+<iepp:roleId xmi:idref="_10159_rol"/>
+<iepp:roleId xmi:idref="_10142_rol"/>
+<iepp:roleId xmi:idref="_10133_rol"/>
+<iepp:roleId xmi:idref="_10134_rol"/>
+<iepp:roleId xmi:idref="_10139_rol"/>
+<iepp:roleId xmi:idref="_10698_rol"/>
+<iepp:roleId xmi:idref="_10132_rol"/>
+<iepp:produitId xmi:idref="_10153_pro"/>
+<iepp:produitId xmi:idref="_10037_pro"/>
+<iepp:produitId xmi:idref="_10141_pro"/>
+<iepp:produitId xmi:idref="_10136_pro"/>
+<iepp:produitId xmi:idref="_10143_pro"/>
+<iepp:produitId xmi:idref="_10692_pro"/>
+<iepp:produitId xmi:idref="_10920_pro"/>
+<iepp:produitId xmi:idref="_11026_pro"/>
+<iepp:produitId xmi:idref="_10140_pro"/>
+<iepp:produitId xmi:idref="_10032_pro"/>
+<iepp:produitId xmi:idref="_10034_pro"/>
+<iepp:produitId xmi:idref="_10211_pro"/>
+<iepp:produitId xmi:idref="_10924_pro"/>
+<iepp:produitId xmi:idref="_10833_pro"/>
+<iepp:produitId xmi:idref="_10614_pro"/>
+<iepp:produitId xmi:idref="_10516_pro"/>
+<iepp:produitId xmi:idref="_10144_pro"/>
+<iepp:produitId xmi:idref="_10137_pro"/>
+<iepp:produitId xmi:idref="_10035_pro"/>
+<iepp:produitId xmi:idref="_10033_pro"/>
+<iepp:definitionTravailId xmi:idref="_10653_det"/>
+<iepp:definitionTravailId xmi:idref="_10027_det"/>
+<iepp:definitionTravailId xmi:idref="_10028_det"/>
+<iepp:definitionTravailId xmi:idref="_10029_det"/>
+<iepp:definitionTravailId xmi:idref="_10385_det"/>
+<iepp:definitionTravailId xmi:idref="_10762_det"/>
+<iepp:definitionTravailId xmi:idref="_10031_det"/>
+<iepp:interfaceRequise xmi:idref="_19_00_inr"/>
+<iepp:interfaceFournie xmi:idref="_19_10_inf"/>
+<iepp:elementPresentationId xmi:idref="_0_0_1_com_elp"/>
+</iepp:composant>
+<iepp:role xmi:id="_10154_rol" nom="Rédacteur">
+<iepp:agregatComposant xmi:idref="PSP-Processus_d'ingénierie_des_processus"/>
+<iepp:responsabiliteProduit xmi:idref="_10153_pro"/>
+<iepp:participationActivite xmi:idref="_10075_act"/>
+<iepp:elementPresentationId xmi:idref="_0_14_1-5-3_com_elp"/>
+</iepp:role>
+<iepp:role xmi:id="_10159_rol" nom="Participant">
+<iepp:agregatComposant xmi:idref="PSP-Processus_d'ingénierie_des_processus"/>
+<iepp:responsabiliteProduit xmi:idref="_10033_pro"/>
+<iepp:responsabiliteProduit xmi:idref="_10035_pro"/>
+<iepp:participationActivite xmi:idref="_10059_act"/>
+<iepp:participationActivite xmi:idref="_10105_act"/>
+<iepp:participationActivite xmi:idref="_10718_act"/>
+<iepp:elementPresentationId xmi:idref="_0_13_1-5-2_com_elp"/>
+</iepp:role>
+<iepp:role xmi:id="_10142_rol" nom="Responsable d'un processus">
+<iepp:agregatComposant xmi:idref="PSP-Processus_d'ingénierie_des_processus"/>
+<iepp:responsabiliteProduit xmi:idref="_10137_pro"/>
+<iepp:responsabiliteProduit xmi:idref="_10516_pro"/>
+<iepp:responsabiliteProduit xmi:idref="_10143_pro"/>
+<iepp:participationActivite xmi:idref="_10056_act"/>
+<iepp:participationActivite xmi:idref="_10502_act"/>
+<iepp:participationActivite xmi:idref="_10055_act"/>
+<iepp:participationActivite xmi:idref="_10730_act"/>
+<iepp:participationActivite xmi:idref="_10732_act"/>
+<iepp:participationActivite xmi:idref="_10822_act"/>
+<iepp:participationActivite xmi:idref="_11027_act"/>
+<iepp:elementPresentationId xmi:idref="_0_12_1-5-1_com_elp"/>
+</iepp:role>
+<iepp:role xmi:id="_10133_rol" nom="Architecte processus">
+<iepp:agregatComposant xmi:idref="PSP-Processus_d'ingénierie_des_processus"/>
+<iepp:responsabiliteProduit xmi:idref="_10141_pro"/>
+<iepp:responsabiliteProduit xmi:idref="_10034_pro"/>
+<iepp:responsabiliteProduit xmi:idref="_10920_pro"/>
+<iepp:responsabiliteProduit xmi:idref="_11026_pro"/>
+<iepp:responsabiliteProduit xmi:idref="_10692_pro"/>
+<iepp:participationActivite xmi:idref="_10457_act"/>
+<iepp:participationActivite xmi:idref="_10072_act"/>
+<iepp:participationActivite xmi:idref="_10615_act"/>
+<iepp:participationActivite xmi:idref="_10442_act"/>
+<iepp:participationActivite xmi:idref="_10686_act"/>
+<iepp:participationActivite xmi:idref="_10697_act"/>
+<iepp:participationActivite xmi:idref="_10797_act"/>
+<iepp:participationActivite xmi:idref="_10824_act"/>
+<iepp:participationActivite xmi:idref="_10093_act"/>
+<iepp:participationActivite xmi:idref="_10771_act"/>
+<iepp:participationActivite xmi:idref="_11025_act"/>
+<iepp:participationActivite xmi:idref="_10862_act"/>
+<iepp:participationActivite xmi:idref="_11099_act"/>
+<iepp:participationActivite xmi:idref="_10092_act"/>
+<iepp:elementPresentationId xmi:idref="_0_8_1-4-4_com_elp"/>
+</iepp:role>
+<iepp:role xmi:id="_10134_rol" nom="Directeur des processus">
+<iepp:agregatComposant xmi:idref="PSP-Processus_d'ingénierie_des_processus"/>
+<iepp:responsabiliteProduit xmi:idref="_10136_pro"/>
+<iepp:responsabiliteProduit xmi:idref="_10144_pro"/>
+<iepp:responsabiliteProduit xmi:idref="_10211_pro"/>
+<iepp:responsabiliteProduit xmi:idref="_10614_pro"/>
+<iepp:responsabiliteProduit xmi:idref="_10833_pro"/>
+<iepp:responsabiliteProduit xmi:idref="_10924_pro"/>
+<iepp:participationActivite xmi:idref="_10060_act"/>
+<iepp:participationActivite xmi:idref="_10071_act"/>
+<iepp:participationActivite xmi:idref="_10120_act"/>
+<iepp:participationActivite xmi:idref="_10093_act"/>
+<iepp:participationActivite xmi:idref="_10733_act"/>
+<iepp:participationActivite xmi:idref="_10956_act"/>
+<iepp:participationActivite xmi:idref="_10952_act"/>
+<iepp:participationActivite xmi:idref="_11024_act"/>
+<iepp:elementPresentationId xmi:idref="_0_7_1-4-3_com_elp"/>
+</iepp:role>
+<iepp:role xmi:id="_10139_rol" nom="Responsable du projet processus">
+<iepp:agregatComposant xmi:idref="PSP-Processus_d'ingénierie_des_processus"/>
+<iepp:participationActivite xmi:idref="_10118_act"/>
+<iepp:participationActivite xmi:idref="_10119_act"/>
+<iepp:participationActivite xmi:idref="_10726_act"/>
+<iepp:elementPresentationId xmi:idref="_0_6_1-4-2_com_elp"/>
+</iepp:role>
+<iepp:role xmi:id="_10698_rol" nom="Comité processus">
+<iepp:agregatComposant xmi:idref="PSP-Processus_d'ingénierie_des_processus"/>
+<iepp:participationActivite xmi:idref="_10734_act"/>
+<iepp:elementPresentationId xmi:idref="_0_9_1-4-5_com_elp"/>
+</iepp:role>
+<iepp:role xmi:id="_10132_rol" nom="Analyste-concepteur processus">
+<iepp:agregatComposant xmi:idref="PSP-Processus_d'ingénierie_des_processus"/>
+<iepp:responsabiliteProduit xmi:idref="_10140_pro"/>
+<iepp:responsabiliteProduit xmi:idref="_10032_pro"/>
+<iepp:responsabiliteProduit xmi:idref="_10037_pro"/>
+<iepp:participationActivite xmi:idref="_10090_act"/>
+<iepp:participationActivite xmi:idref="_10104_act"/>
+<iepp:participationActivite xmi:idref="_10712_act"/>
+<iepp:participationActivite xmi:idref="_10719_act"/>
+<iepp:participationActivite xmi:idref="_10452_act"/>
+<iepp:participationActivite xmi:idref="_10074_act"/>
+<iepp:participationActivite xmi:idref="_10076_act"/>
+<iepp:participationActivite xmi:idref="_10862_act"/>
+<iepp:participationActivite xmi:idref="_10894_act"/>
+<iepp:participationActivite xmi:idref="_10058_act"/>
+<iepp:participationActivite xmi:idref="_10057_act"/>
+<iepp:participationActivite xmi:idref="_11027_act"/>
+<iepp:participationActivite xmi:idref="_10825_act"/>
+<iepp:elementPresentationId xmi:idref="_0_5_1-4-1_com_elp"/>
+</iepp:role>
+<iepp:produit xmi:id="_10153_pro" nom="Contenu">
+<iepp:agregatComposant xmi:idref="PSP-Processus_d'ingénierie_des_processus"/>
+<iepp:responsabiliteRole xmi:idref="_10154_rol"/>
+<iepp:entreeActivite xmi:idref="_10452_act"/>
+<iepp:sortieActivite xmi:idref="_10075_act"/>
+<iepp:sortieActivite xmi:idref="_10822_act"/>
+<iepp:sortieActivite xmi:idref="_10824_act"/>
+<iepp:sortieActivite xmi:idref="_10825_act"/>
+<iepp:elementPresentationId xmi:idref="_0_82_1-13-8_com_elp"/>
+</iepp:produit>
+<iepp:produit xmi:id="_10037_pro" nom="Modèle de processus">
+<iepp:agregatComposant xmi:idref="PSP-Processus_d'ingénierie_des_processus"/>
+<iepp:responsabiliteRole xmi:idref="_10132_rol"/>
+<iepp:entreeActivite xmi:idref="_10075_act"/>
+<iepp:entreeActivite xmi:idref="_10822_act"/>
+<iepp:entreeActivite xmi:idref="_10825_act"/>
+<iepp:entreeActivite xmi:idref="_10452_act"/>
+<iepp:sortieActivite xmi:idref="_10076_act"/>
+<iepp:elementPresentationId xmi:idref="_0_80_1-13-7_com_elp"/>
+</iepp:produit>
+<iepp:produit xmi:id="_10141_pro" nom="Base de composants">
+<iepp:agregatComposant xmi:idref="PSP-Processus_d'ingénierie_des_processus"/>
+<iepp:responsabiliteRole xmi:idref="_10133_rol"/>
+<iepp:typeProduitId xmi:idref="_10136_typ"/>
+<iepp:entreeActivite xmi:idref="_10771_act"/>
+<iepp:entreeActivite xmi:idref="_10697_act"/>
+<iepp:sortieActivite xmi:idref="_10771_act"/>
+<iepp:elementPresentationId xmi:idref="_0_79_1-13-6_com_elp"/>
+</iepp:produit>
+<iepp:produit xmi:id="_10136_pro" nom="Site processus">
+<iepp:agregatComposant xmi:idref="PSP-Processus_d'ingénierie_des_processus"/>
+<iepp:responsabiliteRole xmi:idref="_10134_rol"/>
+<iepp:typeProduitId xmi:idref="_10136_typ"/>
+<iepp:entreeActivite xmi:idref="_10093_act"/>
+<iepp:entreeActivite xmi:idref="_10092_act"/>
+<iepp:entreeActivite xmi:idref="_10718_act"/>
+<iepp:entreeActivite xmi:idref="_11024_act"/>
+<iepp:sortieActivite xmi:idref="_11025_act"/>
+<iepp:elementPresentationId xmi:idref="_0_78_1-13-5_com_elp"/>
+</iepp:produit>
+<iepp:produit xmi:id="_10143_pro" nom="Composant">
+<iepp:agregatComposant xmi:idref="PSP-Processus_d'ingénierie_des_processus"/>
+<iepp:responsabiliteRole xmi:idref="_10142_rol"/>
+<iepp:typeProduitId xmi:idref="_10143_typ"/>
+<iepp:entreeActivite xmi:idref="_10771_act"/>
+<iepp:entreeActivite xmi:idref="_11027_act"/>
+<iepp:sortieActivite xmi:idref="_10452_act"/>
+<iepp:elementPresentationId xmi:idref="_0_77_1-13-4_com_elp"/>
+</iepp:produit>
+<iepp:produit xmi:id="_10692_pro" nom="Carto processus">
+<iepp:agregatComposant xmi:idref="PSP-Processus_d'ingénierie_des_processus"/>
+<iepp:responsabiliteRole xmi:idref="_10133_rol"/>
+<iepp:typeProduitId xmi:idref="_10692_typ"/>
+<iepp:entreeActivite xmi:idref="_10058_act"/>
+<iepp:entreeActivite xmi:idref="_10686_act"/>
+<iepp:sortieActivite xmi:idref="_10862_act"/>
+<iepp:elementPresentationId xmi:idref="_0_76_1-13-3_com_elp"/>
+</iepp:produit>
+<iepp:produit xmi:id="_10920_pro" nom="Interfaces">
+<iepp:agregatComposant xmi:idref="PSP-Processus_d'ingénierie_des_processus"/>
+<iepp:responsabiliteRole xmi:idref="_10133_rol"/>
+<iepp:typeProduitId xmi:idref="_11026_typ"/>
+<iepp:entreeActivite xmi:idref="_10442_act"/>
+<iepp:entreeActivite xmi:idref="_10076_act"/>
+<iepp:entreeActivite xmi:idref="_10697_act"/>
+<iepp:sortieActivite xmi:idref="_10686_act"/>
+<iepp:sortieActivite xmi:idref="_10442_act"/>
+<iepp:elementPresentationId xmi:idref="_0_75_1-13-2_com_elp"/>
+</iepp:produit>
+<iepp:produit xmi:id="_11026_pro" nom="Définition Processus">
+<iepp:agregatComposant xmi:idref="PSP-Processus_d'ingénierie_des_processus"/>
+<iepp:responsabiliteRole xmi:idref="_10133_rol"/>
+<iepp:typeProduitId xmi:idref="_11026_typ"/>
+<iepp:entreeActivite xmi:idref="_11025_act"/>
+<iepp:sortieActivite xmi:idref="_10697_act"/>
+<iepp:elementPresentationId xmi:idref="_0_74_1-13-1_com_elp"/>
+</iepp:produit>
+<iepp:produit xmi:id="_10140_pro" nom="Evaluation de l'organisation">
+<iepp:agregatComposant xmi:idref="PSP-Processus_d'ingénierie_des_processus"/>
+<iepp:responsabiliteRole xmi:idref="_10132_rol"/>
+<iepp:typeProduitId xmi:idref="_10692_typ"/>
+<iepp:entreeActivite xmi:idref="_10057_act"/>
+<iepp:entreeActivite xmi:idref="_10058_act"/>
+<iepp:sortieActivite xmi:idref="_10058_act"/>
+<iepp:sortieActivite xmi:idref="_10059_act"/>
+<iepp:elementPresentationId xmi:idref="_0_89_1-14-5_com_elp"/>
+</iepp:produit>
+<iepp:produit xmi:id="_10032_pro" nom="Besoins composant">
+<iepp:agregatComposant xmi:idref="PSP-Processus_d'ingénierie_des_processus"/>
+<iepp:responsabiliteRole xmi:idref="_10132_rol"/>
+<iepp:typeProduitId xmi:idref="_10692_typ"/>
+<iepp:entreeActivite xmi:idref="_10076_act"/>
+<iepp:entreeActivite xmi:idref="_10075_act"/>
+<iepp:entreeActivite xmi:idref="_10824_act"/>
+<iepp:sortieActivite xmi:idref="_10057_act"/>
+<iepp:sortieActivite xmi:idref="_10894_act"/>
+<iepp:sortieActivite xmi:idref="_11027_act"/>
+<iepp:elementPresentationId xmi:idref="_0_88_1-14-4_com_elp"/>
+</iepp:produit>
+<iepp:produit xmi:id="_10034_pro" nom="Matériel de formation">
+<iepp:agregatComposant xmi:idref="PSP-Processus_d'ingénierie_des_processus"/>
+<iepp:responsabiliteRole xmi:idref="_10133_rol"/>
+<iepp:typeProduitId xmi:idref="_10692_typ"/>
+<iepp:sortieActivite xmi:idref="_10092_act"/>
+<iepp:elementPresentationId xmi:idref="_0_87_1-14-3_com_elp"/>
+</iepp:produit>
+<iepp:produit xmi:id="_10211_pro" nom="Annonce publication">
+<iepp:agregatComposant xmi:idref="PSP-Processus_d'ingénierie_des_processus"/>
+<iepp:responsabiliteRole xmi:idref="_10134_rol"/>
+<iepp:typeProduitId xmi:idref="_10692_typ"/>
+<iepp:sortieActivite xmi:idref="_10093_act"/>
+<iepp:elementPresentationId xmi:idref="_0_86_1-14-2_com_elp"/>
+</iepp:produit>
+<iepp:produit xmi:id="_10924_pro" nom="Besoins projet">
+<iepp:agregatComposant xmi:idref="PSP-Processus_d'ingénierie_des_processus"/>
+<iepp:responsabiliteRole xmi:idref="_10134_rol"/>
+<iepp:typeProduitId xmi:idref="_10692_typ"/>
+<iepp:entreeActivite xmi:idref="_10862_act"/>
+<iepp:entreeActivite xmi:idref="_10894_act"/>
+<iepp:entreeActivite xmi:idref="_10057_act"/>
+<iepp:sortieActivite xmi:idref="_10952_act"/>
+<iepp:elementPresentationId xmi:idref="_0_85_1-14-1_com_elp"/>
+</iepp:produit>
+<iepp:produit xmi:id="_10833_pro" nom="Tableau de bord évolutions">
+<iepp:agregatComposant xmi:idref="PSP-Processus_d'ingénierie_des_processus"/>
+<iepp:responsabiliteRole xmi:idref="_10134_rol"/>
+<iepp:typeProduitId xmi:idref="_10035_typ"/>
+<iepp:entreeActivite xmi:idref="_10734_act"/>
+<iepp:entreeActivite xmi:idref="_10952_act"/>
+<iepp:sortieActivite xmi:idref="_10956_act"/>
+<iepp:elementPresentationId xmi:idref="_0_97_1-15-7_com_elp"/>
+</iepp:produit>
+<iepp:produit xmi:id="_10614_pro" nom="Tableau de bord indicateurs">
+<iepp:agregatComposant xmi:idref="PSP-Processus_d'ingénierie_des_processus"/>
+<iepp:responsabiliteRole xmi:idref="_10134_rol"/>
+<iepp:typeProduitId xmi:idref="_10035_typ"/>
+<iepp:entreeActivite xmi:idref="_10734_act"/>
+<iepp:sortieActivite xmi:idref="_10733_act"/>
+<iepp:elementPresentationId xmi:idref="_0_96_1-15-6_com_elp"/>
+</iepp:produit>
+<iepp:produit xmi:id="_10516_pro" nom="Indicateurs processus">
+<iepp:agregatComposant xmi:idref="PSP-Processus_d'ingénierie_des_processus"/>
+<iepp:responsabiliteRole xmi:idref="_10142_rol"/>
+<iepp:typeProduitId xmi:idref="_10692_typ"/>
+<iepp:entreeActivite xmi:idref="_10733_act"/>
+<iepp:entreeActivite xmi:idref="_10732_act"/>
+<iepp:sortieActivite xmi:idref="_10730_act"/>
+<iepp:elementPresentationId xmi:idref="_0_95_1-15-5_com_elp"/>
+</iepp:produit>
+<iepp:produit xmi:id="_10144_pro" nom="Roadmap processus">
+<iepp:agregatComposant xmi:idref="PSP-Processus_d'ingénierie_des_processus"/>
+<iepp:responsabiliteRole xmi:idref="_10134_rol"/>
+<iepp:typeProduitId xmi:idref="_10035_typ"/>
+<iepp:entreeActivite xmi:idref="_10952_act"/>
+<iepp:sortieActivite xmi:idref="_10734_act"/>
+<iepp:elementPresentationId xmi:idref="_0_94_1-15-4_com_elp"/>
+</iepp:produit>
+<iepp:produit xmi:id="_10137_pro" nom="Demande de changement">
+<iepp:agregatComposant xmi:idref="PSP-Processus_d'ingénierie_des_processus"/>
+<iepp:responsabiliteRole xmi:idref="_10142_rol"/>
+<iepp:typeProduitId xmi:idref="_10692_typ"/>
+<iepp:entreeActivite xmi:idref="_10956_act"/>
+<iepp:sortieActivite xmi:idref="_10732_act"/>
+<iepp:elementPresentationId xmi:idref="_0_93_1-15-3_com_elp"/>
+</iepp:produit>
+<iepp:produit xmi:id="_10035_pro" nom="Mesures processus">
+<iepp:agregatComposant xmi:idref="PSP-Processus_d'ingénierie_des_processus"/>
+<iepp:responsabiliteRole xmi:idref="_10159_rol"/>
+<iepp:typeProduitId xmi:idref="_10035_typ"/>
+<iepp:entreeActivite xmi:idref="_10730_act"/>
+<iepp:sortieActivite xmi:idref="_10718_act"/>
+<iepp:elementPresentationId xmi:idref="_0_92_1-15-2_com_elp"/>
+</iepp:produit>
+<iepp:produit xmi:id="_10033_pro" nom="Demande d'amélioration">
+<iepp:agregatComposant xmi:idref="PSP-Processus_d'ingénierie_des_processus"/>
+<iepp:responsabiliteRole xmi:idref="_10159_rol"/>
+<iepp:typeProduitId xmi:idref="_10692_typ"/>
+<iepp:entreeActivite xmi:idref="_10732_act"/>
+<iepp:sortieActivite xmi:idref="_10718_act"/>
+<iepp:elementPresentationId xmi:idref="_0_91_1-15-1_com_elp"/>
+</iepp:produit>
+<iepp:definitionTravail xmi:id="_10653_det" nom="Pilotage" cheminDiagrammeActivites="./Processus_d_ingenierie_des_processus/Pilotage/Diagramme_d_activites/diagramme.png" cheminDiagrammeFlots="./Processus_d_ingenierie_des_processus/Pilotage/Diagramme_de_flots/diagramme.png">
+<iepp:agregatComposant xmi:idref="PSP-Processus_d'ingénierie_des_processus"/>
+<iepp:activiteId xmi:idref="_10732_act"/>
+<iepp:activiteId xmi:idref="_10733_act"/>
+<iepp:activiteId xmi:idref="_10730_act"/>
+<iepp:activiteId xmi:idref="_10952_act"/>
+<iepp:activiteId xmi:idref="_10956_act"/>
+<iepp:activiteId xmi:idref="_10734_act"/>
+<iepp:elementPresentationId xmi:idref="_0_56_1-11_com_elp"/>
+</iepp:definitionTravail>
+<iepp:definitionTravail xmi:id="_10027_det" nom="Analyse" cheminDiagrammeActivites="./Processus_d_ingenierie_des_processus/Analyse/Diagramme_d_activites/diagramme.png" cheminDiagrammeFlots="./Processus_d_ingenierie_des_processus/Analyse/Diagramme_de_flots/diagramme.png">
+<iepp:agregatComposant xmi:idref="PSP-Processus_d'ingénierie_des_processus"/>
+<iepp:activiteId xmi:idref="_10059_act"/>
+<iepp:activiteId xmi:idref="_10862_act"/>
+<iepp:activiteId xmi:idref="_10894_act"/>
+<iepp:activiteId xmi:idref="_10058_act"/>
+<iepp:activiteId xmi:idref="_10057_act"/>
+<iepp:elementPresentationId xmi:idref="_0_16_1-6_com_elp"/>
+</iepp:definitionTravail>
+<iepp:definitionTravail xmi:id="_10028_det" nom="Conception" cheminDiagrammeActivites="./Processus_d_ingenierie_des_processus/Conception/Diagramme_d_activites/diagramme.png" cheminDiagrammeFlots="./Processus_d_ingenierie_des_processus/Conception/Diagramme_de_flots/diagramme.png">
+<iepp:agregatComposant xmi:idref="PSP-Processus_d'ingénierie_des_processus"/>
+<iepp:activiteId xmi:idref="_10075_act"/>
+<iepp:activiteId xmi:idref="_10076_act"/>
+<iepp:activiteId xmi:idref="_10452_act"/>
+<iepp:activiteId xmi:idref="_10822_act"/>
+<iepp:activiteId xmi:idref="_10824_act"/>
+<iepp:activiteId xmi:idref="_11027_act"/>
+<iepp:activiteId xmi:idref="_10825_act"/>
+<iepp:elementPresentationId xmi:idref="_0_30_1-8_com_elp"/>
+</iepp:definitionTravail>
+<iepp:definitionTravail xmi:id="_10029_det" nom="Publication" cheminDiagrammeActivites="./Processus_d_ingenierie_des_processus/Publication/Diagramme_d_activites/diagramme.png" cheminDiagrammeFlots="./Processus_d_ingenierie_des_processus/Publication/Diagramme_de_flots/diagramme.png">
+<iepp:agregatComposant xmi:idref="PSP-Processus_d'ingénierie_des_processus"/>
+<iepp:activiteId xmi:idref="_10697_act"/>
+<iepp:activiteId xmi:idref="_10093_act"/>
+<iepp:activiteId xmi:idref="_10771_act"/>
+<iepp:activiteId xmi:idref="_11025_act"/>
+<iepp:activiteId xmi:idref="_11024_act"/>
+<iepp:activiteId xmi:idref="_10092_act"/>
+<iepp:elementPresentationId xmi:idref="_0_41_1-9_com_elp"/>
+</iepp:definitionTravail>
+<iepp:definitionTravail xmi:id="_10385_det" nom="Application" cheminDiagrammeActivites="./Processus_d_ingenierie_des_processus/Application/Diagramme_d_activites/diagramme.png" cheminDiagrammeFlots="./Processus_d_ingenierie_des_processus/Application/Diagramme_de_flots/diagramme.png">
+<iepp:agregatComposant xmi:idref="PSP-Processus_d'ingénierie_des_processus"/>
+<iepp:activiteId xmi:idref="_10712_act"/>
+<iepp:activiteId xmi:idref="_10718_act"/>
+<iepp:activiteId xmi:idref="_10719_act"/>
+<iepp:elementPresentationId xmi:idref="_0_50_1-10_com_elp"/>
+</iepp:definitionTravail>
+<iepp:definitionTravail xmi:id="_10762_det" nom="Architecture" cheminDiagrammeActivites="./Processus_d_ingenierie_des_processus/Architecture/Diagramme_d_activites/diagramme.png" cheminDiagrammeFlots="./Processus_d_ingenierie_des_processus/Architecture/Diagramme_de_flots/diagramme.png">
+<iepp:agregatComposant xmi:idref="PSP-Processus_d'ingénierie_des_processus"/>
+<iepp:activiteId xmi:idref="_10442_act"/>
+<iepp:activiteId xmi:idref="_10686_act"/>
+<iepp:activiteId xmi:idref="_10797_act"/>
+<iepp:elementPresentationId xmi:idref="_0_24_1-7_com_elp"/>
+</iepp:definitionTravail>
+<iepp:definitionTravail xmi:id="_10031_det" nom="Support" cheminDiagrammeActivites="./Processus_d_ingenierie_des_processus/Support/Diagramme_d_activites/diagramme.png" cheminDiagrammeFlots="./Processus_d_ingenierie_des_processus/Support/Diagramme_de_flots/diagramme.png">
+<iepp:agregatComposant xmi:idref="PSP-Processus_d'ingénierie_des_processus"/>
+<iepp:activiteId xmi:idref="_10118_act"/>
+<iepp:activiteId xmi:idref="_10119_act"/>
+<iepp:activiteId xmi:idref="_10726_act"/>
+<iepp:activiteId xmi:idref="_10457_act"/>
+<iepp:activiteId xmi:idref="_11099_act"/>
+<iepp:elementPresentationId xmi:idref="_0_65_1-12_com_elp"/>
+</iepp:definitionTravail>
+<iepp:activite xmi:id="_10732_act" nom="Proposer changements">
+<iepp:participationRole xmi:idref="_10142_rol"/>
+<iepp:agregatDefinitionTravail xmi:idref="_10653_det"/>
+<iepp:entreeProduit xmi:idref="_10516_pro"/>
+<iepp:entreeProduit xmi:idref="_10033_pro"/>
+<iepp:sortieProduit xmi:idref="_10137_pro"/>
+<iepp:elementPresentationId xmi:idref="_0_60_1-11-4_com_elp"/>
+</iepp:activite>
+<iepp:activite xmi:id="_10733_act" nom="Evaluer maturité">
+<iepp:participationRole xmi:idref="_10134_rol"/>
+<iepp:agregatDefinitionTravail xmi:idref="_10653_det"/>
+<iepp:entreeProduit xmi:idref="_10516_pro"/>
+<iepp:sortieProduit xmi:idref="_10614_pro"/>
+<iepp:elementPresentationId xmi:idref="_0_61_1-11-5_com_elp"/>
+</iepp:activite>
+<iepp:activite xmi:id="_10730_act" nom="Analyser la performance">
+<iepp:participationRole xmi:idref="_10142_rol"/>
+<iepp:agregatDefinitionTravail xmi:idref="_10653_det"/>
+<iepp:entreeProduit xmi:idref="_10035_pro"/>
+<iepp:sortieProduit xmi:idref="_10516_pro"/>
+<iepp:elementPresentationId xmi:idref="_0_59_1-11-3_com_elp"/>
+</iepp:activite>
+<iepp:activite xmi:id="_10952_act" nom="Lancer un projet">
+<iepp:participationRole xmi:idref="_10134_rol"/>
+<iepp:agregatDefinitionTravail xmi:idref="_10653_det"/>
+<iepp:entreeProduit xmi:idref="_10144_pro"/>
+<iepp:entreeProduit xmi:idref="_10833_pro"/>
+<iepp:sortieProduit xmi:idref="_10924_pro"/>
+<iepp:elementPresentationId xmi:idref="_0_64_1-11-8_com_elp"/>
+</iepp:activite>
+<iepp:activite xmi:id="_10956_act" nom="Consolider">
+<iepp:participationRole xmi:idref="_10134_rol"/>
+<iepp:agregatDefinitionTravail xmi:idref="_10653_det"/>
+<iepp:entreeProduit xmi:idref="_10137_pro"/>
+<iepp:sortieProduit xmi:idref="_10833_pro"/>
+<iepp:elementPresentationId xmi:idref="_0_62_1-11-6_com_elp"/>
+</iepp:activite>
+<iepp:activite xmi:id="_10734_act" nom="Planifier l'amélioration des processus">
+<iepp:participationRole xmi:idref="_10698_rol"/>
+<iepp:agregatDefinitionTravail xmi:idref="_10653_det"/>
+<iepp:entreeProduit xmi:idref="_10614_pro"/>
+<iepp:entreeProduit xmi:idref="_10833_pro"/>
+<iepp:sortieProduit xmi:idref="_10144_pro"/>
+<iepp:elementPresentationId xmi:idref="_0_63_1-11-7_com_elp"/>
+</iepp:activite>
+<iepp:activite xmi:id="_10059_act" nom="Workshop">
+<iepp:participationRole xmi:idref="_10159_rol"/>
+<iepp:agregatDefinitionTravail xmi:idref="_10027_det"/>
+<iepp:sortieProduit xmi:idref="_10140_pro"/>
+<iepp:elementPresentationId xmi:idref="_0_21_1-6-5_com_elp"/>
+</iepp:activite>
+<iepp:activite xmi:id="_10862_act" nom="Identifier les processus">
+<iepp:participationRole xmi:idref="_10133_rol"/>
+<iepp:agregatDefinitionTravail xmi:idref="_10027_det"/>
+<iepp:entreeProduit xmi:idref="_10924_pro"/>
+<iepp:sortieProduit xmi:idref="_10692_pro"/>
+<iepp:elementPresentationId xmi:idref="_0_19_1-6-3_com_elp"/>
+</iepp:activite>
+<iepp:activite xmi:id="_10894_act" nom="Analyser les changements">
+<iepp:participationRole xmi:idref="_10132_rol"/>
+<iepp:agregatDefinitionTravail xmi:idref="_10027_det"/>
+<iepp:entreeProduit xmi:idref="_10924_pro"/>
+<iepp:sortieProduit xmi:idref="_10032_pro"/>
+<iepp:elementPresentationId xmi:idref="_0_23_1-6-7_com_elp"/>
+</iepp:activite>
+<iepp:activite xmi:id="_10058_act" nom="Evaluer la situation actuelle">
+<iepp:participationRole xmi:idref="_10132_rol"/>
+<iepp:agregatDefinitionTravail xmi:idref="_10027_det"/>
+<iepp:entreeProduit xmi:idref="_10140_pro"/>
+<iepp:entreeProduit xmi:idref="_10692_pro"/>
+<iepp:sortieProduit xmi:idref="_10140_pro"/>
+<iepp:elementPresentationId xmi:idref="_0_20_1-6-4_com_elp"/>
+</iepp:activite>
+<iepp:activite xmi:id="_10057_act" nom="Définir le processus cible">
+<iepp:participationRole xmi:idref="_10132_rol"/>
+<iepp:agregatDefinitionTravail xmi:idref="_10027_det"/>
+<iepp:entreeProduit xmi:idref="_10140_pro"/>
+<iepp:entreeProduit xmi:idref="_10924_pro"/>
+<iepp:sortieProduit xmi:idref="_10032_pro"/>
+<iepp:elementPresentationId xmi:idref="_0_22_1-6-6_com_elp"/>
+</iepp:activite>
+<iepp:activite xmi:id="_10075_act" nom="Rédiger le contenu">
+<iepp:participationRole xmi:idref="_10154_rol"/>
+<iepp:agregatDefinitionTravail xmi:idref="_10028_det"/>
+<iepp:entreeProduit xmi:idref="_10032_pro"/>
+<iepp:entreeProduit xmi:idref="_10037_pro"/>
+<iepp:sortieProduit xmi:idref="_10153_pro"/>
+<iepp:elementPresentationId xmi:idref="_0_37_1-8-6_com_elp"/>
+</iepp:activite>
+<iepp:activite xmi:id="_10076_act" nom="Modéliser">
+<iepp:participationRole xmi:idref="_10132_rol"/>
+<iepp:agregatDefinitionTravail xmi:idref="_10028_det"/>
+<iepp:entreeProduit xmi:idref="_10032_pro"/>
+<iepp:entreeProduit xmi:idref="_10920_pro"/>
+<iepp:sortieProduit xmi:idref="_10037_pro"/>
+<iepp:elementPresentationId xmi:idref="_0_33_1-8-3_com_elp"/>
+</iepp:activite>
+<iepp:activite xmi:id="_10452_act" nom="Organiser">
+<iepp:participationRole xmi:idref="_10132_rol"/>
+<iepp:agregatDefinitionTravail xmi:idref="_10028_det"/>
+<iepp:entreeProduit xmi:idref="_10153_pro"/>
+<iepp:entreeProduit xmi:idref="_10037_pro"/>
+<iepp:sortieProduit xmi:idref="_10143_pro"/>
+<iepp:elementPresentationId xmi:idref="_0_35_1-8-4_com_elp"/>
+</iepp:activite>
+<iepp:activite xmi:id="_10822_act" nom="Fournir les guides">
+<iepp:participationRole xmi:idref="_10142_rol"/>
+<iepp:agregatDefinitionTravail xmi:idref="_10028_det"/>
+<iepp:entreeProduit xmi:idref="_10037_pro"/>
+<iepp:sortieProduit xmi:idref="_10153_pro"/>
+<iepp:elementPresentationId xmi:idref="_0_38_1-8-7_com_elp"/>
+</iepp:activite>
+<iepp:activite xmi:id="_10824_act" nom="Définir et décrire les éléments">
+<iepp:participationRole xmi:idref="_10133_rol"/>
+<iepp:agregatDefinitionTravail xmi:idref="_10028_det"/>
+<iepp:entreeProduit xmi:idref="_10032_pro"/>
+<iepp:sortieProduit xmi:idref="_10153_pro"/>
+<iepp:elementPresentationId xmi:idref="_0_39_1-8-8_com_elp"/>
+</iepp:activite>
+<iepp:activite xmi:id="_11027_act" nom="Valider composant">
+<iepp:participationRole xmi:idref="_10142_rol"/>
+<iepp:agregatDefinitionTravail xmi:idref="_10028_det"/>
+<iepp:entreeProduit xmi:idref="_10143_pro"/>
+<iepp:sortieProduit xmi:idref="_10032_pro"/>
+<iepp:elementPresentationId xmi:idref="_0_40_1-8-9_com_elp"/>
+</iepp:activite>
+<iepp:activite xmi:id="_10825_act" nom="Définir les fichiers de contenu">
+<iepp:participationRole xmi:idref="_10132_rol"/>
+<iepp:agregatDefinitionTravail xmi:idref="_10028_det"/>
+<iepp:entreeProduit xmi:idref="_10037_pro"/>
+<iepp:sortieProduit xmi:idref="_10153_pro"/>
+<iepp:elementPresentationId xmi:idref="_0_36_1-8-5_com_elp"/>
+</iepp:activite>
+<iepp:activite xmi:id="_10697_act" nom="Assembler">
+<iepp:participationRole xmi:idref="_10133_rol"/>
+<iepp:agregatDefinitionTravail xmi:idref="_10029_det"/>
+<iepp:entreeProduit xmi:idref="_10141_pro"/>
+<iepp:entreeProduit xmi:idref="_10920_pro"/>
+<iepp:sortieProduit xmi:idref="_11026_pro"/>
+<iepp:elementPresentationId xmi:idref="_0_45_1-9-4_com_elp"/>
+</iepp:activite>
+<iepp:activite xmi:id="_10093_act" nom="Présenter le nouveau site">
+<iepp:participationRole xmi:idref="_10133_rol"/>
+<iepp:agregatDefinitionTravail xmi:idref="_10029_det"/>
+<iepp:entreeProduit xmi:idref="_10136_pro"/>
+<iepp:sortieProduit xmi:idref="_10211_pro"/>
+<iepp:elementPresentationId xmi:idref="_0_48_1-9-7_com_elp"/>
+</iepp:activite>
+<iepp:activite xmi:id="_10771_act" nom="Importer composant">
+<iepp:participationRole xmi:idref="_10133_rol"/>
+<iepp:agregatDefinitionTravail xmi:idref="_10029_det"/>
+<iepp:entreeProduit xmi:idref="_10143_pro"/>
+<iepp:entreeProduit xmi:idref="_10141_pro"/>
+<iepp:sortieProduit xmi:idref="_10141_pro"/>
+<iepp:elementPresentationId xmi:idref="_0_44_1-9-3_com_elp"/>
+</iepp:activite>
+<iepp:activite xmi:id="_11025_act" nom="Générer site">
+<iepp:participationRole xmi:idref="_10133_rol"/>
+<iepp:agregatDefinitionTravail xmi:idref="_10029_det"/>
+<iepp:entreeProduit xmi:idref="_11026_pro"/>
+<iepp:sortieProduit xmi:idref="_10136_pro"/>
+<iepp:elementPresentationId xmi:idref="_0_46_1-9-5_com_elp"/>
+</iepp:activite>
+<iepp:activite xmi:id="_11024_act" nom="Valider site">
+<iepp:participationRole xmi:idref="_10134_rol"/>
+<iepp:agregatDefinitionTravail xmi:idref="_10029_det"/>
+<iepp:entreeProduit xmi:idref="_10136_pro"/>
+<iepp:elementPresentationId xmi:idref="_0_47_1-9-6_com_elp"/>
+</iepp:activite>
+<iepp:activite xmi:id="_10092_act" nom="Préparer formation générale">
+<iepp:participationRole xmi:idref="_10133_rol"/>
+<iepp:agregatDefinitionTravail xmi:idref="_10029_det"/>
+<iepp:entreeProduit xmi:idref="_10136_pro"/>
+<iepp:sortieProduit xmi:idref="_10034_pro"/>
+<iepp:elementPresentationId xmi:idref="_0_49_1-9-8_com_elp"/>
+</iepp:activite>
+<iepp:activite xmi:id="_10712_act" nom="Formation spécifique">
+<iepp:participationRole xmi:idref="_10132_rol"/>
+<iepp:agregatDefinitionTravail xmi:idref="_10385_det"/>
+<iepp:elementPresentationId xmi:idref="_0_53_1-10-3_com_elp"/>
+</iepp:activite>
+<iepp:activite xmi:id="_10718_act" nom="Appliquer le processus">
+<iepp:participationRole xmi:idref="_10159_rol"/>
+<iepp:agregatDefinitionTravail xmi:idref="_10385_det"/>
+<iepp:entreeProduit xmi:idref="_10136_pro"/>
+<iepp:sortieProduit xmi:idref="_10035_pro"/>
+<iepp:sortieProduit xmi:idref="_10033_pro"/>
+<iepp:elementPresentationId xmi:idref="_0_54_1-10-4_com_elp"/>
+</iepp:activite>
+<iepp:activite xmi:id="_10719_act" nom="Assistance ">
+<iepp:participationRole xmi:idref="_10132_rol"/>
+<iepp:agregatDefinitionTravail xmi:idref="_10385_det"/>
+<iepp:elementPresentationId xmi:idref="_0_55_1-10-5_com_elp"/>
+</iepp:activite>
+<iepp:activite xmi:id="_10442_act" nom="Maintenir les interfaces">
+<iepp:participationRole xmi:idref="_10133_rol"/>
+<iepp:agregatDefinitionTravail xmi:idref="_10762_det"/>
+<iepp:entreeProduit xmi:idref="_10920_pro"/>
+<iepp:sortieProduit xmi:idref="_10920_pro"/>
+<iepp:elementPresentationId xmi:idref="_0_28_1-7-4_com_elp"/>
+</iepp:activite>
+<iepp:activite xmi:id="_10686_act" nom="Structurer le modèle">
+<iepp:participationRole xmi:idref="_10133_rol"/>
+<iepp:agregatDefinitionTravail xmi:idref="_10762_det"/>
+<iepp:entreeProduit xmi:idref="_10692_pro"/>
+<iepp:sortieProduit xmi:idref="_10920_pro"/>
+<iepp:elementPresentationId xmi:idref="_0_27_1-7-3_com_elp"/>
+</iepp:activite>
+<iepp:activite xmi:id="_10797_act" nom="Définir le style de présentation">
+<iepp:participationRole xmi:idref="_10133_rol"/>
+<iepp:agregatDefinitionTravail xmi:idref="_10762_det"/>
+<iepp:elementPresentationId xmi:idref="_0_29_1-7-5_com_elp"/>
+</iepp:activite>
+<iepp:activite xmi:id="_10118_act" nom="Conclure le projet processus">
+<iepp:participationRole xmi:idref="_10139_rol"/>
+<iepp:agregatDefinitionTravail xmi:idref="_10031_det"/>
+<iepp:elementPresentationId xmi:idref="_0_68_1-12-3_com_elp"/>
+</iepp:activite>
+<iepp:activite xmi:id="_10119_act" nom="Conduire le projet">
+<iepp:participationRole xmi:idref="_10139_rol"/>
+<iepp:agregatDefinitionTravail xmi:idref="_10031_det"/>
+<iepp:elementPresentationId xmi:idref="_0_69_1-12-4_com_elp"/>
+</iepp:activite>
+<iepp:activite xmi:id="_10726_act" nom="Planifier">
+<iepp:participationRole xmi:idref="_10139_rol"/>
+<iepp:agregatDefinitionTravail xmi:idref="_10031_det"/>
+<iepp:elementPresentationId xmi:idref="_0_70_1-12-5_com_elp"/>
+</iepp:activite>
+<iepp:activite xmi:id="_10457_act" nom="Mettre en place l'environnement de développement ">
+<iepp:participationRole xmi:idref="_10133_rol"/>
+<iepp:agregatDefinitionTravail xmi:idref="_10031_det"/>
+<iepp:elementPresentationId xmi:idref="_0_71_1-12-6_com_elp"/>
+</iepp:activite>
+<iepp:activite xmi:id="_11099_act" nom="Mettre en place l'environnement d'application ">
+<iepp:participationRole xmi:idref="_10133_rol"/>
+<iepp:agregatDefinitionTravail xmi:idref="_10031_det"/>
+<iepp:elementPresentationId xmi:idref="_0_72_1-12-7_com_elp"/>
+</iepp:activite>
+<iepp:interface xmi:id="_19_10_inf">
+<iepp:interfaceFournieComposant xmi:idref="PSP-Processus_d'ingénierie_des_processus"/>
+<iepp:interfaceProduit xmi:idref="_10136_pro"/>
+</iepp:interface>
+<iepp:typeProduit xmi:id="_11026_typ" nom="Modèle"/>
+<iepp:typeProduit xmi:id="_10692_typ" nom="Document"/>
+<iepp:typeProduit xmi:id="_10143_typ" nom="Objet Métier"/>
+<iepp:typeProduit xmi:id="_10136_typ" nom="Référentiel"/>
+<iepp:typeProduit xmi:id="_10035_typ" nom="Tableau"/>
+<iepp:elementPresentation xmi:id="_0_0_1_com_elp" nom="Processus d'ingénierie des processus" cheminIcone="./applet/images/TreeComponent.gif" cheminContenu="" description="" cheminPage="./Processus_d_ingenierie_des_processus/Processus_d_ingenierie_des_processus_1.html">
+<iepp:guideId xmi:idref="_0_0_1-16_com_gui"/>
+<iepp:guideId xmi:idref="_0_0_1-1_com_gui"/>
+</iepp:elementPresentation>
+<iepp:elementPresentation xmi:id="_0_0_1-16_com_elp" nom="Quoi de neuf" cheminIcone="./applet/images/GuideNeuf.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/gui_qdn.htm" description="" cheminPage="./Processus_d_ingenierie_des_processus/Quoi_de_neuf/Quoi_de_neuf_99.html"/>
+<iepp:elementPresentation xmi:id="_0_0_1-1_com_elp" nom="Concepts" cheminIcone="./applet/images/concept.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/gui_concepts.htm" description="" cheminPage="./Processus_d_ingenierie_des_processus/Concepts/Concepts_2.html"/>
+<iepp:elementPresentation xmi:id="_0_1_1-1_com_elp" nom="Concepts" cheminIcone="./applet/images/concept.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/gui_concepts.htm" description="" cheminPage="./Processus_d_ingenierie_des_processus/Concepts/Concepts_2.html"/>
+<iepp:elementPresentation xmi:id="_0_2_1-2_com_elp" nom="Interfaces" cheminIcone="./applet/images/TreeCtxDiag.gif" cheminContenu="" description="" cheminPage="./Processus_d_ingenierie_des_processus/Interfaces/Interfaces_3.html"/>
+<iepp:elementPresentation xmi:id="_0_3_1-3_com_elp" nom="Diagramme de sous-processus" cheminIcone="./applet/images/TreeWorkDefFlow.gif" cheminContenu="" description="" cheminPage="./Processus_d_ingenierie_des_processus/Diagramme_de_sous_processus/Diagramme_de_sous_processus_4.html"/>
+<iepp:elementPresentation xmi:id="_0_4_1-4_com_elp" nom="Rôles spécialistes processus" cheminIcone="./applet/images/TreePackage.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ros_roles_processus.htm" description="" cheminPage="./Processus_d_ingenierie_des_processus/Roles_specialistes_processus/Roles_specialistes_processus_5.html"/>
+<iepp:elementPresentation xmi:id="_0_5_1-4-1_com_elp" nom="Analyste-concepteur processus" cheminIcone="./applet/images/TreeRole.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ro_analyste.htm" description="" cheminPage="./Processus_d_ingenierie_des_processus/Roles_specialistes_processus/Analyste_concepteur_processus/Analyste_concepteur_processus_6.html"/>
+<iepp:elementPresentation xmi:id="_0_6_1-4-2_com_elp" nom="Responsable du projet processus" cheminIcone="./applet/images/TreeRole.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ro_resp_projet_processus.htm" description="" cheminPage="./Processus_d_ingenierie_des_processus/Roles_specialistes_processus/Responsable_du_projet_processus/Responsable_du_projet_processus_7.html"/>
+<iepp:elementPresentation xmi:id="_0_7_1-4-3_com_elp" nom="Directeur des processus" cheminIcone="./applet/images/TreeRole.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ro_directeur_processus.htm" description="" cheminPage="./Processus_d_ingenierie_des_processus/Roles_specialistes_processus/Directeur_des_processus/Directeur_des_processus_8.html"/>
+<iepp:elementPresentation xmi:id="_0_8_1-4-4_com_elp" nom="Architecte processus" cheminIcone="./applet/images/TreeRole.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ro_architecte_processus.htm" description="" cheminPage="./Processus_d_ingenierie_des_processus/Roles_specialistes_processus/Architecte_processus/Architecte_processus_9.html"/>
+<iepp:elementPresentation xmi:id="_0_9_1-4-5_com_elp" nom="Comité processus" cheminIcone="./applet/images/roles.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ro_CAP.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Roles_specialistes_processus/Comite_processus/Comite_processus_10.html"/>
+<iepp:elementPresentation xmi:id="_0_10_1-4-6_com_elp" nom="Responsabilité produits 1" cheminIcone="./applet/images/TreeResponsabilityDiagram.gif" cheminContenu="" description="" cheminPage="./Processus_d_ingenierie_des_processus/Roles_specialistes_processus/Responsabilite_produits_1/Responsabilite_produits_1_11.html"/>
+<iepp:elementPresentation xmi:id="_0_11_1-5_com_elp" nom="Rôles métier" cheminIcone="./applet/images/TreePackage.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ros_roles_metiers.htm" description="" cheminPage="./Processus_d_ingenierie_des_processus/Roles_metier/Roles_metier_12.html"/>
+<iepp:elementPresentation xmi:id="_0_12_1-5-1_com_elp" nom="Responsable d'un processus" cheminIcone="./applet/images/TreeRole.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ro_responsable_un_processus.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Roles_metier/Responsable_d_un_processus/Responsable_d_un_processus_13.html"/>
+<iepp:elementPresentation xmi:id="_0_13_1-5-2_com_elp" nom="Participant" cheminIcone="./applet/images/TreeRole.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ro_participant.htm" description="" cheminPage="./Processus_d_ingenierie_des_processus/Roles_metier/Participant/Participant_14.html"/>
+<iepp:elementPresentation xmi:id="_0_14_1-5-3_com_elp" nom="Rédacteur" cheminIcone="./applet/images/TreeRole.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ro_redacteur.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Roles_metier/Redacteur/Redacteur_15.html"/>
+<iepp:elementPresentation xmi:id="_0_15_1-5-4_com_elp" nom="Responsabilité produits 2" cheminIcone="./applet/images/TreeResponsabilityDiagram.gif" cheminContenu="" description="" cheminPage="./Processus_d_ingenierie_des_processus/Roles_metier/Responsabilite_produits_2/Responsabilite_produits_2_16.html"/>
+<iepp:elementPresentation xmi:id="_0_16_1-6_com_elp" nom="Analyse" cheminIcone="./applet/images/TreeWorkDefinition.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/dt_analyse.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Analyse/Analyse_17.html"/>
+<iepp:elementPresentation xmi:id="_0_17_1-6-1_com_elp" nom="Diagramme d'activités" cheminIcone="./applet/images/TreeActivityDiagram.gif" cheminContenu="" description="" cheminPage="./Processus_d_ingenierie_des_processus/Analyse/Diagramme_d_activites/Diagramme_d_activites_18.html"/>
+<iepp:elementPresentation xmi:id="_0_18_1-6-2_com_elp" nom="Diagramme de flots" cheminIcone="./applet/images/TreeClassDiagram.gif" cheminContenu="" description="" cheminPage="./Processus_d_ingenierie_des_processus/Analyse/Diagramme_de_flots/Diagramme_de_flots_19.html"/>
+<iepp:elementPresentation xmi:id="_0_19_1-6-3_com_elp" nom="Identifier les processus" cheminIcone="./applet/images/TreeActivity.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ac_identifier_processus.htm" description="" cheminPage="./Processus_d_ingenierie_des_processus/Analyse/Identifier_les_processus/Identifier_les_processus_20.html"/>
+<iepp:elementPresentation xmi:id="_0_20_1-6-4_com_elp" nom="Evaluer la situation actuelle" cheminIcone="./applet/images/TreeActivity.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ac_evaluer_orga_actuelle.htm" description="" cheminPage="./Processus_d_ingenierie_des_processus/Analyse/Evaluer_la_situation_actuelle/Evaluer_la_situation_actuelle_21.html"/>
+<iepp:elementPresentation xmi:id="_0_21_1-6-5_com_elp" nom="Workshop" cheminIcone="./applet/images/TreeActivity.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ac_workshop.htm" description="" cheminPage="./Processus_d_ingenierie_des_processus/Analyse/Workshop/Workshop_22.html"/>
+<iepp:elementPresentation xmi:id="_0_22_1-6-6_com_elp" nom="Définir le processus cible" cheminIcone="./applet/images/TreeActivity.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ac_definir_cible.htm" description="" cheminPage="./Processus_d_ingenierie_des_processus/Analyse/Definir_le_processus_cible/Definir_le_processus_cible_23.html"/>
+<iepp:elementPresentation xmi:id="_0_23_1-6-7_com_elp" nom="Analyser les changements" cheminIcone="./applet/images/TreeActivity.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ac_analyser_chgt.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Analyse/Analyser_les_changements/Analyser_les_changements_24.html"/>
+<iepp:elementPresentation xmi:id="_0_24_1-7_com_elp" nom="Architecture" cheminIcone="./applet/images/TreeWorkDefinition.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/dt_architecture.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Architecture/Architecture_25.html"/>
+<iepp:elementPresentation xmi:id="_0_25_1-7-1_com_elp" nom="Diagramme d'activités" cheminIcone="./applet/images/TreeActivityDiagram.gif" cheminContenu="" description="" cheminPage="./Processus_d_ingenierie_des_processus/Architecture/Diagramme_d_activites/Diagramme_d_activites_26.html"/>
+<iepp:elementPresentation xmi:id="_0_26_1-7-2_com_elp" nom="Diagramme de flots" cheminIcone="./applet/images/TreeClassDiagram.gif" cheminContenu="" description="" cheminPage="./Processus_d_ingenierie_des_processus/Architecture/Diagramme_de_flots/Diagramme_de_flots_27.html"/>
+<iepp:elementPresentation xmi:id="_0_27_1-7-3_com_elp" nom="Structurer le modèle" cheminIcone="./applet/images/TreeActivity.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ac_def_archi.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Architecture/Structurer_le_modele/Structurer_le_modele_28.html"/>
+<iepp:elementPresentation xmi:id="_0_28_1-7-4_com_elp" nom="Maintenir les interfaces" cheminIcone="./applet/images/TreeActivity.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ac_maintenir_interfaces.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Architecture/Maintenir_les_interfaces/Maintenir_les_interfaces_29.html"/>
+<iepp:elementPresentation xmi:id="_0_29_1-7-5_com_elp" nom="Définir le style de présentation" cheminIcone="./applet/images/TreeActivity.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ac_style.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Architecture/Definir_le_style_de_presentation/Definir_le_style_de_presentation_30.html"/>
+<iepp:elementPresentation xmi:id="_0_30_1-8_com_elp" nom="Conception" cheminIcone="./applet/images/TreeWorkDefinition.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/dt_conception.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Conception/Conception_31.html"/>
+<iepp:elementPresentation xmi:id="_0_31_1-8-1_com_elp" nom="Diagramme d'activités" cheminIcone="./applet/images/TreeActivityDiagram.gif" cheminContenu="" description="" cheminPage="./Processus_d_ingenierie_des_processus/Conception/Diagramme_d_activites/Diagramme_d_activites_32.html"/>
+<iepp:elementPresentation xmi:id="_0_32_1-8-2_com_elp" nom="Diagramme de flots" cheminIcone="./applet/images/TreeClassDiagram.gif" cheminContenu="" description="" cheminPage="./Processus_d_ingenierie_des_processus/Conception/Diagramme_de_flots/Diagramme_de_flots_33.html"/>
+<iepp:elementPresentation xmi:id="_0_33_1-8-3_com_elp" nom="Modéliser" cheminIcone="./applet/images/TreeActivity.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ac_modeliser.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Conception/Modeliser/Modeliser_34.html">
+<iepp:guideId xmi:idref="_0_33_1-8-3-1_com_gui"/>
+</iepp:elementPresentation>
+<iepp:elementPresentation xmi:id="_0_33_1-8-3-1_com_elp" nom="Modéliser avec Apes2" cheminIcone="./applet/images/GuideOutil.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/apes2mod-2.pdf" description="" cheminPage="./Processus_d_ingenierie_des_processus/Conception/Modeliser/Modeliser_avec_Apes2/Modeliser_avec_Apes2_35.html"/>
+<iepp:elementPresentation xmi:id="_0_34_1-8-3-1_com_elp" nom="Modéliser avec Apes2" cheminIcone="./applet/images/GuideOutil.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/apes2mod-2.pdf" description="" cheminPage="./Processus_d_ingenierie_des_processus/Conception/Modeliser/Modeliser_avec_Apes2/Modeliser_avec_Apes2_35.html"/>
+<iepp:elementPresentation xmi:id="_0_35_1-8-4_com_elp" nom="Organiser" cheminIcone="./applet/images/TreeActivity.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ac_organiser.htm" description="" cheminPage="./Processus_d_ingenierie_des_processus/Conception/Organiser/Organiser_36.html"/>
+<iepp:elementPresentation xmi:id="_0_36_1-8-5_com_elp" nom="Définir les fichiers de contenu" cheminIcone="./applet/images/TreeActivity.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ac_definir_fichier_contenu.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Conception/Definir_les_fichiers_de_contenu/Definir_les_fichiers_de_contenu_37.html"/>
+<iepp:elementPresentation xmi:id="_0_37_1-8-6_com_elp" nom="Rédiger le contenu" cheminIcone="./applet/images/TreeActivity.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ac_rediger.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Conception/Rediger_le_contenu/Rediger_le_contenu_38.html"/>
+<iepp:elementPresentation xmi:id="_0_38_1-8-7_com_elp" nom="Fournir les guides" cheminIcone="./applet/images/TreeActivity.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ac_guide.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Conception/Fournir_les_guides/Fournir_les_guides_39.html"/>
+<iepp:elementPresentation xmi:id="_0_39_1-8-8_com_elp" nom="Définir et décrire les éléments" cheminIcone="./applet/images/TreeActivity.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ac_definir_pp.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Conception/Definir_et_decrire_les_elements/Definir_et_decrire_les_elements_40.html"/>
+<iepp:elementPresentation xmi:id="_0_40_1-8-9_com_elp" nom="Valider composant" cheminIcone="./applet/images/TreeActivity.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ac_valider_composant.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Conception/Valider_composant/Valider_composant_41.html"/>
+<iepp:elementPresentation xmi:id="_0_41_1-9_com_elp" nom="Publication" cheminIcone="./applet/images/TreeWorkDefinition.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/dt_publication.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Publication/Publication_42.html"/>
+<iepp:elementPresentation xmi:id="_0_42_1-9-1_com_elp" nom="Diagramme d'activités" cheminIcone="./applet/images/TreeActivityDiagram.gif" cheminContenu="" description="" cheminPage="./Processus_d_ingenierie_des_processus/Publication/Diagramme_d_activites/Diagramme_d_activites_43.html"/>
+<iepp:elementPresentation xmi:id="_0_43_1-9-2_com_elp" nom="Diagramme de flots" cheminIcone="./applet/images/TreeClassDiagram.gif" cheminContenu="" description="" cheminPage="./Processus_d_ingenierie_des_processus/Publication/Diagramme_de_flots/Diagramme_de_flots_44.html"/>
+<iepp:elementPresentation xmi:id="_0_44_1-9-3_com_elp" nom="Importer composant" cheminIcone="./applet/images/TreeActivity.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ac_importer.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Publication/Importer_composant/Importer_composant_45.html"/>
+<iepp:elementPresentation xmi:id="_0_45_1-9-4_com_elp" nom="Assembler" cheminIcone="./applet/images/TreeActivity.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ac_assembler.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Publication/Assembler/Assembler_46.html"/>
+<iepp:elementPresentation xmi:id="_0_46_1-9-5_com_elp" nom="Générer site" cheminIcone="./applet/images/TreeActivity.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ac_generer_site.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Publication/Generer_site/Generer_site_47.html"/>
+<iepp:elementPresentation xmi:id="_0_47_1-9-6_com_elp" nom="Valider site" cheminIcone="./applet/images/TreeActivity.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ac_valider_site.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Publication/Valider_site/Valider_site_48.html"/>
+<iepp:elementPresentation xmi:id="_0_48_1-9-7_com_elp" nom="Présenter le nouveau site" cheminIcone="./applet/images/TreeActivity.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ac_presenter_site.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Publication/Presenter_le_nouveau_site/Presenter_le_nouveau_site_49.html"/>
+<iepp:elementPresentation xmi:id="_0_49_1-9-8_com_elp" nom="Préparer formation générale" cheminIcone="./applet/images/TreeActivity.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ac_preparer formation.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Publication/Preparer_formation_generale/Preparer_formation_generale_50.html"/>
+<iepp:elementPresentation xmi:id="_0_50_1-10_com_elp" nom="Application" cheminIcone="./applet/images/TreeWorkDefinition.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/dt_application.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Application/Application_51.html"/>
+<iepp:elementPresentation xmi:id="_0_51_1-10-1_com_elp" nom="Diagramme d'activités" cheminIcone="./applet/images/TreeActivityDiagram.gif" cheminContenu="" description="" cheminPage="./Processus_d_ingenierie_des_processus/Application/Diagramme_d_activites/Diagramme_d_activites_52.html"/>
+<iepp:elementPresentation xmi:id="_0_52_1-10-2_com_elp" nom="Diagramme de flots" cheminIcone="./applet/images/TreeClassDiagram.gif" cheminContenu="" description="" cheminPage="./Processus_d_ingenierie_des_processus/Application/Diagramme_de_flots/Diagramme_de_flots_53.html"/>
+<iepp:elementPresentation xmi:id="_0_53_1-10-3_com_elp" nom="Formation spécifique" cheminIcone="./applet/images/TreeActivity.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ac_former_specific.htm" description="" cheminPage="./Processus_d_ingenierie_des_processus/Application/Formation_specifique/Formation_specifique_54.html"/>
+<iepp:elementPresentation xmi:id="_0_54_1-10-4_com_elp" nom="Appliquer le processus" cheminIcone="./applet/images/TreeActivity.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ac_appliquer.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Application/Appliquer_le_processus/Appliquer_le_processus_55.html"/>
+<iepp:elementPresentation xmi:id="_0_55_1-10-5_com_elp" nom="Assistance " cheminIcone="./applet/images/TreeActivity.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ac_assistance.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Application/Assistance_/Assistance__56.html"/>
+<iepp:elementPresentation xmi:id="_0_56_1-11_com_elp" nom="Pilotage" cheminIcone="./applet/images/TreeWorkDefinition.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/dt_pilotage.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Pilotage/Pilotage_57.html"/>
+<iepp:elementPresentation xmi:id="_0_57_1-11-1_com_elp" nom="Diagramme d'activités" cheminIcone="./applet/images/TreeActivityDiagram.gif" cheminContenu="" description="" cheminPage="./Processus_d_ingenierie_des_processus/Pilotage/Diagramme_d_activites/Diagramme_d_activites_58.html"/>
+<iepp:elementPresentation xmi:id="_0_58_1-11-2_com_elp" nom="Diagramme de flots" cheminIcone="./applet/images/TreeClassDiagram.gif" cheminContenu="" description="" cheminPage="./Processus_d_ingenierie_des_processus/Pilotage/Diagramme_de_flots/Diagramme_de_flots_59.html"/>
+<iepp:elementPresentation xmi:id="_0_59_1-11-3_com_elp" nom="Analyser la performance" cheminIcone="./applet/images/TreeActivity.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ac_ana_perf.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Pilotage/Analyser_la_performance/Analyser_la_performance_60.html"/>
+<iepp:elementPresentation xmi:id="_0_60_1-11-4_com_elp" nom="Proposer changements" cheminIcone="./applet/images/TreeActivity.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ac_proposer_chgt.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Pilotage/Proposer_changements/Proposer_changements_61.html"/>
+<iepp:elementPresentation xmi:id="_0_61_1-11-5_com_elp" nom="Evaluer maturité" cheminIcone="./applet/images/TreeActivity.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ac_maturite.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Pilotage/Evaluer_maturite/Evaluer_maturite_62.html"/>
+<iepp:elementPresentation xmi:id="_0_62_1-11-6_com_elp" nom="Consolider" cheminIcone="./applet/images/TreeActivity.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ac_consolider.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Pilotage/Consolider/Consolider_63.html"/>
+<iepp:elementPresentation xmi:id="_0_63_1-11-7_com_elp" nom="Planifier l'amélioration des processus" cheminIcone="./applet/images/TreeActivity.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ac_planifier_amp.htm" description="" cheminPage="./Processus_d_ingenierie_des_processus/Pilotage/Planifier_l_amelioration_des_processus/Planifier_l_amelioration_des_processus_64.html"/>
+<iepp:elementPresentation xmi:id="_0_64_1-11-8_com_elp" nom="Lancer un projet" cheminIcone="./applet/images/TreeActivity.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ac_lancer_projet.htm" description="" cheminPage="./Processus_d_ingenierie_des_processus/Pilotage/Lancer_un_projet/Lancer_un_projet_65.html"/>
+<iepp:elementPresentation xmi:id="_0_65_1-12_com_elp" nom="Support" cheminIcone="./applet/images/TreeWorkDefinition.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/dt_support.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Support/Support_66.html"/>
+<iepp:elementPresentation xmi:id="_0_66_1-12-1_com_elp" nom="Diagramme d'activités" cheminIcone="./applet/images/TreeActivityDiagram.gif" cheminContenu="" description="" cheminPage="./Processus_d_ingenierie_des_processus/Support/Diagramme_d_activites/Diagramme_d_activites_67.html"/>
+<iepp:elementPresentation xmi:id="_0_67_1-12-2_com_elp" nom="Diagramme de flots" cheminIcone="./applet/images/TreeClassDiagram.gif" cheminContenu="" description="" cheminPage="./Processus_d_ingenierie_des_processus/Support/Diagramme_de_flots/Diagramme_de_flots_68.html"/>
+<iepp:elementPresentation xmi:id="_0_68_1-12-3_com_elp" nom="Conclure le projet processus" cheminIcone="./applet/images/TreeActivity.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ac_conclure_projet_processus.htm" description="" cheminPage="./Processus_d_ingenierie_des_processus/Support/Conclure_le_projet_processus/Conclure_le_projet_processus_69.html"/>
+<iepp:elementPresentation xmi:id="_0_69_1-12-4_com_elp" nom="Conduire le projet" cheminIcone="./applet/images/TreeActivity.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ac_conduire_projet_processus.htm" description="" cheminPage="./Processus_d_ingenierie_des_processus/Support/Conduire_le_projet/Conduire_le_projet_70.html"/>
+<iepp:elementPresentation xmi:id="_0_70_1-12-5_com_elp" nom="Planifier" cheminIcone="./applet/images/TreeActivity.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ac_planifier_projet.htm" description="" cheminPage="./Processus_d_ingenierie_des_processus/Support/Planifier/Planifier_71.html"/>
+<iepp:elementPresentation xmi:id="_0_71_1-12-6_com_elp" nom="Mettre en place l'environnement de développement " cheminIcone="./applet/images/TreeActivity.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ac_mettre_env_dev.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Support/Mettre_en_place_l_environnement_de_developpement_/Mettre_en_place_l_environnement_de_developpement__72.html"/>
+<iepp:elementPresentation xmi:id="_0_72_1-12-7_com_elp" nom="Mettre en place l'environnement d'application " cheminIcone="./applet/images/TreeActivity.gif" cheminContenu="" description="" cheminPage="./Processus_d_ingenierie_des_processus/Support/Mettre_en_place_l_environnement_d_application_/Mettre_en_place_l_environnement_d_application__73.html"/>
+<iepp:elementPresentation xmi:id="_0_73_1-13_com_elp" nom="Produits processus" cheminIcone="./applet/images/TreePackage.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/prs_processus.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Produits_processus/Produits_processus_74.html"/>
+<iepp:elementPresentation xmi:id="_0_74_1-13-1_com_elp" nom="Définition Processus" cheminIcone="./applet/images/ProduitModele.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/pr_def_processus.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Produits_processus/Definition_Processus/Definition_Processus_75.html"/>
+<iepp:elementPresentation xmi:id="_0_75_1-13-2_com_elp" nom="Interfaces" cheminIcone="./applet/images/ProduitModele.gif" cheminContenu="" description="" cheminPage="./Processus_d_ingenierie_des_processus/Produits_processus/Interfaces/Interfaces_76.html"/>
+<iepp:elementPresentation xmi:id="_0_76_1-13-3_com_elp" nom="Carto processus" cheminIcone="./applet/images/ProduitDocument.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/pr_cartographie_processus.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Produits_processus/Carto_processus/Carto_processus_77.html"/>
+<iepp:elementPresentation xmi:id="_0_77_1-13-4_com_elp" nom="Composant" cheminIcone="./applet/images/ball2.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/pr_composant.htm" description="" cheminPage="./Processus_d_ingenierie_des_processus/Produits_processus/Composant/Composant_78.html"/>
+<iepp:elementPresentation xmi:id="_0_78_1-13-5_com_elp" nom="Site processus" cheminIcone="./applet/images/toolboxo.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/pr_site_processus.htm" description="" cheminPage="./Processus_d_ingenierie_des_processus/Produits_processus/Site_processus/Site_processus_79.html"/>
+<iepp:elementPresentation xmi:id="_0_79_1-13-6_com_elp" nom="Base de composants" cheminIcone="./applet/images/toolboxo.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/pr_base_composant.htm" description="" cheminPage="./Processus_d_ingenierie_des_processus/Produits_processus/Base_de_composants/Base_de_composants_80.html"/>
+<iepp:elementPresentation xmi:id="_0_80_1-13-7_com_elp" nom="Modèle de processus" cheminIcone="./applet/images/ProduitModele.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/pr_modèle_processus.htm" description="" cheminPage="./Processus_d_ingenierie_des_processus/Produits_processus/Modele_de_processus/Modele_de_processus_81.html">
+<iepp:guideId xmi:idref="_0_80_1-13-7-1_com_gui"/>
+</iepp:elementPresentation>
+<iepp:elementPresentation xmi:id="_0_80_1-13-7-1_com_elp" nom="Règles de modélisation" cheminIcone="./applet/images/assessment.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/lc_modele.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Produits_processus/Modele_de_processus/Regles_de_modelisation/Regles_de_modelisation_82.html"/>
+<iepp:elementPresentation xmi:id="_0_81_1-13-7-1_com_elp" nom="Règles de modélisation" cheminIcone="./applet/images/assessment.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/lc_modele.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Produits_processus/Modele_de_processus/Regles_de_modelisation/Regles_de_modelisation_82.html"/>
+<iepp:elementPresentation xmi:id="_0_82_1-13-8_com_elp" nom="Contenu" cheminIcone="./applet/images/ProduitDocument.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/pr_contenu.htm" description="" cheminPage="./Processus_d_ingenierie_des_processus/Produits_processus/Contenu/Contenu_83.html">
+<iepp:guideId xmi:idref="_0_82_1-13-8-1_com_gui"/>
+</iepp:elementPresentation>
+<iepp:elementPresentation xmi:id="_0_82_1-13-8-1_com_elp" nom="Template activité" cheminIcone="./applet/images/GuidePlanType.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ac_type.html" description="e de description d'une activité, à utiliser avec une feuille de style contenant les styles inclus." cheminPage="./Processus_d_ingenierie_des_processus/Produits_processus/Contenu/Template_activite/Template_activite_84.html"/>
+<iepp:elementPresentation xmi:id="_0_83_1-13-8-1_com_elp" nom="Template activité" cheminIcone="./applet/images/GuidePlanType.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/ac_type.html" description="e de description d'une activité, à utiliser avec une feuille de style contenant les styles inclus." cheminPage="./Processus_d_ingenierie_des_processus/Produits_processus/Contenu/Template_activite/Template_activite_84.html"/>
+<iepp:elementPresentation xmi:id="_0_84_1-14_com_elp" nom="Produits projet PAP" cheminIcone="./applet/images/TreePackage.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/prs_projet_pap.htm" description="" cheminPage="./Processus_d_ingenierie_des_processus/Produits_projet_PAP/Produits_projet_PAP_85.html"/>
+<iepp:elementPresentation xmi:id="_0_85_1-14-1_com_elp" nom="Besoins projet" cheminIcone="./applet/images/ProduitDocument.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/pr_besoins_projet.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Produits_projet_PAP/Besoins_projet/Besoins_projet_86.html"/>
+<iepp:elementPresentation xmi:id="_0_86_1-14-2_com_elp" nom="Annonce publication" cheminIcone="./applet/images/ProduitDocument.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/pr_annonce_publication.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Produits_projet_PAP/Annonce_publication/Annonce_publication_87.html"/>
+<iepp:elementPresentation xmi:id="_0_87_1-14-3_com_elp" nom="Matériel de formation" cheminIcone="./applet/images/ProduitDocument.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/pr_materiel_formation.htm" description="" cheminPage="./Processus_d_ingenierie_des_processus/Produits_projet_PAP/Materiel_de_formation/Materiel_de_formation_88.html"/>
+<iepp:elementPresentation xmi:id="_0_88_1-14-4_com_elp" nom="Besoins composant" cheminIcone="./applet/images/ProduitDocument.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/pr_besoins_composant.htm" description="" cheminPage="./Processus_d_ingenierie_des_processus/Produits_projet_PAP/Besoins_composant/Besoins_composant_89.html"/>
+<iepp:elementPresentation xmi:id="_0_89_1-14-5_com_elp" nom="Evaluation de l'organisation" cheminIcone="./applet/images/ProduitDocument.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/pr_eval_actuel.htm" description="" cheminPage="./Processus_d_ingenierie_des_processus/Produits_projet_PAP/Evaluation_de_l_organisation/Evaluation_de_l_organisation_90.html"/>
+<iepp:elementPresentation xmi:id="_0_90_1-15_com_elp" nom="Produits gouvernance" cheminIcone="./applet/images/TreePackage.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/prs_gouvernance.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Produits_gouvernance/Produits_gouvernance_91.html"/>
+<iepp:elementPresentation xmi:id="_0_91_1-15-1_com_elp" nom="Demande d'amélioration" cheminIcone="./applet/images/ProduitDocument.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/pr_demande_amelioration_processus.htm" description="" cheminPage="./Processus_d_ingenierie_des_processus/Produits_gouvernance/Demande_d_amelioration/Demande_d_amelioration_92.html"/>
+<iepp:elementPresentation xmi:id="_0_92_1-15-2_com_elp" nom="Mesures processus" cheminIcone="./applet/images/ar_table.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/pr_mesures.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Produits_gouvernance/Mesures_processus/Mesures_processus_93.html"/>
+<iepp:elementPresentation xmi:id="_0_93_1-15-3_com_elp" nom="Demande de changement" cheminIcone="./applet/images/ProduitDocument.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/pr_demande_chgt.html" description="" cheminPage="./Processus_d_ingenierie_des_processus/Produits_gouvernance/Demande_de_changement/Demande_de_changement_94.html"/>
+<iepp:elementPresentation xmi:id="_0_94_1-15-4_com_elp" nom="Roadmap processus" cheminIcone="./applet/images/ar_table.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/pr_roadmap_processus.htm" description="" cheminPage="./Processus_d_ingenierie_des_processus/Produits_gouvernance/Roadmap_processus/Roadmap_processus_95.html"/>
+<iepp:elementPresentation xmi:id="_0_95_1-15-5_com_elp" nom="Indicateurs processus" cheminIcone="./applet/images/ProduitDocument.gif" cheminContenu="" description="" cheminPage="./Processus_d_ingenierie_des_processus/Produits_gouvernance/Indicateurs_processus/Indicateurs_processus_96.html"/>
+<iepp:elementPresentation xmi:id="_0_96_1-15-6_com_elp" nom="Tableau de bord indicateurs" cheminIcone="./applet/images/ar_table.gif" cheminContenu="" description="" cheminPage="./Processus_d_ingenierie_des_processus/Produits_gouvernance/Tableau_de_bord_indicateurs/Tableau_de_bord_indicateurs_97.html"/>
+<iepp:elementPresentation xmi:id="_0_97_1-15-7_com_elp" nom="Tableau de bord évolutions" cheminIcone="./applet/images/ar_table.gif" cheminContenu="" description="" cheminPage="./Processus_d_ingenierie_des_processus/Produits_gouvernance/Tableau_de_bord_evolutions/Tableau_de_bord_evolutions_98.html"/>
+<iepp:elementPresentation xmi:id="_0_98_1-16_com_elp" nom="Quoi de neuf" cheminIcone="./applet/images/GuideNeuf.gif" cheminContenu="./Processus_d_ingenierie_des_processus/contenu/gui_qdn.htm" description="" cheminPage="./Processus_d_ingenierie_des_processus/Quoi_de_neuf/Quoi_de_neuf_99.html"/>
+<iepp:guide xmi:id="_0_0_1-16_com_gui" nom="Quoi de neuf">
+<iepp:typeGuideId xmi:idref="_0_1-16_tyg"/>
+<iepp:elementPresentationId xmi:idref="_0_0_1-16_com_elp"/>
+</iepp:guide>
+<iepp:guide xmi:id="_0_0_1-1_com_gui" nom="Concepts">
+<iepp:typeGuideId xmi:idref="_0_1-1_tyg"/>
+<iepp:elementPresentationId xmi:idref="_0_0_1-1_com_elp"/>
+</iepp:guide>
+<iepp:guide xmi:id="_0_33_1-8-3-1_com_gui" nom="Modéliser avec Apes2">
+<iepp:typeGuideId xmi:idref="_0_1-8-3-1_tyg"/>
+<iepp:elementPresentationId xmi:idref="_0_33_1-8-3-1_com_elp"/>
+</iepp:guide>
+<iepp:guide xmi:id="_0_80_1-13-7-1_com_gui" nom="Règles de modélisation">
+<iepp:typeGuideId xmi:idref="_0_1-13-7-1_tyg"/>
+<iepp:elementPresentationId xmi:idref="_0_80_1-13-7-1_com_elp"/>
+</iepp:guide>
+<iepp:guide xmi:id="_0_82_1-13-8-1_com_gui" nom="Template activité">
+<iepp:typeGuideId xmi:idref="_0_1-13-8-1_tyg"/>
+<iepp:elementPresentationId xmi:idref="_0_82_1-13-8-1_com_elp"/>
+</iepp:guide>
+<iepp:typeGuide xmi:id="_0_1-16_tyg" nom="Quoi de neuf"/>
+<iepp:typeGuide xmi:id="_0_1-1_tyg" nom="Principes"/>
+<iepp:typeGuide xmi:id="_0_1-8-3-1_tyg" nom="Guide Outil"/>
+<iepp:typeGuide xmi:id="_0_1-13-7-1_tyg" nom="Liste de controles"/>
+<iepp:typeGuide xmi:id="_0_1-13-8-1_tyg" nom="Plan Type"/>
+</xmi:XMI>
+</xmi:XMIPackage>
