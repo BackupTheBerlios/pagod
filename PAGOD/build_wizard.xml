@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<project name="PAGOD_Wizard" default="" basedir=".">
+	<!--fichier de propriété de ant tel que le build number-->
+	<propertyfile
+	    file="antwizard.properties"
+	    comment="Fichier propriété">
+	</propertyfile>
+	<description>
+		Génération de l'application  Pagod configurator ou wizard
+	</description>
+	
+	<!-- Déclaration des variables répertoires -->
+	<property name="src" location="src/" />
+	<property name="bin" location="bin/" />
+	<property name="build" location="build/" />
+	<property name="doc" location="doc" />
+	
+	<!-- Déclaration des variables librairie -->
+	<property name="lib_parserHTML" location="lib/htmlparser.jar" />
+
+
+
+	<!-- Compilation du wizard -->
+	<target name="wizard" depends="" description="compile les sources du wizard ">
+	
+		
+	
+		<javac srcdir="${src}" destdir="${bin}">
+			<classpath>
+				<pathelement path="${java.class.path}" />
+				<pathelement location="lib/htmlparser.jar" />
+
+			</classpath>
+		</javac>
+	</target>
+	<!--creation d'un zip du build actuel-->
+	<target name="javadoc" description="Créer la javadoc de l'application " depends = "">
+		
+		
+	</target>
+	<!--jar-->
+	<target name="jarWizard" description="Construit le jar du wizard" depends="wizard">
+		<buildnumber file="antwizard.properties"/>
+		<!--Creation des repertoire pour la build courante-->
+		<!--Variable ou générer la build-->
+		<property name="curbuild" location="${build}/wizard_${build.number}"/>
+		<mkdir dir="${build}" />
+		<mkdir dir="${curbuild}" />
+		<mkdir dir="${curbuild}/lib" />
+		<!-- copie des fichier librairie -->
+		<copy file="lib/htmlparser.jar" todir="${curbuild}/lib/" />
+				
+		<jar jarfile="${curbuild}/pagod_wizard.jar" basedir="${bin}">
+			<manifest>
+				<!--<attribute name="Built-By" value="${user.name}" />-->
+				<attribute name="Main-Class" value="pagod.wizard.MainWizard" />
+				<attribute name="Class-Path" value="lib/htmlparser.jar" />
+			</manifest>
+		</jar>
+
+	</target>
+	
+	<!--creation d'un zip du build actuel-->
+	<target name="zip" description="Construit le jar et en fait un zip avec les libraire" depends = "jarWizard">
+		<zip destfile="${build}/pagod_${build.number}.zip"
+		       basedir="${curbuild}/"
+		  />
+	
+	</target>
+
+</project>
