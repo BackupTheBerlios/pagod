@@ -1,5 +1,5 @@
 /*
- * $Id: Constants.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: Constants.java,v 1.2 2005/11/01 16:46:55 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -39,9 +39,9 @@ public interface Constants
     public static final String APPLICATION_SHORT_NAME = "PAGOD";
 
     /**
-     * Nom complet de l'application : Spem Wizard
+     * Nom complet de l'application : Personal Assistant for Group Of Development
      */
-    public static final String APPLICATION_LONG_NAME = "Spem Wizard";
+    public static final String APPLICATION_LONG_NAME = "Personal Assistant for Group Of Development";
 
     /**
      * Version de l'application
