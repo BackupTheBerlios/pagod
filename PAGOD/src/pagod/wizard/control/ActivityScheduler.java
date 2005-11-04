@@ -1,5 +1,5 @@
 /*
- * $Id: ActivityScheduler.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: ActivityScheduler.java,v 1.2 2005/11/04 18:09:27 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -35,6 +35,7 @@ import pagod.common.model.Product;
 import pagod.common.model.Step;
 import pagod.utils.ActionManager;
 import pagod.utils.LanguagesManager;
+import pagod.wizard.control.states.ActivityState;
 import pagod.wizard.ui.MainFrame;
 
 /**
@@ -71,9 +72,14 @@ public class ActivityScheduler
     }
 
     /**
-     * Etat du déroulement de l'activité
+     * Etat du déroulement de l'activité spwiz
      */
     private State state;
+
+    /**
+     * Etat du déroulement de l'activité pagod
+     */
+    private ActivityState activityState;
 
     /**
      * Activité à déroulé
@@ -112,6 +118,18 @@ public class ActivityScheduler
         this.activity = activity;
         this.state = State.INIT;
         this.mfPagod = frame;
+    }
+
+    /**
+     * Définit l'état de la machine à état qui represente une activité lancé
+     * 
+     * @param activityState
+     *            est l'état de la machine a état qui représente une activité
+     *            lancé
+     */
+    public void setActivityState(ActivityState activityState)
+    {
+        this.activityState = activityState;
     }
 
     /**
@@ -206,7 +224,7 @@ public class ActivityScheduler
                     case NEXT:
                         // si l'etape a des produits
                         if (this.step.hasOutputProducts())
-                        {         
+                        {
                             List<Product> lstOutputProduct = this.step
                                     .getOutputProducts();
 
@@ -216,15 +234,22 @@ public class ActivityScheduler
                             int optionSelected;
                             if (lstOutputProduct.size() == 1)
                             {
-                                optionSelected = JOptionPane.showConfirmDialog(
-                                        this.mfPagod,
-                                        LanguagesManager.getInstance()
-                                        .getString("createProductmsg")
-                                                + " " + lstOutputProduct.get(0)
-                                                        .getName() + " ? ",
-                                                        LanguagesManager.getInstance()
-                                                        .getString ("createProductTitle"),
-                                        JOptionPane.YES_NO_OPTION);
+                                optionSelected = JOptionPane
+                                        .showConfirmDialog(
+                                                this.mfPagod,
+                                                LanguagesManager
+                                                        .getInstance()
+                                                        .getString(
+                                                                "createProductmsg")
+                                                        + " "
+                                                        + lstOutputProduct.get(
+                                                                0).getName()
+                                                        + " ? ",
+                                                LanguagesManager
+                                                        .getInstance()
+                                                        .getString(
+                                                                "createProductTitle"),
+                                                JOptionPane.YES_NO_OPTION);
 
                                 // si l'utilisateur a choisi l'option yes on
                                 // lance la création du produit
@@ -238,7 +263,7 @@ public class ActivityScheduler
                             else
                             {
                                 // il y a plusieurs produit a cree
-                                
+
                             }
 
                             // on presente ces produits
