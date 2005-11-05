@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ActivityState.java,v 1.1 2005/11/04 18:10:13 cyberal82 Exp $
+ * $Id: ActivityState.java,v 1.2 2005/11/05 12:45:03 cyberal82 Exp $
  */
 package pagod.wizard.control.states;
 
@@ -47,6 +47,11 @@ public abstract class ActivityState
     {
         super();
         // TODO Corps de constructeur généré automatiquement
+        
+        this.activityScheduler = activityScheduler;
+        this.activity = activity;
+        this.stepList = activity.getSteps();
+        this.step = null;
     }
     
     /**
@@ -59,6 +64,12 @@ public abstract class ActivityState
     {
         super();
         // TODO Corps de constructeur généré automatiquement
+        
+        this.activityScheduler = activityScheduler;
+        this.activity = activity;
+        this.index = iCurrentStep;
+        this.stepList = activity.getSteps();
+        this.step = null;
     }
 
     /**

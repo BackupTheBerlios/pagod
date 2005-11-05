@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: LastStepState.java,v 1.1 2005/11/04 18:10:13 cyberal82 Exp $
+ * $Id: LastStepState.java,v 1.2 2005/11/05 12:45:03 cyberal82 Exp $
  */
 package pagod.wizard.control.states;
 
@@ -52,7 +52,7 @@ public class LastStepState extends ActivityState
     public void next()
     {
         // TODO Corps de méthode généré automatiquement
-
+        System.out.println("LastStepState : next()");
     }
 
     /* (non-Javadoc)

@@ -1,16 +1,19 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ActivityPresentationState.java,v 1.1 2005/11/04 18:10:13 cyberal82 Exp $
+ * $Id: ActivityPresentationState.java,v 1.2 2005/11/05 12:45:03 cyberal82 Exp $
  */
+
 package pagod.wizard.control.states;
 
 import pagod.common.model.Activity;
+import pagod.utils.ActionManager;
 import pagod.wizard.control.ActivityScheduler;
+import pagod.wizard.control.Constants;
 
 /**
- * @author Cyberal
- *
+ * @author Alexandre Bes
+ * 
  */
 public class ActivityPresentationState extends ActivityState
 {
@@ -23,40 +26,70 @@ public class ActivityPresentationState extends ActivityState
                                      Activity activity)
     {
         super(activityScheduler, activity);
-        // TODO Corps de constructeur généré automatiquement
+
+        // on affiche la presentation de l'activité
+        this.activityScheduler.presentActivity();
+
+        // on affiche le bouton next
+        ActionManager.getInstance().getAction(Constants.ACTION_NEXT)
+                .setEnabled(true);
+
+        // on affiche le bouton terminate
+        ActionManager.getInstance().getAction(Constants.ACTION_TERMINATE)
+                .setEnabled(true);
+
+        // on grise le bouton previous
+        ActionManager.getInstance().getAction(Constants.ACTION_PREVIOUS)
+                .setEnabled(false);
+
     }
 
-    /**
-     * @param activityScheduler
-     * @param activity
-     * @param iCurrentStep
-     */
-    public ActivityPresentationState(ActivityScheduler activityScheduler,
-                                     Activity activity, int iCurrentStep)
-    {
-        super(activityScheduler, activity, iCurrentStep);
-        // TODO Corps de constructeur généré automatiquement
-    }
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see pagod.wizard.control.states.ActivityState#previous()
      */
     public void previous()
     {
-        // TODO Corps de méthode généré automatiquement
-
+        // ne devrait jamais arriver
+        System.err
+                .println("ActivityPresentationState : normalement pas de previous possible");
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see pagod.wizard.control.states.ActivityState#next()
      */
     public void next()
     {
-        // TODO Corps de méthode généré automatiquement
 
+        System.out.println("ActivityPresentationState : next() nbStep = " + this.stepList.size());
+        
+        switch (this.stepList.size())
+        {
+            // s'il n'y a pas d'etape on passe directement au dernier etat
+            case 0:
+                this.activityScheduler.setActivityState(new ActivityEndState(
+                        this.activityScheduler, this.activity));
+                break;
+
+            // s'il y a une seule etape, elle doit avoir le comportement de la derniere
+            case 1 :
+                this.activityScheduler.setActivityState(new LastStepState(
+                        this.activityScheduler, this.activity));
+                break;
+
+            default:
+                this.activityScheduler.setActivityState(new FirstStepState(
+                        this.activityScheduler, this.activity));
+                break;
+        }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see pagod.wizard.control.states.ActivityState#terminate()
      */
     public void terminate()

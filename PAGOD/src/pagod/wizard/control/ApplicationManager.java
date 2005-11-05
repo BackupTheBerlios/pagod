@@ -1,5 +1,5 @@
 /*
- * $Id: ApplicationManager.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: ApplicationManager.java,v 1.2 2005/11/05 12:45:03 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -342,13 +342,17 @@ public class ApplicationManager
                                 break;
                             case RUN_ACTIVITY:
                                 this.runActivity();
+                                
+                                // modif pour tester
+                                System.out.println("testActivityPresentation");
                                 this.activityScheduler.manageRequest(request);
                                 ActionManager.getInstance().getAction(
                                         Constants.ACTION_RUN_ACTIVITY)
                                         .setEnabled(false);
-                                ActionManager.getInstance().getAction(
+                                
+                                /*ActionManager.getInstance().getAction(
                                         Constants.ACTION_TERMINATE).setEnabled(
-                                        true);
+                                        true); */
                                 break;
                             case SET_TOOLS:
                                 this.showToolsSettingsDialog();

@@ -1,5 +1,5 @@
 /*
- * $Id: ActivityScheduler.java,v 1.2 2005/11/04 18:09:27 cyberal82 Exp $
+ * $Id: ActivityScheduler.java,v 1.3 2005/11/05 12:45:03 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -36,6 +36,7 @@ import pagod.common.model.Step;
 import pagod.utils.ActionManager;
 import pagod.utils.LanguagesManager;
 import pagod.wizard.control.states.ActivityState;
+import pagod.wizard.control.states.ActivityPresentationState;
 import pagod.wizard.ui.MainFrame;
 
 /**
@@ -115,9 +116,14 @@ public class ActivityScheduler
      */
     public ActivityScheduler(Activity activity, MainFrame frame)
     {
+        // TODO a suppr 
         this.activity = activity;
         this.state = State.INIT;
+        
         this.mfPagod = frame;
+        
+        // pour pagod
+        this.activityState = new ActivityPresentationState(this, activity);
     }
 
     /**
@@ -139,6 +145,9 @@ public class ActivityScheduler
      */
     public void manageRequest(ApplicationManager.Request request)
     {
+        // TODO test state
+        System.out.println(this.state + " -> " + request);
+        
         switch (this.state)
         {
             case INIT:
@@ -155,7 +164,10 @@ public class ActivityScheduler
                 switch (request)
                 {
                     case NEXT:
-                        // // dans tout les cas on active l'action Previous
+                        this.activityState.next();
+                        
+                        /* TODO avant le design state
+                        // dans tout les cas on active l'action Previous
                         ActionManager.getInstance().getAction(
                                 Constants.ACTION_PREVIOUS).setEnabled(true);
                         // si on a des produit en entree ou des outils
@@ -183,6 +195,7 @@ public class ActivityScheduler
                                     .getInstance()
                                     .manageRequest(
                                             ApplicationManager.Request.TERMINATE_ACTIVITY);
+                        */
                         break;
                 }
                 break;
@@ -385,7 +398,7 @@ public class ActivityScheduler
      * lance l'activité
      * 
      */
-    private void presentActivity()
+    public void presentActivity()
     {
         this.mfPagod.presentActivity(this.activity);
         this.state = State.ACTIVITY_PRESENTATION;
