@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: MiddleStepState.java,v 1.3 2005/11/05 16:26:43 biniou Exp $
+ * $Id: MiddleStepState.java,v 1.4 2005/11/05 17:23:53 biniou Exp $
  */
 package pagod.wizard.control.states;
 
@@ -88,7 +88,7 @@ public class MiddleStepState extends ActivityState
     {
         
         // s'il reste encore des middleStep
-        if (this.index < this.stepList.size() - 2)
+        if (this.index < (this.stepList.size() - 2))
         {
             System.out.println("MiddleStep: next() -> middlestep") ;
             this.index++;
@@ -96,11 +96,12 @@ public class MiddleStepState extends ActivityState
                     this.activityScheduler, this.activity, this.index));
         }
         
+        
         // si la prochaine est la derniere
-        if (this.index == this.stepList.size() - 1)
+        else if (this.index == (this.stepList.size() - 2))
         {
+            
             System.out.println("MiddleStep: next() -> laststep") ;
-            this.index++;
             this.activityScheduler.setActivityState(new LastStepState(
                     this.activityScheduler, this.activity));
         }
