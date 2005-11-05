@@ -1,5 +1,5 @@
 /*
- * $Id: ActivityScheduler.java,v 1.4 2005/11/05 16:22:24 cyberal82 Exp $
+ * $Id: ActivityScheduler.java,v 1.5 2005/11/05 16:36:00 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -402,7 +402,7 @@ public class ActivityScheduler
      * @param rang
      * @param total
      */
-    private void presentStep(Step stepToPresent, int rang, int total)
+    public void presentStep(Step stepToPresent, int rang, int total)
     {
         this.mfPagod.presentStep(stepToPresent, rang + 1, total);
         this.state = State.STEP_PRESENTATION;
