@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: LastStepState.java,v 1.2 2005/11/05 12:45:03 cyberal82 Exp $
+ * $Id: LastStepState.java,v 1.3 2005/11/05 15:01:50 cyberal82 Exp $
  */
 package pagod.wizard.control.states;
 
@@ -22,18 +22,6 @@ public class LastStepState extends ActivityState
     public LastStepState(ActivityScheduler activityScheduler, Activity activity)
     {
         super(activityScheduler, activity);
-        // TODO Corps de constructeur généré automatiquement
-    }
-
-    /**
-     * @param activityScheduler
-     * @param activity
-     * @param iCurrentStep
-     */
-    public LastStepState(ActivityScheduler activityScheduler,
-                         Activity activity, int iCurrentStep)
-    {
-        super(activityScheduler, activity, iCurrentStep);
         // TODO Corps de constructeur généré automatiquement
     }
 

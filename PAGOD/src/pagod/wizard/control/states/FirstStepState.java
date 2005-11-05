@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: FirstStepState.java,v 1.1 2005/11/04 18:10:13 cyberal82 Exp $
+ * $Id: FirstStepState.java,v 1.2 2005/11/05 15:01:50 cyberal82 Exp $
  */
 package pagod.wizard.control.states;
 
@@ -22,18 +22,6 @@ public class FirstStepState extends ActivityState
     public FirstStepState(ActivityScheduler activityScheduler, Activity activity)
     {
         super(activityScheduler, activity);
-        // TODO Corps de constructeur généré automatiquement
-    }
-
-    /**
-     * @param activityScheduler
-     * @param activity
-     * @param iCurrentStep
-     */
-    public FirstStepState(ActivityScheduler activityScheduler,
-                          Activity activity, int iCurrentStep)
-    {
-        super(activityScheduler, activity, iCurrentStep);
         // TODO Corps de constructeur généré automatiquement
     }
 
