@@ -1,17 +1,17 @@
 /*
  * Projet PAGOD
  * 
- * $Id: MiddleStepState.java,v 1.2 2005/11/05 14:28:16 biniou Exp $
+ * $Id: MiddleStepState.java,v 1.3 2005/11/05 16:26:43 biniou Exp $
  */
 package pagod.wizard.control.states;
 
 import pagod.common.model.Activity;
-//import pagod.common.model.Step;
-//import pagod.utils.ActionManager;
+
+import pagod.utils.ActionManager;
+
 import pagod.wizard.control.ActivityScheduler;
-//import pagod.wizard.control.Constants;
-//import java.util.List;
-//import java.util.ArrayList;
+import pagod.wizard.control.Constants;
+
 
 /**
  * @author Cyberal
@@ -20,18 +20,6 @@ import pagod.wizard.control.ActivityScheduler;
 public class MiddleStepState extends ActivityState
 {
 
-    /**
-     * @param activityScheduler
-     * @param activity
-     */
-    public MiddleStepState(ActivityScheduler activityScheduler,
-                           Activity activity)
-    {
-        super(activityScheduler, activity);
-        // TODO Corps de constructeur généré automatiquement
-        
-       
-    }
 
     /**
      * @param activityScheduler
@@ -41,12 +29,29 @@ public class MiddleStepState extends ActivityState
     public MiddleStepState(ActivityScheduler activityScheduler,
                            Activity activity, int iCurrentStep)
     {
+        
         super(activityScheduler, activity, iCurrentStep);
-        // TODO Corps de constructeur généré automatiquement
+
+        System.out.println("MiddleStep : constructeur") ;
         
+        // initialisation de l'index
+        this.index = iCurrentStep;
+        System.out.println(this.index) ;
         
-        /*List<Step> test = new ArrayList<Step> (); 
-        test = this.activity.getSteps();*/
+        // on affiche le bouton next
+        ActionManager.getInstance().getAction(Constants.ACTION_NEXT)
+                .setEnabled(true);
+
+        // on affiche le bouton terminate
+        ActionManager.getInstance().getAction(Constants.ACTION_TERMINATE)
+                .setEnabled(true);
+
+        // on affiche le bouton previous
+        ActionManager.getInstance().getAction(Constants.ACTION_PREVIOUS)
+                .setEnabled(true);
+        
+        // affichage de l'etape
+        this.activityScheduler.presentStep(this.stepList.get(this.index),this.index,this.stepList.size()) ;
     }
 
     /* 
@@ -58,14 +63,16 @@ public class MiddleStepState extends ActivityState
         // si l'etape d'avant etait la premiere
         if (this.index == 1)
         {
+            System.out.println("MiddleStep: previous() -> firststep") ;
             this.index--;
             this.activityScheduler.setActivityState(new FirstStepState(
-                    this.activityScheduler, this.activity, this.index));
+                    this.activityScheduler, this.activity));
         }
         
         // si l'etape d'avant etait une middleStep
         if (this.index > 1)
         {
+            System.out.println("MiddleStep: previous() -> middlestep") ;
             this.index--;
             this.activityScheduler.setActivityState(new MiddleStepState(
                     this.activityScheduler, this.activity, this.index));
@@ -83,6 +90,7 @@ public class MiddleStepState extends ActivityState
         // s'il reste encore des middleStep
         if (this.index < this.stepList.size() - 2)
         {
+            System.out.println("MiddleStep: next() -> middlestep") ;
             this.index++;
             this.activityScheduler.setActivityState(new MiddleStepState(
                     this.activityScheduler, this.activity, this.index));
@@ -91,9 +99,10 @@ public class MiddleStepState extends ActivityState
         // si la prochaine est la derniere
         if (this.index == this.stepList.size() - 1)
         {
+            System.out.println("MiddleStep: next() -> laststep") ;
             this.index++;
             this.activityScheduler.setActivityState(new LastStepState(
-                    this.activityScheduler, this.activity, this.index));
+                    this.activityScheduler, this.activity));
         }
 
     }
