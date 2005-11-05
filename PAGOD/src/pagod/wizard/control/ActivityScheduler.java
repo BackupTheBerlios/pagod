@@ -1,5 +1,5 @@
 /*
- * $Id: ActivityScheduler.java,v 1.3 2005/11/05 12:45:03 cyberal82 Exp $
+ * $Id: ActivityScheduler.java,v 1.4 2005/11/05 16:22:24 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -148,6 +148,18 @@ public class ActivityScheduler
         // TODO test state
         System.out.println(this.state + " -> " + request);
         
+        switch (request)
+        {
+            case NEXT:
+                this.activityState.next();
+                break;
+               
+            case PREVIOUS:
+                this.activityState.previous();
+                break;
+        }
+        
+        /*
         switch (this.state)
         {
             case INIT:
@@ -164,9 +176,10 @@ public class ActivityScheduler
                 switch (request)
                 {
                     case NEXT:
-                        this.activityState.next();
+                        // pagod 
+                        // this.activityState.next();
                         
-                        /* TODO avant le design state
+                        // TODO avant le design state
                         // dans tout les cas on active l'action Previous
                         ActionManager.getInstance().getAction(
                                 Constants.ACTION_PREVIOUS).setEnabled(true);
@@ -195,7 +208,7 @@ public class ActivityScheduler
                                     .getInstance()
                                     .manageRequest(
                                             ApplicationManager.Request.TERMINATE_ACTIVITY);
-                        */
+                        
                         break;
                 }
                 break;
@@ -368,6 +381,7 @@ public class ActivityScheduler
                 }
                 break;
         }
+        */
     }
 
     /**
