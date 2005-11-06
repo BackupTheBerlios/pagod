@@ -1,5 +1,5 @@
 /*
- * $Id: ActivityScheduler.java,v 1.6 2005/11/06 14:16:01 yak Exp $
+ * $Id: ActivityScheduler.java,v 1.7 2005/11/06 14:22:41 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -390,6 +390,8 @@ public class ActivityScheduler
         this.state = State.PRODUCTS_PRESENTATION;
     }
 
+   
+
     /**
      * Presente l'etape passer en parametre
      * 
@@ -422,5 +424,16 @@ public class ActivityScheduler
         this.mfPagod.showCheckList(this.activity);
         this.state = State.ACTIVITY_CHECKLIST;
     }
+
+	/**
+	 * @return Retourne l'attribut mfPagod
+	 */
+	public MainFrame getMfPagod ()
+	{
+		return this.mfPagod;
+	}
+  
+  
+    
 
 }
