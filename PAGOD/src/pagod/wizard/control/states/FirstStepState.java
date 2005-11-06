@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: FirstStepState.java,v 1.3 2005/11/05 16:26:43 biniou Exp $
+ * $Id: FirstStepState.java,v 1.4 2005/11/06 13:41:21 psyko Exp $
  */
 package pagod.wizard.control.states;
 
@@ -68,8 +68,8 @@ public class FirstStepState extends ActivityState
         
         switch (this.stepList.size() )
         {
-            case 1: System.err
-            .println("FirstStepState : Le cas d'une seule etape est gere par EndStepState.");
+            case 1: System.err.println("FirstStepState : Le cas d'une seule etape est gere par LastStepState.");
+                    break;
             
             case 2: System.out.println("Methode NEXT() du firstStep => LastStep");
                     this.activityScheduler.setActivityState(new LastStepState(
