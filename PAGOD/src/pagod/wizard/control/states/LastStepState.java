@@ -1,13 +1,14 @@
 /*
  * Projet PAGOD
  * 
- * $Id: LastStepState.java,v 1.4 2005/11/06 14:03:52 psyko Exp $
+ * $Id: LastStepState.java,v 1.5 2005/11/06 15:53:44 yak Exp $
  */
 package pagod.wizard.control.states;
 
 import pagod.common.model.Activity;
 import pagod.utils.ActionManager;
 import pagod.wizard.control.ActivityScheduler;
+import pagod.wizard.control.ApplicationManager;
 import pagod.wizard.control.Constants;
 
 /**
@@ -45,7 +46,7 @@ public class LastStepState extends ActivityState
         
     }
 
-    /* (non-Javadoc)
+    /** (non-Javadoc)
      * @see pagod.wizard.control.states.ActivityState#previous()
      */
     public void previous()
@@ -69,17 +70,25 @@ public class LastStepState extends ActivityState
         }
     }
 
-    /* (non-Javadoc)
+    /** (non-Javadoc)
      * @see pagod.wizard.control.states.ActivityState#next()
      */
     public void next()
     {
-        System.out.println("Méthode Next() du lastStep-> ActivityEndState");
-        this.activityScheduler.setActivityState(new ActivityEndState(this.activityScheduler, this.activity));
+    	if (this.activityScheduler.checkPostCondition())
+		{
+			// les préconditions sont vérifiées, on peu revinir a la
+			// présentation
+			// on change d'état pour null
+			this.activityScheduler.setActivityState(null);
+			// on effectue un terminante sur l'application manager
+			ApplicationManager.getInstance().manageRequest(
+					ApplicationManager.Request.TERMINATE_ACTIVITY);
+		}
 
     }
 
-    /* (non-Javadoc)
+    /** (non-Javadoc)
      * @see pagod.wizard.control.states.ActivityState#terminate()
      */
     public void terminate()
