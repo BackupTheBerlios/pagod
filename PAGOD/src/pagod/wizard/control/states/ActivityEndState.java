@@ -1,15 +1,18 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ActivityEndState.java,v 1.1 2005/11/04 18:10:13 cyberal82 Exp $
+ * $Id: ActivityEndState.java,v 1.2 2005/11/06 13:24:50 yak Exp $
  */
 package pagod.wizard.control.states;
 
 import pagod.common.model.Activity;
+import pagod.utils.ActionManager;
 import pagod.wizard.control.ActivityScheduler;
+import pagod.wizard.control.ApplicationManager;
+import pagod.wizard.control.Constants;
 
 /**
- * @author Cyberal
+ * @author yak
  *
  */
 public class ActivityEndState extends ActivityState
@@ -35,7 +38,21 @@ public class ActivityEndState extends ActivityState
                             Activity activity, int iCurrentStep)
     {
         super(activityScheduler, activity, iCurrentStep);
-        // TODO Corps de constructeur généré automatiquement
+        //on test les postconditions
+        //this.activityScheduler.postCondTest)
+        if (true)
+        {
+
+            this.terminate();
+            
+        }
+        else
+        {
+            this.previous();
+        }
+        
+        
+        
     }
 
     /* (non-Javadoc)
@@ -43,7 +60,22 @@ public class ActivityEndState extends ActivityState
      */
     public void previous()
     {
-        // TODO Corps de méthode généré automatiquement
+        //on teste le nombre step
+        switch (this.stepList.size())
+        {
+            //si on est il n'y a pas de step on revient a l'acitivité presentation
+            case 0: 
+                this.activityScheduler.setActivityState(new ActivityPresentationState(
+                        this.activityScheduler, this.activity));
+                break;
+            //sinon on revient au dernier step
+            default:
+                this.activityScheduler.setActivityState(new LastStepState(
+                        this.activityScheduler, this.activity));
+                break;
+               
+        
+        }
 
     }
 
@@ -52,7 +84,9 @@ public class ActivityEndState extends ActivityState
      */
     public void next()
     {
-        // TODO Corps de méthode généré automatiquement
+        // TODO Supprimer ceci est un test
+        System.err
+        .println("ActivityEndState : pas de next possible sur cet etat");
 
     }
 
@@ -61,8 +95,11 @@ public class ActivityEndState extends ActivityState
      */
     public void terminate()
     {
-        // TODO Corps de méthode généré automatiquement
-
+        //les préconditions sont vérifiées, on peu revinir a la présentation
+       //on change d'état pour null
+        this.activityScheduler.setActivityState(null);
+        //on effectue un terminante sur l'application manager
+        ApplicationManager.getInstance().manageRequest( ApplicationManager.Request.TERMINATE_ACTIVITY);
     }
 
 }
