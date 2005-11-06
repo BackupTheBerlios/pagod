@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: FirstStepState.java,v 1.4 2005/11/06 13:41:21 psyko Exp $
+ * $Id: FirstStepState.java,v 1.5 2005/11/06 15:54:01 yak Exp $
  */
 package pagod.wizard.control.states;
 
@@ -46,7 +46,7 @@ public class FirstStepState extends ActivityState
         this.activityScheduler.presentStep(this.stepList.get(this.index),this.index,this.stepList.size()) ;
     }
 
-    /* (non-Javadoc)
+    /** (non-Javadoc)
      * @see pagod.wizard.control.states.ActivityState#previous()
      */
     public void previous()
@@ -57,7 +57,7 @@ public class FirstStepState extends ActivityState
 
     }
 
-    /* (non-Javadoc)
+    /** (non-Javadoc)
      * @see pagod.wizard.control.states.ActivityState#next()
      */
     public void next()
@@ -85,7 +85,7 @@ public class FirstStepState extends ActivityState
 
     }
 
-    /* (non-Javadoc)
+    /** (non-Javadoc)
      * @see pagod.wizard.control.states.ActivityState#terminate()
      */
     public void terminate()

@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: MiddleStepState.java,v 1.4 2005/11/05 17:23:53 biniou Exp $
+ * $Id: MiddleStepState.java,v 1.5 2005/11/06 15:54:01 yak Exp $
  */
 package pagod.wizard.control.states;
 
@@ -54,8 +54,7 @@ public class MiddleStepState extends ActivityState
         this.activityScheduler.presentStep(this.stepList.get(this.index),this.index,this.stepList.size()) ;
     }
 
-    /* 
-     * @param : aucun
+    /** 
      * @see pagod.wizard.control.states.ActivityState#previous()
      */
     public void previous()
@@ -81,7 +80,7 @@ public class MiddleStepState extends ActivityState
     }
 
 
-    /* (non-Javadoc)
+    /** (non-Javadoc)
      * @see pagod.wizard.control.states.ActivityState#next()
      */
     public void next()
@@ -108,7 +107,7 @@ public class MiddleStepState extends ActivityState
 
     }
 
-    /* (non-Javadoc)
+    /** (non-Javadoc)
      * @see pagod.wizard.control.states.ActivityState#terminate()
      */
     public void terminate()
