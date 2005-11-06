@@ -1,5 +1,5 @@
 /*
- * $Id: ActivityScheduler.java,v 1.9 2005/11/06 14:48:05 fabfoot Exp $
+ * $Id: ActivityScheduler.java,v 1.10 2005/11/06 15:57:11 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -27,9 +27,12 @@ package pagod.wizard.control;
 import java.util.Collection;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import pagod.common.model.Activity;
 import pagod.common.model.Product;
 import pagod.common.model.Step;
+import pagod.utils.LanguagesManager;
 import pagod.wizard.control.states.ActivityState;
 import pagod.wizard.control.states.PreConditionCheckerState;
 import pagod.wizard.ui.MainFrame;
@@ -438,6 +441,41 @@ public class ActivityScheduler
 	}
   
   
-    
+	/**
+	 * Vérifie les post conditions du projet
+	 * @return TRUE si on a verifié les post cond
+	 * 			FALSE sinon
+	 */
+	public boolean checkPostCondition ()
+	{
+		// on construit le message avec tout le produits
+		String sPrecondMessage = new String("");
+		String sPrecondTitle = LanguagesManager.getInstance().getString(
+				"postCondTitle");
+		sPrecondMessage += LanguagesManager.getInstance().getString(
+				"postCondMessage")
+				+ "\n";
+		// pour chaque produit on ajoute le nom a la liste des produits
+		for (Product productTemp : this.activity.getOutputProducts())
+		{
+			// ajout du nom au message
+			sPrecondMessage += productTemp.getName() + "\n";
+		}
+
+		int iRetour = JOptionPane.showConfirmDialog(this.getMfPagod(),
+				sPrecondMessage, sPrecondTitle, JOptionPane.YES_NO_OPTION);
+		// en fonction du retour un renvoir le bon booleen
+		switch (iRetour)
+		{
+			case JOptionPane.NO_OPTION:
+				return false;
+			case JOptionPane.YES_OPTION:
+				return true;
+			default:
+				return false;
+
+		}
+
+	}
 
 }
