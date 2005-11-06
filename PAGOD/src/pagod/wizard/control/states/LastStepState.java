@@ -1,20 +1,22 @@
 /*
  * Projet PAGOD
  * 
- * $Id: LastStepState.java,v 1.3 2005/11/05 15:01:50 cyberal82 Exp $
+ * $Id: LastStepState.java,v 1.4 2005/11/06 14:03:52 psyko Exp $
  */
 package pagod.wizard.control.states;
 
 import pagod.common.model.Activity;
+import pagod.utils.ActionManager;
 import pagod.wizard.control.ActivityScheduler;
+import pagod.wizard.control.Constants;
 
 /**
  * @author Cyberal
  *
  */
+
 public class LastStepState extends ActivityState
 {
-
     /**
      * @param activityScheduler
      * @param activity
@@ -22,7 +24,25 @@ public class LastStepState extends ActivityState
     public LastStepState(ActivityScheduler activityScheduler, Activity activity)
     {
         super(activityScheduler, activity);
-        // TODO Corps de constructeur généré automatiquement
+        
+        System.out.println("Constructeur de LastStepState");
+        
+        // initialisation de l'index
+        this.index = this.stepList.size() - 1;
+        System.out.println(this.index);
+        
+        // On affiche le bouton previous
+        ActionManager.getInstance().getAction(Constants.ACTION_PREVIOUS).setEnabled(true);
+        
+        // On affiche le bouton terminate
+        ActionManager.getInstance().getAction(Constants.ACTION_TERMINATE).setEnabled(true);
+                
+        // on désactive le bouton next
+        ActionManager.getInstance().getAction(Constants.ACTION_NEXT).setEnabled(true);
+        
+        // affichage de l'étape
+        this.activityScheduler.presentStep(this.stepList.get(this.index),this.index,this.stepList.size());
+        
     }
 
     /* (non-Javadoc)
@@ -30,8 +50,23 @@ public class LastStepState extends ActivityState
      */
     public void previous()
     {
-        // TODO Corps de méthode généré automatiquement
-
+        switch(this.stepList.size())
+        {
+            // S' il n'y avait qu'une étape, on renvoie à la présentation de l'activité 
+            case 1: System.out.println("Methode PREVIOUS () du lastStep => ActivityPresentation");
+                    this.activityScheduler.setActivityState(new ActivityPresentationState(this.activityScheduler, this.activity));
+                    break;
+          
+            // S'il y avait deux étapes, on revient à la firstStep
+            case 2: System.out.println("Methode PREVIOUS () du lastStep => FirstStep");
+                    this.activityScheduler.setActivityState(new FirstStepState(this.activityScheduler, this.activity));
+                    break;
+            // Les autres cas, on remonte d'une étape    
+            default:   
+                    System.out.println("Méthode PREVIOUS() du lastStep-> MiddleStep");
+                    this.activityScheduler.setActivityState(new MiddleStepState(this.activityScheduler, this.activity, this.index-1));
+                    break;
+        }
     }
 
     /* (non-Javadoc)
@@ -39,8 +74,9 @@ public class LastStepState extends ActivityState
      */
     public void next()
     {
-        // TODO Corps de méthode généré automatiquement
-        System.out.println("LastStepState : next()");
+        System.out.println("Méthode Next() du lastStep-> ActivityEndState");
+        this.activityScheduler.setActivityState(new ActivityEndState(this.activityScheduler, this.activity));
+
     }
 
     /* (non-Javadoc)
