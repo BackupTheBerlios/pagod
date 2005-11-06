@@ -1,5 +1,5 @@
 /*
- * $Id: ActivityScheduler.java,v 1.5 2005/11/05 16:36:00 cyberal82 Exp $
+ * $Id: ActivityScheduler.java,v 1.6 2005/11/06 14:16:01 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -27,16 +27,11 @@ package pagod.wizard.control;
 import java.util.Collection;
 import java.util.List;
 
-import javax.swing.JOptionPane;
-
-import pagod.common.control.ModelResourcesManager;
 import pagod.common.model.Activity;
 import pagod.common.model.Product;
 import pagod.common.model.Step;
-import pagod.utils.ActionManager;
-import pagod.utils.LanguagesManager;
-import pagod.wizard.control.states.ActivityState;
 import pagod.wizard.control.states.ActivityPresentationState;
+import pagod.wizard.control.states.ActivityState;
 import pagod.wizard.ui.MainFrame;
 
 /**
