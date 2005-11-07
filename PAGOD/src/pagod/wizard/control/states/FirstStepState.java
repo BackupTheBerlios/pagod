@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: FirstStepState.java,v 1.5 2005/11/06 15:54:01 yak Exp $
+ * $Id: FirstStepState.java,v 1.6 2005/11/07 17:34:20 fabfoot Exp $
  */
 package pagod.wizard.control.states;
 
@@ -60,7 +60,7 @@ public class FirstStepState extends ActivityState
     /** (non-Javadoc)
      * @see pagod.wizard.control.states.ActivityState#next()
      */
-    public void next()
+      public void next()
     {
         // on affiche la prochaine etape
         // s'il n'y en a que 2 on affiche la derniere, si plus une du milieu

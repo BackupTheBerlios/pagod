@@ -1,5 +1,5 @@
 /*
- * $Id: ActivityScheduler.java,v 1.10 2005/11/06 15:57:11 yak Exp $
+ * $Id: ActivityScheduler.java,v 1.11 2005/11/07 17:32:47 fabfoot Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -34,7 +34,7 @@ import pagod.common.model.Product;
 import pagod.common.model.Step;
 import pagod.utils.LanguagesManager;
 import pagod.wizard.control.states.ActivityState;
-import pagod.wizard.control.states.PreConditionCheckerState;
+import pagod.wizard.control.states.PreConditionCheckedState;
 import pagod.wizard.ui.MainFrame;
 
 /**
@@ -123,7 +123,7 @@ public class ActivityScheduler
         // pour pagod
 
         //this.activityState = new ActivityPresentationState(this, activity);
-        this.activityState = new PreConditionCheckerState (this, activity);
+        this.activityState = new PreConditionCheckedState (this, activity);
 
      
     }
@@ -426,7 +426,7 @@ public class ActivityScheduler
      * Lance la verification des prérequis
      * 
      */
-    private void checkBeforeStart()
+    public void checkBeforeStart()
     {
         this.mfPagod.showCheckList(this.activity);
         this.state = State.ACTIVITY_CHECKLIST;
