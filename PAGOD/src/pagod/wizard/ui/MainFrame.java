@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: MainFrame.java,v 1.2 2005/11/08 11:53:54 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -52,7 +52,7 @@ import pagod.wizard.control.Constants;
 import pagod.wizard.control.actions.AbstractPagodAction;
 
 /**
- * Fenêtre principale de l'application PAGOD
+ * Fen?tre principale de l'application PAGOD
  * 
  * @author MoOky
  */
@@ -84,7 +84,7 @@ public class MainFrame extends JFrame
     private ProcessPanel processPanel = null;
 
     /**
-     * Panneaux de Lancement de l'activité
+     * Panneaux de Lancement de l'activit?
      */
     private JPanel runActivityPanel = null;
 
@@ -99,18 +99,18 @@ public class MainFrame extends JFrame
     private ButtonPanel buttonPanel = null;
 
     /**
-     * Construit la Fenêtre principale de PAGOD initialement invisible
+     * Construit la Fen?tre principale de PAGOD initialement invisible
      * 
      */
     public MainFrame()
     {
         super();
-        // Definir le titre de la fenêtre
+        // Definir le titre de la fen?tre
         this.setTitle(Constants.APPLICATION_SHORT_NAME);
-        // Définir l'icône de la fenêtre
+        // D?finir l'ic?ne de la fen?tre
         this.setIconImage(ImagesManager.getInstance().getImageResource(
                 "iconWizard.png"));
-        // Positionner la fenêtre dans le coin en haut à gauche
+        // Positionner la fen?tre dans le coin en haut ? gauche
         this.setLocation(0, 0);
         // Faire un traitement particulier lors de la fermeture de l'application
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); 
@@ -129,7 +129,7 @@ public class MainFrame extends JFrame
                 }
             }
         });
-        // Définir la taille de la fenêtre et la taille de la fenetre maximise
+        // D?finir la taille de la fen?tre et la taille de la fenetre maximise
         Rectangle screenSize = GraphicsEnvironment
                 .getLocalGraphicsEnvironment().getMaximumWindowBounds();
         int iWidth = screenSize.width / 3;
@@ -168,7 +168,7 @@ public class MainFrame extends JFrame
         ((AbstractPagodAction) ActionManager.getInstance().getAction(
                 Constants.ACTION_QUIT)).configureRootPane(this.getRootPane(),
                 JComponent.WHEN_IN_FOCUSED_WINDOW);
-        // actions Menu Activité
+        // actions Menu Activit?
         ((AbstractPagodAction) ActionManager.getInstance().getAction(
                 Constants.ACTION_PREVIOUS)).configureRootPane(this
                 .getRootPane(), JComponent.WHEN_IN_FOCUSED_WINDOW);
@@ -182,7 +182,7 @@ public class MainFrame extends JFrame
     }
 
     /**
-     * Presente le processus à utilisateur
+     * Presente le processus ? utilisateur
      * 
      * @param process
      *            processus passer en parametre
@@ -205,7 +205,7 @@ public class MainFrame extends JFrame
     }
 
     /**
-     * Presente le processus en cours à utilisateur
+     * Presente le processus en cours ? utilisateur
      * 
      */
     public void showProcess()
@@ -236,9 +236,9 @@ public class MainFrame extends JFrame
     }
 
     /**
-     * Retourne l'activité selectionné
+     * Retourne l'activit? selectionn?
      * 
-     * @return activité selectionné
+     * @return activit? selectionn?
      */
     public Activity getActivity()
     {
@@ -256,7 +256,7 @@ public class MainFrame extends JFrame
         // mettre a jour le message
         this.messagePanel.setMessage(LanguagesManager.getInstance().getString(
                 "activityPresentationMessage"));
-        // créer les panneaux
+        // cr?er les panneaux
         this.ContentViewerPanel = new ContentViewerPane(activityToPresent);
         this.centerPanel.add(this.ContentViewerPanel);
         this.buttonPanel = new ButtonPanel();
@@ -268,20 +268,23 @@ public class MainFrame extends JFrame
     /**
      * @param activity
      * @throws NotInitializedException
-     *             Si le gestionnaire de langues n'est pas initialisé
+     *             Si le gestionnaire de langues n'est pas initialis?
      * @throws MissingResourceException
-     *             Si une clé n'existe pas dans le fichier de langues
+     *             Si une cl? n'existe pas dans le fichier de langues
      * @throws pagod.utils.ImagesManager.NotInitializedException
      */
     public void showCheckList(Activity activity)
     {
         // on netoye les panneaux
         this.centerPanel.removeAll();
+        this.southPanel.removeAll();
         // mettre a jour le message
         this.messagePanel.setMessage(LanguagesManager.getInstance().getString(
                 "activityCheckListMessage"));
-        // créer les panneaux
+        // cr?er les panneaux
         this.centerPanel.add(new CheckPane(activity));
+        this.buttonPanel = new ButtonPanel();
+        this.southPanel.add(this.buttonPanel);
         this.setVisible(true); 
     }
 
@@ -300,14 +303,14 @@ public class MainFrame extends JFrame
                     .getString("presentStepMessage"));
         else
             // on ajoute une phrase explicant qu'il faut cliquer sur suivant
-            // pour créer les produits de cette étape
+            // pour cr?er les produits de cette ?tape
             this.messagePanel.setMessage(LanguagesManager.getInstance()
                     .getString("presentStepMessage")
                     + " "
                     + LanguagesManager.getInstance().getString(
                             "infoOutputProduct"));
 
-        // créer les panneaux
+        // cr?er les panneaux
         this.centerPanel.add(new StepPanel(stepToPresent, rang, total));
         this.setVisible(true);
     }
@@ -322,7 +325,7 @@ public class MainFrame extends JFrame
         // mettre a jour le message
         this.messagePanel.setMessage(LanguagesManager.getInstance().getString(
                 "presentProductsMessage"));
-        // créer les panneaux
+        // cr?er les panneaux
         ProductsPanel productsPanel = new ProductsPanel(ProductsToPresent);
         this.centerPanel.add(productsPanel);
         this.setVisible(true);

@@ -1,5 +1,5 @@
 /*
- * $Id: ActivityScheduler.java,v 1.11 2005/11/07 17:32:47 fabfoot Exp $
+ * $Id: ActivityScheduler.java,v 1.12 2005/11/08 11:53:54 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -33,12 +33,13 @@ import pagod.common.model.Activity;
 import pagod.common.model.Product;
 import pagod.common.model.Step;
 import pagod.utils.LanguagesManager;
+import pagod.wizard.control.states.ActivityPresentationState;
 import pagod.wizard.control.states.ActivityState;
-import pagod.wizard.control.states.PreConditionCheckedState;
+import pagod.wizard.control.states.PreConditionCheckerState;
 import pagod.wizard.ui.MainFrame;
 
 /**
- * Classe gérant le déroulement de l'assitance d'un activité
+ * Classe g?rant le d?roulement de l'assitance d'un activit?
  * 
  * @author MoOky
  */
@@ -53,45 +54,45 @@ public class ActivityScheduler
          */
         INIT,
         /**
-         * Presentation de l'activité
+         * Presentation de l'activit?
          */
         ACTIVITY_PRESENTATION,
         /**
-         * Verification des prerequis de l'activité
+         * Verification des prerequis de l'activit?
          */
         ACTIVITY_CHECKLIST,
         /**
-         * Presentation de l'étape
+         * Presentation de l'?tape
          */
         STEP_PRESENTATION,
         /**
-         * Presentation des produits à réalisé.
+         * Presentation des produits ? r?alis?.
          */
         PRODUCTS_PRESENTATION
     }
 
     /**
-     * Etat du déroulement de l'activité spwiz
+     * Etat du d?roulement de l'activit? spwiz
      */
     private State state;
 
     /**
-     * Etat du déroulement de l'activité pagod
+     * Etat du d?roulement de l'activit? pagod
      */
     private ActivityState activityState;
 
     /**
-     * Activité à déroulé
+     * Activit? ? d?roul?
      */
     private Activity activity = null;
 
     /**
-     * indice de l'étape
+     * indice de l'?tape
      */
     private int index = 0;
 
     /**
-     * Liste des étapes de l'activité
+     * Liste des ?tapes de l'activit?
      */
     private List<Step> stepList;
 
@@ -109,7 +110,7 @@ public class ActivityScheduler
      * Constructeur
      * 
      * @param activity
-     *            activité à dérouler
+     *            activit? ? d?rouler
      * @param frame
      */
     public ActivityScheduler(Activity activity, MainFrame frame)
@@ -122,18 +123,22 @@ public class ActivityScheduler
         
         // pour pagod
 
-        //this.activityState = new ActivityPresentationState(this, activity);
-        this.activityState = new PreConditionCheckedState (this, activity);
+        
+        if (this.activity.hasInputProducts())
+        	// si il y a des produits en entree 
+        	this.activityState = new PreConditionCheckerState (this, activity);
+        else
+        	this.activityState = new ActivityPresentationState(this, activity);
 
      
     }
 
     /**
-     * Définit l'état de la machine à état qui represente une activité lancé
+     * D?finit l'?tat de la machine ? ?tat qui represente une activit? lanc?
      * 
      * @param activityState
-     *            est l'état de la machine a état qui représente une activité
-     *            lancé
+     *            est l'?tat de la machine a ?tat qui repr?sente une activit?
+     *            lanc?
      */
     public void setActivityState(ActivityState activityState)
     {
@@ -141,7 +146,7 @@ public class ActivityScheduler
     }
 
     /**
-     * Gère les requetes soumis au dérouleur d'activité
+     * G?re les requetes soumis au d?rouleur d'activit?
      * 
      * @param request
      */
@@ -193,18 +198,18 @@ public class ActivityScheduler
                         // sinon si il y a des etapes
                         else if (this.activity.hasSteps())
                         {
-                            // on présente la premiere étape
+                            // on pr?sente la premiere ?tape
                             this.stepList = this.activity.getSteps();
                             this.step = this.stepList.get(this.index);
                             this.presentStep(this.step, this.index,
                                     this.stepList.size());
                         }
-                        // sinon s'il y a des produits en sortie activités
+                        // sinon s'il y a des produits en sortie activit?s
                         else if (this.activity.hasOutputProducts())
                             // on presente ces produits
                             this.presentProducts(this.activity
                                     .getOutputProducts());
-                        // sinon l'activité est terminer
+                        // sinon l'activit? est terminer
                         else
                             ApplicationManager
                                     .getInstance()
@@ -221,18 +226,18 @@ public class ActivityScheduler
                         // si on il y a des etapes
                         if (this.activity.hasSteps())
                         {
-                            // on présente la premiere étape
+                            // on pr?sente la premiere ?tape
                             this.stepList = this.activity.getSteps();
                             this.step = this.stepList.get(this.index);
                             this.presentStep(this.step, this.index,
                                     this.stepList.size());
                         }
-                        // sinon si l'activité a des produits
+                        // sinon si l'activit? a des produits
                         else if (this.activity.hasOutputProducts())
                             // on presente ces produits
                             this.presentProducts(this.activity
                                     .getOutputProducts());
-                        // sinon l'activité est terminer
+                        // sinon l'activit? est terminer
                         else
                             ApplicationManager
                                     .getInstance()
@@ -280,7 +285,7 @@ public class ActivityScheduler
                                                 JOptionPane.YES_NO_OPTION);
 
                                 // si l'utilisateur a choisi l'option yes on
-                                // lance la création du produit
+                                // lance la cr?ation du produit
                                 Product outputProduct = lstOutputProduct.get(0);
                                 if (optionSelected == JOptionPane.YES_OPTION
                                         && outputProduct.getEditor() != null)
@@ -297,7 +302,7 @@ public class ActivityScheduler
                             // on presente ces produits
                             this.presentProducts(this.step.getOutputProducts());
                         }
-                        // sinon si il reste des etapes à presenter
+                        // sinon si il reste des etapes ? presenter
                         else if (this.index < this.stepList.size() - 1)
                         {
                             // on presente l'etape suivante
@@ -313,7 +318,7 @@ public class ActivityScheduler
                                             ApplicationManager.Request.TERMINATE_ACTIVITY);
                         break;
                     case PREVIOUS:
-                        // si c'est la premiere étape
+                        // si c'est la premiere ?tape
                         if (this.index == 0)
                         {
                             this.step = null;
@@ -326,7 +331,7 @@ public class ActivityScheduler
                             // on presente l'etape suivante
                             this.index--;
                             this.step = this.stepList.get(this.index);
-                            // si l'étape a des produit en sortie
+                            // si l'?tape a des produit en sortie
                             if (this.step.hasOutputProducts())
                                 this.presentProducts(this.step
                                         .getOutputProducts());
@@ -342,7 +347,7 @@ public class ActivityScheduler
                 switch (request)
                 {
                     case NEXT:
-                        // si activité a des étapes il reste des etapes à
+                        // si activit? a des ?tapes il reste des etapes ?
                         // presenter
                         if (this.step != null
                                 && this.index < this.stepList.size() - 1)
@@ -360,11 +365,11 @@ public class ActivityScheduler
                                             ApplicationManager.Request.TERMINATE_ACTIVITY);
                         break;
                     case PREVIOUS:
-                        // si activité a des étapes
+                        // si activit? a des ?tapes
                         if (this.step != null)
                             this.presentStep(this.step, this.index,
                                     this.stepList.size());
-                        // sinon si l'activité a des produit en entree ou
+                        // sinon si l'activit? a des produit en entree ou
                         // des outils
                         else if (this.activity.hasInputProducts()
                                 || this.activity.needsTools())
@@ -373,7 +378,7 @@ public class ActivityScheduler
                         // sinon
                         else
                         {
-                            // on affiche la presentation de l'activité
+                            // on affiche la presentation de l'activit?
                             this.presentActivity();
                             ActionManager.getInstance().getAction(
                                     Constants.ACTION_PREVIOUS)
@@ -413,7 +418,7 @@ public class ActivityScheduler
     }
 
     /**
-     * lance l'activité
+     * lance l'activit?
      * 
      */
     public void presentActivity()
@@ -423,7 +428,7 @@ public class ActivityScheduler
     }
 
     /**
-     * Lance la verification des prérequis
+     * Lance la verification des pr?requis
      * 
      */
     public void checkBeforeStart()
@@ -442,8 +447,8 @@ public class ActivityScheduler
   
   
 	/**
-	 * Vérifie les post conditions du projet
-	 * @return TRUE si on a verifié les post cond
+	 * V?rifie les post conditions du projet
+	 * @return TRUE si on a verifi? les post cond
 	 * 			FALSE sinon
 	 */
 	public boolean checkPostCondition ()

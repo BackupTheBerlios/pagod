@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: PreConditionCheckerState.java,v 1.3 2005/11/06 15:57:48 yak Exp $
+ * $Id: PreConditionCheckerState.java,v 1.4 2005/11/08 11:53:54 cyberal82 Exp $
  */
 package pagod.wizard.control.states;
 
@@ -24,8 +24,10 @@ public class PreConditionCheckerState extends ActivityState
     public PreConditionCheckerState(ActivityScheduler activityScheduler, Activity activity)
     {
         super(activityScheduler, activity);
-        // TODO Corps de constructeur généré automatiquement
+        // TODO Corps de constructeur g?n?r? automatiquement
         System.out.println("precond");
+        this.activityScheduler.checkBeforeStart();
+        
         // on affiche le bouton next
         
         ActionManager.getInstance().getAction(Constants.ACTION_NEXT)
@@ -43,20 +45,18 @@ public class PreConditionCheckerState extends ActivityState
     /** (non-Javadoc)
      * @see pagod.wizard.control.states.ActivityState#previous()
      */
-    @Override
     public void previous()
     {
-        // TODO Corps de méthode généré automatiquement
+        // TODO Corps de m?thode g?n?r? automatiquement
      
     }
 
     /** (non-Javadoc)
      * @see pagod.wizard.control.states.ActivityState#next()
      */
-    @Override
     public void next()
     {
-        // TODO Corps de méthode généré automatiquement
+        // TODO Corps de m?thode g?n?r? automatiquement
         this.activityScheduler.setActivityState(new ActivityPresentationState(
                 this.activityScheduler, this.activity));
     }
@@ -64,10 +64,9 @@ public class PreConditionCheckerState extends ActivityState
     /** (non-Javadoc)
      * @see pagod.wizard.control.states.ActivityState#terminate()
      */
-    @Override
     public void terminate()
     {
-        // TODO Corps de méthode généré automatiquement
+        // TODO Corps de m?thode g?n?r? automatiquement
         
     }
 

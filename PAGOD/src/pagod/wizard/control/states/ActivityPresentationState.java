@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ActivityPresentationState.java,v 1.3 2005/11/06 15:53:44 yak Exp $
+ * $Id: ActivityPresentationState.java,v 1.4 2005/11/08 11:53:54 cyberal82 Exp $
  */
 
 package pagod.wizard.control.states;
@@ -27,8 +27,8 @@ public class ActivityPresentationState extends ActivityState
 			Activity activity)
 	{
 		super(activityScheduler, activity);
-		
-		// on affiche la presentation de l'activité
+
+		// on affiche la presentation de l'activit?
 		this.activityScheduler.presentActivity();
 
 		// on affiche le bouton next
@@ -39,9 +39,18 @@ public class ActivityPresentationState extends ActivityState
 		ActionManager.getInstance().getAction(Constants.ACTION_TERMINATE)
 				.setEnabled(true);
 
-		// on grise le bouton previous
-		ActionManager.getInstance().getAction(Constants.ACTION_PREVIOUS)
-				.setEnabled(false);
+		if (this.activity.hasInputProducts())
+		{
+			// on active le bouton previous
+			ActionManager.getInstance().getAction(Constants.ACTION_PREVIOUS)
+					.setEnabled(true);
+		}
+		else
+		{
+			// on grise le bouton previous
+			ActionManager.getInstance().getAction(Constants.ACTION_PREVIOUS)
+					.setEnabled(false);
+		}
 
 	}
 
@@ -52,9 +61,11 @@ public class ActivityPresentationState extends ActivityState
 	 */
 	public void previous ()
 	{
-		// ne devrait jamais arriver
-		System.err
-				.println("ActivityPresentationState : normalement pas de previous possible");
+		// s'il y a des produits en entree on revient au panneau permettant de
+		// voir les preconditions
+		if (this.activity.hasInputProducts()) this.activityScheduler
+				.setActivityState(new PreConditionCheckerState(
+						this.activityScheduler, this.activity));
 	}
 
 	/**
@@ -75,9 +86,9 @@ public class ActivityPresentationState extends ActivityState
 
 				if (this.activityScheduler.checkPostCondition())
 				{
-					// les préconditions sont vérifiées, on peu revinir a la
-					// présentation
-					// on change d'état pour null
+					// les pr?conditions sont v?rifi?es, on peu revinir a la
+					// pr?sentation
+					// on change d'?tat pour null
 					this.activityScheduler.setActivityState(null);
 					// on effectue un terminante sur l'application manager
 					ApplicationManager.getInstance().manageRequest(
@@ -106,7 +117,7 @@ public class ActivityPresentationState extends ActivityState
 	 */
 	public void terminate ()
 	{
-		// TODO Corps de méthode généré automatiquement
+		// TODO Corps de m?thode g?n?r? automatiquement
 
 	}
 
