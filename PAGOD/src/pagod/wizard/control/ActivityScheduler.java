@@ -1,5 +1,5 @@
 /*
- * $Id: ActivityScheduler.java,v 1.12 2005/11/08 11:53:54 cyberal82 Exp $
+ * $Id: ActivityScheduler.java,v 1.13 2005/11/08 17:32:19 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -34,7 +34,7 @@ import pagod.common.model.Product;
 import pagod.common.model.Step;
 import pagod.utils.LanguagesManager;
 import pagod.wizard.control.states.ActivityPresentationState;
-import pagod.wizard.control.states.ActivityState;
+import pagod.wizard.control.states.AbstractActivityState;
 import pagod.wizard.control.states.PreConditionCheckerState;
 import pagod.wizard.ui.MainFrame;
 
@@ -62,6 +62,10 @@ public class ActivityScheduler
          */
         ACTIVITY_CHECKLIST,
         /**
+         * Verification des post Condition de l'acitvité
+         */
+        ACTIVITY_ENDCHECKLIST,
+        /**
          * Presentation de l'?tape
          */
         STEP_PRESENTATION,
@@ -79,7 +83,7 @@ public class ActivityScheduler
     /**
      * Etat du d?roulement de l'activit? pagod
      */
-    private ActivityState activityState;
+    private AbstractActivityState activityState;
 
     /**
      * Activit? ? d?roul?
@@ -140,7 +144,7 @@ public class ActivityScheduler
      *            est l'?tat de la machine a ?tat qui repr?sente une activit?
      *            lanc?
      */
-    public void setActivityState(ActivityState activityState)
+    public void setActivityState(AbstractActivityState activityState)
     {
         this.activityState = activityState;
     }
@@ -435,6 +439,16 @@ public class ActivityScheduler
     {
         this.mfPagod.showCheckList(this.activity);
         this.state = State.ACTIVITY_CHECKLIST;
+    }
+    
+    /**
+     * Lance la verification des postconditions
+     */
+    public void checkBeforeEnd ()
+    {
+    	this.mfPagod.showEndCheckList(this.activity);
+    	//this.state = State.ACTIVITY_ENDCHECKLIST;
+    	
     }
 
 	/**
