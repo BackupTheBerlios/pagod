@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: MiddleStepState.java,v 1.5 2005/11/06 15:54:01 yak Exp $
+ * $Id: MiddleStepState.java,v 1.6 2005/11/08 17:31:25 yak Exp $
  */
 package pagod.wizard.control.states;
 
@@ -17,7 +17,7 @@ import pagod.wizard.control.Constants;
  * @author Cyberal
  *
  */
-public class MiddleStepState extends ActivityState
+public class MiddleStepState extends AbstractActivityState
 {
 
 
@@ -55,7 +55,7 @@ public class MiddleStepState extends ActivityState
     }
 
     /** 
-     * @see pagod.wizard.control.states.ActivityState#previous()
+     * @see pagod.wizard.control.states.AbstractActivityState#previous()
      */
     public void previous()
     {
@@ -81,7 +81,7 @@ public class MiddleStepState extends ActivityState
 
 
     /** (non-Javadoc)
-     * @see pagod.wizard.control.states.ActivityState#next()
+     * @see pagod.wizard.control.states.AbstractActivityState#next()
      */
     public void next()
     {
@@ -108,7 +108,7 @@ public class MiddleStepState extends ActivityState
     }
 
     /** (non-Javadoc)
-     * @see pagod.wizard.control.states.ActivityState#terminate()
+     * @see pagod.wizard.control.states.AbstractActivityState#terminate()
      */
     public void terminate()
     {

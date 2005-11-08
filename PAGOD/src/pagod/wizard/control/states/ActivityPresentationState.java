@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ActivityPresentationState.java,v 1.4 2005/11/08 11:53:54 cyberal82 Exp $
+ * $Id: ActivityPresentationState.java,v 1.5 2005/11/08 17:31:25 yak Exp $
  */
 
 package pagod.wizard.control.states;
@@ -9,14 +9,13 @@ package pagod.wizard.control.states;
 import pagod.common.model.Activity;
 import pagod.utils.ActionManager;
 import pagod.wizard.control.ActivityScheduler;
-import pagod.wizard.control.ApplicationManager;
 import pagod.wizard.control.Constants;
 
 /**
  * @author Alexandre Bes
  * 
  */
-public class ActivityPresentationState extends ActivityState
+public class ActivityPresentationState extends AbstractActivityState
 {
 
 	/**
@@ -57,7 +56,7 @@ public class ActivityPresentationState extends ActivityState
 	/**
 	 * (non-Javadoc)
 	 * 
-	 * @see pagod.wizard.control.states.ActivityState#previous()
+	 * @see pagod.wizard.control.states.AbstractActivityState#previous()
 	 */
 	public void previous ()
 	{
@@ -71,7 +70,7 @@ public class ActivityPresentationState extends ActivityState
 	/**
 	 * (non-Javadoc)
 	 * 
-	 * @see pagod.wizard.control.states.ActivityState#next()
+	 * @see pagod.wizard.control.states.AbstractActivityState#next()
 	 */
 	public void next ()
 	{
@@ -84,16 +83,10 @@ public class ActivityPresentationState extends ActivityState
 			// s'il n'y a pas d'etape on passe directement au dernier etat
 			case 0:
 
-				if (this.activityScheduler.checkPostCondition())
-				{
-					// les pr?conditions sont v?rifi?es, on peu revinir a la
-					// pr?sentation
-					// on change d'?tat pour null
-					this.activityScheduler.setActivityState(null);
-					// on effectue un terminante sur l'application manager
-					ApplicationManager.getInstance().manageRequest(
-							ApplicationManager.Request.TERMINATE_ACTIVITY);
-				}
+				
+					this.activityScheduler.setActivityState(new PostConditionCheckerState(this.activityScheduler,this.activity));
+					 
+				
 				break;
 
 			// s'il y a une seule etape, elle doit avoir le comportement de la
@@ -113,7 +106,7 @@ public class ActivityPresentationState extends ActivityState
 	/**
 	 * (non-Javadoc)
 	 * 
-	 * @see pagod.wizard.control.states.ActivityState#terminate()
+	 * @see pagod.wizard.control.states.AbstractActivityState#terminate()
 	 */
 	public void terminate ()
 	{

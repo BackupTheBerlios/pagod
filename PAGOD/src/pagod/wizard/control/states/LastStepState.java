@@ -1,14 +1,13 @@
 /*
  * Projet PAGOD
  * 
- * $Id: LastStepState.java,v 1.5 2005/11/06 15:53:44 yak Exp $
+ * $Id: LastStepState.java,v 1.6 2005/11/08 17:31:25 yak Exp $
  */
 package pagod.wizard.control.states;
 
 import pagod.common.model.Activity;
 import pagod.utils.ActionManager;
 import pagod.wizard.control.ActivityScheduler;
-import pagod.wizard.control.ApplicationManager;
 import pagod.wizard.control.Constants;
 
 /**
@@ -16,7 +15,7 @@ import pagod.wizard.control.Constants;
  *
  */
 
-public class LastStepState extends ActivityState
+public class LastStepState extends AbstractActivityState
 {
     /**
      * @param activityScheduler
@@ -47,7 +46,7 @@ public class LastStepState extends ActivityState
     }
 
     /** (non-Javadoc)
-     * @see pagod.wizard.control.states.ActivityState#previous()
+     * @see pagod.wizard.control.states.AbstractActivityState#previous()
      */
     public void previous()
     {
@@ -71,25 +70,17 @@ public class LastStepState extends ActivityState
     }
 
     /** (non-Javadoc)
-     * @see pagod.wizard.control.states.ActivityState#next()
+     * @see pagod.wizard.control.states.AbstractActivityState#next()
      */
     public void next()
     {
-    	if (this.activityScheduler.checkPostCondition())
-		{
-			// les préconditions sont vérifiées, on peu revinir a la
-			// présentation
-			// on change d'état pour null
-			this.activityScheduler.setActivityState(null);
-			// on effectue un terminante sur l'application manager
-			ApplicationManager.getInstance().manageRequest(
-					ApplicationManager.Request.TERMINATE_ACTIVITY);
-		}
+    	this.activityScheduler.setActivityState(new PostConditionCheckerState(this.activityScheduler,this.activity));
+		
 
     }
 
     /** (non-Javadoc)
-     * @see pagod.wizard.control.states.ActivityState#terminate()
+     * @see pagod.wizard.control.states.AbstractActivityState#terminate()
      */
     public void terminate()
     {

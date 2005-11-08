@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: PreConditionCheckerState.java,v 1.4 2005/11/08 11:53:54 cyberal82 Exp $
+ * $Id: PreConditionCheckerState.java,v 1.5 2005/11/08 17:31:24 yak Exp $
  */
 package pagod.wizard.control.states;
 
@@ -14,7 +14,7 @@ import pagod.wizard.control.Constants;
  * @author fabfoot
  *
  */
-public class PreConditionCheckerState extends ActivityState
+public class PreConditionCheckerState extends AbstractActivityState
 {
 
     /**
@@ -43,7 +43,7 @@ public class PreConditionCheckerState extends ActivityState
     }
 
     /** (non-Javadoc)
-     * @see pagod.wizard.control.states.ActivityState#previous()
+     * @see pagod.wizard.control.states.AbstractActivityState#previous()
      */
     public void previous()
     {
@@ -52,7 +52,7 @@ public class PreConditionCheckerState extends ActivityState
     }
 
     /** (non-Javadoc)
-     * @see pagod.wizard.control.states.ActivityState#next()
+     * @see pagod.wizard.control.states.AbstractActivityState#next()
      */
     public void next()
     {
@@ -62,7 +62,7 @@ public class PreConditionCheckerState extends ActivityState
     }
 
     /** (non-Javadoc)
-     * @see pagod.wizard.control.states.ActivityState#terminate()
+     * @see pagod.wizard.control.states.AbstractActivityState#terminate()
      */
     public void terminate()
     {
