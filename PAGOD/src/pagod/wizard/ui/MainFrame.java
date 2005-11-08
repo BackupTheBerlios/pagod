@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.2 2005/11/08 11:53:54 cyberal82 Exp $
+ * $Id: MainFrame.java,v 1.3 2005/11/08 17:35:38 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -286,6 +286,26 @@ public class MainFrame extends JFrame
         this.buttonPanel = new ButtonPanel();
         this.southPanel.add(this.buttonPanel);
         this.setVisible(true); 
+    }
+    
+    /**
+     * Fonction qui affiche les produits nécessaire pour terminé l'activité
+     * @param activity 
+     */
+    public void showEndCheckList(Activity activity)
+    {
+    	 // on netoye les panneaux
+        this.centerPanel.removeAll();
+        this.southPanel.removeAll();
+        //on met a jour le message
+        this.messagePanel.setMessage(LanguagesManager.getInstance().getString(
+        "activityEndCheckListMessage"));
+        //on créer les panneau
+        this.centerPanel.add(new EndCheckPanel(activity));
+        this.buttonPanel = new ButtonPanel();
+        this.southPanel.add(this.buttonPanel);
+        this.setVisible(true); 
+    	
     }
 
     /**
