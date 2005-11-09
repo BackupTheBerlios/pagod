@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimerManager.java,v 1.1 2005/11/08 17:36:31 yak Exp $
+ * $Id: TimerManager.java,v 1.2 2005/11/09 11:40:52 yak Exp $
  */
 package pagod.utils;
 import java.awt.event.ActionEvent;
@@ -23,7 +23,7 @@ public class TimerManager implements ActionListener
 	/**
 	 * le timer swing
 	 */
-	private Timer theSwingTimer =  null;
+	private static Timer theSwingTimer =  null;
 	
 	/**
 	 * la valeur du timer
@@ -35,6 +35,7 @@ public class TimerManager implements ActionListener
 	 */
 	public TimerManager ()
 	{
+		
 	}
 
 	/**
@@ -45,6 +46,7 @@ public class TimerManager implements ActionListener
 		if (instance == null)
 		{
 			instance = new TimerManager();
+			theSwingTimer = new Timer(1000,instance);
 		}
 		return instance;
 	}
@@ -54,13 +56,21 @@ public class TimerManager implements ActionListener
 	 */
 	public void start()
 	{
-		//si le timer n'est pas initialisé on le fait en partant de 0;
-		if (this.theSwingTimer == null)
-		{
+		//on initialise le timer a 0
+		
 			this.value = 0;
-			this.theSwingTimer = new Timer(1000,instance);
-		}
-		this.theSwingTimer.start();
+			
+	
+		theSwingTimer.start();
+	}
+	/**
+	 * @param initValue
+	 */
+	public void start (int initValue)
+	{
+		this.value = initValue;
+		theSwingTimer.start();
+		
 	}
 
 	/**
@@ -70,18 +80,11 @@ public class TimerManager implements ActionListener
 	public int stop ()
 	{
 		//on arrete le timer et on retourne la valeur
-		this.theSwingTimer.stop();
+		theSwingTimer.stop();
 		return this.value;
 	}
 	
-	/**
-	 * @param initValue la valeur d'initialisation du timer 
-	 */
-	public void init (int initValue)
-	{
-		
-		this.value = initValue;
-	}
+	
 	/** (non-Javadoc)
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
