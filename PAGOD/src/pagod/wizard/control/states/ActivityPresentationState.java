@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ActivityPresentationState.java,v 1.5 2005/11/08 17:31:25 yak Exp $
+ * $Id: ActivityPresentationState.java,v 1.6 2005/11/09 13:52:46 cyberal82 Exp $
  */
 
 package pagod.wizard.control.states;
@@ -28,8 +28,14 @@ public class ActivityPresentationState extends AbstractActivityState
 		super(activityScheduler, activity);
 
 		// on affiche la presentation de l'activit?
-		this.activityScheduler.presentActivity();
-
+		this.activityScheduler.presentActivityAndProduct();
+		
+		// TODO a supprimer
+		// test la presentation des produits a creer
+		// this.activityScheduler.presentProducts(this.activity.getOutputProducts());
+		// this.activityScheduler.checkBeforeEnd();
+		
+		
 		// on affiche le bouton next
 		ActionManager.getInstance().getAction(Constants.ACTION_NEXT)
 				.setEnabled(true);

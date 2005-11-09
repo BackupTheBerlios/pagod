@@ -1,5 +1,5 @@
 /*
- * $Id: ActivityScheduler.java,v 1.13 2005/11/08 17:32:19 yak Exp $
+ * $Id: ActivityScheduler.java,v 1.14 2005/11/09 13:52:35 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -62,7 +62,7 @@ public class ActivityScheduler
          */
         ACTIVITY_CHECKLIST,
         /**
-         * Verification des post Condition de l'acitvité
+         * Verification des post Condition de l'acitvit?
          */
         ACTIVITY_ENDCHECKLIST,
         /**
@@ -400,7 +400,7 @@ public class ActivityScheduler
      * 
      * @param outputProducts
      */
-    private void presentProducts(Collection<Product> outputProducts)
+    public void presentProducts(Collection<Product> outputProducts)
     {
         this.mfPagod.presentProducts(outputProducts);
         this.state = State.PRODUCTS_PRESENTATION;
@@ -430,7 +430,16 @@ public class ActivityScheduler
         this.mfPagod.presentActivity(this.activity);
         this.state = State.ACTIVITY_PRESENTATION;
     }
-
+    
+    /**
+     * 
+     *
+     */
+    public void presentActivityAndProduct()
+    {
+    	this.mfPagod.presentActivityAndProduct(this.activity);
+    }
+    
     /**
      * Lance la verification des pr?requis
      * 

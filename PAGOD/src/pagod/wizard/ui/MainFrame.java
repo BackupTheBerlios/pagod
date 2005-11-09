@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.3 2005/11/08 17:35:38 yak Exp $
+ * $Id: MainFrame.java,v 1.4 2005/11/09 13:52:46 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -37,6 +37,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 
 import pagod.common.control.adapters.ProcessTreeModel;
 import pagod.common.model.Activity;
@@ -91,7 +92,7 @@ public class MainFrame extends JFrame
     /**
      * Panneaux visualiseur de fichier de contenu
      */
-    private ContentViewerPane ContentViewerPanel = null;
+    private ContentViewerPane contentViewerPanel = null;
 
     /**
      * Panneaux des boutons
@@ -257,12 +258,12 @@ public class MainFrame extends JFrame
         this.messagePanel.setMessage(LanguagesManager.getInstance().getString(
                 "activityPresentationMessage"));
         // cr?er les panneaux
-        this.ContentViewerPanel = new ContentViewerPane(activityToPresent);
-        this.centerPanel.add(this.ContentViewerPanel);
+        this.contentViewerPanel = new ContentViewerPane(activityToPresent);
+        this.centerPanel.add(this.contentViewerPanel);
         this.buttonPanel = new ButtonPanel();
         this.southPanel.add(this.buttonPanel);
         this.setVisible(true);
-        this.ContentViewerPanel.requestFocus();
+        this.contentViewerPanel.requestFocus();
     }
 
     /**
@@ -289,7 +290,7 @@ public class MainFrame extends JFrame
     }
     
     /**
-     * Fonction qui affiche les produits nécessaire pour terminé l'activité
+     * Fonction qui affiche les produits n?cessaire pour termin? l'activit?
      * @param activity 
      */
     public void showEndCheckList(Activity activity)
@@ -300,7 +301,7 @@ public class MainFrame extends JFrame
         //on met a jour le message
         this.messagePanel.setMessage(LanguagesManager.getInstance().getString(
         "activityEndCheckListMessage"));
-        //on créer les panneau
+        //on cr?er les panneau
         this.centerPanel.add(new EndCheckPanel(activity));
         this.buttonPanel = new ButtonPanel();
         this.southPanel.add(this.buttonPanel);
@@ -351,6 +352,32 @@ public class MainFrame extends JFrame
         this.setVisible(true);
         // demande le focus
         productsPanel.requestFocus();
+    }
+    
+    /**
+     * 
+     * @param activityToPresent
+     */
+    public void presentActivityAndProduct(Activity activityToPresent)
+    {
+    	// on nettoye le panneaux 
+    	this.centerPanel.removeAll();
+        // mettre a jour le message
+        this.messagePanel.setMessage(LanguagesManager.getInstance().getString(
+                "activityPresentationMessage"));
+        // cr?er les panneaux
+        // le splitPane du haut contiendra la presentation de l'activite
+        // celui du bas affichera les produits a creer ainsi que les guides
+        JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+        splitPane.setOneTouchExpandable(true);     
+        this.contentViewerPanel = new ContentViewerPane(activityToPresent);
+        splitPane.setLeftComponent(this.contentViewerPanel);
+        splitPane.setRightComponent(new ProductsPanel(activityToPresent.getOutputProducts()));
+        splitPane.setResizeWeight(0.7);
+        this.centerPanel.add(splitPane);
+        this.setVisible(true);
+        // demande le focus
+        this.contentViewerPanel.requestFocus();
     }
 
     /**
