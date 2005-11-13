@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.5 2005/11/13 15:45:56 cyberal82 Exp $
+ * $Id: MainFrame.java,v 1.6 2005/11/13 16:05:26 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -143,7 +143,7 @@ public class MainFrame extends JFrame
 		}
 		else
 		{
-			this.dividerLocation = this.splitPane.getLastDividerLocation();
+			// this.dividerLocation = this.splitPane.getLastDividerLocation();
 			this.splitPane.setDividerLocation(this.dividerLocation);
 		}
 		this.splitPane.setLeftComponent(component);
