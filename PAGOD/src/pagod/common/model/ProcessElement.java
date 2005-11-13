@@ -1,5 +1,5 @@
 /*
- * $Id: ProcessElement.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: ProcessElement.java,v 1.2 2005/11/13 20:55:31 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -26,6 +26,7 @@ package pagod.common.model;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -152,6 +153,33 @@ public abstract class ProcessElement
     {
         return this.guidances;
     }
+    
+    /**
+     * Retourne le nombre de guide associe au ProcessElement
+     * @return le nombre de guide associe au ProcessElement
+     */
+    public int getGuidanceCount()
+    {
+    	return this.guidances.size();
+    }
+    
+    /**
+     * Retourne le nombre de type guide different que possede ce ProcessElement
+     *
+     * @return le nombre de type guide different que possede ce ProcessElement
+     */
+    public int getGuidanceTypeCount()
+    {
+    	// un HashSet est un ensemble, c'est a dire qu'il ne contient pas 
+    	// de doublon
+    	HashSet<String> set = new HashSet<String>();
+    	
+    	for(Guidance guidance : this.guidances)
+    		set.add(guidance.getType().toUpperCase());
+    	
+    	return set.size();
+    }
+    
 
     /**
      * @return Returns the iconURL.

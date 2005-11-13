@@ -1,5 +1,5 @@
 /*
- * $Id: ListProductsPanel.java,v 1.2 2005/11/13 18:10:42 cyberal82 Exp $
+ * $Id: ListProductsPanel.java,v 1.3 2005/11/13 20:55:31 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -132,8 +132,16 @@ public abstract class ListProductsPanel extends JPanel
         this.productsList.addListSelectionListener(new ListProductListener());
         // selectionner la premiere liste
         this.productsList.setSelectedIndex(0);
+        
         // Ajouter la JList au panneaux
         this.add(this.productsList, BorderLayout.CENTER);
+        
+        // ajuste la taille prefererer pour qu'on puisse voir tout les produits dans la liste
+        this.productsList.setVisibleRowCount(productsToPresent.size());
+        
+        // on defini la taille minimal comme etant celle prefere
+        this.productsList.setMinimumSize(this.productsList.getPreferredSize());
+        
     }
 
     /**

@@ -1,5 +1,5 @@
 /*
- * $Id: ActionsPanel.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: ActionsPanel.java,v 1.2 2005/11/13 20:55:31 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -190,7 +190,12 @@ public class ActionsPanel extends JPanel
                 }
             }
         });
-
+        
+        // on indique combien de ligne de la JTree doivent etre visible
+        this.treeGuidances.setVisibleRowCount(productInProgress.getGuidanceTypeCount() + productInProgress.getGuidanceCount());
+        // on defini la taille minimum de l'ActionPanel comme etant la taille prefere de la JTree
+        this.setMinimumSize(this.treeGuidances.getPreferredSize());
+        
         this.revalidate();
     }
 
@@ -260,8 +265,7 @@ public class ActionsPanel extends JPanel
         {
 
             Component c = null;
-
-
+            
                 c = super.getTreeCellRendererComponent(tree, value, sel,
                         expanded, leaf, row, focus);
                 if (value instanceof DefaultMutableTreeNode)

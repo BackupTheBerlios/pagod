@@ -1,5 +1,5 @@
 /*
- * $Id: ProductsPanel.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: ProductsPanel.java,v 1.2 2005/11/13 20:55:31 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -24,6 +24,7 @@
 
 package pagod.wizard.ui; 
 
+import java.awt.Dimension;
 import java.util.Collection;
 
 import javax.swing.JScrollPane;
@@ -39,8 +40,8 @@ import pagod.common.model.Product;
  *
  */
 public class ProductsPanel extends JSplitPane
-{
-    /**
+{	
+	/**
      * Panneau de la liste des produits
      */
     private ListProductsPanel listProductsPanel;
@@ -60,7 +61,8 @@ public class ProductsPanel extends JSplitPane
         super();
         this.setOneTouchExpandable(true);
         this.setOrientation(JSplitPane.VERTICAL_SPLIT);
-        this.setResizeWeight(0.5);
+        this.setResizeWeight(1.0);
+        
         // creation du panneaux des actions positionner sur le premier produit
         this.actionsPanel = new ActionsPanel();
         // creation du panneaux listant les produits
@@ -70,10 +72,24 @@ public class ProductsPanel extends JSplitPane
             {
                 ProductsPanel.this.actionsPanel.setProduct(selectedProduct);
             }};
+            
         // remplissage
         // en haut --> le Panneaux listant les produits
-        this.add(new JScrollPane(this.listProductsPanel), JSplitPane.TOP);
+        JScrollPane scrollPane = new JScrollPane(this.listProductsPanel);
+        this.add(scrollPane, JSplitPane.TOP);
         this.add(this.actionsPanel, JSplitPane.BOTTOM);
+        
+        // on considere qu'un elt de la jlist fait 25 de hauteur et que le bouton pour lancer un produit fait 26
+        // plus un peu d'espace 
+        int iHeight = productsToPresent.size() * 26 + 26 + 7 ;
+        Dimension dim = new Dimension(this.listProductsPanel.getWidth(), iHeight);
+        
+        // definition des taille preferer et minimum du listProductPanel et du scrollPane
+        // pour que le JSplitPane (this) qui les contients s'affiche propremment
+        this.listProductsPanel.setPreferredSize(dim);
+        this.listProductsPanel.setMinimumSize(dim);
+        scrollPane.setPreferredSize(dim);
+        scrollPane.setMinimumSize(dim);
     }
     
     

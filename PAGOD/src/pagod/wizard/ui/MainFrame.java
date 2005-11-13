@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.6 2005/11/13 16:05:26 cyberal82 Exp $
+ * $Id: MainFrame.java,v 1.7 2005/11/13 20:55:31 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -25,6 +25,7 @@
 package pagod.wizard.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
@@ -109,6 +110,8 @@ public class MainFrame extends JFrame
 	
 	private int dividerLocation = 300;
 	
+	private Dimension dim; 
+	
 	/**
 	 * Met un component dans la partie supérieur du splitPane.
 	 * 
@@ -134,20 +137,45 @@ public class MainFrame extends JFrame
 			this.splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 			this.splitPane.setOneTouchExpandable(true);
 			
+			// on indique que lorsqu'il y a de l'espace supplémentaire dans le splitpane
+			// le composant contenu en bas ou a droite ne prendra rien de l'espace supplémentaire
+			this.splitPane.setResizeWeight(1.0);
+			
 			// ajout du panneau permettant d'afficher les produits a creer
 			this.splitPane.setRightComponent(new ProductsPanel(
 					this.getActivity().getOutputProducts()));
 			this.centerPanel.add(this.splitPane);
-
-			// this.splitPane.setDividerLocation(this.dividerLocation);
+			
+			/*
+			if (this.dim == null)
+			{
+				this.splitPane.setDividerLocation(this.dividerLocation);
+				// sauvegarde de la dimension
+				this.dim = this.splitPane.getRightComponent().getSize();
+			}
+			else
+				this.splitPane.getRightComponent().setPreferredSize(this.dim);
+				*/
+			
 		}
 		else
 		{
 			// this.dividerLocation = this.splitPane.getLastDividerLocation();
-			this.splitPane.setDividerLocation(this.dividerLocation);
+			// this.splitPane.setDividerLocation(this.dividerLocation);
+			
+			// ca marcher pas trop mal
+			//this.dim = this.splitPane.getRightComponent().getSize();
 		}
+		
+		/*
+		Dimension dimension = this.centerPanel.getSize();
+		dimension.setSize(dimension.getWidth(), dimension.getHeight() / 2);
+		component.setMinimumSize(dimension);
+		*/
 		this.splitPane.setLeftComponent(component);
-		this.splitPane.setDividerLocation(this.dividerLocation);
+		//this.splitPane.setDividerLocation(this.dividerLocation);
+		
+		// this.splitPane.getRightComponent().setPreferredSize(this.dim);
 	}
 
 	
