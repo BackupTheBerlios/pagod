@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.4 2005/11/09 13:52:46 cyberal82 Exp $
+ * $Id: MainFrame.java,v 1.5 2005/11/13 15:45:56 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -22,7 +22,7 @@
  *
  */
 
-package pagod.wizard.ui; 
+package pagod.wizard.ui;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -59,340 +59,398 @@ import pagod.wizard.control.actions.AbstractPagodAction;
  */
 public class MainFrame extends JFrame
 {
-    /**
-     * Panneaux du Nord de la fenetre
-     */
-    private JPanel northPanel;
+	/**
+	 * Panneaux du Nord de la fenetre
+	 */
+	private JPanel				northPanel;
 
-    /**
-     * Panneaux du centre de la fenetre
-     */
-    private JPanel centerPanel;
+	/**
+	 * Panneaux du centre de la fenetre
+	 */
+	private JPanel				centerPanel;
 
-    /**
-     * Panneaux du sud de la fenetre
-     */
-    private JPanel southPanel;
+	/**
+	 * Panneaux du sud de la fenetre
+	 */
+	private JPanel				southPanel;
 
-    /**
-     * Panneaux de message
-     */
-    private MessagePanel messagePanel = null;
+	/**
+	 * Panneaux de message
+	 */
+	private MessagePanel		messagePanel		= null;
 
-    /**
-     * Panneaux des arbres
-     */
-    private ProcessPanel processPanel = null;
+	/**
+	 * Panneaux des arbres
+	 */
+	private ProcessPanel		processPanel		= null;
 
-    /**
-     * Panneaux de Lancement de l'activit?
-     */
-    private JPanel runActivityPanel = null;
+	/**
+	 * Panneaux de Lancement de l'activit?
+	 */
+	private JPanel				runActivityPanel	= null;
 
-    /**
-     * Panneaux visualiseur de fichier de contenu
-     */
-    private ContentViewerPane contentViewerPanel = null;
+	/**
+	 * Panneaux visualiseur de fichier de contenu
+	 */
+	private ContentViewerPane	contentViewerPanel	= null;
 
-    /**
-     * Panneaux des boutons
-     */
-    private ButtonPanel buttonPanel = null;
+	/**
+	 * Panneaux des boutons
+	 */
+	private ButtonPanel			buttonPanel			= null;
 
-    /**
-     * Construit la Fen?tre principale de PAGOD initialement invisible
-     * 
-     */
-    public MainFrame()
-    {
-        super();
-        // Definir le titre de la fen?tre
-        this.setTitle(Constants.APPLICATION_SHORT_NAME);
-        // D?finir l'ic?ne de la fen?tre
-        this.setIconImage(ImagesManager.getInstance().getImageResource(
-                "iconWizard.png"));
-        // Positionner la fen?tre dans le coin en haut ? gauche
-        this.setLocation(0, 0);
-        // Faire un traitement particulier lors de la fermeture de l'application
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); 
-        this.addWindowListener(new WindowAdapter()
-        {
-            public void windowClosing(WindowEvent arg0)
-            {
-                try
-                {
-                    ActionManager.getInstance()
-                            .getAction(Constants.ACTION_QUIT).actionPerformed(
-                                    null);
-                }
-                catch (KeyNotFoundException e)
-                {
-                }
-            }
-        });
-        // D?finir la taille de la fen?tre et la taille de la fenetre maximise
-        Rectangle screenSize = GraphicsEnvironment
-                .getLocalGraphicsEnvironment().getMaximumWindowBounds();
-        int iWidth = screenSize.width / 3;
-        int iHeight = screenSize.height;
-        this.setSize(screenSize.width / 3, screenSize.height);
-        this.setMaximizedBounds(new Rectangle(iWidth, iHeight));
-        // Creation du Menu
-        this.setJMenuBar(new MainFrameMenuBar());
-        // creation des Panneaux
-        this.northPanel = new JPanel();
-        this.northPanel.setLayout(new BorderLayout());
-        this.getContentPane().add(this.northPanel, BorderLayout.NORTH);
-        this.centerPanel = new JPanel();
-        this.centerPanel.setLayout(new BorderLayout());
-        this.getContentPane().add(this.centerPanel, BorderLayout.CENTER);
-        this.southPanel = new JPanel();
-        this.southPanel.setLayout(new BorderLayout());
-        this.getContentPane().add(this.southPanel, BorderLayout.SOUTH);
+	/**
+	 * un splitPane permettant d'afficher : 
+	 * - dans sa partie supérieur la présentation d'une activité ou d'une étape 
+	 * - dans sa partie inférieur les produits a créer durant cette étape ainsi que les plan type
+	 *   s'il y en a
+	 */
+	private JSplitPane			splitPane			= null;
+	
+	private int dividerLocation = 300;
+	
+	/**
+	 * Met un component dans la partie supérieur du splitPane.
+	 * 
+	 * Remarque 1 : 
+	 * le splitPane permet d'afficher : 
+	 * - dans sa partie supérieur la présentation d'une activité ou d'une étape 
+	 * - dans sa partie inférieur les produits a créer durant cette étape ainsi que les plan type
+	 *   s'il y en a
+	 * 
+	 * Remarque 2 :
+	 * si le splitPane n'existe pas il sera cree
+	 * 
+	 * @param component est le composant que l'on veut voir apparaitre dans la partie supérieur du JSPlitPane
+	 */
+	private void setComponentInJSplitPane(JComponent component)
+	{
+		// si le splitPane n'existe pas on le cree
+		if (this.splitPane == null)
+		{
+			// on nettoye le panneaux
+			this.centerPanel.removeAll();
 
-        // creation et initialisation du Panneaux de message
-        this.messagePanel = new MessagePanel();
-        this.messagePanel.setMessage(LanguagesManager.getInstance().getString(
-                "welcomeMessage"));
-        this.northPanel.add(this.messagePanel);
-        this.runActivityPanel = new JPanel(new BorderLayout());
-        JPanel innerPane = new JPanel(new FlowLayout());
-        innerPane.add(new JButton(ActionManager.getInstance().getAction(
-                Constants.ACTION_RUN_ACTIVITY)));
-        this.runActivityPanel.add(innerPane, BorderLayout.EAST);
-        // Definir les Raccourcis Claviers pour soit sensible du moment que la
-        // fenetre est active
-        // actions Menu Fichier
-        ((AbstractPagodAction) ActionManager.getInstance().getAction(
-                Constants.ACTION_OPEN)).configureRootPane(this.getRootPane(),
-                JComponent.WHEN_IN_FOCUSED_WINDOW);
-        ((AbstractPagodAction) ActionManager.getInstance().getAction(
-                Constants.ACTION_QUIT)).configureRootPane(this.getRootPane(),
-                JComponent.WHEN_IN_FOCUSED_WINDOW);
-        // actions Menu Activit?
-        ((AbstractPagodAction) ActionManager.getInstance().getAction(
-                Constants.ACTION_PREVIOUS)).configureRootPane(this
-                .getRootPane(), JComponent.WHEN_IN_FOCUSED_WINDOW);
-        ((AbstractPagodAction) ActionManager.getInstance().getAction(
-                Constants.ACTION_NEXT)).configureRootPane(this.getRootPane(),
-                JComponent.WHEN_IN_FOCUSED_WINDOW);
-        ((AbstractPagodAction) ActionManager.getInstance().getAction(
-                Constants.ACTION_TERMINATE)).configureRootPane(this
-                .getRootPane(), JComponent.WHEN_IN_FOCUSED_WINDOW);
+			this.splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+			this.splitPane.setOneTouchExpandable(true);
+			
+			// ajout du panneau permettant d'afficher les produits a creer
+			this.splitPane.setRightComponent(new ProductsPanel(
+					this.getActivity().getOutputProducts()));
+			this.centerPanel.add(this.splitPane);
 
-    }
+			// this.splitPane.setDividerLocation(this.dividerLocation);
+		}
+		else
+		{
+			this.dividerLocation = this.splitPane.getLastDividerLocation();
+			this.splitPane.setDividerLocation(this.dividerLocation);
+		}
+		this.splitPane.setLeftComponent(component);
+		this.splitPane.setDividerLocation(this.dividerLocation);
+	}
 
-    /**
-     * Presente le processus ? utilisateur
-     * 
-     * @param process
-     *            processus passer en parametre
-     * @param fileName
-     *            nom du fichier du processus
-     * @param processName
-     *            nom du processus
-     */
-    public void showProcess(ProcessTreeModel process, String fileName,
-                            String processName)
-    {
-        // mettre le titre a jour
-        String title = Constants.APPLICATION_SHORT_NAME + " - " + fileName;
-        if (processName != null)
-            title += " (" + processName + ") ";
-        this.setTitle(title);
-        // creer le treePanel
-        this.processPanel = new ProcessPanel(process);
-        this.showProcess();
-    }
+	
+	/**
+	 * Construit la Fen?tre principale de PAGOD initialement invisible
+	 * 
+	 */
+	public MainFrame ()
+	{
+		super();
+		// Definir le titre de la fen?tre
+		this.setTitle(Constants.APPLICATION_SHORT_NAME);
+		// D?finir l'ic?ne de la fen?tre
+		this.setIconImage(ImagesManager.getInstance().getImageResource(
+				"iconWizard.png"));
+		// Positionner la fen?tre dans le coin en haut ? gauche
+		this.setLocation(0, 0);
+		// Faire un traitement particulier lors de la fermeture de l'application
+		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		this.addWindowListener(new WindowAdapter()
+		{
+			public void windowClosing (WindowEvent arg0)
+			{
+				try
+				{
+					ActionManager.getInstance()
+							.getAction(Constants.ACTION_QUIT).actionPerformed(
+									null);
+				}
+				catch (KeyNotFoundException e)
+				{
+				}
+			}
+		});
+		// D?finir la taille de la fen?tre et la taille de la fenetre maximise
+		Rectangle screenSize = GraphicsEnvironment
+				.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+		int iWidth = screenSize.width / 3;
+		int iHeight = screenSize.height;
+		this.setSize(screenSize.width / 3, screenSize.height);
+		this.setMaximizedBounds(new Rectangle(iWidth, iHeight));
+		// Creation du Menu
+		this.setJMenuBar(new MainFrameMenuBar());
+		// creation des Panneaux
+		this.northPanel = new JPanel();
+		this.northPanel.setLayout(new BorderLayout());
+		this.getContentPane().add(this.northPanel, BorderLayout.NORTH);
+		this.centerPanel = new JPanel();
+		this.centerPanel.setLayout(new BorderLayout());
+		this.getContentPane().add(this.centerPanel, BorderLayout.CENTER);
+		this.southPanel = new JPanel();
+		this.southPanel.setLayout(new BorderLayout());
+		this.getContentPane().add(this.southPanel, BorderLayout.SOUTH);
 
-    /**
-     * Presente le processus en cours ? utilisateur
-     * 
-     */
-    public void showProcess()
-    {
-        // on netoye les panneaux
-        this.centerPanel.removeAll();
-        this.southPanel.removeAll();
-        this.northPanel.removeAll();
-        // mettre a jour le message
-        this.messagePanel.setMessage(LanguagesManager.getInstance().getString(
-                "openedProcessMessage"));
-        // on remplie les panneaux
-        // au nord
-        this.northPanel.setVisible(false);
-        this.northPanel.add(this.messagePanel);
-        this.northPanel.setVisible(true);
-        // au centre
-        this.centerPanel.setVisible(false);
-        this.centerPanel.add(this.processPanel);
-        this.centerPanel.setVisible(true);
-        // au sud
-        this.southPanel.setVisible(false);
-        this.southPanel.add(this.runActivityPanel);
-        this.southPanel.setVisible(true);
+		// creation et initialisation du Panneaux de message
+		this.messagePanel = new MessagePanel();
+		this.messagePanel.setMessage(LanguagesManager.getInstance().getString(
+				"welcomeMessage"));
+		this.northPanel.add(this.messagePanel);
+		this.runActivityPanel = new JPanel(new BorderLayout());
+		JPanel innerPane = new JPanel(new FlowLayout());
+		innerPane.add(new JButton(ActionManager.getInstance().getAction(
+				Constants.ACTION_RUN_ACTIVITY)));
+		this.runActivityPanel.add(innerPane, BorderLayout.EAST);
+		// Definir les Raccourcis Claviers pour soit sensible du moment que la
+		// fenetre est active
+		// actions Menu Fichier
+		((AbstractPagodAction) ActionManager.getInstance().getAction(
+				Constants.ACTION_OPEN)).configureRootPane(this.getRootPane(),
+				JComponent.WHEN_IN_FOCUSED_WINDOW);
+		((AbstractPagodAction) ActionManager.getInstance().getAction(
+				Constants.ACTION_QUIT)).configureRootPane(this.getRootPane(),
+				JComponent.WHEN_IN_FOCUSED_WINDOW);
+		// actions Menu Activit?
+		((AbstractPagodAction) ActionManager.getInstance().getAction(
+				Constants.ACTION_PREVIOUS)).configureRootPane(this
+				.getRootPane(), JComponent.WHEN_IN_FOCUSED_WINDOW);
+		((AbstractPagodAction) ActionManager.getInstance().getAction(
+				Constants.ACTION_NEXT)).configureRootPane(this.getRootPane(),
+				JComponent.WHEN_IN_FOCUSED_WINDOW);
+		((AbstractPagodAction) ActionManager.getInstance().getAction(
+				Constants.ACTION_TERMINATE)).configureRootPane(this
+				.getRootPane(), JComponent.WHEN_IN_FOCUSED_WINDOW);
 
-        this.setVisible(true);
-        this.processPanel.requestFocus();
-    }
+	}
 
-    /**
-     * Retourne l'activit? selectionn?
-     * 
-     * @return activit? selectionn?
-     */
-    public Activity getActivity()
-    {
-        return this.processPanel.getSelectedActivity();
-    }
+	/**
+	 * Presente le processus ? utilisateur
+	 * 
+	 * @param process
+	 *            processus passer en parametre
+	 * @param fileName
+	 *            nom du fichier du processus
+	 * @param processName
+	 *            nom du processus
+	 */
+	public void showProcess (ProcessTreeModel process, String fileName,
+			String processName)
+	{
+		// mettre le titre a jour
+		String title = Constants.APPLICATION_SHORT_NAME + " - " + fileName;
+		if (processName != null) title += " (" + processName + ") ";
+		this.setTitle(title);
+		// creer le treePanel
+		this.processPanel = new ProcessPanel(process);
+		this.showProcess();
+	}
 
-    /**
-     * @param activityToPresent
-     */
-    public void presentActivity(Activity activityToPresent)
-    {
-        // on netoye les panneaux
-        this.centerPanel.removeAll();
-        this.southPanel.removeAll();
-        // mettre a jour le message
-        this.messagePanel.setMessage(LanguagesManager.getInstance().getString(
-                "activityPresentationMessage"));
-        // cr?er les panneaux
-        this.contentViewerPanel = new ContentViewerPane(activityToPresent);
-        this.centerPanel.add(this.contentViewerPanel);
-        this.buttonPanel = new ButtonPanel();
-        this.southPanel.add(this.buttonPanel);
-        this.setVisible(true);
-        this.contentViewerPanel.requestFocus();
-    }
+	/**
+	 * Presente le processus en cours ? utilisateur
+	 * 
+	 */
+	public void showProcess ()
+	{
+		// on netoye les panneaux
+		this.centerPanel.removeAll();
+		this.southPanel.removeAll();
+		this.northPanel.removeAll();
+		// mettre a jour le message
+		this.messagePanel.setMessage(LanguagesManager.getInstance().getString(
+				"openedProcessMessage"));
+		// on remplie les panneaux
+		// au nord
+		this.northPanel.setVisible(false);
+		this.northPanel.add(this.messagePanel);
+		this.northPanel.setVisible(true);
+		// au centre
+		this.centerPanel.setVisible(false);
+		this.centerPanel.add(this.processPanel);
+		this.centerPanel.setVisible(true);
+		// au sud
+		this.southPanel.setVisible(false);
+		this.southPanel.add(this.runActivityPanel);
+		this.southPanel.setVisible(true);
 
-    /**
-     * @param activity
-     * @throws NotInitializedException
-     *             Si le gestionnaire de langues n'est pas initialis?
-     * @throws MissingResourceException
-     *             Si une cl? n'existe pas dans le fichier de langues
-     * @throws pagod.utils.ImagesManager.NotInitializedException
-     */
-    public void showCheckList(Activity activity)
-    {
-        // on netoye les panneaux
-        this.centerPanel.removeAll();
-        this.southPanel.removeAll();
-        // mettre a jour le message
-        this.messagePanel.setMessage(LanguagesManager.getInstance().getString(
-                "activityCheckListMessage"));
-        // cr?er les panneaux
-        this.centerPanel.add(new CheckPane(activity));
-        this.buttonPanel = new ButtonPanel();
-        this.southPanel.add(this.buttonPanel);
-        this.setVisible(true); 
-    }
-    
-    /**
-     * Fonction qui affiche les produits n?cessaire pour termin? l'activit?
-     * @param activity 
-     */
-    public void showEndCheckList(Activity activity)
-    {
-    	 // on netoye les panneaux
-        this.centerPanel.removeAll();
-        this.southPanel.removeAll();
-        //on met a jour le message
-        this.messagePanel.setMessage(LanguagesManager.getInstance().getString(
-        "activityEndCheckListMessage"));
-        //on cr?er les panneau
-        this.centerPanel.add(new EndCheckPanel(activity));
-        this.buttonPanel = new ButtonPanel();
-        this.southPanel.add(this.buttonPanel);
-        this.setVisible(true); 
-    	
-    }
+		this.setVisible(true);
+		this.processPanel.requestFocus();
+	}
 
-    /**
-     * @param stepToPresent
-     * @param total
-     * @param rang
-     */
-    public void presentStep(Step stepToPresent, int rang, int total)
-    {
-        // on netoye les panneaux
-        this.centerPanel.removeAll();
-        // mettre a jour le message
-        if (!stepToPresent.hasOutputProducts())
-            this.messagePanel.setMessage(LanguagesManager.getInstance()
-                    .getString("presentStepMessage"));
-        else
-            // on ajoute une phrase explicant qu'il faut cliquer sur suivant
-            // pour cr?er les produits de cette ?tape
-            this.messagePanel.setMessage(LanguagesManager.getInstance()
-                    .getString("presentStepMessage")
-                    + " "
-                    + LanguagesManager.getInstance().getString(
-                            "infoOutputProduct"));
+	/**
+	 * Retourne l'activit? selectionn?
+	 * 
+	 * @return activit? selectionn?
+	 */
+	public Activity getActivity ()
+	{
+		return this.processPanel.getSelectedActivity();
+	}
 
-        // cr?er les panneaux
-        this.centerPanel.add(new StepPanel(stepToPresent, rang, total));
-        this.setVisible(true);
-    }
+	/**
+	 * @param activityToPresent
+	 */
+	public void presentActivity (Activity activityToPresent)
+	{
+		// on netoye les panneaux
+		this.centerPanel.removeAll();
+		this.southPanel.removeAll();
+		// mettre a jour le message
+		this.messagePanel.setMessage(LanguagesManager.getInstance().getString(
+				"activityPresentationMessage"));
+		// cr?er les panneaux
+		this.contentViewerPanel = new ContentViewerPane(activityToPresent);
+		this.centerPanel.add(this.contentViewerPanel);
+		this.buttonPanel = new ButtonPanel();
+		this.southPanel.add(this.buttonPanel);
+		this.setVisible(true);
+		this.contentViewerPanel.requestFocus();
+	}
 
-    /**
-     * @param ProductsToPresent
-     */
-    public void presentProducts(Collection<Product> ProductsToPresent)
-    {
-        // on netoye les panneaux
-        this.centerPanel.removeAll();
-        // mettre a jour le message
-        this.messagePanel.setMessage(LanguagesManager.getInstance().getString(
-                "presentProductsMessage"));
-        // cr?er les panneaux
-        ProductsPanel productsPanel = new ProductsPanel(ProductsToPresent);
-        this.centerPanel.add(productsPanel);
-        this.setVisible(true);
-        // demande le focus
-        productsPanel.requestFocus();
-    }
-    
-    /**
-     * 
-     * @param activityToPresent
-     */
-    public void presentActivityAndProduct(Activity activityToPresent)
-    {
-    	// on nettoye le panneaux 
-    	this.centerPanel.removeAll();
-        // mettre a jour le message
-        this.messagePanel.setMessage(LanguagesManager.getInstance().getString(
-                "activityPresentationMessage"));
-        // cr?er les panneaux
-        // le splitPane du haut contiendra la presentation de l'activite
-        // celui du bas affichera les produits a creer ainsi que les guides
-        JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-        splitPane.setOneTouchExpandable(true);     
-        this.contentViewerPanel = new ContentViewerPane(activityToPresent);
-        splitPane.setLeftComponent(this.contentViewerPanel);
-        splitPane.setRightComponent(new ProductsPanel(activityToPresent.getOutputProducts()));
-        splitPane.setResizeWeight(0.7);
-        this.centerPanel.add(splitPane);
-        this.setVisible(true);
-        // demande le focus
-        this.contentViewerPanel.requestFocus();
-    }
+	/**
+	 * @param activity
+	 * @throws NotInitializedException
+	 *             Si le gestionnaire de langues n'est pas initialis?
+	 * @throws MissingResourceException
+	 *             Si une cl? n'existe pas dans le fichier de langues
+	 * @throws pagod.utils.ImagesManager.NotInitializedException
+	 */
+	public void showCheckList (Activity activity)
+	{
+		// on netoye les panneaux
+		this.centerPanel.removeAll();
+		this.southPanel.removeAll();
+		// mettre a jour le message
+		this.messagePanel.setMessage(LanguagesManager.getInstance().getString(
+				"activityCheckListMessage"));
+		// cr?er les panneaux
+		this.centerPanel.add(new CheckPane(activity));
+		this.buttonPanel = new ButtonPanel();
+		this.southPanel.add(this.buttonPanel);
+		this.setVisible(true);
+	}
 
-    /**
-     * reinitialise la fenetre
-     * 
-     */
-    public void reinitialize()
-    {
-        // on netoye les panneaux
-        this.centerPanel.removeAll();
-        this.southPanel.removeAll();
-        // mettre a jour le message
-        this.messagePanel.setMessage(LanguagesManager.getInstance().getString(
-                "welcomeMessage"));
-        this.setTitle(Constants.APPLICATION_SHORT_NAME);
-        this.setVisible(true);
-    }
+	/**
+	 * Fonction qui affiche les produits n?cessaire pour termin? l'activit?
+	 * 
+	 * @param activity
+	 */
+	public void showEndCheckList (Activity activity)
+	{
+		// on netoye les panneaux
+		this.centerPanel.removeAll();
+		this.southPanel.removeAll();
+		// on met a jour le message
+		this.messagePanel.setMessage(LanguagesManager.getInstance().getString(
+				"activityEndCheckListMessage"));
+		// on cr?er les panneau
+		this.centerPanel.add(new EndCheckPanel(activity));
+		this.buttonPanel = new ButtonPanel();
+		this.southPanel.add(this.buttonPanel);
+		this.setVisible(true);
+
+	}
+
+	/**
+	 * @param stepToPresent
+	 * @param total
+	 * @param rang
+	 */
+	public void presentStep (Step stepToPresent, int rang, int total)
+	{
+		// mettre a jour le message
+		if (!stepToPresent.hasOutputProducts()) this.messagePanel
+				.setMessage(LanguagesManager.getInstance().getString(
+						"presentStepMessage"));
+		else
+			// on ajoute une phrase explicant qu'il faut cliquer sur suivant
+			// pour cr?er les produits de cette ?tape
+			this.messagePanel.setMessage(LanguagesManager.getInstance()
+					.getString("presentStepMessage")
+					+ " "
+					+ LanguagesManager.getInstance().getString(
+							"infoOutputProduct"));
+		
+		// cr?er les panneaux
+		this.setComponentInJSplitPane(new StepPanel(stepToPresent, rang, total));
+		// this.dividerLocation = this.splitPane.getLastDividerLocation();
+		this.splitPane.setDividerLocation(this.dividerLocation);
+		
+		this.setVisible(true);
+	}
+
+	/**
+	 * @param ProductsToPresent
+	 */
+	public void presentProducts (Collection<Product> ProductsToPresent)
+	{
+		// on netoye les panneaux
+		this.centerPanel.removeAll();
+		// mettre a jour le message
+		this.messagePanel.setMessage(LanguagesManager.getInstance().getString(
+				"presentProductsMessage"));
+		// cr?er les panneaux
+		ProductsPanel productsPanel = new ProductsPanel(ProductsToPresent);
+		this.centerPanel.add(productsPanel);
+		this.setVisible(true);
+		// demande le focus
+		productsPanel.requestFocus();
+	}
+
+	/**
+	 * 
+	 * @param activityToPresent
+	 */
+	public void presentActivityAndProduct (Activity activityToPresent)
+	{
+		// mettre a jour le message
+		this.messagePanel.setMessage(LanguagesManager.getInstance().getString(
+				"activityPresentationMessage"));
+		
+		// cr?er les panneaux
+		this.contentViewerPanel = new ContentViewerPane(activityToPresent);
+		this.setComponentInJSplitPane(this.contentViewerPanel);
+
+		this.setVisible(true);
+		// demande le focus
+		this.contentViewerPanel.requestFocus();
+	}
+
+	/**
+	 * reinitialise la fenetre
+	 * 
+	 */
+	public void reinitialize ()
+	{
+		// on netoye les panneaux
+		this.centerPanel.removeAll();
+		this.southPanel.removeAll();
+		// mettre a jour le message
+		this.messagePanel.setMessage(LanguagesManager.getInstance().getString(
+				"welcomeMessage"));
+		this.setTitle(Constants.APPLICATION_SHORT_NAME);
+		this.setVisible(true);
+	}
+
+	/**
+	 * Remet a null le splitPane permettant d'afficher : 
+	 * - dans sa partie supérieur la présentation d'une activité ou d'une étape 
+	 * - dans sa partie inférieur les produits a créer durant cette étape ainsi que les plan type
+	 *   s'il y en a
+	 * 
+	 */
+	public void resetSplitPane ()
+	{
+		this.splitPane = null;
+	}
 }

@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: PreConditionCheckerState.java,v 1.5 2005/11/08 17:31:24 yak Exp $
+ * $Id: PreConditionCheckerState.java,v 1.6 2005/11/13 15:45:56 cyberal82 Exp $
  */
 package pagod.wizard.control.states;
 
@@ -26,6 +26,7 @@ public class PreConditionCheckerState extends AbstractActivityState
         super(activityScheduler, activity);
         // TODO Corps de constructeur g?n?r? automatiquement
         System.out.println("precond");
+        this.activityScheduler.resetSplitPane();
         this.activityScheduler.checkBeforeStart();
         
         // on affiche le bouton next

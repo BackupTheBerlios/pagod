@@ -1,5 +1,5 @@
 /*
- * $Id: ActivityScheduler.java,v 1.14 2005/11/09 13:52:35 cyberal82 Exp $
+ * $Id: ActivityScheduler.java,v 1.15 2005/11/13 15:45:56 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -506,4 +506,15 @@ public class ActivityScheduler
 
 	}
 
+	/**
+	 * Remet a null le splitPane permettant d'afficher : 
+	 * - dans sa partie supérieur la présentation d'une activité ou d'une étape 
+	 * - dans sa partie inférieur les produits a créer durant cette étape ainsi que les plan type
+	 *   s'il y en a
+	 * 
+	 */
+	public void resetSplitPane()
+	{
+		this.mfPagod.resetSplitPane();
+	}
 }

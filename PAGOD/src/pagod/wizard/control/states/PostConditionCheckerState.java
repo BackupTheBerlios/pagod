@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: PostConditionCheckerState.java,v 1.1 2005/11/08 17:31:50 yak Exp $
+ * $Id: PostConditionCheckerState.java,v 1.2 2005/11/13 15:45:56 cyberal82 Exp $
  */
 package pagod.wizard.control.states;
 
@@ -27,6 +27,7 @@ public class PostConditionCheckerState extends AbstractActivityState
 		super(activityScheduler, activity);
 		
 		System.out.println("PostconditionCheckerState : constructeur");
+		this.activityScheduler.resetSplitPane();
 		this.activityScheduler.checkBeforeEnd();
 		// on masque le bouton next
         ActionManager.getInstance().getAction(Constants.ACTION_NEXT)
