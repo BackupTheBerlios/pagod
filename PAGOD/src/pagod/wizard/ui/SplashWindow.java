@@ -23,13 +23,12 @@ public class SplashWindow extends Window {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The current instance of the splash window.
-     * (Singleton design pattern).
+     *l'instance courante
      */
     private static SplashWindow instance;
     
     /**
-     * The splash image which is displayed on the splash window.
+     * l'image
      */
     private Image image;
     
