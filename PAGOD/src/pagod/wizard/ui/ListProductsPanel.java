@@ -1,5 +1,5 @@
 /*
- * $Id: ListProductsPanel.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: ListProductsPanel.java,v 1.2 2005/11/13 18:10:42 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -48,7 +48,7 @@ import pagod.common.model.Product;
 import pagod.utils.LanguagesManager;
 
 /**
- * Presente un liste de produits
+ * Presente une liste de produits
  * 
  * @author MoOky
  * 
