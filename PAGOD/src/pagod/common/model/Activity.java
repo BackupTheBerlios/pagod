@@ -1,5 +1,5 @@
 /*
- * $Id: Activity.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: Activity.java,v 1.2 2005/11/14 23:37:22 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -289,7 +289,18 @@ public class Activity extends ProcessElement
             this.steps.add(step);
         }
     }
-
+    
+    /**
+     * @param step
+     * @param index
+     */
+    public void addStep(Step step, int index)
+    {
+        if (!this.steps.contains(step))
+        {
+            this.steps.add(index,step) ;
+        }
+    }
     /**
      * @param step
      *            étape à supprimer de l'activité (sans effet si step n'est pas
@@ -322,11 +333,5 @@ public class Activity extends ProcessElement
      * @param index
      *          rang où ajouter l'étape 
      */
-    public void addStep(Step step, int index)
-    {
-        if (!this.steps.contains(step))
-        {
-            this.steps.add(index,step) ;
-        }
-    }
+
 }
