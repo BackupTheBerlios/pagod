@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.7 2005/11/13 20:55:31 cyberal82 Exp $
+ * $Id: MainFrame.java,v 1.8 2005/11/14 22:28:37 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -101,32 +101,31 @@ public class MainFrame extends JFrame
 	private ButtonPanel			buttonPanel			= null;
 
 	/**
-	 * un splitPane permettant d'afficher : 
-	 * - dans sa partie supérieur la présentation d'une activité ou d'une étape 
-	 * - dans sa partie inférieur les produits a créer durant cette étape ainsi que les plan type
-	 *   s'il y en a
+	 * un splitPane permettant d'afficher : - dans sa partie supérieur la
+	 * présentation d'une activité ou d'une étape - dans sa partie inférieur les
+	 * produits a créer durant cette étape ainsi que les plan type s'il y en a
 	 */
 	private JSplitPane			splitPane			= null;
-	
-	private int dividerLocation = 300;
-	
-	private Dimension dim; 
-	
+
+	private int					dividerLocation		= 300;
+
+	private Dimension			dim;
+
 	/**
 	 * Met un component dans la partie supérieur du splitPane.
 	 * 
-	 * Remarque 1 : 
-	 * le splitPane permet d'afficher : 
-	 * - dans sa partie supérieur la présentation d'une activité ou d'une étape 
-	 * - dans sa partie inférieur les produits a créer durant cette étape ainsi que les plan type
-	 *   s'il y en a
+	 * Remarque 1 : le splitPane permet d'afficher : - dans sa partie supérieur
+	 * la présentation d'une activité ou d'une étape - dans sa partie inférieur
+	 * les produits a créer durant cette étape ainsi que les plan type s'il y en
+	 * a
 	 * 
-	 * Remarque 2 :
-	 * si le splitPane n'existe pas il sera cree
+	 * Remarque 2 : si le splitPane n'existe pas il sera cree
 	 * 
-	 * @param component est le composant que l'on veut voir apparaitre dans la partie supérieur du JSPlitPane
+	 * @param component
+	 *            est le composant que l'on veut voir apparaitre dans la partie
+	 *            supérieur du JSPlitPane
 	 */
-	private void setComponentInJSplitPane(JComponent component)
+	private void setComponentInJSplitPane (JComponent component)
 	{
 		// si le splitPane n'existe pas on le cree
 		if (this.splitPane == null)
@@ -136,49 +135,47 @@ public class MainFrame extends JFrame
 
 			this.splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 			this.splitPane.setOneTouchExpandable(true);
-			
-			// on indique que lorsqu'il y a de l'espace supplémentaire dans le splitpane
-			// le composant contenu en bas ou a droite ne prendra rien de l'espace supplémentaire
+
+			// on indique que lorsqu'il y a de l'espace supplémentaire dans le
+			// splitpane
+			// le composant contenu en bas ou a droite ne prendra rien de
+			// l'espace supplémentaire
 			this.splitPane.setResizeWeight(1.0);
-			
+
 			// ajout du panneau permettant d'afficher les produits a creer
-			this.splitPane.setRightComponent(new ProductsPanel(
-					this.getActivity().getOutputProducts()));
+			this.splitPane.setRightComponent(new ProductsPanel(this
+					.getActivity().getOutputProducts()));
 			this.centerPanel.add(this.splitPane);
-			
+
 			/*
-			if (this.dim == null)
-			{
-				this.splitPane.setDividerLocation(this.dividerLocation);
-				// sauvegarde de la dimension
-				this.dim = this.splitPane.getRightComponent().getSize();
-			}
-			else
-				this.splitPane.getRightComponent().setPreferredSize(this.dim);
-				*/
-			
+			 * if (this.dim == null) {
+			 * this.splitPane.setDividerLocation(this.dividerLocation); //
+			 * sauvegarde de la dimension this.dim =
+			 * this.splitPane.getRightComponent().getSize(); } else
+			 * this.splitPane.getRightComponent().setPreferredSize(this.dim);
+			 */
+
 		}
 		else
 		{
 			// this.dividerLocation = this.splitPane.getLastDividerLocation();
 			// this.splitPane.setDividerLocation(this.dividerLocation);
-			
+
 			// ca marcher pas trop mal
-			//this.dim = this.splitPane.getRightComponent().getSize();
+			// this.dim = this.splitPane.getRightComponent().getSize();
 		}
-		
+
 		/*
-		Dimension dimension = this.centerPanel.getSize();
-		dimension.setSize(dimension.getWidth(), dimension.getHeight() / 2);
-		component.setMinimumSize(dimension);
-		*/
+		 * Dimension dimension = this.centerPanel.getSize();
+		 * dimension.setSize(dimension.getWidth(), dimension.getHeight() / 2);
+		 * component.setMinimumSize(dimension);
+		 */
 		this.splitPane.setLeftComponent(component);
-		//this.splitPane.setDividerLocation(this.dividerLocation);
-		
+		// this.splitPane.setDividerLocation(this.dividerLocation);
+
 		// this.splitPane.getRightComponent().setPreferredSize(this.dim);
 	}
 
-	
 	/**
 	 * Construit la Fen?tre principale de PAGOD initialement invisible
 	 * 
@@ -408,12 +405,14 @@ public class MainFrame extends JFrame
 					+ " "
 					+ LanguagesManager.getInstance().getString(
 							"infoOutputProduct"));
-		
+
 		// cr?er les panneaux
-		this.setComponentInJSplitPane(new StepPanel(stepToPresent, rang, total));
+		this
+				.setComponentInJSplitPane(new StepPanel(stepToPresent, rang,
+						total));
 		// this.dividerLocation = this.splitPane.getLastDividerLocation();
 		this.splitPane.setDividerLocation(this.dividerLocation);
-		
+
 		this.setVisible(true);
 	}
 
@@ -441,13 +440,19 @@ public class MainFrame extends JFrame
 	 */
 	public void presentActivityAndProduct (Activity activityToPresent)
 	{
+		// on netoye le panneau
+		this.southPanel.removeAll();
+
 		// mettre a jour le message
 		this.messagePanel.setMessage(LanguagesManager.getInstance().getString(
 				"activityPresentationMessage"));
-		
+
 		// cr?er les panneaux
 		this.contentViewerPanel = new ContentViewerPane(activityToPresent);
 		this.setComponentInJSplitPane(this.contentViewerPanel);
+		
+		this.buttonPanel = new ButtonPanel();
+		this.southPanel.add(this.buttonPanel);
 
 		this.setVisible(true);
 		// demande le focus
@@ -471,10 +476,10 @@ public class MainFrame extends JFrame
 	}
 
 	/**
-	 * Remet a null le splitPane permettant d'afficher : 
-	 * - dans sa partie supérieur la présentation d'une activité ou d'une étape 
-	 * - dans sa partie inférieur les produits a créer durant cette étape ainsi que les plan type
-	 *   s'il y en a
+	 * Remet a null le splitPane permettant d'afficher : - dans sa partie
+	 * supérieur la présentation d'une activité ou d'une étape - dans sa partie
+	 * inférieur les produits a créer durant cette étape ainsi que les plan type
+	 * s'il y en a
 	 * 
 	 */
 	public void resetSplitPane ()
