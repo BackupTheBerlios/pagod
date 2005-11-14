@@ -1,5 +1,5 @@
 /*
- * $Id: ButtonPanel.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: ButtonPanel.java,v 1.2 2005/11/14 23:59:20 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -28,6 +28,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
@@ -39,133 +40,153 @@ import static pagod.wizard.control.Constants.*;
  */
 public class ButtonPanel extends JPanel
 {
-    /** Bouton "Suivant" */
-    private JButton pbNext;
+	/** Bouton "Suivant" */
+	private JButton	pbNext;
 
-    /** Bouton "Précédent" */
-    private JButton pbPrevious;
+	/** Bouton "Précédent" */
+	private JButton	pbPrevious;
 
-    /** Bouton "Terminer" */
-    private JButton pbTerminate;
+	/** Bouton "Terminer" */
+	private JButton	pbTerminate;
 
-    /**
-     * Identificateurs des boutons
-     */
-    public enum Buttons {
-        /** Bouton suivant */
-        PB_NEXT,
-        /** Bouton précédent */
-        PB_PREVIOUS,
-        /** Bouton terminer */
-        PB_TERMINATE
-    }
+	/** Combo box pour acces direct aux steps* */
+	private JComboBox cbDirectAccess;
+	
+	/**
+	 * Identificateurs des boutons
+	 */
+	public enum Buttons
+	{
+		/** Bouton suivant */
+		PB_NEXT,
+		/** Bouton précédent */
+		PB_PREVIOUS,
+		/** Bouton terminer */
+		PB_TERMINATE,
+		/** Combo pour acces direct aux étapes */
+		CB_DIRECTACCESS
 
-    /**
-     * Constructeur du panneau de boutons
-     * 
-     */
-    public ButtonPanel()
-    {
-        super(new BorderLayout());
+	}
 
-        // Récupération de l'instance du gestionnaire d'actions
-        ActionManager am = ActionManager.getInstance();
+	/**
+	 * Constructeur du panneau de boutons
+	 * 
+	 */
+	public ButtonPanel ()
+	{
+		super(new BorderLayout());
+		
+		// Récupération de l'instance du gestionnaire d'actions
+		ActionManager am = ActionManager.getInstance();
 
-        // Création des boutons
-        this.pbNext = new JButton(am.getAction(ACTION_NEXT));
-        this.pbNext.setHorizontalTextPosition(SwingConstants.LEADING);
-        this.pbPrevious = new JButton(am.getAction(ACTION_PREVIOUS));
-        this.pbTerminate = new JButton(am.getAction(ACTION_TERMINATE));
+		// Création des boutons
+		this.pbNext = new JButton(am.getAction(ACTION_NEXT));
+		this.pbNext.setHorizontalTextPosition(SwingConstants.LEADING);
+		this.pbPrevious = new JButton(am.getAction(ACTION_PREVIOUS));
+		this.pbTerminate = new JButton(am.getAction(ACTION_TERMINATE));
+		this.cbDirectAccess = new JComboBox();
+		
+		// Création de panneaux intermédiaires pour la taille des boutons
+		JPanel pnlGauche = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		JPanel pnlCentre = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		JPanel pnlDroite = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		JPanel pnlBas = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		this.add(pnlGauche, BorderLayout.WEST);
+		this.add(pnlCentre, BorderLayout.CENTER);
+		this.add(pnlDroite, BorderLayout.EAST);
+		this.add(pnlBas, BorderLayout.SOUTH);
 
-        // Création de panneaux intermédiaires pour la taille des boutons
-        JPanel pnlGauche = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JPanel pnlCentre = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        JPanel pnlDroite = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        this.add(pnlGauche, BorderLayout.WEST);
-        this.add(pnlCentre, BorderLayout.CENTER);
-        this.add(pnlDroite, BorderLayout.EAST);
+		// Ajout des boutons aux panneaux
+		pnlGauche.add(this.pbPrevious);
+		pnlCentre.add(this.pbTerminate);
+		pnlDroite.add(this.pbNext);
+		pnlBas.add(this.cbDirectAccess);
+	}
 
-        // Ajout des boutons aux panneaux
-        pnlGauche.add(this.pbPrevious);
-        pnlCentre.add(this.pbTerminate);
-        pnlDroite.add(this.pbNext);
-    }
+	/**
+	 * Affiche les boutons spécifiés
+	 * 
+	 * @param buttons
+	 *            Boutons à afficher
+	 */
+	public void showButtons (Buttons... buttons)
+	{
+		this.setButtonsVisible(buttons, true);
+	}
 
-    /**
-     * Affiche les boutons spécifiés
-     * 
-     * @param buttons
-     *            Boutons à afficher
-     */
-    public void showButtons(Buttons... buttons)
-    {
-        this.setButtonsVisible(buttons, true);
-    }
+	/**
+	 * Masque les boutons spécifiés
+	 * 
+	 * @param buttons
+	 *            Boutons à masquer
+	 */
+	public void hideButtons (Buttons... buttons)
+	{
+		this.setButtonsVisible(buttons, false);
+	}
 
-    /**
-     * Masque les boutons spécifiés
-     * 
-     * @param buttons
-     *            Boutons à masquer
-     */
-    public void hideButtons(Buttons... buttons)
-    {
-        this.setButtonsVisible(buttons, false);
-    }
+	/**
+	 * Cache tous les boutons
+	 */
+	public void hideAllButtons ()
+	{
+		this.setAllButtonsVisible(false);
+	}
 
-    /**
-     * Cache tous les boutons
-     */
-    public void hideAllButtons()
-    {
-        this.setAllButtonsVisible(false);
-    }
+	/**
+	 * Affiche tous les boutons
+	 */
+	public void showAllButtons ()
+	{
+		this.setAllButtonsVisible(true);
+	}
 
-    /**
-     * Affiche tous les boutons
-     */
-    public void showAllButtons()
-    {
-        this.setAllButtonsVisible(true);
-    }
+	/**
+	 * Change la visibilité des boutons spécifiés
+	 * 
+	 * @param buttons
+	 *            Boutons à modifier
+	 * @param visible
+	 *            VRAI pour afficher les boutons, FAUX pour les masquer
+	 */
+	private void setButtonsVisible (Buttons[] buttons, boolean visible)
+	{
+		for (int i = 0; i < buttons.length; i++)
+		{
+			switch (buttons[i])
+			{
+				case PB_NEXT:
+					this.pbNext.setVisible(visible);
+					break;
+				case PB_PREVIOUS:
+					this.pbPrevious.setVisible(visible);
+					break;
+				case PB_TERMINATE:
+					this.pbTerminate.setVisible(visible);
+					break;
+			}
+		}
+	}
 
-    /**
-     * Change la visibilité des boutons spécifiés
-     * 
-     * @param buttons
-     *            Boutons à modifier
-     * @param visible
-     *            VRAI pour afficher les boutons, FAUX pour les masquer
-     */
-    private void setButtonsVisible(Buttons[] buttons, boolean visible)
-    {
-        for (int i = 0 ; i < buttons.length ; i++)
-        {
-            switch (buttons[i])
-            {
-                case PB_NEXT:
-                    this.pbNext.setVisible(visible);
-                    break;
-                case PB_PREVIOUS:
-                    this.pbPrevious.setVisible(visible);
-                    break;
-                case PB_TERMINATE:
-                    this.pbTerminate.setVisible(visible);
-                    break;
-            }
-        }
-    }
+	/**
+	 * Change la visibilité de tous les boutons
+	 * 
+	 * @param visible
+	 *            VRAI pour afficher tous les boutons, FAUX pour les masquer
+	 */
+	private void setAllButtonsVisible (boolean visible)
+	{
+		this.pbNext.setVisible(visible);
+		this.pbPrevious.setVisible(visible);
+		this.pbTerminate.setVisible(visible);
+	}
 
-    /**
-     * Change la visibilité de tous les boutons
-     * 
-     * @param visible
-     *            VRAI pour afficher tous les boutons, FAUX pour les masquer
-     */
-    private void setAllButtonsVisible(boolean visible)
-    {
-        this.pbNext.setVisible(visible);
-        this.pbPrevious.setVisible(visible);
-        this.pbTerminate.setVisible(visible);
-    }
+	/**
+	 * @return la combo poru l acces direct,
+	 * utilisé dans le MainFrame
+	 */
+	public JComboBox getCbDirectAccess ()
+	{
+		return this.cbDirectAccess;
+	}
 }

@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: LastStepState.java,v 1.6 2005/11/08 17:31:25 yak Exp $
+ * $Id: LastStepState.java,v 1.7 2005/11/14 23:59:20 psyko Exp $
  */
 package pagod.wizard.control.states;
 
@@ -30,6 +30,8 @@ public class LastStepState extends AbstractActivityState
         // initialisation de l'index
         this.index = this.stepList.size() - 1;
         System.out.println(this.index);
+        this.activityScheduler.fillDirectAccessComboBox();
+        this.activityScheduler.autoComboSelect(this.index+2);
         
         // On affiche le bouton previous
         ActionManager.getInstance().getAction(Constants.ACTION_PREVIOUS).setEnabled(true);

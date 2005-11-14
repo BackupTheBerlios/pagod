@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: PreConditionCheckerState.java,v 1.6 2005/11/13 15:45:56 cyberal82 Exp $
+ * $Id: PreConditionCheckerState.java,v 1.7 2005/11/14 23:59:08 psyko Exp $
  */
 package pagod.wizard.control.states;
 
@@ -24,13 +24,14 @@ public class PreConditionCheckerState extends AbstractActivityState
     public PreConditionCheckerState(ActivityScheduler activityScheduler, Activity activity)
     {
         super(activityScheduler, activity);
-        // TODO Corps de constructeur g?n?r? automatiquement
+        
         System.out.println("precond");
         this.activityScheduler.resetSplitPane();
         this.activityScheduler.checkBeforeStart();
+        this.activityScheduler.fillDirectAccessComboBox();
+        this.activityScheduler.autoComboSelect(0);
         
         // on affiche le bouton next
-        
         ActionManager.getInstance().getAction(Constants.ACTION_NEXT)
                 .setEnabled(true);
 
@@ -41,6 +42,7 @@ public class PreConditionCheckerState extends AbstractActivityState
         // on affiche le bouton previous
         ActionManager.getInstance().getAction(Constants.ACTION_PREVIOUS)
                 .setEnabled(false);
+        
     }
 
     /** (non-Javadoc)
@@ -60,6 +62,7 @@ public class PreConditionCheckerState extends AbstractActivityState
         // TODO Corps de m?thode g?n?r? automatiquement
         this.activityScheduler.setActivityState(new ActivityPresentationState(
                 this.activityScheduler, this.activity));
+
     }
 
     /** (non-Javadoc)

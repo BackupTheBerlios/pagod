@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.8 2005/11/14 22:28:37 cyberal82 Exp $
+ * $Id: MainFrame.java,v 1.9 2005/11/14 23:59:20 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -485,5 +485,15 @@ public class MainFrame extends JFrame
 	public void resetSplitPane ()
 	{
 		this.splitPane = null;
+	}
+
+
+	/**
+	 * @return le button panel
+	 * utile pour l acces direct aux étapes
+	 */
+	public ButtonPanel getButtonPanel ()
+	{
+		return this.buttonPanel;
 	}
 }

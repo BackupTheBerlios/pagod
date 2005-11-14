@@ -1,5 +1,5 @@
 /*
- * $Id: ApplicationManager.java,v 1.2 2005/11/05 12:45:03 cyberal82 Exp $
+ * $Id: ApplicationManager.java,v 1.3 2005/11/14 23:59:20 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -66,7 +66,7 @@ public class ApplicationManager
     private static ApplicationManager amInstance = null;
 
     /**
-     * Requette suceptible d'etre soumis ? l'application manager
+     * Requete suceptible d'etre soumis ? l'application manager
      */
     public enum Request {
         /**
@@ -214,9 +214,9 @@ public class ApplicationManager
                     new RunActivityAction());
             am.registerAction(Constants.ACTION_NEXT, new NextAction());
             am.registerAction(Constants.ACTION_PREVIOUS, new PreviousAction());
-            am
-                    .registerAction(Constants.ACTION_TERMINATE,
-                            new TerminateAction());
+            am.registerAction(Constants.ACTION_TERMINATE,new TerminateAction());
+            am.registerAction(Constants.ACTION_DIRECTACCESS,new DirectAccessAction());
+            
             am.registerAction(Constants.ACTION_PREFERENCES,
                     new PreferencesAction());
             am.registerAction(Constants.ACTION_TOOLSSETTINGS,
@@ -293,6 +293,9 @@ public class ApplicationManager
                                         Constants.ACTION_TERMINATE).setEnabled(
                                         false);
                                 ActionManager.getInstance().getAction(
+                                        Constants.ACTION_DIRECTACCESS).setEnabled(
+                                        false);
+                                ActionManager.getInstance().getAction(
                                         Constants.ACTION_TOOLSSETTINGS)
                                         .setEnabled(false);
                                 break;
@@ -331,6 +334,9 @@ public class ApplicationManager
                                             false);
                                     ActionManager.getInstance().getAction(
                                             Constants.ACTION_PREVIOUS)
+                                            .setEnabled(false);
+                                    ActionManager.getInstance().getAction(
+                                            Constants.ACTION_DIRECTACCESS)
                                             .setEnabled(false);
                                     ActionManager.getInstance().getAction(
                                             Constants.ACTION_TERMINATE)
@@ -385,6 +391,9 @@ public class ApplicationManager
                                             Constants.ACTION_PREVIOUS)
                                             .setEnabled(false);
                                     ActionManager.getInstance().getAction(
+                                            Constants.ACTION_DIRECTACCESS)
+                                            .setEnabled(false);
+                                    ActionManager.getInstance().getAction(
                                             Constants.ACTION_TERMINATE)
                                             .setEnabled(false);
                                     ActionManager.getInstance().getAction(
@@ -405,6 +414,9 @@ public class ApplicationManager
                                 ActionManager.getInstance().getAction(
                                         Constants.ACTION_PREVIOUS).setEnabled(
                                         false);
+                                ActionManager.getInstance().getAction(
+                                        Constants.ACTION_DIRECTACCESS)
+                                        .setEnabled(false);
                                 ActionManager.getInstance().getAction(
                                         Constants.ACTION_TERMINATE).setEnabled(
                                         false);

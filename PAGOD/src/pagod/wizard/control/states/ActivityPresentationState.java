@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ActivityPresentationState.java,v 1.7 2005/11/14 22:21:09 cyberal82 Exp $
+ * $Id: ActivityPresentationState.java,v 1.8 2005/11/14 23:59:20 psyko Exp $
  */
 
 package pagod.wizard.control.states;
@@ -29,6 +29,8 @@ public class ActivityPresentationState extends AbstractActivityState
 
 		// on affiche la presentation de l'activit?
 		this.activityScheduler.presentActivityAndProduct();
+		this.activityScheduler.fillDirectAccessComboBox();
+		this.activityScheduler.autoComboSelect(1);
 		
 		// TODO a supprimer
 		// test la presentation des produits a creer

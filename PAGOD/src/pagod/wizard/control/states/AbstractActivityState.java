@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: AbstractActivityState.java,v 1.1 2005/11/08 17:31:25 yak Exp $
+ * $Id: AbstractActivityState.java,v 1.2 2005/11/14 23:59:19 psyko Exp $
  */
 package pagod.wizard.control.states;
 
@@ -87,4 +87,5 @@ public abstract class AbstractActivityState
      * 
      */
     public abstract void terminate();
+       
 }

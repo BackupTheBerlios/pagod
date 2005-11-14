@@ -1,5 +1,5 @@
 /*
- * $Id: ActivityScheduler.java,v 1.16 2005/11/14 01:10:04 psyko Exp $
+ * $Id: ActivityScheduler.java,v 1.17 2005/11/14 23:59:20 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -126,17 +126,14 @@ public class ActivityScheduler
         this.mfPagod = frame;
         
         // pour pagod
-
-        
         if (this.activity.hasInputProducts())
-        	// si il y a des produits en entree 
-        	this.activityState = new PreConditionCheckerState (this, activity);
+          	this.activityState = new PreConditionCheckerState (this, activity);
         else
         	this.activityState = new ActivityPresentationState(this, activity);
 
-     
     }
 
+   
     /**
      * D?finit l'?tat de la machine ? ?tat qui represente une activit? lanc?
      * 
@@ -518,4 +515,88 @@ public class ActivityScheduler
 	{
 		this.mfPagod.resetSplitPane();
 	}
+
+
+	/**
+	 * @return la stepList
+	 * utilisé dans le Main Frame, et ds les stepstates 
+	 */
+	public List<Step> getStepList ()
+	{
+		return this.stepList;
+	}
+
+
+	/**
+	 * @return l'activité
+	 */
+	public Activity getActivity ()
+	{
+		return this.activity;
+	}
+
+
+	/**
+	 * @return activity state
+	 */
+	public AbstractActivityState getActivityState ()
+	{
+		return this.activityState;
+	}
+	
+	/**
+	 * rempli automatiquement la combo box pour acces direct aux steps
+	 */
+	 public void fillDirectAccessComboBox()
+	 {
+	        if (this.activity.hasInputProducts())
+	        {
+	        	// si il y a des produits en entree 
+	        	
+	        	//TODO euh plop mettre peut etre fichier langue
+	        	// input products/ préconditions
+	        	this.mfPagod.getButtonPanel().getCbDirectAccess().addItem("Precond");
+	        }
+	        
+	        //TODO euh plop mettre peut etre fichier langue
+	    	// activity presentation/ présentation de l'activité
+	        this.mfPagod.getButtonPanel().getCbDirectAccess().addItem("Présentation de l'activité");
+		    	
+	        if(this.activity.hasSteps())
+	        	for(int i = 0; i < this.activity.getSteps().size(); i++)
+	        		this.mfPagod.getButtonPanel().getCbDirectAccess().addItem(this.activity.getSteps().get(i).getName());
+	                
+	        if(this.activity.hasOutputProducts())
+	        {
+	        	//TODO euh plop mettre peut etre fichier langue
+	        	// output products/ postconditions
+	        	this.mfPagod.getButtonPanel().getCbDirectAccess().addItem("PostCond");
+	        }
+	        
+	 }
+	 
+	 /**
+	 * sélectionne l'étape en cours dans la combo en fonction du contenu de l'activité
+	 * @param i 
+	 */
+	 public void autoComboSelect(int i)
+	 {
+		if (i != -1)
+		{
+			if (!this.activity.hasInputProducts())
+			{
+				i--;
+			}
+			this.mfPagod.getButtonPanel().getCbDirectAccess().setSelectedIndex(i);
+		}
+		else
+		{
+			
+		}
+	     
+	     
+	     
+	     
+	 }
+	
 }
