@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ActivityPresentationState.java,v 1.6 2005/11/09 13:52:46 cyberal82 Exp $
+ * $Id: ActivityPresentationState.java,v 1.7 2005/11/14 22:21:09 cyberal82 Exp $
  */
 
 package pagod.wizard.control.states;
@@ -35,11 +35,20 @@ public class ActivityPresentationState extends AbstractActivityState
 		// this.activityScheduler.presentProducts(this.activity.getOutputProducts());
 		// this.activityScheduler.checkBeforeEnd();
 		
+		// s'il y a des produits en sorties
+		if (this.activity.hasOutputProducts())
+		{
+			// on affiche le bouton next
+			ActionManager.getInstance().getAction(Constants.ACTION_NEXT)
+					.setEnabled(true);
+		}
+		else
+		{
+			// on n'affiche pas le bouton next
+			ActionManager.getInstance().getAction(Constants.ACTION_NEXT)
+					.setEnabled(false);
+		}
 		
-		// on affiche le bouton next
-		ActionManager.getInstance().getAction(Constants.ACTION_NEXT)
-				.setEnabled(true);
-
 		// on affiche le bouton terminate
 		ActionManager.getInstance().getAction(Constants.ACTION_TERMINATE)
 				.setEnabled(true);
@@ -89,8 +98,14 @@ public class ActivityPresentationState extends AbstractActivityState
 			// s'il n'y a pas d'etape on passe directement au dernier etat
 			case 0:
 
-				
-					this.activityScheduler.setActivityState(new PostConditionCheckerState(this.activityScheduler,this.activity));
+				if ( ! this.activity.hasOutputProducts())
+				{
+					// TODO il faut creer une exception
+					System.err.println("ActivityPresentationStep : on ne devrait pas pouvoir fre de next qd il n'y a pas de produit en sortie");
+					return;
+				}
+					
+				this.activityScheduler.setActivityState(new PostConditionCheckerState(this.activityScheduler,this.activity));
 					 
 				
 				break;
