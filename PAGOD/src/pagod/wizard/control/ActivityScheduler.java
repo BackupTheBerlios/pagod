@@ -1,5 +1,5 @@
 /*
- * $Id: ActivityScheduler.java,v 1.15 2005/11/13 15:45:56 cyberal82 Exp $
+ * $Id: ActivityScheduler.java,v 1.16 2005/11/14 01:10:04 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -76,7 +76,7 @@ public class ActivityScheduler
     }
 
     /**
-     * Etat du d?roulement de l'activit? spwiz
+     * Etat du d?roulement de l'activit? pagod
      */
     private State state;
 
@@ -505,6 +505,7 @@ public class ActivityScheduler
 		}
 
 	}
+
 
 	/**
 	 * Remet a null le splitPane permettant d'afficher : 

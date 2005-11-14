@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractPagodAction.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: AbstractPagodAction.java,v 1.2 2005/11/14 01:10:04 psyko Exp $
  *
  *PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -135,7 +135,7 @@ public abstract class AbstractPagodAction extends CustomAction
     }
 
     /**
-     * Methode appélée lorsque l'action est déclencher
+     * Methode appélée lorsque l'action est déclenché
      * 
      * @param actionEvent
      *            Evenement survenue
