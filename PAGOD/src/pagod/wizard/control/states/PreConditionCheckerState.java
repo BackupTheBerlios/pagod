@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: PreConditionCheckerState.java,v 1.7 2005/11/14 23:59:08 psyko Exp $
+ * $Id: PreConditionCheckerState.java,v 1.8 2005/11/15 13:41:00 fabfoot Exp $
  */
 package pagod.wizard.control.states;
 
@@ -50,7 +50,7 @@ public class PreConditionCheckerState extends AbstractActivityState
      */
     public void previous()
     {
-        // TODO Corps de m?thode g?n?r? automatiquement
+      
      
     }
 
@@ -59,8 +59,7 @@ public class PreConditionCheckerState extends AbstractActivityState
      */
     public void next()
     {
-        // TODO Corps de m?thode g?n?r? automatiquement
-        this.activityScheduler.setActivityState(new ActivityPresentationState(
+            this.activityScheduler.setActivityState(new ActivityPresentationState(
                 this.activityScheduler, this.activity));
 
     }
@@ -70,7 +69,7 @@ public class PreConditionCheckerState extends AbstractActivityState
      */
     public void terminate()
     {
-        // TODO Corps de m?thode g?n?r? automatiquement
+       
         
     }
 
