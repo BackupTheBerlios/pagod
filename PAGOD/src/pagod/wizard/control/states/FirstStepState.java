@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: FirstStepState.java,v 1.8 2005/11/14 23:59:20 psyko Exp $
+ * $Id: FirstStepState.java,v 1.9 2005/11/15 21:41:23 psyko Exp $
  */
 package pagod.wizard.control.states;
 
@@ -27,7 +27,7 @@ public class FirstStepState extends AbstractActivityState
         
         // initialisation de l'index
         this.index = 0;
-        this.activityScheduler.fillDirectAccessComboBox();
+        //this.activityScheduler.fillDirectAccessComboBox();
         this.activityScheduler.autoComboSelect(this.index+2);
         System.out.println("FirstStepState");
         

@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: MiddleStepState.java,v 1.7 2005/11/14 23:59:18 psyko Exp $
+ * $Id: MiddleStepState.java,v 1.8 2005/11/15 21:41:23 psyko Exp $
  */
 package pagod.wizard.control.states;
 
@@ -37,7 +37,7 @@ public class MiddleStepState extends AbstractActivityState
         // initialisation de l'index
         this.index = iCurrentStep;
         System.out.println(this.index) ;
-        this.activityScheduler.fillDirectAccessComboBox();
+        //this.activityScheduler.fillDirectAccessComboBox();
         this.activityScheduler.autoComboSelect(this.index+2);
         
         // on affiche le bouton next
