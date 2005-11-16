@@ -23,7 +23,7 @@ public class Splasher {
      * @throws InterruptedException 
      */
     public static void main(String[] args) throws InterruptedException {
-        SplashWindow.splash("logo.png");
+        SplashWindow.splash("logo.gif");
         SplashWindow.invokeMain("pagod.wizard.MainWizard", args);
         
         
