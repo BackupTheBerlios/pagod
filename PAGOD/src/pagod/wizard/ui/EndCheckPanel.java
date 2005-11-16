@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: EndCheckPanel.java,v 1.1 2005/11/08 17:33:01 yak Exp $
+ * $Id: EndCheckPanel.java,v 1.2 2005/11/16 13:54:19 cyberal82 Exp $
  */
 package pagod.wizard.ui;
 
@@ -34,7 +34,7 @@ public class EndCheckPanel extends JScrollPane
     private Activity activity;
 
     /**
-     * Constructeur du paneau de controle d'entree en activite
+     * Constructeur du paneau de controle de sortie d'une activite
      * 
      * @param activity
      *            l'activite a controler
@@ -82,7 +82,7 @@ public class EndCheckPanel extends JScrollPane
             JLabel lProductsTitleLabel = new JLabel("");
             //TODO changer le label
             lProductsTitleLabel = new JLabel(LanguagesManager.getInstance()
-                    .getString("CheckProductsLabel"), SwingConstants.LEFT);
+                    .getString("CheckOutputProductsLabel"), SwingConstants.LEFT);
             lProductsTitleLabel.setBackground(Color.WHITE);
             pProductTitlePanel.setBackground(Color.WHITE);
             pProductTitlePanel.add(lProductsTitleLabel);
