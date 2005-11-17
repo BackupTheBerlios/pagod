@@ -1,5 +1,5 @@
 /*
- * $Id: MessagePanel.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: MessagePanel.java,v 1.2 2005/11/17 01:12:53 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -69,7 +69,7 @@ public class MessagePanel extends JPanel
         this.setLayout(new BorderLayout());
         this.setBackground(Color.WHITE);
         // mise en forme du l'avatar
-        Icon avatarIcon = ImagesManager.getInstance().getIcon("avatar.gif");
+        Icon avatarIcon = ImagesManager.getInstance().getIcon("avatar3.gif");
         this.avatar = new JLabel("", avatarIcon, JLabel.LEFT);
         JPanel iconPanel = new JPanel();
         iconPanel.setLayout(new BorderLayout());
@@ -119,7 +119,7 @@ public class MessagePanel extends JPanel
     private class BalloonBorder extends MatteBorder
     {
          private final Color borderColor = Color.BLACK;
-         private final Color fillColor = new Color(244, 229, 176); 
+         private final Color fillColor = new Color(180, 225,255); 
          private final static int arrowHeight = 12 ;
          private final static int arrowWidth = 12 ;
          private final static int borderSize = 3;

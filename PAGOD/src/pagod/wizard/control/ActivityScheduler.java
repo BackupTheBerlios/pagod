@@ -1,5 +1,5 @@
 /*
- * $Id: ActivityScheduler.java,v 1.17 2005/11/14 23:59:20 psyko Exp $
+ * $Id: ActivityScheduler.java,v 1.18 2005/11/17 01:12:51 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -109,6 +109,12 @@ public class ActivityScheduler
      * Fenetre principale de l'application
      */
     private MainFrame mfPagod;
+    
+    /**
+     * Step utilisé par la combo en cas d acces direct
+     */
+    private int goToStepInd;
+    
 
     /**
      * Constructeur
@@ -117,7 +123,7 @@ public class ActivityScheduler
      *            activit? ? d?rouler
      * @param frame
      */
-    public ActivityScheduler(Activity activity, MainFrame frame)
+    public ActivityScheduler(final Activity activity, MainFrame frame)
     {
         // TODO a suppr 
         this.activity = activity;
@@ -127,10 +133,9 @@ public class ActivityScheduler
         
         // pour pagod
         if (this.activity.hasInputProducts())
-          	this.activityState = new PreConditionCheckerState (this, activity);
+          	this.activityState = new PreConditionCheckerState (this, activity,true);
         else
-        	this.activityState = new ActivityPresentationState(this, activity);
-
+        	this.activityState = new ActivityPresentationState(this, activity, true);
     }
 
    
@@ -165,6 +170,13 @@ public class ActivityScheduler
             case PREVIOUS:
                 this.activityState.previous();
                 break;
+
+            case GOTOSTEP:
+            	this.activityState.setGoToStepInd(this.goToStepInd);
+            	// System.out.println(this.goToStepInd);
+                this.activityState.gotoStep();
+                break;
+
         }
         
         /*
@@ -391,6 +403,8 @@ public class ActivityScheduler
         }
         */
     }
+    
+
 
     /**
      * Presente les produits passer en parametre
@@ -581,22 +595,18 @@ public class ActivityScheduler
 	 */
 	 public void autoComboSelect(int i)
 	 {
-		if (i != -1)
-		{
-			if (!this.activity.hasInputProducts())
-			{
-				i--;
-			}
-			this.mfPagod.getButtonPanel().getCbDirectAccess().setSelectedIndex(i);
-		}
-		else
-		{
-			
-		}
-	     
-	     
-	     
-	     
+		if (!this.activity.hasInputProducts())
+			i--;
+		this.mfPagod.getButtonPanel().getCbDirectAccess().setSelectedIndex(i);
 	 }
-	
+
+
+	/**
+	 * @param goToStepInd
+	 */
+	public void setGoToStepInd (int goToStepInd)
+	{
+		this.goToStepInd = goToStepInd;
+	}
+	 
 }

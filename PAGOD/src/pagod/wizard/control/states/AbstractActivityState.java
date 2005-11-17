@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: AbstractActivityState.java,v 1.3 2005/11/15 21:41:23 psyko Exp $
+ * $Id: AbstractActivityState.java,v 1.4 2005/11/17 01:12:51 psyko Exp $
  */
 package pagod.wizard.control.states;
 
@@ -36,6 +36,11 @@ public abstract class AbstractActivityState
      * Etape Courante;
      */
     protected Step step;
+    
+    /**
+     * Step utilisé par la combo en cas d acces direct
+     */
+    private int goToStepInd;
     
 
     /**
@@ -88,6 +93,33 @@ public abstract class AbstractActivityState
      */
     public abstract void terminate();
     
+    /**
+     * méthode permettant l acces direct au step i
+     * à définir dans toutes les classes dérivées
+     */
+    public abstract void gotoStep();
     
-       
+	/**
+	 * @param goToStepInd
+	 */
+	public void setGoToStepInd (int goToStepInd)
+	{
+		this.goToStepInd = goToStepInd;
+	}
+
+	/**
+	 * @return goToStepInd
+	 */
+	public int getGoToStepInd ()
+	{
+		return this.goToStepInd;
+	}
+
+	/**
+	 * @return liste
+	 */
+	public List<Step> getStepList ()
+	{
+		return this.stepList;
+	}
 }

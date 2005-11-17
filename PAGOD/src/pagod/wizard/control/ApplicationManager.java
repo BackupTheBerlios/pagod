@@ -1,5 +1,5 @@
 /*
- * $Id: ApplicationManager.java,v 1.3 2005/11/14 23:59:20 psyko Exp $
+ * $Id: ApplicationManager.java,v 1.4 2005/11/17 01:12:51 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -108,7 +108,11 @@ public class ApplicationManager
         /**
          * Terminer l'activit?
          */
-        TERMINATE_ACTIVITY
+        TERMINATE_ACTIVITY,
+        /**
+         * aller à une étape direct en utilisant la comboBox
+         */
+        GOTOSTEP
     }
 
     /**
@@ -215,7 +219,7 @@ public class ApplicationManager
             am.registerAction(Constants.ACTION_NEXT, new NextAction());
             am.registerAction(Constants.ACTION_PREVIOUS, new PreviousAction());
             am.registerAction(Constants.ACTION_TERMINATE,new TerminateAction());
-            am.registerAction(Constants.ACTION_DIRECTACCESS,new DirectAccessAction());
+            am.registerAction(Constants.ACTION_GOTOSTEP,new DirectAccessAction());
             
             am.registerAction(Constants.ACTION_PREFERENCES,
                     new PreferencesAction());
@@ -293,7 +297,7 @@ public class ApplicationManager
                                         Constants.ACTION_TERMINATE).setEnabled(
                                         false);
                                 ActionManager.getInstance().getAction(
-                                        Constants.ACTION_DIRECTACCESS).setEnabled(
+                                        Constants.ACTION_GOTOSTEP).setEnabled(
                                         false);
                                 ActionManager.getInstance().getAction(
                                         Constants.ACTION_TOOLSSETTINGS)
@@ -336,7 +340,7 @@ public class ApplicationManager
                                             Constants.ACTION_PREVIOUS)
                                             .setEnabled(false);
                                     ActionManager.getInstance().getAction(
-                                            Constants.ACTION_DIRECTACCESS)
+                                            Constants.ACTION_GOTOSTEP)
                                             .setEnabled(false);
                                     ActionManager.getInstance().getAction(
                                             Constants.ACTION_TERMINATE)
@@ -391,7 +395,7 @@ public class ApplicationManager
                                             Constants.ACTION_PREVIOUS)
                                             .setEnabled(false);
                                     ActionManager.getInstance().getAction(
-                                            Constants.ACTION_DIRECTACCESS)
+                                            Constants.ACTION_GOTOSTEP)
                                             .setEnabled(false);
                                     ActionManager.getInstance().getAction(
                                             Constants.ACTION_TERMINATE)
@@ -415,7 +419,7 @@ public class ApplicationManager
                                         Constants.ACTION_PREVIOUS).setEnabled(
                                         false);
                                 ActionManager.getInstance().getAction(
-                                        Constants.ACTION_DIRECTACCESS)
+                                        Constants.ACTION_GOTOSTEP)
                                         .setEnabled(false);
                                 ActionManager.getInstance().getAction(
                                         Constants.ACTION_TERMINATE).setEnabled(
@@ -424,10 +428,21 @@ public class ApplicationManager
                             case SET_TOOLS:
                                 this.showToolsSettingsDialog();
                                 break;
+                                
                             case NEXT:
                             case PREVIOUS:
+                            	ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP).setEnabled(false);
+                            	System.out.println("Next ou previous");
+                            	System.out.println(request);
                                 this.activityScheduler.manageRequest(request);
                                 break;
+                                                                
+                            case GOTOSTEP:
+                            	ActionManager.getInstance().getAction(Constants.ACTION_NEXT).setEnabled(false);
+                            	ActionManager.getInstance().getAction(Constants.ACTION_PREVIOUS).setEnabled(false);
+                            	this.activityScheduler.setGoToStepInd(this.mfPagod.getButtonPanel().getCbDirectAccess().getSelectedIndex());
+                               	this.activityScheduler.manageRequest(request);
+                            	break;
                         }
                         break;
 

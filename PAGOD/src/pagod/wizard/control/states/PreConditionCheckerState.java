@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: PreConditionCheckerState.java,v 1.8 2005/11/15 13:41:00 fabfoot Exp $
+ * $Id: PreConditionCheckerState.java,v 1.9 2005/11/17 01:12:51 psyko Exp $
  */
 package pagod.wizard.control.states;
 
@@ -20,16 +20,21 @@ public class PreConditionCheckerState extends AbstractActivityState
     /**
      * @param activityScheduler
      * @param activity
+     * @param updateRequired 
      */
-    public PreConditionCheckerState(ActivityScheduler activityScheduler, Activity activity)
+    public PreConditionCheckerState(ActivityScheduler activityScheduler, Activity activity, boolean updateRequired)
     {
         super(activityScheduler, activity);
         
-        System.out.println("precond");
         this.activityScheduler.resetSplitPane();
         this.activityScheduler.checkBeforeStart();
         this.activityScheduler.fillDirectAccessComboBox();
-        this.activityScheduler.autoComboSelect(0);
+		if(!updateRequired)
+		{	
+			ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP).setEnabled(false);
+		}
+		this.activityScheduler.autoComboSelect(0);
+
         
         // on affiche le bouton next
         ActionManager.getInstance().getAction(Constants.ACTION_NEXT)
@@ -42,6 +47,10 @@ public class PreConditionCheckerState extends AbstractActivityState
         // on affiche le bouton previous
         ActionManager.getInstance().getAction(Constants.ACTION_PREVIOUS)
                 .setEnabled(false);
+        
+        // on affiche la combobox
+        ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP)
+                .setEnabled(true);
         
     }
 
@@ -60,7 +69,7 @@ public class PreConditionCheckerState extends AbstractActivityState
     public void next()
     {
             this.activityScheduler.setActivityState(new ActivityPresentationState(
-                this.activityScheduler, this.activity));
+                this.activityScheduler, this.activity, true));
 
     }
 
@@ -69,8 +78,126 @@ public class PreConditionCheckerState extends AbstractActivityState
      */
     public void terminate()
     {
-       
-        
-    }
+     }
+    
+    /**
+    /* 
+     * @see pagod.wizard.control.states.AbstractActivityState#gotoStep()
+     */
+    public void gotoStep()
+    {
+    	boolean i = this.activity.hasInputProducts();
+    	boolean o = this.activity.hasOutputProducts();
+    	boolean s = this.activity.hasSteps();
+    	int GTS = this.getGoToStepInd();
+    	int LS = this.getStepList().size();
 
-}
+    	if(i)
+    	{
+    		if(o)
+    		{
+    			if(s)
+    			{
+    				System.out.println(" I et O et S ; GTS " +GTS);
+    				switch(GTS)
+    				{
+    					case 0:
+    						break;
+    					case 1:
+    						this.activityScheduler.setActivityState(new ActivityPresentationState(
+    								this.activityScheduler, this.activity, false));
+    				        break;
+    					case 2:
+    						this.activityScheduler.setActivityState(new FirstStepState(
+    								this.activityScheduler, this.activity));
+    						break;
+    					default :
+    						if(GTS == LS +2)
+    						{
+    							this.activityScheduler.setActivityState(new PostConditionCheckerState(
+        								this.activityScheduler, this.activity));
+    						}
+    						else
+    						{
+    							if (GTS == LS +1)
+    							{
+    								this.activityScheduler.setActivityState(new LastStepState(
+    	    								this.activityScheduler, this.activity));
+    							}
+    							else
+    							{
+    								this.activityScheduler.setActivityState(new MiddleStepState(
+    	    								this.activityScheduler, this.activity, GTS-1));
+    							}
+    						}
+    						break;
+    						
+    				}
+    			}
+    			else
+    			{
+    				System.out.println(" I et O et !S ");
+    				switch(GTS)
+    				{
+    					case 0:
+    						break;
+    					case 1:
+    						this.activityScheduler.setActivityState(new ActivityPresentationState(
+    								this.activityScheduler, this.activity, false));
+    				        break;
+    					case 2:
+    						this.activityScheduler.setActivityState(new PostConditionCheckerState(
+    								this.activityScheduler, this.activity));
+    						break;			
+    				}
+    			}
+    		}
+    		else
+    		{
+    			if(s)
+    			{
+    				System.out.println(" I et !O et S ");
+    				switch(GTS)
+    				{
+    					case 0:
+    						break;
+    					case 1:
+    						this.activityScheduler.setActivityState(new ActivityPresentationState(
+    								this.activityScheduler, this.activity, false));
+    				        break;
+    					case 2:
+    						this.activityScheduler.setActivityState(new FirstStepState(
+    								this.activityScheduler, this.activity));
+    						break;
+    					default :
+    						if (GTS == LS +1)
+    						{
+    							this.activityScheduler.setActivityState(new LastStepState(
+    	    							this.activityScheduler, this.activity));
+    						}
+    						else
+    						{
+    							this.activityScheduler.setActivityState(new MiddleStepState(
+    	    						this.activityScheduler, this.activity, GTS-1));
+    						}
+    					break;
+    						
+    				}
+    			}
+    			else
+    			{
+    				System.out.println(" I et !O et !S ");
+    				switch(GTS)
+    				{
+    					case 0:
+    						break;
+    					case 1:
+    						this.activityScheduler.setActivityState(new ActivityPresentationState(
+    								this.activityScheduler, this.activity, false));
+    				        break;
+    				}
+    			}
+    		}
+    	}
+    }
+ }

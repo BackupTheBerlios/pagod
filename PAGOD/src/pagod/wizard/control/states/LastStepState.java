@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: LastStepState.java,v 1.8 2005/11/15 21:41:23 psyko Exp $
+ * $Id: LastStepState.java,v 1.9 2005/11/17 01:12:51 psyko Exp $
  */
 package pagod.wizard.control.states;
 
@@ -42,6 +42,10 @@ public class LastStepState extends AbstractActivityState
         // on désactive le bouton next
         ActionManager.getInstance().getAction(Constants.ACTION_NEXT).setEnabled(true);
         
+        // on affiche la combobox
+        ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP)
+                .setEnabled(true);        
+        
         // affichage de l'étape
         this.activityScheduler.presentStep(this.stepList.get(this.index),this.index,this.stepList.size());
         
@@ -56,7 +60,7 @@ public class LastStepState extends AbstractActivityState
         {
             // S' il n'y avait qu'une étape, on renvoie à la présentation de l'activité 
             case 1: System.out.println("Methode PREVIOUS () du lastStep => ActivityPresentation");
-                    this.activityScheduler.setActivityState(new ActivityPresentationState(this.activityScheduler, this.activity));
+                    this.activityScheduler.setActivityState(new ActivityPresentationState(this.activityScheduler, this.activity, true));
                     break;
           
             // S'il y avait deux étapes, on revient à la firstStep
@@ -89,5 +93,12 @@ public class LastStepState extends AbstractActivityState
         // TODO Corps de méthode généré automatiquement
 
     }
-
-}
+ 
+	/**
+    /* 
+     * @see pagod.wizard.control.states.AbstractActivityState#gotoStep()
+     */
+    public void gotoStep()
+    {}
+    
+ }

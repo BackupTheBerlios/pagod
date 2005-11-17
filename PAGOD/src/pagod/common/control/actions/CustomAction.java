@@ -1,5 +1,5 @@
 /*
- * $Id: CustomAction.java,v 1.1 2005/10/30 10:45:00 yak Exp $
+ * $Id: CustomAction.java,v 1.2 2005/11/17 01:12:53 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -47,6 +47,44 @@ import pagod.utils.LanguagesManager.NotInitializedException;
 public abstract class CustomAction extends AbstractAction
 {
 
+    /**
+     * Constructeur d'une Action composé d'un nom  d'un icone
+     * 
+     * @param label
+     *            clé de la chaine souhaité en fonction de la locale de
+     *            l'application
+     * @throws LanguagesManager.NotInitializedException
+     *             Si le LanguagesManager n'a pas été initialisé.
+     * @throws IOException
+     * @see LanguagesManager#setResourceFile(String, Locale)
+     */
+    public CustomAction(String label)
+                                                  throws NotInitializedException,
+                                                  IOException
+    {
+        super();
+        // definir le mnémonic si lon trouve le caractere & dans le nom
+        String name = LanguagesManager.getInstance().getString(label);
+        int index;
+        if ((index = name.indexOf('&')) != -1)
+        {
+            // si le & n'est pas a la fin
+            if (index < name.length() - 1)
+            {
+                // on recupere le caractere apres le & et on le defini comme
+                // Mnemonic
+                int charCodeAfterAnd = Character.toUpperCase(name
+                        .charAt(index + 1));
+                this.putValue(Action.MNEMONIC_KEY, charCodeAfterAnd);
+                String stringBeforeAnd = name.substring(0, index);
+                String stringAfterAnd = name.substring(index + 1);
+                name = stringBeforeAnd.concat(stringAfterAnd);
+            }
+        }
+        this.putValue(Action.NAME, name);
+        this.putValue(Action.SHORT_DESCRIPTION, name);
+    }
+	
     /**
      * Constructeur d'une Action composé d'un nom et d'un icone
      * 
@@ -145,8 +183,8 @@ public abstract class CustomAction extends AbstractAction
         this(label, icon);
         putValue(Action.ACCELERATOR_KEY, keystroke);
     }
-
-    /**
+    
+     /**
      * @param rootPane
      *            le rootPane a qui l'action doit etre associé
      * @param condition

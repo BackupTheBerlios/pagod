@@ -1,5 +1,5 @@
 /*
- * $Id: ButtonPanel.java,v 1.2 2005/11/14 23:59:20 psyko Exp $
+ * $Id: ButtonPanel.java,v 1.3 2005/11/17 01:12:53 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -26,7 +26,6 @@ package pagod.wizard.ui;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -64,7 +63,7 @@ public class ButtonPanel extends JPanel
 		/** Bouton terminer */
 		PB_TERMINATE,
 		/** Combo pour acces direct aux étapes */
-		CB_DIRECTACCESS
+		CB_GOTOSTEP
 
 	}
 
@@ -86,11 +85,14 @@ public class ButtonPanel extends JPanel
 		this.pbTerminate = new JButton(am.getAction(ACTION_TERMINATE));
 		this.cbDirectAccess = new JComboBox();
 		
+		this.cbDirectAccess.addActionListener(am.getAction(ACTION_GOTOSTEP));
+		
 		// Création de panneaux intermédiaires pour la taille des boutons
 		JPanel pnlGauche = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		JPanel pnlCentre = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		JPanel pnlDroite = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		JPanel pnlBas = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		
 		this.add(pnlGauche, BorderLayout.WEST);
 		this.add(pnlCentre, BorderLayout.CENTER);
 		this.add(pnlDroite, BorderLayout.EAST);
@@ -100,6 +102,10 @@ public class ButtonPanel extends JPanel
 		pnlGauche.add(this.pbPrevious);
 		pnlCentre.add(this.pbTerminate);
 		pnlDroite.add(this.pbNext);
+		//TODO rajouter les entrées de Aller à : -> Go to 
+		// dans le properties ... 
+		// ça devrait permettre d'utiliser un mnémonique
+		
 		pnlBas.add(this.cbDirectAccess);
 	}
 

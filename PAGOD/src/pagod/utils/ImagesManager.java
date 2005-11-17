@@ -1,5 +1,5 @@
 /*
- * $Id: ImagesManager.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: ImagesManager.java,v 1.2 2005/11/17 01:12:53 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -154,6 +154,7 @@ public class ImagesManager
     public Image getImageResource(String resourceName)
     {
         String fileName = resourceName;
+               
         // si le nom de fichier commence par / alors on supprime le /
         if (fileName.startsWith("/"))
         {

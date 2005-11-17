@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ActivityPresentationState.java,v 1.8 2005/11/14 23:59:20 psyko Exp $
+ * $Id: ActivityPresentationState.java,v 1.9 2005/11/17 01:12:51 psyko Exp $
  */
 
 package pagod.wizard.control.states;
@@ -21,16 +21,26 @@ public class ActivityPresentationState extends AbstractActivityState
 	/**
 	 * @param activityScheduler
 	 * @param activity
+	 * @param updateRequired 
 	 */
 	public ActivityPresentationState (ActivityScheduler activityScheduler,
-			Activity activity)
+			Activity activity, boolean updateRequired)
 	{
 		super(activityScheduler, activity);
 
+		System.out.println("Activity presentation ");
 		// on affiche la presentation de l'activit?
 		this.activityScheduler.presentActivityAndProduct();
 		this.activityScheduler.fillDirectAccessComboBox();
-		this.activityScheduler.autoComboSelect(1);
+		if(!updateRequired)
+		{	
+			ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP).setEnabled(false);
+		}
+		if(this.activity.hasInputProducts())
+			this.activityScheduler.autoComboSelect(1);
+		else
+			this.activityScheduler.autoComboSelect(0);
+		
 		
 		// TODO a supprimer
 		// test la presentation des produits a creer
@@ -55,6 +65,10 @@ public class ActivityPresentationState extends AbstractActivityState
 		ActionManager.getInstance().getAction(Constants.ACTION_TERMINATE)
 				.setEnabled(true);
 
+        // on affiche la combobox
+        ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP)
+                .setEnabled(true);
+        
 		if (this.activity.hasInputProducts())
 		{
 			// on active le bouton previous
@@ -80,8 +94,7 @@ public class ActivityPresentationState extends AbstractActivityState
 		// s'il y a des produits en entree on revient au panneau permettant de
 		// voir les preconditions
 		if (this.activity.hasInputProducts()) this.activityScheduler
-				.setActivityState(new PreConditionCheckerState(
-						this.activityScheduler, this.activity));
+				.setActivityState(new PreConditionCheckerState(this.activityScheduler, this.activity,true));
 	}
 
 	/**
@@ -136,5 +149,104 @@ public class ActivityPresentationState extends AbstractActivityState
 		// TODO Corps de m?thode g?n?r? automatiquement
 
 	}
+	
+	/**
+    /* 
+     * @see pagod.wizard.control.states.AbstractActivityState#gotoStep()
+     */
+    public void gotoStep()
+    {
+    	boolean i = this.activity.hasInputProducts();
+    	boolean o = this.activity.hasOutputProducts();
+    	boolean s = this.activity.hasSteps();
+    	int GTS = this.getGoToStepInd();
+    	int LS = this.getStepList().size();
 
+    	if(i)
+    	{
+    		if(o)
+    		{
+    			if(s)
+    			{
+    				System.out.println(" I et O et S ; GTS " +GTS);
+    				switch(GTS)
+    				{
+    					case 0:
+    						this.previous ();
+    						break;
+    					case 1:
+    						break;
+    					case 2:
+    						this.activityScheduler.setActivityState(new FirstStepState(
+    								this.activityScheduler, this.activity));
+    						break;
+    					default :
+    						if(GTS == LS +2)
+    						{
+    							this.activityScheduler.setActivityState(new PostConditionCheckerState(
+        								this.activityScheduler, this.activity));
+    						}
+    						else
+    						{
+    							if (GTS == LS +1)
+    							{
+    								this.activityScheduler.setActivityState(new LastStepState(
+    	    								this.activityScheduler, this.activity));
+    							}
+    							else
+    							{
+    								this.activityScheduler.setActivityState(new MiddleStepState(
+    	    								this.activityScheduler, this.activity, GTS-1));
+    							}
+    						}
+    						break;
+    						
+    				}
+    			}
+    			else
+    			{
+    				System.out.println(" I et O et !S ");
+    			}
+    		}
+    		else
+    		{
+    			if(s)
+    			{
+    				System.out.println(" I et !O et S ");
+    			}
+    			else
+    			{
+    				System.out.println(" I et !O et !S ");
+    			}
+    		}
+    	}
+    	else
+    	{
+    		if(o)
+    		{
+    			if(s)
+    			{
+    				System.out.println(" !I et O et S ");
+    			}
+    			else
+    			{
+    				System.out.println(" !I et O et !S ");
+    			}
+    		}
+    		else
+    		{
+    			if(s)
+    			{
+    				System.out.println(" !I et !O et S ");
+    			}
+    			else
+    			{
+    				System.out.println(" !I et !O et !S ");
+    			}
+    		}
+    	}
+    }
+    	
+
+	
 }

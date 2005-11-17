@@ -1,5 +1,5 @@
 /*
- * $Id: Constants.java,v 1.3 2005/11/14 01:10:04 psyko Exp $
+ * $Id: Constants.java,v 1.4 2005/11/17 01:12:51 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -132,9 +132,9 @@ public interface Constants
     public static final String ACTION_TERMINATE = "terminateAction";
     
     /**
-     * <code>ACTION_DIRECTACCESS</code>
+     * <code>ACTION_GOTOSTEP</code>
      */
-    public static final String ACTION_DIRECTACCESS = "directAccessAction";
+    public static final String ACTION_GOTOSTEP = "gotostep";
 
     /**
      * <code>ACTION_PREFERENCES</code>

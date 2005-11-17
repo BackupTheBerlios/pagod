@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: PostConditionCheckerState.java,v 1.3 2005/11/14 23:59:20 psyko Exp $
+ * $Id: PostConditionCheckerState.java,v 1.4 2005/11/17 01:12:51 psyko Exp $
  */
 package pagod.wizard.control.states;
 
@@ -43,6 +43,10 @@ public class PostConditionCheckerState extends AbstractActivityState
         //on affiche le bouton previous
         ActionManager.getInstance().getAction(Constants.ACTION_PREVIOUS)
                 .setEnabled(true);
+        
+        // on affiche la combobox
+        ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP)
+                .setEnabled(true);
 	}
 
 
@@ -55,7 +59,8 @@ public class PostConditionCheckerState extends AbstractActivityState
 		System.out.println("PostConditionCheckerState-> Previous");
 		if (this.stepList.size() == 0)
 		{
-			this.activityScheduler.setActivityState(new ActivityPresentationState(this.activityScheduler,this.activity));
+			this.activityScheduler.setActivityState(new ActivityPresentationState(
+					this.activityScheduler,this.activity, true));
 		}
 		else
 		{
@@ -83,5 +88,11 @@ public class PostConditionCheckerState extends AbstractActivityState
 	public void terminate ()
 	{
 	}
-
+	
+	/**
+    /* 
+     * @see pagod.wizard.control.states.AbstractActivityState#gotoStep()
+     */
+    public void gotoStep()
+    {}
 }

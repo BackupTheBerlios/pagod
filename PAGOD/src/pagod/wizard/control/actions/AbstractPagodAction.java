@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractPagodAction.java,v 1.2 2005/11/14 01:10:04 psyko Exp $
+ * $Id: AbstractPagodAction.java,v 1.3 2005/11/17 01:12:51 psyko Exp $
  *
  *PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -48,6 +48,26 @@ public abstract class AbstractPagodAction extends CustomAction
      */
     protected ApplicationManager.Request request;
 
+    /**
+     * Constructeur d'une Action composé d'un nom 
+     * 
+     * @param label
+     *            clé de la chaine souhaité en fonction de la locale de
+     *            l'application
+     * @param request
+     * @throws LanguagesManager.NotInitializedException
+     *             Si le LanguagesManager n'a pas été initialisé.
+     * @throws IOException
+     * @see LanguagesManager#setResourceFile(String, Locale)
+     */
+    public AbstractPagodAction(String label, ApplicationManager.Request request)
+                                                                  throws NotInitializedException,
+                                                                  IOException
+    {
+        super(label);
+        this.request = request;
+    }
+    
     /**
      * Constructeur d'une Action composé d'un nom et d'un icone
      * 
@@ -134,6 +154,7 @@ public abstract class AbstractPagodAction extends CustomAction
         this.request = request;
     }
 
+   
     /**
      * Methode appélée lorsque l'action est déclenché
      * 

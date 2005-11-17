@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: MiddleStepState.java,v 1.8 2005/11/15 21:41:23 psyko Exp $
+ * $Id: MiddleStepState.java,v 1.9 2005/11/17 01:12:51 psyko Exp $
  */
 package pagod.wizard.control.states;
 
@@ -50,6 +50,10 @@ public class MiddleStepState extends AbstractActivityState
 
         // on affiche le bouton previous
         ActionManager.getInstance().getAction(Constants.ACTION_PREVIOUS)
+                .setEnabled(true);
+        
+        // on affiche la combobox
+        ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP)
                 .setEnabled(true);
         
         // affichage de l'etape
@@ -118,4 +122,11 @@ public class MiddleStepState extends AbstractActivityState
 
     }
 
+	/**
+    /* 
+     * @see pagod.wizard.control.states.AbstractActivityState#gotoStep()
+     */
+    public void gotoStep()
+    {}
+    
 }

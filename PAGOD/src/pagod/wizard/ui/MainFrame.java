@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.10 2005/11/16 13:56:19 cyberal82 Exp $
+ * $Id: MainFrame.java,v 1.11 2005/11/17 01:12:53 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -257,6 +257,9 @@ public class MainFrame extends JFrame
 				Constants.ACTION_TERMINATE)).configureRootPane(this
 				.getRootPane(), JComponent.WHEN_IN_FOCUSED_WINDOW);
 
+		//TODO mnémonique pour accéder à la combo box, et mettre le focus dedans
+		// pr access clavier aux steps ... 
+		
 	}
 
 	/**

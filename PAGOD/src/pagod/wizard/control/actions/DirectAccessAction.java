@@ -1,5 +1,5 @@
 /*
- * $Id: DirectAccessAction.java,v 1.2 2005/11/14 01:10:04 psyko Exp $
+ * $Id: DirectAccessAction.java,v 1.3 2005/11/17 01:12:51 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -24,14 +24,12 @@
 
 package pagod.wizard.control.actions;
 
-import java.awt.event.KeyEvent;
 import java.io.IOException;
-
-import javax.swing.KeyStroke;
 
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
 import pagod.wizard.control.ApplicationManager;
+import pagod.wizard.control.Constants;
 
 /**
  * 
@@ -45,9 +43,10 @@ public class DirectAccessAction extends AbstractPagodAction
      * @throws ImagesManager.NotInitializedException
      */
     public DirectAccessAction() throws LanguagesManager.NotInitializedException,
-                       IOException, ImagesManager.NotInitializedException
+                       IOException
     {
-        super("next", "NextIcon.gif", ApplicationManager.Request.NEXT,
-                KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, KeyEvent.ALT_MASK));
+        super(Constants.ACTION_GOTOSTEP, ApplicationManager.Request.GOTOSTEP);
     }
+	
 }
+
