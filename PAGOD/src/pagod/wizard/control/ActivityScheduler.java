@@ -1,5 +1,5 @@
 /*
- * $Id: ActivityScheduler.java,v 1.19 2005/11/17 12:14:56 yak Exp $
+ * $Id: ActivityScheduler.java,v 1.20 2005/11/17 12:24:53 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -136,7 +136,7 @@ public class ActivityScheduler
         if (this.activity.hasInputProducts())
           	this.activityState = new PreConditionCheckerState (this, activity);
         else
-        	this.activityState = new ActivityPresentationState(this, activity, true);
+        	this.activityState = new ActivityPresentationState(this, activity);
     }
 
    

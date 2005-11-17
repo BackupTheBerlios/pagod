@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: PreConditionCheckerState.java,v 1.10 2005/11/17 12:14:56 yak Exp $
+ * $Id: PreConditionCheckerState.java,v 1.11 2005/11/17 12:24:53 yak Exp $
  */
 package pagod.wizard.control.states;
 
@@ -65,7 +65,7 @@ public class PreConditionCheckerState extends AbstractActivityState
     public void next()
     {
             this.activityScheduler.setActivityState(new ActivityPresentationState(
-                this.activityScheduler, this.activity, true));
+                this.activityScheduler, this.activity));
 
     }
 
@@ -101,7 +101,7 @@ public class PreConditionCheckerState extends AbstractActivityState
     						break;
     					case 1:
     						this.activityScheduler.setActivityState(new ActivityPresentationState(
-    								this.activityScheduler, this.activity, false));
+    								this.activityScheduler, this.activity));
     				        break;
     					case 2:
     						this.activityScheduler.setActivityState(new FirstStepState(
@@ -139,7 +139,7 @@ public class PreConditionCheckerState extends AbstractActivityState
     						break;
     					case 1:
     						this.activityScheduler.setActivityState(new ActivityPresentationState(
-    								this.activityScheduler, this.activity, false));
+    								this.activityScheduler, this.activity));
     				        break;
     					case 2:
     						this.activityScheduler.setActivityState(new PostConditionCheckerState(
@@ -159,7 +159,7 @@ public class PreConditionCheckerState extends AbstractActivityState
     						break;
     					case 1:
     						this.activityScheduler.setActivityState(new ActivityPresentationState(
-    								this.activityScheduler, this.activity, false));
+    								this.activityScheduler, this.activity));
     				        break;
     					case 2:
     						this.activityScheduler.setActivityState(new FirstStepState(
@@ -189,7 +189,7 @@ public class PreConditionCheckerState extends AbstractActivityState
     						break;
     					case 1:
     						this.activityScheduler.setActivityState(new ActivityPresentationState(
-    								this.activityScheduler, this.activity, false));
+    								this.activityScheduler, this.activity));
     				        break;
     				}
     			}

@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ActivityPresentationState.java,v 1.10 2005/11/17 12:14:56 yak Exp $
+ * $Id: ActivityPresentationState.java,v 1.11 2005/11/17 12:24:53 yak Exp $
  */
 
 package pagod.wizard.control.states;
@@ -21,10 +21,9 @@ public class ActivityPresentationState extends AbstractActivityState
 	/**
 	 * @param activityScheduler
 	 * @param activity
-	 * @param updateRequired 
 	 */
 	public ActivityPresentationState (ActivityScheduler activityScheduler,
-			Activity activity, boolean updateRequired)
+			Activity activity)
 	{
 		super(activityScheduler, activity);
 
@@ -32,10 +31,7 @@ public class ActivityPresentationState extends AbstractActivityState
 		// on affiche la presentation de l'activit?
 		this.activityScheduler.presentActivityAndProduct();
 		this.activityScheduler.fillDirectAccessComboBox();
-		if(!updateRequired)
-		{	
-			ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP).setEnabled(false);
-		}
+		
 		if(this.activity.hasInputProducts())
 			this.activityScheduler.autoComboSelect(1);
 		else

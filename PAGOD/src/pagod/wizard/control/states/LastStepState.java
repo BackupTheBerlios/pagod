@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: LastStepState.java,v 1.9 2005/11/17 01:12:51 psyko Exp $
+ * $Id: LastStepState.java,v 1.10 2005/11/17 12:24:53 yak Exp $
  */
 package pagod.wizard.control.states;
 
@@ -39,14 +39,14 @@ public class LastStepState extends AbstractActivityState
         // On affiche le bouton terminate
         ActionManager.getInstance().getAction(Constants.ACTION_TERMINATE).setEnabled(true);
                 
-        // on désactive le bouton next
+        // on d?sactive le bouton next
         ActionManager.getInstance().getAction(Constants.ACTION_NEXT).setEnabled(true);
         
         // on affiche la combobox
         ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP)
                 .setEnabled(true);        
         
-        // affichage de l'étape
+        // affichage de l'?tape
         this.activityScheduler.presentStep(this.stepList.get(this.index),this.index,this.stepList.size());
         
     }
@@ -58,18 +58,18 @@ public class LastStepState extends AbstractActivityState
     {
         switch(this.stepList.size())
         {
-            // S' il n'y avait qu'une étape, on renvoie à la présentation de l'activité 
+            // S' il n'y avait qu'une ?tape, on renvoie ? la pr?sentation de l'activit? 
             case 1: System.out.println("Methode PREVIOUS () du lastStep => ActivityPresentation");
-                    this.activityScheduler.setActivityState(new ActivityPresentationState(this.activityScheduler, this.activity, true));
+                    this.activityScheduler.setActivityState(new ActivityPresentationState(this.activityScheduler, this.activity));
                     break;
           
-            // S'il y avait deux étapes, on revient à la firstStep
+            // S'il y avait deux ?tapes, on revient ? la firstStep
             case 2: System.out.println("Methode PREVIOUS () du lastStep => FirstStep");
                     this.activityScheduler.setActivityState(new FirstStepState(this.activityScheduler, this.activity));
                     break;
-            // Les autres cas, on remonte d'une étape    
+            // Les autres cas, on remonte d'une ?tape    
             default:   
-                    System.out.println("Méthode PREVIOUS() du lastStep-> MiddleStep");
+                    System.out.println("M?thode PREVIOUS() du lastStep-> MiddleStep");
                     this.activityScheduler.setActivityState(new MiddleStepState(this.activityScheduler, this.activity, this.index-1));
                     break;
         }
@@ -90,7 +90,7 @@ public class LastStepState extends AbstractActivityState
      */
     public void terminate()
     {
-        // TODO Corps de méthode généré automatiquement
+        // TODO Corps de m?thode g?n?r? automatiquement
 
     }
  

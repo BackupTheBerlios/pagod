@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: FirstStepState.java,v 1.10 2005/11/17 01:12:51 psyko Exp $
+ * $Id: FirstStepState.java,v 1.11 2005/11/17 12:24:53 yak Exp $
  */
 package pagod.wizard.control.states;
 
@@ -59,7 +59,7 @@ public class FirstStepState extends AbstractActivityState
 	{
 		// on renvoie a la presentation d'activite
 		this.activityScheduler.setActivityState(new ActivityPresentationState(
-				this.activityScheduler, this.activity, true));
+				this.activityScheduler, this.activity));
 		
 	}
 	
@@ -96,7 +96,7 @@ public class FirstStepState extends AbstractActivityState
 	 */
 	public void terminate()
 	{
-		// TODO Corps de méthode généré automatiquement
+		// TODO Corps de m?thode g?n?r? automatiquement
 		
 	}
 
