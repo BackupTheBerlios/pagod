@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: PreConditionCheckerState.java,v 1.9 2005/11/17 01:12:51 psyko Exp $
+ * $Id: PreConditionCheckerState.java,v 1.10 2005/11/17 12:14:56 yak Exp $
  */
 package pagod.wizard.control.states;
 
@@ -20,19 +20,15 @@ public class PreConditionCheckerState extends AbstractActivityState
     /**
      * @param activityScheduler
      * @param activity
-     * @param updateRequired 
      */
-    public PreConditionCheckerState(ActivityScheduler activityScheduler, Activity activity, boolean updateRequired)
+    public PreConditionCheckerState(ActivityScheduler activityScheduler, Activity activity)
     {
         super(activityScheduler, activity);
         
         this.activityScheduler.resetSplitPane();
         this.activityScheduler.checkBeforeStart();
         this.activityScheduler.fillDirectAccessComboBox();
-		if(!updateRequired)
-		{	
-			ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP).setEnabled(false);
-		}
+		
 		this.activityScheduler.autoComboSelect(0);
 
         

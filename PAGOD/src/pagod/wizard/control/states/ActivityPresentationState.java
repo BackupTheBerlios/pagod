@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ActivityPresentationState.java,v 1.9 2005/11/17 01:12:51 psyko Exp $
+ * $Id: ActivityPresentationState.java,v 1.10 2005/11/17 12:14:56 yak Exp $
  */
 
 package pagod.wizard.control.states;
@@ -94,7 +94,7 @@ public class ActivityPresentationState extends AbstractActivityState
 		// s'il y a des produits en entree on revient au panneau permettant de
 		// voir les preconditions
 		if (this.activity.hasInputProducts()) this.activityScheduler
-				.setActivityState(new PreConditionCheckerState(this.activityScheduler, this.activity,true));
+				.setActivityState(new PreConditionCheckerState(this.activityScheduler, this.activity));
 	}
 
 	/**

@@ -1,5 +1,5 @@
 /*
- * $Id: ActivityScheduler.java,v 1.18 2005/11/17 01:12:51 psyko Exp $
+ * $Id: ActivityScheduler.java,v 1.19 2005/11/17 12:14:56 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -32,6 +32,7 @@ import javax.swing.JOptionPane;
 import pagod.common.model.Activity;
 import pagod.common.model.Product;
 import pagod.common.model.Step;
+import pagod.utils.ActionManager;
 import pagod.utils.LanguagesManager;
 import pagod.wizard.control.states.ActivityPresentationState;
 import pagod.wizard.control.states.AbstractActivityState;
@@ -111,7 +112,7 @@ public class ActivityScheduler
     private MainFrame mfPagod;
     
     /**
-     * Step utilisé par la combo en cas d acces direct
+     * Step utilis? par la combo en cas d acces direct
      */
     private int goToStepInd;
     
@@ -133,7 +134,7 @@ public class ActivityScheduler
         
         // pour pagod
         if (this.activity.hasInputProducts())
-          	this.activityState = new PreConditionCheckerState (this, activity,true);
+          	this.activityState = new PreConditionCheckerState (this, activity);
         else
         	this.activityState = new ActivityPresentationState(this, activity, true);
     }
@@ -520,8 +521,8 @@ public class ActivityScheduler
 
 	/**
 	 * Remet a null le splitPane permettant d'afficher : 
-	 * - dans sa partie supérieur la présentation d'une activité ou d'une étape 
-	 * - dans sa partie inférieur les produits a créer durant cette étape ainsi que les plan type
+	 * - dans sa partie sup?rieur la pr?sentation d'une activit? ou d'une ?tape 
+	 * - dans sa partie inf?rieur les produits a cr?er durant cette ?tape ainsi que les plan type
 	 *   s'il y en a
 	 * 
 	 */
@@ -533,7 +534,7 @@ public class ActivityScheduler
 
 	/**
 	 * @return la stepList
-	 * utilisé dans le Main Frame, et ds les stepstates 
+	 * utilis? dans le Main Frame, et ds les stepstates 
 	 */
 	public List<Step> getStepList ()
 	{
@@ -542,7 +543,7 @@ public class ActivityScheduler
 
 
 	/**
-	 * @return l'activité
+	 * @return l'activit?
 	 */
 	public Activity getActivity ()
 	{
@@ -568,13 +569,13 @@ public class ActivityScheduler
 	        	// si il y a des produits en entree 
 	        	
 	        	//TODO euh plop mettre peut etre fichier langue
-	        	// input products/ préconditions
+	        	// input products/ pr?conditions
 	        	this.mfPagod.getButtonPanel().getCbDirectAccess().addItem("Precond");
 	        }
 	        
 	        //TODO euh plop mettre peut etre fichier langue
-	    	// activity presentation/ présentation de l'activité
-	        this.mfPagod.getButtonPanel().getCbDirectAccess().addItem("Présentation de l'activité");
+	    	// activity presentation/ pr?sentation de l'activit?
+	        this.mfPagod.getButtonPanel().getCbDirectAccess().addItem("Pr?sentation de l'activit?");
 		    	
 	        if(this.activity.hasSteps())
 	        	for(int i = 0; i < this.activity.getSteps().size(); i++)
@@ -590,14 +591,17 @@ public class ActivityScheduler
 	 }
 	 
 	 /**
-	 * sélectionne l'étape en cours dans la combo en fonction du contenu de l'activité
+	 * s?lectionne l'?tape en cours dans la combo en fonction du contenu de l'activit?
 	 * @param i 
 	 */
 	 public void autoComboSelect(int i)
 	 {
 		if (!this.activity.hasInputProducts())
 			i--;
+		//desactivation de l'action pour eviter de lever un actionPerformed lors du selectedIndex
+		this.mfPagod.getButtonPanel().getCbDirectAccess().removeActionListener(ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP));
 		this.mfPagod.getButtonPanel().getCbDirectAccess().setSelectedIndex(i);
+		this.mfPagod.getButtonPanel().getCbDirectAccess().addActionListener(ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP));
 	 }
 
 
