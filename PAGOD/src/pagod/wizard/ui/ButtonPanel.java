@@ -1,5 +1,5 @@
 /*
- * $Id: ButtonPanel.java,v 1.3 2005/11/17 01:12:53 psyko Exp $
+ * $Id: ButtonPanel.java,v 1.4 2005/11/18 19:15:00 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -26,6 +26,7 @@ package pagod.wizard.ui;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -193,6 +194,7 @@ public class ButtonPanel extends JPanel
 	 */
 	public JComboBox getCbDirectAccess ()
 	{
-		return this.cbDirectAccess;
+		return (this.cbDirectAccess);
 	}
+
 }

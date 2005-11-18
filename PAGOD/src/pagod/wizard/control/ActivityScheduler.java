@@ -1,5 +1,5 @@
 /*
- * $Id: ActivityScheduler.java,v 1.20 2005/11/17 12:24:53 yak Exp $
+ * $Id: ActivityScheduler.java,v 1.21 2005/11/18 19:15:04 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -24,6 +24,7 @@
 
 package pagod.wizard.control;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -36,6 +37,11 @@ import pagod.utils.ActionManager;
 import pagod.utils.LanguagesManager;
 import pagod.wizard.control.states.ActivityPresentationState;
 import pagod.wizard.control.states.AbstractActivityState;
+import pagod.wizard.control.states.FirstStepState;
+import pagod.wizard.control.states.LastStepState;
+import pagod.wizard.control.states.MiddleStepState;
+import pagod.wizard.control.states.PostConditionCheckerState;
+
 import pagod.wizard.control.states.PreConditionCheckerState;
 import pagod.wizard.ui.MainFrame;
 
@@ -116,7 +122,8 @@ public class ActivityScheduler
      */
     private int goToStepInd;
     
-
+    private ArrayList<AbstractActivityState> stateList;
+    
     /**
      * Constructeur
      * 
@@ -126,17 +133,38 @@ public class ActivityScheduler
      */
     public ActivityScheduler(final Activity activity, MainFrame frame)
     {
+    	System.out.println("Constr ActivityScheduler ");
         // TODO a suppr 
         this.activity = activity;
+        this.stepList = new ArrayList<Step>();
+        this.stepList = this.activity.getSteps();
         this.state = State.INIT;
         
+        this.stateList = new ArrayList<AbstractActivityState>();       
+        this.stateList.add(new PreConditionCheckerState(this, this.activity));
+        System.out.println("test add statelist OK ");
         this.mfPagod = frame;
         
         // pour pagod
         if (this.activity.hasInputProducts())
-          	this.activityState = new PreConditionCheckerState (this, activity);
+
+        {  	
+        	this.activityState = new PreConditionCheckerState (this, activity);
+//        	this.initComboBox();
+        	System.out.println("Checkbox init OK");
+        	this.activityState.display();
+        }
+
         else
+
+        {
         	this.activityState = new ActivityPresentationState(this, activity);
+  //      	this.initComboBox();
+        	System.out.println("Checkbox init OK");
+        	this.activityState.display();
+        	
+        }
+
     }
 
    
@@ -149,264 +177,9 @@ public class ActivityScheduler
      */
     public void setActivityState(AbstractActivityState activityState)
     {
-        this.activityState = activityState;
-    }
-
-    /**
-     * G?re les requetes soumis au d?rouleur d'activit?
-     * 
-     * @param request
-     */
-    public void manageRequest(ApplicationManager.Request request)
-    {
-        // TODO test state
-        System.out.println(this.state + " -> " + request);
-        
-        switch (request)
-        {
-            case NEXT:
-                this.activityState.next();
-                break;
-               
-            case PREVIOUS:
-                this.activityState.previous();
-                break;
-
-            case GOTOSTEP:
-            	this.activityState.setGoToStepInd(this.goToStepInd);
-            	// System.out.println(this.goToStepInd);
-                this.activityState.gotoStep();
-                break;
-
-        }
-        
-        /*
-        switch (this.state)
-        {
-            case INIT:
-                switch (request)
-                {
-                    case RUN_ACTIVITY:
-                        this.presentActivity();
-                        ActionManager.getInstance().getAction(
-                                Constants.ACTION_NEXT).setEnabled(true);
-                        break;
-                }
-                break;
-            case ACTIVITY_PRESENTATION:
-                switch (request)
-                {
-                    case NEXT:
-                        // pagod 
-                        // this.activityState.next();
-                        
-                        // TODO avant le design state
-                        // dans tout les cas on active l'action Previous
-                        ActionManager.getInstance().getAction(
-                                Constants.ACTION_PREVIOUS).setEnabled(true);
-                        // si on a des produit en entree ou des outils
-                        if (this.activity.hasInputProducts()
-                                || this.activity.needsTools())
-                            // on presente la checklist
-                            this.checkBeforeStart();
-                        // sinon si il y a des etapes
-                        else if (this.activity.hasSteps())
-                        {
-                            // on pr?sente la premiere ?tape
-                            this.stepList = this.activity.getSteps();
-                            this.step = this.stepList.get(this.index);
-                            this.presentStep(this.step, this.index,
-                                    this.stepList.size());
-                        }
-                        // sinon s'il y a des produits en sortie activit?s
-                        else if (this.activity.hasOutputProducts())
-                            // on presente ces produits
-                            this.presentProducts(this.activity
-                                    .getOutputProducts());
-                        // sinon l'activit? est terminer
-                        else
-                            ApplicationManager
-                                    .getInstance()
-                                    .manageRequest(
-                                            ApplicationManager.Request.TERMINATE_ACTIVITY);
-                        
-                        break;
-                }
-                break;
-            case ACTIVITY_CHECKLIST:
-                switch (request)
-                {
-                    case NEXT:
-                        // si on il y a des etapes
-                        if (this.activity.hasSteps())
-                        {
-                            // on pr?sente la premiere ?tape
-                            this.stepList = this.activity.getSteps();
-                            this.step = this.stepList.get(this.index);
-                            this.presentStep(this.step, this.index,
-                                    this.stepList.size());
-                        }
-                        // sinon si l'activit? a des produits
-                        else if (this.activity.hasOutputProducts())
-                            // on presente ces produits
-                            this.presentProducts(this.activity
-                                    .getOutputProducts());
-                        // sinon l'activit? est terminer
-                        else
-                            ApplicationManager
-                                    .getInstance()
-                                    .manageRequest(
-                                            ApplicationManager.Request.TERMINATE_ACTIVITY);
-                        break;
-                    case PREVIOUS:
-                        this.presentActivity();
-                        ActionManager.getInstance().getAction(
-                                Constants.ACTION_PREVIOUS).setEnabled(false);
-                        break;
-                }
-                break;
-            case STEP_PRESENTATION:
-                switch (request)
-                {
-                    case NEXT:
-                        // si l'etape a des produits
-                        if (this.step.hasOutputProducts())
-                        {
-                            List<Product> lstOutputProduct = this.step
-                                    .getOutputProducts();
-
-                            // s'il n'y a qu'un produit on affiche un
-                            // JOptionPane lui permettant de choisir
-                            // s'il veut creer ou non le produit
-                            int optionSelected;
-                            if (lstOutputProduct.size() == 1)
-                            {
-                                optionSelected = JOptionPane
-                                        .showConfirmDialog(
-                                                this.mfPagod,
-                                                LanguagesManager
-                                                        .getInstance()
-                                                        .getString(
-                                                                "createProductmsg")
-                                                        + " "
-                                                        + lstOutputProduct.get(
-                                                                0).getName()
-                                                        + " ? ",
-                                                LanguagesManager
-                                                        .getInstance()
-                                                        .getString(
-                                                                "createProductTitle"),
-                                                JOptionPane.YES_NO_OPTION);
-
-                                // si l'utilisateur a choisi l'option yes on
-                                // lance la cr?ation du produit
-                                Product outputProduct = lstOutputProduct.get(0);
-                                if (optionSelected == JOptionPane.YES_OPTION
-                                        && outputProduct.getEditor() != null)
-                                    ModelResourcesManager.getInstance()
-                                            .launchProductApplication(
-                                                    outputProduct);
-                            }
-                            else
-                            {
-                                // il y a plusieurs produit a cree
-
-                            }
-
-                            // on presente ces produits
-                            this.presentProducts(this.step.getOutputProducts());
-                        }
-                        // sinon si il reste des etapes ? presenter
-                        else if (this.index < this.stepList.size() - 1)
-                        {
-                            // on presente l'etape suivante
-                            this.index++;
-                            this.step = this.stepList.get(this.index);
-                            this.presentStep(this.step, this.index,
-                                    this.stepList.size());
-                        }
-                        else
-                            ApplicationManager
-                                    .getInstance()
-                                    .manageRequest(
-                                            ApplicationManager.Request.TERMINATE_ACTIVITY);
-                        break;
-                    case PREVIOUS:
-                        // si c'est la premiere ?tape
-                        if (this.index == 0)
-                        {
-                            this.step = null;
-                            this.stepList = null;
-                            this.checkBeforeStart();
-                        }
-                        // si ce n'est pas la premiere etape
-                        else
-                        {
-                            // on presente l'etape suivante
-                            this.index--;
-                            this.step = this.stepList.get(this.index);
-                            // si l'?tape a des produit en sortie
-                            if (this.step.hasOutputProducts())
-                                this.presentProducts(this.step
-                                        .getOutputProducts());
-                            // sinon
-                            else
-                                this.presentStep(this.step, this.index,
-                                        this.stepList.size());
-                        }
-                        break;
-                }
-                break;
-            case PRODUCTS_PRESENTATION:
-                switch (request)
-                {
-                    case NEXT:
-                        // si activit? a des ?tapes il reste des etapes ?
-                        // presenter
-                        if (this.step != null
-                                && this.index < this.stepList.size() - 1)
-                        {
-                            // on presente l'etape suivante
-                            this.index++;
-                            this.step = this.stepList.get(this.index);
-                            this.presentStep(this.step, this.index,
-                                    this.stepList.size());
-                        }
-                        else
-                            ApplicationManager
-                                    .getInstance()
-                                    .manageRequest(
-                                            ApplicationManager.Request.TERMINATE_ACTIVITY);
-                        break;
-                    case PREVIOUS:
-                        // si activit? a des ?tapes
-                        if (this.step != null)
-                            this.presentStep(this.step, this.index,
-                                    this.stepList.size());
-                        // sinon si l'activit? a des produit en entree ou
-                        // des outils
-                        else if (this.activity.hasInputProducts()
-                                || this.activity.needsTools())
-                            // on presente la checklist
-                            this.checkBeforeStart();
-                        // sinon
-                        else
-                        {
-                            // on affiche la presentation de l'activit?
-                            this.presentActivity();
-                            ActionManager.getInstance().getAction(
-                                    Constants.ACTION_PREVIOUS)
-                                    .setEnabled(false);
-                        }
-                        break;
-                }
-                break;
-        }
-        */
-    }
+			this.activityState = activityState;
+	}
     
-
-
     /**
      * Presente les produits passer en parametre
      * 
@@ -459,7 +232,7 @@ public class ActivityScheduler
     public void checkBeforeStart()
     {
         this.mfPagod.showCheckList(this.activity);
-        this.state = State.ACTIVITY_CHECKLIST;
+        //this.state = State.ACTIVITY_CHECKLIST;
     }
     
     /**
@@ -560,33 +333,75 @@ public class ActivityScheduler
 	}
 	
 	/**
+	 * @param goToStepInd
+	 */
+	public void setGoToStepInd (int goToStepInd)
+	{
+		this.goToStepInd = goToStepInd;
+	}
+	
+	/**
 	 * rempli automatiquement la combo box pour acces direct aux steps
 	 */
-	 public void fillDirectAccessComboBox()
+	 public void initComboBox()
 	 {
-	        if (this.activity.hasInputProducts())
-	        {
-	        	// si il y a des produits en entree 
-	        	
-	        	//TODO euh plop mettre peut etre fichier langue
-	        	// input products/ pr?conditions
-	        	this.mfPagod.getButtonPanel().getCbDirectAccess().addItem("Precond");
-	        }
-	        
-	        //TODO euh plop mettre peut etre fichier langue
-	    	// activity presentation/ pr?sentation de l'activit?
-	        this.mfPagod.getButtonPanel().getCbDirectAccess().addItem("Pr?sentation de l'activit?");
-		    	
-	        if(this.activity.hasSteps())
-	        	for(int i = 0; i < this.activity.getSteps().size(); i++)
-	        		this.mfPagod.getButtonPanel().getCbDirectAccess().addItem(this.activity.getSteps().get(i).getName());
-	                
-	        if(this.activity.hasOutputProducts())
-	        {
-	        	//TODO euh plop mettre peut etre fichier langue
-	        	// output products/ postconditions
-	        	this.mfPagod.getButtonPanel().getCbDirectAccess().addItem("PostCond");
-	        }
+		 
+		 //on remove l action listener de la combo pour eviter conflits et boucles infinies
+		this.mfPagod.getButtonPanel().getCbDirectAccess().removeActionListener(
+					ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP));
+		//on vide la combo
+		
+		// si has input, on remplit stateList
+		if (this.activity.hasInputProducts())
+		 {
+			 System.out.println(new PreConditionCheckerState (this, this.activity).toString());
+			  this.stateList.add(new PreConditionCheckerState (this, this.activity));
+			 
+			}
+		// on remplit statelist avec Activity presentation
+		
+		 this.stateList.add(new ActivityPresentationState(this, this.activity));
+		 
+		 // si has steps , meme chose
+		 if(this.activity.hasSteps())
+		 {
+			 switch(this.stepList.size())
+			 {
+				 case 1:
+					 this.stateList.add(new LastStepState(this, this.activity));
+					 break;
+				 case 2:
+					 this.stateList.add(new FirstStepState(this, this.activity));
+					 this.stateList.add(new LastStepState(this, this.activity));
+					 break;
+				 default:
+					 this.stateList.add(new FirstStepState(this, this.activity));
+					 for(int i=0; i< this.stepList.size() -1; i++)
+					 {
+						 this.stateList.add(new MiddleStepState (this, this.activity, i));
+					 }
+					 this.stateList.add(new LastStepState(this, this.activity));
+					 break;
+			 }
+			 
+		 }
+		 
+		 // Meme chose pr les post conditions
+		 if (this.activity.hasOutputProducts())
+		 {
+			 this.stateList.add(new PostConditionCheckerState (this, this.activity));
+			 
+		 }
+		 
+		 // on remplit notre combo avec les elements de la statelist
+		 for(int i=0; i< this.stateList.size(); i++)
+		 {
+			 this.mfPagod.getButtonPanel().getCbDirectAccess().
+ 				addItem(this.stateList.get(i));
+		 }
+				 
+			this.mfPagod.getButtonPanel().getCbDirectAccess().addActionListener(
+					ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP));
 	        
 	 }
 	 
@@ -596,21 +411,42 @@ public class ActivityScheduler
 	 */
 	 public void autoComboSelect(int i)
 	 {
+
+	/*	 	if (!this.activity.hasInputProducts() && i>=1)
+				i--;
+		
+		 	this.mfPagod.getButtonPanel().getCbDirectAccess().removeActionListener(
+					ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP));
+			
+			this.mfPagod.getButtonPanel().getCbDirectAccess().setSelectedIndex(i);
+			
+			this.mfPagod.getButtonPanel().getCbDirectAccess().addActionListener(
+					ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP));
+
 		if (!this.activity.hasInputProducts())
 			i--;
 		//desactivation de l'action pour eviter de lever un actionPerformed lors du selectedIndex
 		this.mfPagod.getButtonPanel().getCbDirectAccess().removeActionListener(ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP));
 		this.mfPagod.getButtonPanel().getCbDirectAccess().setSelectedIndex(i);
 		this.mfPagod.getButtonPanel().getCbDirectAccess().addActionListener(ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP));
+*/
 	 }
 
 
 	/**
-	 * @param goToStepInd
+	 * @return statelists
 	 */
-	public void setGoToStepInd (int goToStepInd)
+	public List<AbstractActivityState> getStateList ()
 	{
-		this.goToStepInd = goToStepInd;
+		return this.stateList;
+	}
+	
+	/**
+	 * @param index 
+	 */
+	public void setState (int index)
+	{
+		this.activityState = this.stateList.get(index);
 	}
 	 
 }

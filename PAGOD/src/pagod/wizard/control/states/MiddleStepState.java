@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: MiddleStepState.java,v 1.9 2005/11/17 01:12:51 psyko Exp $
+ * $Id: MiddleStepState.java,v 1.10 2005/11/18 19:15:04 psyko Exp $
  */
 package pagod.wizard.control.states;
 
@@ -31,33 +31,7 @@ public class MiddleStepState extends AbstractActivityState
     {
         
         super(activityScheduler, activity, iCurrentStep);
-
-        System.out.println("MiddleStep : constructeur") ;
-        
-        // initialisation de l'index
         this.index = iCurrentStep;
-        System.out.println(this.index) ;
-        //this.activityScheduler.fillDirectAccessComboBox();
-        this.activityScheduler.autoComboSelect(this.index+2);
-        
-        // on affiche le bouton next
-        ActionManager.getInstance().getAction(Constants.ACTION_NEXT)
-                .setEnabled(true);
-
-        // on affiche le bouton terminate
-        ActionManager.getInstance().getAction(Constants.ACTION_TERMINATE)
-                .setEnabled(true);
-
-        // on affiche le bouton previous
-        ActionManager.getInstance().getAction(Constants.ACTION_PREVIOUS)
-                .setEnabled(true);
-        
-        // on affiche la combobox
-        ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP)
-                .setEnabled(true);
-        
-        // affichage de l'etape
-        this.activityScheduler.presentStep(this.stepList.get(this.index),this.index,this.stepList.size()) ;
     }
 
     /** 
@@ -121,12 +95,49 @@ public class MiddleStepState extends AbstractActivityState
         // TODO Corps de méthode généré automatiquement
 
     }
+    
+    /**
+	 *  (non-Javadoc)
+	 * @see pagod.wizard.control.states.AbstractActivityState#toString()
+	 */
+	@Override
+	public String toString ()
+	{
+		return(" Middle step " + this.index);
+	}
 
 	/**
-    /* 
-     * @see pagod.wizard.control.states.AbstractActivityState#gotoStep()
-     */
-    public void gotoStep()
-    {}
+	 *  (non-Javadoc)
+	 * @see pagod.wizard.control.states.AbstractActivityState#display()
+	 */
+	public void display ()
+	{
+		System.out.println("MiddleStep : constructeur") ;
+        
+
+        System.out.println(this.index) ;
+         
+        // on affiche le bouton next
+        ActionManager.getInstance().getAction(Constants.ACTION_NEXT)
+                .setEnabled(true);
+
+        // on affiche le bouton terminate
+        ActionManager.getInstance().getAction(Constants.ACTION_TERMINATE)
+                .setEnabled(true);
+
+        // on affiche le bouton previous
+        ActionManager.getInstance().getAction(Constants.ACTION_PREVIOUS)
+                .setEnabled(true);
+        
+        // on affiche la combobox
+        ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP)
+                .setEnabled(false);
+        
+		
+		//affichage de l'etape
+        this.activityScheduler.presentStep(this.stepList.get(this.index),this.index,this.stepList.size()) ;
+        
+        
+	}
     
 }

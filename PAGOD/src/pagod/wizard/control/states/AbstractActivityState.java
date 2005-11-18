@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: AbstractActivityState.java,v 1.4 2005/11/17 01:12:51 psyko Exp $
+ * $Id: AbstractActivityState.java,v 1.5 2005/11/18 19:15:04 psyko Exp $
  */
 package pagod.wizard.control.states;
 
@@ -57,6 +57,7 @@ public abstract class AbstractActivityState
         this.activity = activity;
         this.stepList = activity.getSteps();
         this.step = null;
+        
     }
     
     /**
@@ -93,11 +94,17 @@ public abstract class AbstractActivityState
      */
     public abstract void terminate();
     
-    /**
-     * méthode permettant l acces direct au step i
-     * à définir dans toutes les classes dérivées
-     */
-    public abstract void gotoStep();
+
+	/**
+	 *  (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	public abstract String toString();
+	
+	/**
+	 * 
+	 */
+	public abstract void display();
     
 	/**
 	 * @param goToStepInd
@@ -122,4 +129,17 @@ public abstract class AbstractActivityState
 	{
 		return this.stepList;
 	}
+
+    /**
+     *  (non-Javadoc)
+     * @param index 
+     * @see pagod.wizard.control.states.AbstractActivityState
+     */
+    public void setState(int index)
+    {
+    	this.activityScheduler.setState(
+    			this.activityScheduler.getMfPagod().getButtonPanel().
+    			getCbDirectAccess().getSelectedIndex());
+    }
+	
 }

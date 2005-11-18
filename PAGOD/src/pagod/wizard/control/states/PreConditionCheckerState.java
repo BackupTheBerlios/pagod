@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: PreConditionCheckerState.java,v 1.11 2005/11/17 12:24:53 yak Exp $
+ * $Id: PreConditionCheckerState.java,v 1.12 2005/11/18 19:15:03 psyko Exp $
  */
 package pagod.wizard.control.states;
 
@@ -23,31 +23,8 @@ public class PreConditionCheckerState extends AbstractActivityState
      */
     public PreConditionCheckerState(ActivityScheduler activityScheduler, Activity activity)
     {
-        super(activityScheduler, activity);
-        
-        this.activityScheduler.resetSplitPane();
-        this.activityScheduler.checkBeforeStart();
-        this.activityScheduler.fillDirectAccessComboBox();
-		
-		this.activityScheduler.autoComboSelect(0);
-
-        
-        // on affiche le bouton next
-        ActionManager.getInstance().getAction(Constants.ACTION_NEXT)
-                .setEnabled(true);
-
-        // on affiche le bouton terminate
-        ActionManager.getInstance().getAction(Constants.ACTION_TERMINATE)
-                .setEnabled(true);
-
-        // on affiche le bouton previous
-        ActionManager.getInstance().getAction(Constants.ACTION_PREVIOUS)
-                .setEnabled(false);
-        
-        // on affiche la combobox
-        ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP)
-                .setEnabled(true);
-        
+    	super(activityScheduler, activity);
+           
     }
 
     /** (non-Javadoc)
@@ -55,8 +32,7 @@ public class PreConditionCheckerState extends AbstractActivityState
      */
     public void previous()
     {
-      
-     
+           
     }
 
     /** (non-Javadoc)
@@ -77,123 +53,44 @@ public class PreConditionCheckerState extends AbstractActivityState
      }
     
     /**
-    /* 
-     * @see pagod.wizard.control.states.AbstractActivityState#gotoStep()
-     */
-    public void gotoStep()
-    {
-    	boolean i = this.activity.hasInputProducts();
-    	boolean o = this.activity.hasOutputProducts();
-    	boolean s = this.activity.hasSteps();
-    	int GTS = this.getGoToStepInd();
-    	int LS = this.getStepList().size();
+	 *  (non-Javadoc)
+	 * @see pagod.wizard.control.states.AbstractActivityState#toString()
+	 */
+	@Override
+	public String toString ()
+	{
+		return(" Verification des PreConditions ");
+	}
 
-    	if(i)
-    	{
-    		if(o)
-    		{
-    			if(s)
-    			{
-    				System.out.println(" I et O et S ; GTS " +GTS);
-    				switch(GTS)
-    				{
-    					case 0:
-    						break;
-    					case 1:
-    						this.activityScheduler.setActivityState(new ActivityPresentationState(
-    								this.activityScheduler, this.activity));
-    				        break;
-    					case 2:
-    						this.activityScheduler.setActivityState(new FirstStepState(
-    								this.activityScheduler, this.activity));
-    						break;
-    					default :
-    						if(GTS == LS +2)
-    						{
-    							this.activityScheduler.setActivityState(new PostConditionCheckerState(
-        								this.activityScheduler, this.activity));
-    						}
-    						else
-    						{
-    							if (GTS == LS +1)
-    							{
-    								this.activityScheduler.setActivityState(new LastStepState(
-    	    								this.activityScheduler, this.activity));
-    							}
-    							else
-    							{
-    								this.activityScheduler.setActivityState(new MiddleStepState(
-    	    								this.activityScheduler, this.activity, GTS-1));
-    							}
-    						}
-    						break;
-    						
-    				}
-    			}
-    			else
-    			{
-    				System.out.println(" I et O et !S ");
-    				switch(GTS)
-    				{
-    					case 0:
-    						break;
-    					case 1:
-    						this.activityScheduler.setActivityState(new ActivityPresentationState(
-    								this.activityScheduler, this.activity));
-    				        break;
-    					case 2:
-    						this.activityScheduler.setActivityState(new PostConditionCheckerState(
-    								this.activityScheduler, this.activity));
-    						break;			
-    				}
-    			}
-    		}
-    		else
-    		{
-    			if(s)
-    			{
-    				System.out.println(" I et !O et S ");
-    				switch(GTS)
-    				{
-    					case 0:
-    						break;
-    					case 1:
-    						this.activityScheduler.setActivityState(new ActivityPresentationState(
-    								this.activityScheduler, this.activity));
-    				        break;
-    					case 2:
-    						this.activityScheduler.setActivityState(new FirstStepState(
-    								this.activityScheduler, this.activity));
-    						break;
-    					default :
-    						if (GTS == LS +1)
-    						{
-    							this.activityScheduler.setActivityState(new LastStepState(
-    	    							this.activityScheduler, this.activity));
-    						}
-    						else
-    						{
-    							this.activityScheduler.setActivityState(new MiddleStepState(
-    	    						this.activityScheduler, this.activity, GTS-1));
-    						}
-    					break;
-    						
-    				}
-    			}
-    			else
-    			{
-    				System.out.println(" I et !O et !S ");
-    				switch(GTS)
-    				{
-    					case 0:
-    						break;
-    					case 1:
-    						this.activityScheduler.setActivityState(new ActivityPresentationState(
-    								this.activityScheduler, this.activity));
-    				        break;
-    				}
-    			}
-    		}
-    	}
-    }
+	/**
+	 *  (non-Javadoc)
+	 * @see pagod.wizard.control.states.AbstractActivityState#display()
+	 */
+	public void display ()
+	{
+		this.activityScheduler.presentActivityAndProduct();
+		this.activityScheduler.resetSplitPane();
+        this.activityScheduler.checkBeforeStart();
+
+        	
+		this.activityScheduler.autoComboSelect(0);
+
+        
+        // on affiche le bouton next
+        ActionManager.getInstance().getAction(Constants.ACTION_NEXT)
+                .setEnabled(true);
+
+        // on affiche le bouton terminate
+        ActionManager.getInstance().getAction(Constants.ACTION_TERMINATE)
+                .setEnabled(true);
+
+        // on affiche le bouton previous
+        ActionManager.getInstance().getAction(Constants.ACTION_PREVIOUS)
+                .setEnabled(false);
+        
+        // on affiche la combobox
+        ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP)
+                .setEnabled(false);
+	}
+
  }

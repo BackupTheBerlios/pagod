@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: PostConditionCheckerState.java,v 1.5 2005/11/17 12:24:53 yak Exp $
+ * $Id: PostConditionCheckerState.java,v 1.6 2005/11/18 19:15:04 psyko Exp $
  */
 package pagod.wizard.control.states;
 
@@ -25,29 +25,8 @@ public class PostConditionCheckerState extends AbstractActivityState
 			Activity activity)
 	{
 		super(activityScheduler, activity);
-		
-		System.out.println("PostconditionCheckerState : constructeur");
-		this.activityScheduler.resetSplitPane();
-		this.activityScheduler.checkBeforeEnd();
-        this.activityScheduler.fillDirectAccessComboBox();
-        this.activityScheduler.autoComboSelect(this.stepList.size() +2); 
-		
-		// on masque le bouton next
-        ActionManager.getInstance().getAction(Constants.ACTION_NEXT)
-                .setEnabled(false);
 
-        // on affiche le bouton terminate
-        ActionManager.getInstance().getAction(Constants.ACTION_TERMINATE)
-                .setEnabled(true);
-
-        //on affiche le bouton previous
-        ActionManager.getInstance().getAction(Constants.ACTION_PREVIOUS)
-                .setEnabled(true);
-        
-        // on affiche la combobox
-        ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP)
-                .setEnabled(true);
-	}
+    }
 
 
 	/** (non-Javadoc)
@@ -89,10 +68,45 @@ public class PostConditionCheckerState extends AbstractActivityState
 	{
 	}
 	
+    
+    /**
+	 *  (non-Javadoc)
+	 * @see pagod.wizard.control.states.AbstractActivityState#toString()
+	 */
+	@Override
+	public String toString ()
+	{
+		return(" Verification des PostConditions ");
+	}
+
 	/**
-    /* 
-     * @see pagod.wizard.control.states.AbstractActivityState#gotoStep()
-     */
-    public void gotoStep()
-    {}
+	 *  (non-Javadoc)
+	 * @see pagod.wizard.control.states.AbstractActivityState#display()
+	 */
+	public void display ()
+	{
+		
+		System.out.println("PostconditionCheckerState : constructeur");
+		this.activityScheduler.resetSplitPane();
+		this.activityScheduler.checkBeforeEnd();
+		
+		this.activityScheduler.presentActivityAndProduct();
+		
+//		 on masque le bouton next
+        ActionManager.getInstance().getAction(Constants.ACTION_NEXT)
+                .setEnabled(false);
+
+        // on affiche le bouton terminate
+        ActionManager.getInstance().getAction(Constants.ACTION_TERMINATE)
+                .setEnabled(true);
+
+        //on affiche le bouton previous
+        ActionManager.getInstance().getAction(Constants.ACTION_PREVIOUS)
+                .setEnabled(true);
+        
+        // on affiche la combobox
+        ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP)
+                .setEnabled(true);
+	}
+
 }

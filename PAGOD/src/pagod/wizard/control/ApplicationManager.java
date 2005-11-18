@@ -1,5 +1,5 @@
 /*
- * $Id: ApplicationManager.java,v 1.4 2005/11/17 01:12:51 psyko Exp $
+ * $Id: ApplicationManager.java,v 1.5 2005/11/18 19:15:04 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -353,9 +353,6 @@ public class ApplicationManager
                             case RUN_ACTIVITY:
                                 this.runActivity();
                                 
-                                // modif pour tester
-                                System.out.println("testActivityPresentation");
-                                this.activityScheduler.manageRequest(request);
                                 ActionManager.getInstance().getAction(
                                         Constants.ACTION_RUN_ACTIVITY)
                                         .setEnabled(false);
@@ -430,18 +427,23 @@ public class ApplicationManager
                                 break;
                                 
                             case NEXT:
+                            	ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP).setEnabled(false);
+                            	System.out.println(request);
+                                this.activityScheduler.getActivityState().next();
+                                this.activityScheduler.getActivityState().display();
+                                break;
                             case PREVIOUS:
                             	ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP).setEnabled(false);
-                            	System.out.println("Next ou previous");
                             	System.out.println(request);
-                                this.activityScheduler.manageRequest(request);
+                                this.activityScheduler.getActivityState().previous();
+                                this.activityScheduler.getActivityState().display();
                                 break;
-                                                                
                             case GOTOSTEP:
                             	ActionManager.getInstance().getAction(Constants.ACTION_NEXT).setEnabled(false);
                             	ActionManager.getInstance().getAction(Constants.ACTION_PREVIOUS).setEnabled(false);
-                            	this.activityScheduler.setGoToStepInd(this.mfPagod.getButtonPanel().getCbDirectAccess().getSelectedIndex());
-                               	this.activityScheduler.manageRequest(request);
+                            	this.activityScheduler.getActivityState().setState(
+                            			this.mfPagod.getButtonPanel().getCbDirectAccess().getSelectedIndex());
+                               	this.activityScheduler.getActivityState().display();
                             	break;
                         }
                         break;
