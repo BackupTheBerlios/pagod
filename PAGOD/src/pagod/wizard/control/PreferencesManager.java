@@ -1,5 +1,5 @@
 /*
- * $Id: PreferencesManager.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: PreferencesManager.java,v 1.2 2005/11/19 16:15:00 biniou Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -129,6 +129,32 @@ public class PreferencesManager extends Observable
     {
         preferences.setProperty("lang", language);
     }
+    
+    /**
+     * Retourne le chemin du workspace choisi par l'utilisateur 
+     * 
+     * @return le chemin choisi par l'utilisateur
+     */
+    /*public String getWorkspace()
+    {
+        String sPathWorkspace = preferences.getProperty("workspace");
+
+        return sPathWorkspace;
+    }*/
+
+    /**
+     * Defini le chemin "pathWorkspace" comme etant le chemin choisi par
+     * l'utilisateur
+     * 
+     * REMARQUE : cette fonction ne verifie pas que la locale est valide
+     * 
+     * @param pathWorkspace
+     *            est le chemin du workspace a definir
+     */
+    /*public void setWorkspace(String pathWorkspace)
+    {
+        preferences.setProperty("workspace", pathWorkspace);
+    }*/
 
     /**
      * Retourne le chemin d'acces au logiciel capable de visualiser les fichiers

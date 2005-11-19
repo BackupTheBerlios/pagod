@@ -1,5 +1,5 @@
 /*
- * $Id: ApplicationManager.java,v 1.5 2005/11/18 19:15:04 psyko Exp $
+ * $Id: ApplicationManager.java,v 1.6 2005/11/19 16:15:00 biniou Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -26,6 +26,7 @@ package pagod.wizard.control;
 
 import java.awt.Frame;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -40,6 +41,8 @@ import pagod.utils.ExceptionManager;
 import pagod.utils.FilesManager;
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
+import pagod.wizard.control.PreferencesManager.FileNotExecuteException;
+import pagod.wizard.control.PreferencesManager.InvalidExtensionException;
 import pagod.wizard.control.actions.*;
 import pagod.common.control.InterfaceManager;
 import pagod.common.control.adapters.ProcessTreeModel;
@@ -47,6 +50,10 @@ import pagod.common.model.Activity;
 import pagod.common.model.Process;
 import pagod.common.ui.AboutDialog;
 import pagod.common.ui.ProcessFileChooser;
+
+// test bibi
+
+import pagod.common.ui.WorkspaceFileChooser;
 import pagod.wizard.ui.MainFrame;
 import pagod.wizard.ui.PreferencesDialog;
 import pagod.wizard.ui.RolesChooserDialog;
@@ -461,12 +468,36 @@ public class ApplicationManager
 
     /**
      * Lance l'application
+     * @throws FileNotExecuteException 
+     * @throws InvalidExtensionException 
+     * @throws FileNotFoundException 
      */
-    private void run()
+    private void run() throws FileNotFoundException, InvalidExtensionException, FileNotExecuteException
     {
         // rends la fenetre visible et la maximise
         this.mfPagod.setVisible(true);
         this.mfPagod.setExtendedState(Frame.MAXIMIZED_BOTH);
+        
+        // lancement de la fenetre de choix de workspace si besoin
+        
+        // test si la valeur de la clé workspace est définie ou pas
+        if (!PreferencesManager.getInstance().containPreference("workspace"))
+        {
+        	WorkspaceFileChooser workspaceChooser = new WorkspaceFileChooser();
+        
+        		if (workspaceChooser.showOpenDialog(this.mfPagod) == JFileChooser.APPROVE_OPTION) 
+        		{
+        			File file = workspaceChooser.getSelectedFile();
+        			System.out.println(file.getPath());
+        			
+        			// mettre le path dans le fichier preferences a la clé "workspace"
+        			PreferencesManager.getInstance().setPreference("workspace",file.getPath());
+            
+        		}
+        }
+        
+        // fin de choix de workspace
+        
         this.state = State.INIT;
     }
 
@@ -492,6 +523,7 @@ public class ApplicationManager
     private boolean openProcess()
     {
         boolean open = false;
+         
         ProcessFileChooser fileChooser = new ProcessFileChooser();
         if (fileChooser.showOpenDialog(this.mfPagod) == JFileChooser.APPROVE_OPTION)
         {
