@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: PostConditionCheckerState.java,v 1.6 2005/11/18 19:15:04 psyko Exp $
+ * $Id: PostConditionCheckerState.java,v 1.7 2005/11/20 18:37:58 cyberal82 Exp $
  */
 package pagod.wizard.control.states;
 
@@ -90,9 +90,7 @@ public class PostConditionCheckerState extends AbstractActivityState
 		this.activityScheduler.resetSplitPane();
 		this.activityScheduler.checkBeforeEnd();
 		
-		this.activityScheduler.presentActivityAndProduct();
-		
-//		 on masque le bouton next
+		// on masque le bouton next
         ActionManager.getInstance().getAction(Constants.ACTION_NEXT)
                 .setEnabled(false);
 
