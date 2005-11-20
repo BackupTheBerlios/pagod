@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: AbstractActivityState.java,v 1.5 2005/11/18 19:15:04 psyko Exp $
+ * $Id: AbstractActivityState.java,v 1.6 2005/11/20 23:26:43 psyko Exp $
  */
 package pagod.wizard.control.states;
 
@@ -62,35 +62,6 @@ public abstract class AbstractActivityState
     
     /**
      * 
-     * @param activityScheduler
-     * @param activity
-     * @param iCurrentStep
-     */
-    public AbstractActivityState(ActivityScheduler activityScheduler, Activity activity, int iCurrentStep)
-    {
-        super();
-        // TODO Corps de constructeur généré automatiquement
-        
-        this.activityScheduler = activityScheduler;
-        this.activity = activity;
-        this.index = iCurrentStep;
-        this.stepList = activity.getSteps();
-        this.step = null;
-    }
-
-    /**
-     * 
-     *
-     */
-    public abstract void previous();
-    
-    /**
-     * 
-     */
-    public abstract void next();
-    
-    /**
-     * 
      */
     public abstract void terminate();
     
@@ -141,5 +112,7 @@ public abstract class AbstractActivityState
     			this.activityScheduler.getMfPagod().getButtonPanel().
     			getCbDirectAccess().getSelectedIndex());
     }
+    
+    
 	
 }

@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.11 2005/11/17 01:12:53 psyko Exp $
+ * $Id: MainFrame.java,v 1.12 2005/11/20 23:26:43 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -259,7 +259,6 @@ public class MainFrame extends JFrame
 
 		//TODO mnémonique pour accéder à la combo box, et mettre le focus dedans
 		// pr access clavier aux steps ... 
-		
 	}
 
 	/**
@@ -430,12 +429,6 @@ public class MainFrame extends JFrame
 			this.centerPanel.add(new StepPanel(stepToPresent, rang,
 					total));
 		}
-		
-		
-		
-		
-		
-
 		this.setVisible(true);
 	}
 
@@ -536,5 +529,13 @@ public class MainFrame extends JFrame
 	public ButtonPanel getButtonPanel ()
 	{
 		return this.buttonPanel;
+	}
+	
+	/**
+	 * initialise le buttonPanel
+	 */
+	public void InitButtonPanel()
+	{
+		this.buttonPanel = new ButtonPanel();
 	}
 }

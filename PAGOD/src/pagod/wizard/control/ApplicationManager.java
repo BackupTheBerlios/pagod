@@ -1,5 +1,5 @@
 /*
- * $Id: ApplicationManager.java,v 1.6 2005/11/19 16:15:00 biniou Exp $
+ * $Id: ApplicationManager.java,v 1.7 2005/11/20 23:26:43 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -44,6 +44,7 @@ import pagod.utils.LanguagesManager;
 import pagod.wizard.control.PreferencesManager.FileNotExecuteException;
 import pagod.wizard.control.PreferencesManager.InvalidExtensionException;
 import pagod.wizard.control.actions.*;
+import pagod.wizard.control.states.StepFactory;
 import pagod.common.control.InterfaceManager;
 import pagod.common.control.adapters.ProcessTreeModel;
 import pagod.common.model.Activity;
@@ -436,21 +437,26 @@ public class ApplicationManager
                             case NEXT:
                             	ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP).setEnabled(false);
                             	System.out.println(request);
-                                this.activityScheduler.getActivityState().next();
-                                this.activityScheduler.getActivityState().display();
+                                new StepFactory(
+                            			this.activityScheduler, this.activityScheduler.getActivity(),
+                            			this.activityScheduler.getStateList(), 
+                            			this.activityScheduler.getCurrentActivityState()+ 1);
                                 break;
                             case PREVIOUS:
                             	ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP).setEnabled(false);
                             	System.out.println(request);
-                                this.activityScheduler.getActivityState().previous();
-                                this.activityScheduler.getActivityState().display();
+                            	new StepFactory(
+                            			this.activityScheduler, this.activityScheduler.getActivity(),
+                            			this.activityScheduler.getStateList(), 
+                            			this.activityScheduler.getCurrentActivityState()- 1);
                                 break;
                             case GOTOSTEP:
                             	ActionManager.getInstance().getAction(Constants.ACTION_NEXT).setEnabled(false);
                             	ActionManager.getInstance().getAction(Constants.ACTION_PREVIOUS).setEnabled(false);
-                            	this.activityScheduler.getActivityState().setState(
+                            	new StepFactory(
+                            			this.activityScheduler, this.activityScheduler.getActivity(),
+                            			this.activityScheduler.getStateList(), 
                             			this.mfPagod.getButtonPanel().getCbDirectAccess().getSelectedIndex());
-                               	this.activityScheduler.getActivityState().display();
                             	break;
                         }
                         break;
@@ -592,6 +598,7 @@ public class ApplicationManager
     {
         Activity activity = this.mfPagod.getActivity();
         this.activityScheduler = new ActivityScheduler(activity, this.mfPagod);
+        this.activityScheduler.initActivityScheduler();
         this.state = State.ACTIVITY_LAUNCHED;
     }
 

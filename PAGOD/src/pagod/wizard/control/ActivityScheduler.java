@@ -1,5 +1,5 @@
 /*
- * $Id: ActivityScheduler.java,v 1.21 2005/11/18 19:15:04 psyko Exp $
+ * $Id: ActivityScheduler.java,v 1.22 2005/11/20 23:26:43 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -24,12 +24,11 @@
 
 package pagod.wizard.control;
 
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import javax.swing.JOptionPane;
-
 import pagod.common.model.Activity;
 import pagod.common.model.Product;
 import pagod.common.model.Step;
@@ -41,6 +40,7 @@ import pagod.wizard.control.states.FirstStepState;
 import pagod.wizard.control.states.LastStepState;
 import pagod.wizard.control.states.MiddleStepState;
 import pagod.wizard.control.states.PostConditionCheckerState;
+import pagod.wizard.control.states.StepFactory;
 
 import pagod.wizard.control.states.PreConditionCheckerState;
 import pagod.wizard.ui.MainFrame;
@@ -118,11 +118,20 @@ public class ActivityScheduler
     private MainFrame mfPagod;
     
     /**
+     * currentyActivitState : état courant de l'activité
+     */
+    private int currentActivityState;
+    
+    /**
      * Step utilis? par la combo en cas d acces direct
      */
-    private int goToStepInd;
+    //private int goToStepInd;
     
-    private ArrayList<AbstractActivityState> stateList;
+    /**
+     * 
+     * Liste des états possibles de l'activité
+     */
+    private List<AbstractActivityState> stateList = new ArrayList<AbstractActivityState>();
     
     /**
      * Constructeur
@@ -133,40 +142,25 @@ public class ActivityScheduler
      */
     public ActivityScheduler(final Activity activity, MainFrame frame)
     {
+     	
     	System.out.println("Constr ActivityScheduler ");
-        // TODO a suppr 
         this.activity = activity;
-        this.stepList = new ArrayList<Step>();
+        this.stateList = new ArrayList <AbstractActivityState>();
         this.stepList = this.activity.getSteps();
+        
         this.state = State.INIT;
-        
-        this.stateList = new ArrayList<AbstractActivityState>();       
-        this.stateList.add(new PreConditionCheckerState(this, this.activity));
-        System.out.println("test add statelist OK ");
+        this.setStateList();
         this.mfPagod = frame;
-        
-        // pour pagod
-        if (this.activity.hasInputProducts())
-
-        {  	
-        	this.activityState = new PreConditionCheckerState (this, activity);
-//        	this.initComboBox();
-        	System.out.println("Checkbox init OK");
-        	this.activityState.display();
-        }
-
-        else
-
-        {
-        	this.activityState = new ActivityPresentationState(this, activity);
-  //      	this.initComboBox();
-        	System.out.println("Checkbox init OK");
-        	this.activityState.display();
-        	
-        }
-
+        this.mfPagod.InitButtonPanel();
     }
-
+    
+    /**
+     * 
+     */
+    public void initActivityScheduler()
+    {
+    	new StepFactory(this, this.activity, this.stateList, 0);
+    }
    
     /**
      * D?finit l'?tat de la machine ? ?tat qui represente une activit? lanc?
@@ -291,7 +285,6 @@ public class ActivityScheduler
 
 	}
 
-
 	/**
 	 * Remet a null le splitPane permettant d'afficher : 
 	 * - dans sa partie sup?rieur la pr?sentation d'une activit? ou d'une ?tape 
@@ -333,107 +326,6 @@ public class ActivityScheduler
 	}
 	
 	/**
-	 * @param goToStepInd
-	 */
-	public void setGoToStepInd (int goToStepInd)
-	{
-		this.goToStepInd = goToStepInd;
-	}
-	
-	/**
-	 * rempli automatiquement la combo box pour acces direct aux steps
-	 */
-	 public void initComboBox()
-	 {
-		 
-		 //on remove l action listener de la combo pour eviter conflits et boucles infinies
-		this.mfPagod.getButtonPanel().getCbDirectAccess().removeActionListener(
-					ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP));
-		//on vide la combo
-		
-		// si has input, on remplit stateList
-		if (this.activity.hasInputProducts())
-		 {
-			 System.out.println(new PreConditionCheckerState (this, this.activity).toString());
-			  this.stateList.add(new PreConditionCheckerState (this, this.activity));
-			 
-			}
-		// on remplit statelist avec Activity presentation
-		
-		 this.stateList.add(new ActivityPresentationState(this, this.activity));
-		 
-		 // si has steps , meme chose
-		 if(this.activity.hasSteps())
-		 {
-			 switch(this.stepList.size())
-			 {
-				 case 1:
-					 this.stateList.add(new LastStepState(this, this.activity));
-					 break;
-				 case 2:
-					 this.stateList.add(new FirstStepState(this, this.activity));
-					 this.stateList.add(new LastStepState(this, this.activity));
-					 break;
-				 default:
-					 this.stateList.add(new FirstStepState(this, this.activity));
-					 for(int i=0; i< this.stepList.size() -1; i++)
-					 {
-						 this.stateList.add(new MiddleStepState (this, this.activity, i));
-					 }
-					 this.stateList.add(new LastStepState(this, this.activity));
-					 break;
-			 }
-			 
-		 }
-		 
-		 // Meme chose pr les post conditions
-		 if (this.activity.hasOutputProducts())
-		 {
-			 this.stateList.add(new PostConditionCheckerState (this, this.activity));
-			 
-		 }
-		 
-		 // on remplit notre combo avec les elements de la statelist
-		 for(int i=0; i< this.stateList.size(); i++)
-		 {
-			 this.mfPagod.getButtonPanel().getCbDirectAccess().
- 				addItem(this.stateList.get(i));
-		 }
-				 
-			this.mfPagod.getButtonPanel().getCbDirectAccess().addActionListener(
-					ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP));
-	        
-	 }
-	 
-	 /**
-	 * s?lectionne l'?tape en cours dans la combo en fonction du contenu de l'activit?
-	 * @param i 
-	 */
-	 public void autoComboSelect(int i)
-	 {
-
-	/*	 	if (!this.activity.hasInputProducts() && i>=1)
-				i--;
-		
-		 	this.mfPagod.getButtonPanel().getCbDirectAccess().removeActionListener(
-					ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP));
-			
-			this.mfPagod.getButtonPanel().getCbDirectAccess().setSelectedIndex(i);
-			
-			this.mfPagod.getButtonPanel().getCbDirectAccess().addActionListener(
-					ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP));
-
-		if (!this.activity.hasInputProducts())
-			i--;
-		//desactivation de l'action pour eviter de lever un actionPerformed lors du selectedIndex
-		this.mfPagod.getButtonPanel().getCbDirectAccess().removeActionListener(ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP));
-		this.mfPagod.getButtonPanel().getCbDirectAccess().setSelectedIndex(i);
-		this.mfPagod.getButtonPanel().getCbDirectAccess().addActionListener(ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP));
-*/
-	 }
-
-
-	/**
 	 * @return statelists
 	 */
 	public List<AbstractActivityState> getStateList ()
@@ -442,11 +334,110 @@ public class ActivityScheduler
 	}
 	
 	/**
-	 * @param index 
+	 * @param indice
+	 * @return AbstractActivityState
 	 */
-	public void setState (int index)
+	public AbstractActivityState getState(int indice)
 	{
-		this.activityState = this.stateList.get(index);
+		AbstractActivityState abstractActivityState = this.stateList.get(indice);
+		return abstractActivityState;
+	}
+	
+	/**
+	 * @param indice
+	 */
+	public void setState (int indice)
+	{
+		this.activityState = this.getState(indice);
 	}
 	 
+    /**
+     * @param etat
+     */
+    public void addState(AbstractActivityState etat)
+    {
+        if (!this.stateList.contains(etat))
+        {
+            this.stateList.add(etat);
+        }
+    }
+    
+    /**
+     * fonction créant la liste des etats présents dans l'activité
+     * ceux ci serviront à l'abstract factory
+     */
+    public void setStateList()
+    {
+    	if (this.activity.hasInputProducts())
+    		this.addState(new PreConditionCheckerState(this,this.activity));
+    		
+    	this.addState(new ActivityPresentationState(this,this.activity));
+    	
+    	if (this.activity.hasSteps())
+    	{
+   			 switch(this.stepList.size())
+   			 {
+   				 case 1:
+   					 this.stateList.add(new LastStepState(this, this.activity));
+   					 break;
+   				 case 2:
+   					 this.stateList.add(new FirstStepState(this, this.activity));
+   					 this.stateList.add(new LastStepState(this, this.activity));
+   					 break;
+   				 default:
+   					 this.stateList.add(new FirstStepState(this, this.activity));
+   					 for(int i = 1; i< this.stepList.size()-1; i++)
+   					 {
+   						 this.stateList.add(new MiddleStepState (this, this.activity, i));
+   					 }
+   					 this.stateList.add(new LastStepState(this, this.activity));
+   					 break;
+   			 }
+    	}
+    		
+    	if (this.activity.hasOutputProducts())
+    		this.addState(new PostConditionCheckerState(this,this.activity));
+    		
+    	System.out.println("StateList OK : " + this.stateList.size() + " Elts");
+    
+    }
+
+	/**
+	 * init ComboBOx
+	 */
+	public void initComboBox()
+	{
+		this.mfPagod.getButtonPanel().getCbDirectAccess().removeActionListener(
+				ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP));
+		
+		this.mfPagod.getButtonPanel().getCbDirectAccess().removeAll();
+		
+		// on remplit notre comboModel avec les elements de la statelist
+		 for(AbstractActivityState states : this.stateList)
+		 {
+			 this.mfPagod.getButtonPanel().getCbDirectAccess().addItem(states);
+		 }
+
+		// en 2 on remplit la combo box
+		this.mfPagod.getButtonPanel().getCbDirectAccess().setSelectedIndex(this.currentActivityState);
+		this.mfPagod.getButtonPanel().getCbDirectAccess().addActionListener(
+				ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP));
+	}
+
+	/**
+	 * @return l'etat courant de l'activité
+	 */
+	public int getCurrentActivityState ()
+	{
+		return this.currentActivityState;
+	}
+
+	/**
+	 * @param currentActivityState
+	 */
+	public void setCurrentActivityState (int currentActivityState)
+	{
+		this.currentActivityState = currentActivityState;
+	}
+    
 }
