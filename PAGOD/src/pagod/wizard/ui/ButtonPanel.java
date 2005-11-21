@@ -1,5 +1,5 @@
 /*
- * $Id: ButtonPanel.java,v 1.5 2005/11/20 23:26:43 psyko Exp $
+ * $Id: ButtonPanel.java,v 1.6 2005/11/21 19:15:50 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -31,7 +31,6 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import pagod.utils.ActionManager;
-import pagod.wizard.control.Constants;
 import static pagod.wizard.control.Constants.*;
 
 /**
@@ -83,10 +82,10 @@ public class ButtonPanel extends JPanel
 		this.pbNext.setHorizontalTextPosition(SwingConstants.LEADING);
 		this.pbPrevious = new JButton(am.getAction(ACTION_PREVIOUS));
 		this.pbTerminate = new JButton(am.getAction(ACTION_TERMINATE));
+		
 		this.cbDirectAccess = new JComboBox();
 		this.cbDirectAccess.addActionListener(am.getAction(ACTION_GOTOSTEP));
-		
-		
+				
 		// Création de panneaux intermédiaires pour la taille des boutons
 		JPanel pnlGauche = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		JPanel pnlCentre = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -194,16 +193,6 @@ public class ButtonPanel extends JPanel
 	public JComboBox getCbDirectAccess ()
 	{
 		return (this.cbDirectAccess);
-	}
-	
-	/**
-	 * @param comboBox
-	 */
-	public void setCbDirectAccess(JComboBox comboBox)
-	{
-		this.cbDirectAccess = comboBox;
-		this.cbDirectAccess.addActionListener(
-				ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP));
 	}
 
 }

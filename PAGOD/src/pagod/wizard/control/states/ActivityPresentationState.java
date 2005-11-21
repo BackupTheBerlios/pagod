@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ActivityPresentationState.java,v 1.13 2005/11/20 23:26:43 psyko Exp $
+ * $Id: ActivityPresentationState.java,v 1.14 2005/11/21 19:15:50 psyko Exp $
  */
 
 package pagod.wizard.control.states;
@@ -55,6 +55,7 @@ public class ActivityPresentationState extends AbstractActivityState
 	 */
 	public void display ()
 	{
+		this.activityScheduler.resetSplitPane();
 		// on affiche la presentation de l'activit?
 		this.activityScheduler.presentActivityAndProduct();
 		

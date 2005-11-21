@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: MiddleStepState.java,v 1.11 2005/11/20 23:26:43 psyko Exp $
+ * $Id: MiddleStepState.java,v 1.12 2005/11/21 19:15:50 psyko Exp $
  */
 package pagod.wizard.control.states;
 
@@ -54,6 +54,8 @@ public class MiddleStepState extends AbstractStepState
 	 */
 	public void display ()
 	{
+		this.activityScheduler.resetSplitPane();
+		System.out.println("stateListSize " + this.activityScheduler.getStateList().size());
 		//affichage de l'etape
         this.activityScheduler.presentStep(this.stepList.get(this.index),this.index,this.stepList.size()) ;
 

@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: LastStepState.java,v 1.12 2005/11/20 23:26:43 psyko Exp $
+ * $Id: LastStepState.java,v 1.13 2005/11/21 19:15:50 psyko Exp $
  */
 package pagod.wizard.control.states;
 
@@ -51,6 +51,7 @@ public class LastStepState extends AbstractStepState
 	 */
 	public void display ()
 	{
+		this.activityScheduler.resetSplitPane();
         // affichage de l'?tape
         this.activityScheduler.presentStep(this.stepList.get(this.index),this.index,this.stepList.size());
 	}

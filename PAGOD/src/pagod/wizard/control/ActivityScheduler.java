@@ -1,5 +1,5 @@
 /*
- * $Id: ActivityScheduler.java,v 1.22 2005/11/20 23:26:43 psyko Exp $
+ * $Id: ActivityScheduler.java,v 1.23 2005/11/21 19:15:50 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -411,6 +411,7 @@ public class ActivityScheduler
 				ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP));
 		
 		this.mfPagod.getButtonPanel().getCbDirectAccess().removeAll();
+		this.mfPagod.getButtonPanel().getCbDirectAccess().removeAllItems();
 		
 		// on remplit notre comboModel avec les elements de la statelist
 		 for(AbstractActivityState states : this.stateList)
