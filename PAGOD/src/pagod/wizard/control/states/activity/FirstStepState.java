@@ -1,52 +1,48 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ActivityPresentationState.java,v 1.14 2005/11/21 19:15:50 psyko Exp $
+ * $Id: FirstStepState.java,v 1.1 2005/11/22 13:27:13 fabfoot Exp $
  */
-
-package pagod.wizard.control.states;
+package pagod.wizard.control.states.activity;
 
 import pagod.common.model.Activity;
 import pagod.wizard.control.ActivityScheduler;
 
-
 /**
- * @author Alexandre Bes
- * 
+ * @author Cyberal
+ *
  */
-public class ActivityPresentationState extends AbstractActivityState
+public class FirstStepState extends AbstractActivityState
 {
-
+	
 	/**
 	 * @param activityScheduler
 	 * @param activity
 	 */
-	public ActivityPresentationState (ActivityScheduler activityScheduler,
-			Activity activity)
+	public FirstStepState(ActivityScheduler activityScheduler, Activity activity)
 	{
 		super(activityScheduler, activity);
-
-	}
-
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see pagod.wizard.control.states.AbstractActivityState#terminate()
-	 */
-	public void terminate ()
-	{
-		// TODO Corps de m?thode g?n?r? automatiquement
-
+		
+		// initialisation de l'index
+		this.index = 0;
 	}
 	
-	/**
+	/** (non-Javadoc)
+	 * @see pagod.wizard.control.states.AbstractActivityState#terminate()
+	 */
+	public void terminate()
+	{
+		// TODO Corps de m?thode g?n?r? automatiquement
+		
+	}
+
+    /**
 	 *  (non-Javadoc)
 	 * @see pagod.wizard.control.states.AbstractActivityState#toString()
 	 */
-	@Override
 	public String toString ()
 	{
-		return(" Presentation de l'activite ");
+		return this.getStepList().get(0).getName();
 	}
 
 	/**
@@ -56,10 +52,8 @@ public class ActivityPresentationState extends AbstractActivityState
 	public void display ()
 	{
 		this.activityScheduler.resetSplitPane();
-		// on affiche la presentation de l'activit?
-		this.activityScheduler.presentActivityAndProduct();
-		
+		//affichage de l'etape
+		this.activityScheduler.presentStep(this.stepList.get(this.index),this.index,this.stepList.size()) ;
 	}
-
-	
 }
+

@@ -1,9 +1,9 @@
 /*
  * Projet PAGOD
  * 
- * $Id: StepFactory.java,v 1.1 2005/11/20 23:26:43 psyko Exp $
+ * $Id: StepFactory.java,v 1.1 2005/11/22 13:27:13 fabfoot Exp $
  */
-package pagod.wizard.control.states;
+package pagod.wizard.control.states.activity;
 
 import java.util.List;
 import pagod.common.model.Activity;
@@ -22,7 +22,7 @@ public class StepFactory
 	 * @param activity
 	 * @param stateList
 	 * @param index
-	 * factory qui va générer automatiquement l'état dans lequel on se trouve
+	 * factory qui va g?n?rer automatiquement l'?tat dans lequel on se trouve
 	 */
 	public StepFactory(ActivityScheduler activityScheduler, Activity activity, 
 			List<AbstractActivityState> stateList, int index)

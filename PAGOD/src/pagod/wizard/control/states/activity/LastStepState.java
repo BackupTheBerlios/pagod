@@ -1,9 +1,9 @@
 /*
  * Projet PAGOD
  * 
- * $Id: LastStepState.java,v 1.13 2005/11/21 19:15:50 psyko Exp $
+ * $Id: LastStepState.java,v 1.1 2005/11/22 13:27:13 fabfoot Exp $
  */
-package pagod.wizard.control.states;
+package pagod.wizard.control.states.activity;
 
 import pagod.common.model.Activity;
 import pagod.wizard.control.ActivityScheduler;

@@ -1,9 +1,9 @@
-/*
+  /*
  * Projet PAGOD
  * 
- * $Id: AbstractActivityState.java,v 1.6 2005/11/20 23:26:43 psyko Exp $
+ * $Id: AbstractActivityState.java,v 1.1 2005/11/22 13:27:13 fabfoot Exp $
  */
-package pagod.wizard.control.states;
+package pagod.wizard.control.states.activity;
 
 import java.util.List;
 
@@ -38,7 +38,7 @@ public abstract class AbstractActivityState
     protected Step step;
     
     /**
-     * Step utilisé par la combo en cas d acces direct
+     * Step utilis? par la combo en cas d acces direct
      */
     private int goToStepInd;
     
@@ -51,14 +51,22 @@ public abstract class AbstractActivityState
     public AbstractActivityState(ActivityScheduler activityScheduler, Activity activity)
     {
         super();
-        // TODO Corps de constructeur généré automatiquement
+        // TODO Corps de constructeur g?n?r? automatiquement
         
         this.activityScheduler = activityScheduler;
         this.activity = activity;
         this.stepList = activity.getSteps();
         this.step = null;
-        
+
     }
+    
+    /**
+     * 
+     * @param activityScheduler
+     * @param activity
+     * @param iCurrentStep
+     */
+  
     
     /**
      * 

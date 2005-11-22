@@ -1,5 +1,5 @@
 /*
- * $Id: ActivityScheduler.java,v 1.23 2005/11/21 19:15:50 psyko Exp $
+ * $Id: ActivityScheduler.java,v 1.24 2005/11/22 13:27:14 fabfoot Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -28,21 +28,22 @@ package pagod.wizard.control;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
 import javax.swing.JOptionPane;
+
 import pagod.common.model.Activity;
 import pagod.common.model.Product;
 import pagod.common.model.Step;
 import pagod.utils.ActionManager;
 import pagod.utils.LanguagesManager;
-import pagod.wizard.control.states.ActivityPresentationState;
-import pagod.wizard.control.states.AbstractActivityState;
-import pagod.wizard.control.states.FirstStepState;
-import pagod.wizard.control.states.LastStepState;
-import pagod.wizard.control.states.MiddleStepState;
-import pagod.wizard.control.states.PostConditionCheckerState;
-import pagod.wizard.control.states.StepFactory;
-
-import pagod.wizard.control.states.PreConditionCheckerState;
+import pagod.wizard.control.states.activity.AbstractActivityState;
+import pagod.wizard.control.states.activity.ActivityPresentationState;
+import pagod.wizard.control.states.activity.FirstStepState;
+import pagod.wizard.control.states.activity.LastStepState;
+import pagod.wizard.control.states.activity.MiddleStepState;
+import pagod.wizard.control.states.activity.PostConditionCheckerState;
+import pagod.wizard.control.states.activity.PreConditionCheckerState;
+import pagod.wizard.control.states.activity.StepFactory;
 import pagod.wizard.ui.MainFrame;
 
 /**
@@ -118,7 +119,7 @@ public class ActivityScheduler
     private MainFrame mfPagod;
     
     /**
-     * currentyActivitState : état courant de l'activité
+     * currentyActivitState : ?tat courant de l'activit?
      */
     private int currentActivityState;
     
@@ -129,7 +130,7 @@ public class ActivityScheduler
     
     /**
      * 
-     * Liste des états possibles de l'activité
+     * Liste des ?tats possibles de l'activit?
      */
     private List<AbstractActivityState> stateList = new ArrayList<AbstractActivityState>();
     
@@ -363,8 +364,8 @@ public class ActivityScheduler
     }
     
     /**
-     * fonction créant la liste des etats présents dans l'activité
-     * ceux ci serviront à l'abstract factory
+     * fonction cr?ant la liste des etats pr?sents dans l'activit?
+     * ceux ci serviront ? l'abstract factory
      */
     public void setStateList()
     {
@@ -426,7 +427,7 @@ public class ActivityScheduler
 	}
 
 	/**
-	 * @return l'etat courant de l'activité
+	 * @return l'etat courant de l'activit?
 	 */
 	public int getCurrentActivityState ()
 	{

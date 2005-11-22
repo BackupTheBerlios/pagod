@@ -1,5 +1,5 @@
 /*
- * $Id: ApplicationManager.java,v 1.7 2005/11/20 23:26:43 psyko Exp $
+ * $Id: ApplicationManager.java,v 1.8 2005/11/22 13:27:14 fabfoot Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -36,6 +36,13 @@ import java.util.Locale;
 
 import javax.swing.JFileChooser;
 
+import pagod.common.control.InterfaceManager;
+import pagod.common.control.adapters.ProcessTreeModel;
+import pagod.common.model.Activity;
+import pagod.common.model.Process;
+import pagod.common.ui.AboutDialog;
+import pagod.common.ui.ProcessFileChooser;
+import pagod.common.ui.WorkspaceFileChooser;
 import pagod.utils.ActionManager;
 import pagod.utils.ExceptionManager;
 import pagod.utils.FilesManager;
@@ -43,18 +50,17 @@ import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
 import pagod.wizard.control.PreferencesManager.FileNotExecuteException;
 import pagod.wizard.control.PreferencesManager.InvalidExtensionException;
-import pagod.wizard.control.actions.*;
-import pagod.wizard.control.states.StepFactory;
-import pagod.common.control.InterfaceManager;
-import pagod.common.control.adapters.ProcessTreeModel;
-import pagod.common.model.Activity;
-import pagod.common.model.Process;
-import pagod.common.ui.AboutDialog;
-import pagod.common.ui.ProcessFileChooser;
-
-// test bibi
-
-import pagod.common.ui.WorkspaceFileChooser;
+import pagod.wizard.control.actions.AboutAction;
+import pagod.wizard.control.actions.DirectAccessAction;
+import pagod.wizard.control.actions.NextAction;
+import pagod.wizard.control.actions.OpenAction;
+import pagod.wizard.control.actions.PreferencesAction;
+import pagod.wizard.control.actions.PreviousAction;
+import pagod.wizard.control.actions.QuitAction;
+import pagod.wizard.control.actions.RunActivityAction;
+import pagod.wizard.control.actions.TerminateAction;
+import pagod.wizard.control.actions.ToolsSettingsAction;
+import pagod.wizard.control.states.activity.StepFactory;
 import pagod.wizard.ui.MainFrame;
 import pagod.wizard.ui.PreferencesDialog;
 import pagod.wizard.ui.RolesChooserDialog;
@@ -118,7 +124,7 @@ public class ApplicationManager
          */
         TERMINATE_ACTIVITY,
         /**
-         * aller à une étape direct en utilisant la comboBox
+         * aller ? une ?tape direct en utilisant la comboBox
          */
         GOTOSTEP
     }
@@ -486,7 +492,7 @@ public class ApplicationManager
         
         // lancement de la fenetre de choix de workspace si besoin
         
-        // test si la valeur de la clé workspace est définie ou pas
+        // test si la valeur de la cl? workspace est d?finie ou pas
         if (!PreferencesManager.getInstance().containPreference("workspace"))
         {
         	WorkspaceFileChooser workspaceChooser = new WorkspaceFileChooser();
@@ -496,7 +502,7 @@ public class ApplicationManager
         			File file = workspaceChooser.getSelectedFile();
         			System.out.println(file.getPath());
         			
-        			// mettre le path dans le fichier preferences a la clé "workspace"
+        			// mettre le path dans le fichier preferences a la cl? "workspace"
         			PreferencesManager.getInstance().setPreference("workspace",file.getPath());
             
         		}

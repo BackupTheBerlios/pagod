@@ -1,9 +1,9 @@
 /*
  * Projet PAGOD
  * 
- * $Id: AbstractStepState.java,v 1.1 2005/11/20 23:26:43 psyko Exp $
+ * $Id: AbstractStepState.java,v 1.1 2005/11/22 13:27:13 fabfoot Exp $
  */
-package pagod.wizard.control.states;
+package pagod.wizard.control.states.activity;
 
 import pagod.common.model.Activity;
 import pagod.wizard.control.ActivityScheduler;
@@ -39,7 +39,7 @@ public abstract class AbstractStepState extends AbstractActivityState
 
 	/**
 	 *  
-	 * @return String , intitulé de la classe 
+	 * @return String , intitul? de la classe 
 	 */
     public abstract String toString();
     

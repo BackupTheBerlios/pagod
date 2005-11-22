@@ -1,9 +1,9 @@
 /*
  * Projet PAGOD
  * 
- * $Id: MiddleStepState.java,v 1.12 2005/11/21 19:15:50 psyko Exp $
+ * $Id: MiddleStepState.java,v 1.1 2005/11/22 13:27:13 fabfoot Exp $
  */
-package pagod.wizard.control.states;
+package pagod.wizard.control.states.activity;
 
 import pagod.common.model.Activity;
 
@@ -34,7 +34,7 @@ public class MiddleStepState extends AbstractStepState
      */
     public void terminate()
     {
-        // TODO Corps de méthode généré automatiquement
+        // TODO Corps de m?thode g?n?r? automatiquement
 
     }
     

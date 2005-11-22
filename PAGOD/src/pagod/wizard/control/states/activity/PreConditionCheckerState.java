@@ -1,9 +1,9 @@
 /*
  * Projet PAGOD
  * 
- * $Id: PreConditionCheckerState.java,v 1.13 2005/11/20 23:26:43 psyko Exp $
+ * $Id: PreConditionCheckerState.java,v 1.1 2005/11/22 13:27:13 fabfoot Exp $
  */
-package pagod.wizard.control.states;
+package pagod.wizard.control.states.activity;
 
 import pagod.common.model.Activity;
 import pagod.wizard.control.ActivityScheduler;
