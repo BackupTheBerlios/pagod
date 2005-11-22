@@ -1,5 +1,5 @@
 /*
- * $Id: PreferencesManager.java,v 1.2 2005/11/19 16:15:00 biniou Exp $
+ * $Id: PreferencesManager.java,v 1.3 2005/11/22 18:15:37 biniou Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -135,12 +135,12 @@ public class PreferencesManager extends Observable
      * 
      * @return le chemin choisi par l'utilisateur
      */
-    /*public String getWorkspace()
+    public String getWorkspace()
     {
         String sPathWorkspace = preferences.getProperty("workspace");
 
         return sPathWorkspace;
-    }*/
+    }
 
     /**
      * Defini le chemin "pathWorkspace" comme etant le chemin choisi par
@@ -151,10 +151,10 @@ public class PreferencesManager extends Observable
      * @param pathWorkspace
      *            est le chemin du workspace a definir
      */
-    /*public void setWorkspace(String pathWorkspace)
+    public void setWorkspace(String pathWorkspace)
     {
         preferences.setProperty("workspace", pathWorkspace);
-    }*/
+    }
 
     /**
      * Retourne le chemin d'acces au logiciel capable de visualiser les fichiers
@@ -215,7 +215,7 @@ public class PreferencesManager extends Observable
             // si extension ne contient pas de .
             sTemp = "." + extension;
         else if (i != extension.length() - 1)
-            // si l'extension ne ce termine pas par un .
+            // si l'extension ne se termine pas par un .
             sTemp = extension.substring(extension.lastIndexOf("."));
         else
             throw new InvalidExtensionException();
@@ -243,6 +243,8 @@ public class PreferencesManager extends Observable
         this.setChanged();
         this.notifyObservers(extension);
     }
+    
+    
 
     /**
      * Permet de tester l'existance d'une association extension-programme
@@ -271,6 +273,16 @@ public class PreferencesManager extends Observable
             return false;
 
         return preferences.containsKey(sTemp);
+    }
+    
+    /**
+     * Permet de tester l'existence d'un chemin par défaut pour le workspace
+     * 
+     * @return true s'il existe un chemin dans les preferences sinon false
+     */
+    public boolean containWorkspace()
+    {
+        return preferences.containsKey("workspace");
     }
 
     /**
@@ -426,8 +438,8 @@ public class PreferencesManager extends Observable
      * langue) definies par l'utilisateur. Les cl?s sont tri? par ordre
      * alphab?tique.
      * 
-     * @return un ArrayList de String contenant les preferences (sans la langue)
-     *         tri? par ordre alphab?tique
+     * @return un ArrayList de String contenant les preferences (sans la langue
+     *  et le workspace) tri? par ordre alphab?tique
      */
     public ArrayList<String> preferences()
     {
@@ -439,7 +451,7 @@ public class PreferencesManager extends Observable
         {
             sExtension = keys.nextElement().toString();
 
-            if (!sExtension.equals("lang"))
+            if (!sExtension.equals("lang") && !sExtension.equals("workspace"))
                 extensions.add(sExtension);
         }
 
@@ -457,8 +469,20 @@ public class PreferencesManager extends Observable
      */
     public int numberExtensions()
     {
+    	int numberExt = 0;
+    	String sExtension;
+    	for (Enumeration keys = preferences.keys() ; keys.hasMoreElements() ;)
+        {
+    		sExtension = keys.nextElement().toString();
+    		if (sExtension.lastIndexOf(".") > -1)
+    		{
+    			numberExt ++;    			
+    		}
+    		
+        }
+    	
         // on met - 1 car il ne faut pas compter la cl? "lang"
-        return preferences.size() - 1;
+        return numberExt;
     }
 
     /**

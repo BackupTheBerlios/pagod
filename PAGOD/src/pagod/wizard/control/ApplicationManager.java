@@ -1,5 +1,5 @@
 /*
- * $Id: ApplicationManager.java,v 1.8 2005/11/22 13:27:14 fabfoot Exp $
+ * $Id: ApplicationManager.java,v 1.9 2005/11/22 18:15:37 biniou Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -493,7 +493,7 @@ public class ApplicationManager
         // lancement de la fenetre de choix de workspace si besoin
         
         // test si la valeur de la cl? workspace est d?finie ou pas
-        if (!PreferencesManager.getInstance().containPreference("workspace"))
+        if (!PreferencesManager.getInstance().containWorkspace())
         {
         	WorkspaceFileChooser workspaceChooser = new WorkspaceFileChooser();
         
@@ -503,7 +503,7 @@ public class ApplicationManager
         			System.out.println(file.getPath());
         			
         			// mettre le path dans le fichier preferences a la cl? "workspace"
-        			PreferencesManager.getInstance().setPreference("workspace",file.getPath());
+        			PreferencesManager.getInstance().setWorkspace(file.getPath());
             
         		}
         }

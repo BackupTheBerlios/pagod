@@ -1,5 +1,5 @@
 /*
- * $Id: PreferencesManagerTest.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: PreferencesManagerTest.java,v 1.2 2005/11/22 18:15:37 biniou Exp $
  *
  * SPWIZ - Spem Wizard
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -94,7 +94,7 @@ public class PreferencesManagerTest extends TestCase
      */
     public void testGetLanguage()
     {
-        // on cree un fichier temp pour etre sur de son existance
+        // on cree un fichier temp pour etre sur de son existence
         File f = createTempFile();
 
         // on met la langue "tt"
@@ -136,6 +136,56 @@ public class PreferencesManagerTest extends TestCase
         assertTrue(PreferencesManager.getInstance().getLanguage().equals("yy"));
     }
 
+    /**
+     * Test la methode getWorkspace
+     * 
+     */
+    public void testGetWorkspace()
+    {
+        // on cree un fichier temp pour etre sur de son existence
+        File f = createTempFile();
+        System.out.println(f.getAbsolutePath());
+
+        // on met le workspace "tt"
+        PreferencesManager.getInstance().setWorkspace("tt");
+        try
+        {
+            // vu que le chemin du workspace correspond a la cle "workspace" 
+        	// on essaye de voir si
+            // on peut modifier le workspace en passant par les setPreferences
+            PreferencesManager.getInstance().setPreference("workspace",
+                    f.getAbsolutePath());
+        }
+        catch (InvalidExtensionException e)
+        {
+            fail("L'extension aurait du etre invalide");
+        }
+        catch (FileNotFoundException e)
+        {
+            fail("Le fichier aurait du exister");
+        }
+        catch (FileNotExecuteException e)
+        {
+            fail("Le fichier aurait du etre executable");
+        }
+
+        // le workspace devrait tjs etre egual a "tt" et non pas a
+        // f.getAbsolutePath()
+        assertTrue(PreferencesManager.getInstance().getWorkspace().equals("tt"));
+    }
+
+    /**
+     * Test de la methode SetWorkspace()
+     * 
+     */
+    public void testSetWorkspace()
+    {
+        PreferencesManager.getInstance().loadPreferences();
+
+        PreferencesManager.getInstance().setWorkspace("yy");
+        assertTrue(PreferencesManager.getInstance().getWorkspace().equals("yy"));
+    }
+    
     /**
      * Test de la methode getPreference
      * 
@@ -309,6 +359,21 @@ public class PreferencesManagerTest extends TestCase
         assertFalse(PreferencesManager.getInstance().containPreference("a."));
         assertFalse(PreferencesManager.getInstance().containPreference(".a"));
         assertFalse(PreferencesManager.getInstance().containPreference("a"));
+    }
+    
+    /**
+     * Test de la methode ContainWorkspace()
+     * 
+     */
+    public void testContainWorkspace()
+    {        
+        // avant qu'on cree un workspace
+        assertTrue(!PreferencesManager.getInstance().containWorkspace());
+        
+        // ajout d'un workspace qui ne doit pas lever d'exception
+        PreferencesManager.getInstance().setWorkspace("toto");
+
+        assertTrue(PreferencesManager.getInstance().containWorkspace());    
     }
 
     /**
