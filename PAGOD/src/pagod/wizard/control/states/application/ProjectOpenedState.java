@@ -1,11 +1,12 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ProjectOpenedState.java,v 1.1 2005/11/22 13:27:14 fabfoot Exp $
+ * $Id: ProjectOpenedState.java,v 1.2 2005/11/25 12:07:17 fabfoot Exp $
  */
 package pagod.wizard.control.states.application;
 
 import pagod.wizard.control.ActivityScheduler;
+import pagod.wizard.control.ApplicationManager;
 
 
 
@@ -13,11 +14,11 @@ public class ProjectOpenedState extends AbstractApplicationState
 {
 
 	/**
-	 * @param activityScheduler
+	 * @param applicationManager 
 	 */
-	public ProjectOpenedState (ActivityScheduler activityScheduler)
+	public ProjectOpenedState (ApplicationManager  applicationManager)
 	{
-		super(activityScheduler);
+		super(applicationManager );
 		// TODO Corps de constructeur g?n?r? automatiquement
 	}
 

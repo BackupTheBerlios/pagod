@@ -1,11 +1,12 @@
 /*
  * Projet PAGOD
  * 
- * $Id: AbstractApplicationState.java,v 1.1 2005/11/22 13:27:14 fabfoot Exp $
+ * $Id: AbstractApplicationState.java,v 1.2 2005/11/25 12:07:17 fabfoot Exp $
  */
 package pagod.wizard.control.states.application;
 
 import pagod.wizard.control.ActivityScheduler;
+import pagod.wizard.control.ApplicationManager;
 
 /**
  * @author m1isi26
@@ -19,9 +20,10 @@ public abstract class AbstractApplicationState
      */
     protected ActivityScheduler activityScheduler;
     /**
-     * @param activityScheduler
+     * @param applicationManager 
+     * 
      */
-    public AbstractApplicationState(ActivityScheduler activityScheduler)
+    public AbstractApplicationState(ApplicationManager applicationManager)
     {
     	super();
     	
