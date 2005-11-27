@@ -1,5 +1,5 @@
 /*
- * $Id: MainWizard.java,v 1.1 2005/10/30 10:45:00 yak Exp $
+ * $Id: MainWizard.java,v 1.2 2005/11/27 20:39:24 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -25,6 +25,7 @@
 package pagod.wizard;
 
 import pagod.wizard.control.ApplicationManager;
+import pagod.wizard.control.states.Request;
 
 /**
  * Classe principale de PAGOD.
@@ -46,6 +47,6 @@ public class MainWizard
         ApplicationManager applicationManager = ApplicationManager
                 .getInstance();
         applicationManager
-                .manageRequest(ApplicationManager.Request.RUN_APPLICATION);
+                .manageRequest(new Request(Request.RequestType.RUN_APPLICATION));
     }
 }

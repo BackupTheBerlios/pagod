@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.12 2005/11/20 23:26:43 psyko Exp $
+ * $Id: MainFrame.java,v 1.13 2005/11/27 20:39:24 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -32,7 +32,10 @@ import java.awt.Rectangle;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Collection;
+import java.util.List;
 import java.util.MissingResourceException;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -50,15 +53,22 @@ import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
 import pagod.utils.ActionManager.KeyNotFoundException;
 import pagod.utils.LanguagesManager.NotInitializedException;
+import pagod.wizard.control.ActivityScheduler;
+import pagod.wizard.control.ApplicationManager;
 import pagod.wizard.control.Constants;
 import pagod.wizard.control.actions.AbstractPagodAction;
+import pagod.wizard.control.states.activity.AbstractActivityState;
+import pagod.wizard.control.states.activity.ActivityPresentationState;
+import pagod.wizard.control.states.activity.PostConditionCheckerState;
+import pagod.wizard.control.states.activity.PreConditionCheckerState;
+import pagod.wizard.control.states.activity.StepState;
 
 /**
  * Fen?tre principale de l'application PAGOD
  * 
  * @author MoOky
  */
-public class MainFrame extends JFrame
+public class MainFrame extends JFrame implements Observer
 {
 	/**
 	 * Panneaux du Nord de la fenetre
@@ -257,8 +267,13 @@ public class MainFrame extends JFrame
 				Constants.ACTION_TERMINATE)).configureRootPane(this
 				.getRootPane(), JComponent.WHEN_IN_FOCUSED_WINDOW);
 
-		//TODO mnémonique pour accéder à la combo box, et mettre le focus dedans
-		// pr access clavier aux steps ... 
+		// TODO il faudra fre cela qd le pb de la MainFrame sera regle
+		// on enregistre la MainFrame comme observer de l'ApplicationManager
+		// ApplicationManager.getInstance().addObserver(this);
+		
+		// TODO mnémonique pour accéder à la combo box, et mettre le focus
+		// dedans
+		// pr access clavier aux steps ...
 	}
 
 	/**
@@ -407,27 +422,26 @@ public class MainFrame extends JFrame
 					+ " "
 					+ LanguagesManager.getInstance().getString(
 							"infoOutputProduct"));
-		
+
 		// s'il y a des produits en sorties de l'activite lance
 		if (this.getActivity().hasOutputProducts())
 		{
-			// on affiche un jsplitPane qui affiche en haut la presentation de l'etape
+			// on affiche un jsplitPane qui affiche en haut la presentation de
+			// l'etape
 			// et en bas les produits en sorties
 			// cr?er les panneaux
-			this
-					.setComponentInJSplitPane(new StepPanel(stepToPresent, rang,
-							total));
+			this.setComponentInJSplitPane(new StepPanel(stepToPresent, rang,
+					total));
 			// this.dividerLocation = this.splitPane.getLastDividerLocation();
 			this.splitPane.setDividerLocation(this.dividerLocation);
 		}
 		else
-		{	
+		{
 			// on nettoye le panneaux
 			this.centerPanel.removeAll();
-			
+
 			// on affiche uniquement la presentation des activites
-			this.centerPanel.add(new StepPanel(stepToPresent, rang,
-					total));
+			this.centerPanel.add(new StepPanel(stepToPresent, rang, total));
 		}
 		this.setVisible(true);
 	}
@@ -465,11 +479,12 @@ public class MainFrame extends JFrame
 
 		// cr?er les panneaux
 		this.contentViewerPanel = new ContentViewerPane(activityToPresent);
-		
+
 		// s'il y a des produits en sorties de cette activite
 		if (activityToPresent.hasOutputProducts())
 		{
-			// on affiche un jsplitPane qui affiche en haut la presentation de l'activite
+			// on affiche un jsplitPane qui affiche en haut la presentation de
+			// l'activite
 			// et en bas les produits en sorties
 			this.setComponentInJSplitPane(this.contentViewerPanel);
 		}
@@ -477,14 +492,14 @@ public class MainFrame extends JFrame
 		{
 			// TODO debug
 			System.out.println("pas de prod en sortie");
-			
+
 			// on nettoye le panneaux
 			this.centerPanel.removeAll();
-			
+
 			// on affiche uniquement la presentation des activites
 			this.centerPanel.add(this.contentViewerPanel);
 		}
-			
+
 		this.buttonPanel = new ButtonPanel();
 		this.southPanel.add(this.buttonPanel);
 
@@ -521,21 +536,156 @@ public class MainFrame extends JFrame
 		this.splitPane = null;
 	}
 
-
 	/**
-	 * @return le button panel
-	 * utile pour l acces direct aux ?tapes
+	 * @return le button panel utile pour l acces direct aux ?tapes
 	 */
 	public ButtonPanel getButtonPanel ()
 	{
 		return this.buttonPanel;
 	}
-	
+
 	/**
 	 * initialise le buttonPanel
 	 */
-	public void InitButtonPanel()
+	public void InitButtonPanel ()
 	{
 		this.buttonPanel = new ButtonPanel();
+	}
+
+	public void update (Observable obs, Object obj)
+	{
+		// s'il y a eu un changement d'etat dans ActivityScheduler
+		// (changement d'etat qd une activite est lancé)
+		if (obs instanceof ActivityScheduler)
+		{
+			ActivityScheduler activityScheduler = (ActivityScheduler)obs;
+			
+			// on recupere l'etat de l'application
+			AbstractActivityState state = (AbstractActivityState) obj;
+
+			// dans n'importe quel etat on peut toujours faire terminate et
+			// gotostep
+			ActionManager.getInstance().getAction(Constants.ACTION_TERMINATE)
+					.setEnabled(true);
+			ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP)
+					.setEnabled(true);
+			
+			// on initialise la comboBox du ButtonPanel
+			//this.buttonPanel.init(activityScheduler.getStateList());
+			
+			if (state instanceof PreConditionCheckerState)
+			{
+				// on rafraichit la MainFrame
+				this.resetSplitPane();
+				this.showCheckList(state.getActivity());
+
+				// on active et desactive les actions
+				ActionManager.getInstance()
+						.getAction(Constants.ACTION_PREVIOUS).setEnabled(false);
+
+				ActionManager.getInstance().getAction(Constants.ACTION_NEXT)
+						.setEnabled(true);
+			}
+			else if (state instanceof ActivityPresentationState)
+			{
+				// on rafraichit la MainFrame
+				this.resetSplitPane();
+				System.err.println("ICI : Presnetation step");
+				this.presentActivityAndProduct(state.getActivity());
+				
+				
+				// s'il y a des produits en entrees on active previous
+				if (state.getActivity().hasInputProducts())
+				{
+					ActionManager.getInstance().getAction(
+							Constants.ACTION_PREVIOUS).setEnabled(true);
+				}
+				else
+					ActionManager.getInstance().getAction(
+							Constants.ACTION_PREVIOUS).setEnabled(false);
+
+				// s'il y a des etapes ou des produits en sorties on active le
+				// next
+				if (state.getActivity().hasSteps()
+						|| state.getActivity().hasOutputProducts())
+				{
+					ActionManager.getInstance()
+							.getAction(Constants.ACTION_NEXT).setEnabled(true);
+				}
+				else
+					ActionManager.getInstance()
+							.getAction(Constants.ACTION_NEXT).setEnabled(false);
+				 
+			}
+			else if (state instanceof StepState)
+			{
+				System.err.println("ICI : " + state);
+				
+				// on rafraichit la MainFrame
+				this.resetSplitPane();
+				this.presentStep(state.getStep(), state.getIndex() + 1, state.getStepList().size());
+								
+				// on peut toujours faire previous car au minimum on reviendra
+				// en ActivityPresentation
+				ActionManager.getInstance()
+						.getAction(Constants.ACTION_PREVIOUS).setEnabled(true);
+
+				// si on est sur la derniere etape et qu'il n'y a pas des
+				// produits en sortie
+				// on ne peut pas faire next
+				if (state.getIndex() == state.getStepList().size() - 1
+						&& !state.getActivity().hasOutputProducts())
+				{
+					ActionManager.getInstance()
+							.getAction(Constants.ACTION_NEXT).setEnabled(false);
+				}
+				else
+					ActionManager.getInstance()
+							.getAction(Constants.ACTION_NEXT).setEnabled(true);
+				
+			}
+			else if (state instanceof PostConditionCheckerState)
+			{
+				// on rafraichit la MainFrame
+				this.resetSplitPane();
+				this.showEndCheckList(state.getActivity());
+				
+				// on peut toujours faire previous car au minimum on reviendra
+				// en ActivityPresentation
+				ActionManager.getInstance()
+						.getAction(Constants.ACTION_PREVIOUS).setEnabled(true);
+
+				// on ne peut jamais faire next quand on est en
+				// PostConditionCheckerState
+				ActionManager.getInstance()
+						.getAction(Constants.ACTION_NEXT).setEnabled(false);
+			}
+			else
+			{
+				System.err
+						.println("ActivityScheduler est dans un etat inconnu !!!");
+			}
+			
+			// on position la combo sur le bon item
+			
+			//this.buttonPanel.init(activityScheduler.getStateList());
+			//this.buttonPanel.setSelectedIndex(state);
+			return;
+		}
+
+		// s'il y a eu un changement d'etat dans l'ApplicationManager
+		if (obs instanceof ApplicationManager)
+		{
+			// s'il l'objet passe est de type ActivityScheduler
+			// la MainFrame s'enregistre comme observer aupres de l'ActivityScheduler
+			if (obj instanceof ActivityScheduler)
+			{
+				((ActivityScheduler)obj).addObserver(this);
+				
+				
+			}
+			
+		}
+
 	}
 }
