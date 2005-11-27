@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: Project.java,v 1.1 2005/11/24 19:30:00 biniou Exp $
+ * $Id: Project.java,v 1.2 2005/11/27 09:15:19 biniou Exp $
  */
 package pagod.common.model;
 
@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.util.Properties;
 
 //import javax.swing.JFileChooser;
 
@@ -24,6 +25,10 @@ import pagod.wizard.control.PreferencesManager;
 
 public class Project
 {
+	/**
+     * Chemin du répertoire ou vont etre stockees les documents produits
+     */
+    public static final String DOCS_DIRECTORY = "docs" + File.separator;
 	
 	/**
 	 * sName est le nom (identifiant) du projet
@@ -42,12 +47,19 @@ public class Project
 	private Process currentProcess;
 
 	/**
+	 * docsProperties est le properties contenant les associations
+	 * noms de docs/identifiant du produit
+	 */
+	private Properties docsProperties = null;
+	
+	/**
 	 *  Constructeur de la classe Project
 	 * @param name 
 	 */
 	public Project (String name)
 	{
 		this.sName = name;
+		this.docsProperties = new Properties();
 	}
 	
 	/**
@@ -64,7 +76,7 @@ public class Project
 		
 		// on crée l'arborescence : d'abord le repertoire Project
 		File projectDirectory = new File(
-					PreferencesManager.getInstance().getWorkspace()+"/"+name);
+					PreferencesManager.getInstance().getWorkspace()+File.separator+name);
 		if (projectDirectory.mkdir())
 		{
 			System.out.println("Le repertoire projet est bien créé.");
@@ -76,7 +88,7 @@ public class Project
 		
 		// creation du repertoire doc dans le repertoire projet
 		File docDirectory = new File(
-				projectDirectory.getAbsolutePath()+"/"+"docs");
+				projectDirectory.getAbsolutePath()+File.separator+DOCS_DIRECTORY);
 		
 		if (docDirectory.mkdir())
 		{
@@ -89,7 +101,7 @@ public class Project
 		
 		// creation du .properties pour les documents
 		File documentationPreferenceFile = new File(
-				projectDirectory.getAbsolutePath()+"/"+"documentation.properties");
+				projectDirectory.getAbsolutePath()+File.separator+"documentation.properties");
 		
 		if (documentationPreferenceFile.createNewFile())
 		{
@@ -124,7 +136,7 @@ public class Project
 	{
 		// on crée le document dans le repertoire docs
 		File documentationFile = new File(
-				PreferencesManager.getInstance().getWorkspace()+"/"+this.sName+"/docs/");
+				PreferencesManager.getInstance().getWorkspace()+File.separator+this.sName+File.separator+DOCS_DIRECTORY+name);
 		
 		if (documentationFile.createNewFile())
 		{
@@ -136,7 +148,7 @@ public class Project
 		}
 		
 		// on rajoute une entrée dans le .properties
-		// TODO quand on aura créé la classe manager du .properties
+		this.docsProperties.setProperty(prod.getId(),name);
 		
 	}
 	
@@ -149,7 +161,7 @@ public class Project
 	{
 		
 		File dpcCurrentFile = new File(
-				PreferencesManager.getInstance().getWorkspace()+"/"+this.sName+"/"+this.sNameDPC);
+				PreferencesManager.getInstance().getWorkspace()+File.separator+this.sName+File.separator+this.sNameDPC);
 		
 //		 s'il existe on supprime l'ancien dpc
 		if( dpcCurrentFile.exists())
@@ -170,7 +182,7 @@ public class Project
 		
 //		on crée le fichier qui va accueillir le flux
 		dpcCurrentFile = new File(
-				PreferencesManager.getInstance().getWorkspace()+"/"+this.sName+"/"+DPC.getName());
+				PreferencesManager.getInstance().getWorkspace()+File.separator+this.sName+File.separator+DPC.getName());
 		
 		
 		// on copie le  fichier en parametre et on le redirige
@@ -193,6 +205,28 @@ public class Project
 
 	    fis.close();
 	    fos.close();
+	}
+	
+	/**
+	 *  stockage et sauvegarde des properties avant de fermer le projet
+	 * @throws IOException 
+	 */
+	public void finalize() throws IOException
+	{
+		File documentationPreferenceFile = new File(
+				PreferencesManager.getInstance().getWorkspace()+
+				File.separator+this.sName+File.separator+"documentation.properties");
+		String comments = "Fichier contenant l'index des documents crees par l'utilisateur.";
+		
+		try
+		{
+			(this.docsProperties).store(
+					new FileOutputStream(documentationPreferenceFile),comments);
+		}
+		catch (IOException ioEx)
+		{
+			System.err.println("Erreur dans le storage des properties.");
+		}
 	}
 
 	/**
@@ -241,6 +275,14 @@ public class Project
 	public void setNameDPC (String nameDPC)
 	{
 		this.sNameDPC = nameDPC;
+	}
+
+	/**
+	 * @return Retourne l'attribut docsProperties
+	 */
+	public Properties getDocsProperties ()
+	{
+		return this.docsProperties;
 	}
 	
 	
