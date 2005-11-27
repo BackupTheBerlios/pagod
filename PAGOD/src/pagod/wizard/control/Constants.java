@@ -1,5 +1,5 @@
 /*
- * $Id: Constants.java,v 1.4 2005/11/17 01:12:51 psyko Exp $
+ * $Id: Constants.java,v 1.5 2005/11/27 12:46:13 biniou Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -56,7 +56,7 @@ public interface Constants
     /**
      * Chemin du répertoire contenant les ressources de l'application
      */
-    public static final String RESOURCES_DIRECTORY = "resources/";
+    public static final String RESOURCES_DIRECTORY = "resources" +File.separator;
     
     /**
      * Chemin du repertoire de sortie du fichier de preferences
@@ -67,7 +67,7 @@ public interface Constants
      * Chemin du répertoire contenant les fichiers langues
      */
     public static final String LANGUAGES_DIRECTORY = RESOURCES_DIRECTORY
-        + "languages/wizard/" ;
+        + "languages"+File.separator+"wizard"+File.separator ;
     
     /**
      * Prefixe des fichiers langues
@@ -93,7 +93,7 @@ public interface Constants
      * Chemin du repertoire contenant les images de l'application
      */
     public static final String IMAGES_DIRECTORY = RESOURCES_DIRECTORY
-            + "images/";
+            + "images" +File.separator;
 
     // Cle des actions de l'application
     /**

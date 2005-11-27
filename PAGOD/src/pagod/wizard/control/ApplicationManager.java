@@ -1,5 +1,5 @@
 /*
- * $Id: ApplicationManager.java,v 1.9 2005/11/22 18:15:37 biniou Exp $
+ * $Id: ApplicationManager.java,v 1.10 2005/11/27 12:46:13 biniou Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -40,7 +40,9 @@ import pagod.common.control.InterfaceManager;
 import pagod.common.control.adapters.ProcessTreeModel;
 import pagod.common.model.Activity;
 import pagod.common.model.Process;
+import pagod.common.model.Project;
 import pagod.common.ui.AboutDialog;
+import pagod.common.ui.NewProjectDialog;
 import pagod.common.ui.ProcessFileChooser;
 import pagod.common.ui.WorkspaceFileChooser;
 import pagod.utils.ActionManager;
@@ -170,6 +172,11 @@ public class ApplicationManager
      * Processus en cours
      */
     private Process currentProcess = null;
+    
+    /**
+     * Projet en cours
+     */
+    private Project currentProject = null;
 
     /**
      * Constructeur priv? du gestionnaire d'application (impl?mentation d'un
@@ -503,13 +510,12 @@ public class ApplicationManager
         			System.out.println(file.getPath());
         			
         			// mettre le path dans le fichier preferences a la cl? "workspace"
-        			PreferencesManager.getInstance().setWorkspace(file.getPath());
-            
+        			PreferencesManager.getInstance().setWorkspace(file.getPath());         
         		}
         }
         
         // fin de choix de workspace
-        
+                
         this.state = State.INIT;
     }
 
@@ -527,6 +533,48 @@ public class ApplicationManager
         System.exit(0);
     }
 
+    
+    /**
+     * Gere la creation d'un projet
+     * 
+     */ 
+    private void createNewProject()
+    {
+    	// on verifie que le workspace est bien créé sinon on force 
+    	// l'utilisateur a le choisir
+
+    	// test si la valeur de la cl? workspace est d?finie ou pas
+        if (!PreferencesManager.getInstance().containWorkspace())
+        {
+        	WorkspaceFileChooser workspaceChooser = new WorkspaceFileChooser();
+        
+        		if (workspaceChooser.showOpenDialog(this.mfPagod) == JFileChooser.APPROVE_OPTION) 
+        		{
+        			File file = workspaceChooser.getSelectedFile();
+        			System.out.println(file.getPath());
+        			
+        			// mettre le path dans le fichier preferences a la cl? "workspace"
+        			PreferencesManager.getInstance().setWorkspace(file.getPath());
+        			
+        			// on affiche la fenetre qui permet de saisir le nom du projet
+        	        NewProjectDialog testDialog = new NewProjectDialog(this.mfPagod);
+        	        testDialog.setVisible(true);
+        		}
+        		// si l'utilisateur ne choisit pas, on ne cree rien
+        		else
+        		{
+        			System.err.println("Le workspace n'est pas défini.");
+        		}
+        }
+        else
+        {
+        	// on affiche la fenetre qui permet de saisir le nom du projet
+        	NewProjectDialog testDialog = new NewProjectDialog(this.mfPagod);
+        	testDialog.setVisible(true);
+        }
+    }
+    
+    
     /**
      * G?re l'ouverture d'un processus
      * 
@@ -634,4 +682,20 @@ public class ApplicationManager
     {
         ToolsManager.getInstance().storeToolsAssociation();
     }
+
+	/**
+	 * @return Retourne l'attribut currentProject
+	 */
+	public Project getCurrentProject ()
+	{
+		return this.currentProject;
+	}
+
+	/**
+	 * @param currentProject Valeur à donner à currentProject
+	 */
+	public void setCurrentProject (Project currentProject)
+	{
+		this.currentProject = currentProject;
+	}
 }

@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: Project.java,v 1.2 2005/11/27 09:15:19 biniou Exp $
+ * $Id: Project.java,v 1.3 2005/11/27 12:46:13 biniou Exp $
  */
 package pagod.common.model;
 
@@ -63,17 +63,14 @@ public class Project
 	}
 	
 	/**
-	 * @param name est le nom que l'on veut donner au projet
+	 * @param name est le nom que l'on veut donner au projet 
+	 * @return result : vrai si l'operation s'est bien passée
+	 * 					faux sinon
 	 * @throws IOException 
 	 */
-	public void createProject(String name) throws IOException
+	public boolean createProject(String name) throws IOException
 	{
-		// si le workspace n'est pas défini on force le choix
-		if (!PreferencesManager.getInstance().containWorkspace())
-        {
-        	// TODO 
-        }
-		
+		boolean result = true;
 		// on crée l'arborescence : d'abord le repertoire Project
 		File projectDirectory = new File(
 					PreferencesManager.getInstance().getWorkspace()+File.separator+name);
@@ -83,6 +80,7 @@ public class Project
 		}
 		else 
 		{
+			result = false;
 			System.err.println("Le repertoire que vous voulez creer existe déjà.");
 		}
 		
@@ -124,7 +122,7 @@ public class Project
 		{
 			System.err.println("Le fichier properties est deja présent.");
 		}*/
-		
+		return (result);
 	}
 	
 	/**
