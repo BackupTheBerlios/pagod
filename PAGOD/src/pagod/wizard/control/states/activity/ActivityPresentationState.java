@@ -1,13 +1,14 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ActivityPresentationState.java,v 1.1 2005/11/22 13:27:13 fabfoot Exp $
+ * $Id: ActivityPresentationState.java,v 1.2 2005/11/27 20:37:52 yak Exp $
  */
 
 package pagod.wizard.control.states.activity;
 
 import pagod.common.model.Activity;
 import pagod.wizard.control.ActivityScheduler;
+import pagod.wizard.control.states.Request;
 
 
 /**
@@ -25,13 +26,15 @@ public class ActivityPresentationState extends AbstractActivityState
 			Activity activity)
 	{
 		super(activityScheduler, activity);
+		//TODO a supprimer
+    	System.err.println(this.toString());
 
 	}
 
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see pagod.wizard.control.states.AbstractActivityState#terminate()
+	
+	
+	/** (non-Javadoc)
+	 * @see pagod.wizard.control.states.activity.AbstractActivityState#terminate()
 	 */
 	public void terminate ()
 	{
@@ -39,25 +42,83 @@ public class ActivityPresentationState extends AbstractActivityState
 
 	}
 	
-	/**
-	 *  (non-Javadoc)
-	 * @see pagod.wizard.control.states.AbstractActivityState#toString()
+	
+	/** (non-Javadoc)
+	 * @see pagod.wizard.control.states.activity.AbstractActivityState#toString()
 	 */
-	@Override
 	public String toString ()
 	{
+		//TODO rajouter un message dans l'internationalisation
 		return(" Presentation de l'activite ");
 	}
 
-	/**
-	 *  (non-Javadoc)
-	 * @see pagod.wizard.control.states.AbstractActivityState#display()
+	
+	/** (non-Javadoc)
+	 * @see pagod.wizard.control.states.activity.AbstractActivityState#display()
 	 */
 	public void display ()
 	{
+		/*
 		this.activityScheduler.resetSplitPane();
 		// on affiche la presentation de l'activit?
 		this.activityScheduler.presentActivityAndProduct();
+		*/
+	}
+
+	/** (non-Javadoc)
+	 * @see pagod.wizard.control.states.AbstractState#manageRequest(pagod.wizard.control.states.Request)
+	 */
+	
+	public boolean manageRequest (Request request)
+	{
+		//AbstractActivityState temporaire
+		AbstractActivityState state;
+		
+		//on regarde le type de requete que l'on recoit
+		switch (request.getCurrentRequest())
+		{
+			case NEXT:
+				if (this.activity.hasSteps())
+				{
+					state = new StepState(this.activityScheduler,this.activity,0);
+				}
+				else if (this.activity.hasOutputProducts())
+				{
+					state = new PostConditionCheckerState (this.activityScheduler,this.activity);
+				}
+				else
+				{
+					return false;
+				}
+				break;	
+				
+			case PREVIOUS:
+				if (this.activity.hasInputProducts())
+				{
+					state = new PreConditionCheckerState (this.activityScheduler,this.activity);
+				}
+				else
+				{
+					return false;
+				}
+				break;
+				
+			case GOTOSTEP:
+				return super.manageRequest(request);
+				
+			default:
+				return false;
+		}
+		
+		if ( state == null )
+		{
+			System.err.println("state a null dans le manage request");
+			return false;
+		}
+			
+		
+		this.activityScheduler.setState (state);
+		return true;
 		
 	}
 
