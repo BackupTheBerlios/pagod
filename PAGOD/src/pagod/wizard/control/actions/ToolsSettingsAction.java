@@ -1,5 +1,5 @@
 /*
- * $Id: ToolsSettingsAction.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: ToolsSettingsAction.java,v 1.2 2005/11/27 20:36:49 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -28,8 +28,7 @@ import java.io.IOException;
 
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
-import pagod.wizard.control.ApplicationManager;
-import pagod.wizard.control.actions.AbstractPagodAction;
+import pagod.wizard.control.states.Request;
 
 /**
  * Action de lancement de la configuration des outils
@@ -49,6 +48,6 @@ public class ToolsSettingsAction extends AbstractPagodAction
                                 ImagesManager.NotInitializedException
     {
         super("toolsSettings", "ToolsSettingsIcon.gif",
-                ApplicationManager.Request.SET_TOOLS);
+        		new Request(Request.RequestType.SET_TOOLS));
     }
 }

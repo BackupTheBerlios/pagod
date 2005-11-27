@@ -1,5 +1,5 @@
 /*
- * $Id: TerminateAction.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: TerminateAction.java,v 1.2 2005/11/27 20:36:49 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -31,7 +31,7 @@ import javax.swing.KeyStroke;
 
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
-import pagod.wizard.control.ApplicationManager;
+import pagod.wizard.control.states.Request;
 
 /**
  * Termine l'activité.
@@ -49,7 +49,7 @@ public class TerminateAction extends AbstractPagodAction
                             IOException, ImagesManager.NotInitializedException
     {
         super("terminate", "TerminateIcon.gif",
-                ApplicationManager.Request.TERMINATE_ACTIVITY, KeyStroke
+        		new Request(Request.RequestType.TERMINATE_ACTIVITY), KeyStroke
                 .getKeyStroke(KeyEvent.VK_ESCAPE, 0));
     }
 }

@@ -1,5 +1,5 @@
 /*
- * $Id: DirectAccessAction.java,v 1.3 2005/11/17 01:12:51 psyko Exp $
+ * $Id: DirectAccessAction.java,v 1.4 2005/11/27 20:36:49 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -24,14 +24,19 @@
 
 package pagod.wizard.control.actions;
 
+import java.awt.event.ActionEvent;
 import java.io.IOException;
+
+import javax.swing.JComboBox;
 
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
 import pagod.wizard.control.ApplicationManager;
 import pagod.wizard.control.Constants;
+import pagod.wizard.control.states.Request;
+import pagod.wizard.ui.ButtonPanel;
 
-/**
+/** 
  * 
  * @author Psyko
  */
@@ -45,8 +50,26 @@ public class DirectAccessAction extends AbstractPagodAction
     public DirectAccessAction() throws LanguagesManager.NotInitializedException,
                        IOException
     {
-        super(Constants.ACTION_GOTOSTEP, ApplicationManager.Request.GOTOSTEP);
+        super(Constants.ACTION_GOTOSTEP, new Request(Request.RequestType.GOTOSTEP));
     }
-	
+    
+    /**
+     * Methode appélée lorsque l'action est déclenché
+     * 
+     * @param actionEvent
+     *            Evenement survenue
+     */
+    public void actionPerformed(ActionEvent actionEvent)
+    {
+    	// TODO a suppr
+    	if (actionEvent.getSource() instanceof JComboBox)
+    	{
+    		ApplicationManager.getInstance().manageRequest((Request)((JComboBox)actionEvent.getSource()).getSelectedItem());
+    	}
+    	else
+    		System.err.println("pb de caste dans DirectAccessAction");
+    	
+		
+    }
 }
 

@@ -1,5 +1,5 @@
 /*
- * $Id: NextAction.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: NextAction.java,v 1.2 2005/11/27 20:36:49 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -31,12 +31,12 @@ import javax.swing.KeyStroke;
 
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
-import pagod.wizard.control.ApplicationManager;
+import pagod.wizard.control.states.Request;
 
 /**
  * Demande la suite
  * 
- * @author MoOky
+ * @author MoOky 
  */
 public class NextAction extends AbstractPagodAction
 {
@@ -48,7 +48,7 @@ public class NextAction extends AbstractPagodAction
     public NextAction() throws LanguagesManager.NotInitializedException,
                        IOException, ImagesManager.NotInitializedException
     {
-        super("next", "NextIcon.gif", ApplicationManager.Request.NEXT,
+        super("next", "NextIcon.gif", new Request(Request.RequestType.NEXT),
                 KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, KeyEvent.ALT_MASK));
     }
 }

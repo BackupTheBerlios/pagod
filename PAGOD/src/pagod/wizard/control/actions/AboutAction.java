@@ -1,5 +1,5 @@
 /*
- * $Id: AboutAction.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: AboutAction.java,v 1.2 2005/11/27 20:36:49 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -28,7 +28,7 @@ import java.io.IOException;
 
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
-import pagod.wizard.control.ApplicationManager;
+import pagod.wizard.control.states.Request;
 
 /**
  * Action pour offrir un processus
@@ -45,6 +45,6 @@ public class AboutAction extends AbstractPagodAction
     public AboutAction() throws LanguagesManager.NotInitializedException,
                         IOException, ImagesManager.NotInitializedException
     {
-        super("about", "AboutIcon.gif", ApplicationManager.Request.SHOW_ABOUT);
+        super("about", "AboutIcon.gif", new Request(Request.RequestType.SHOW_ABOUT));
     }
 }

@@ -1,5 +1,5 @@
 /*
- * $Id: PreviousAction.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: PreviousAction.java,v 1.2 2005/11/27 20:36:49 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -31,7 +31,7 @@ import javax.swing.KeyStroke;
 
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
-import pagod.wizard.control.ApplicationManager;
+import pagod.wizard.control.states.Request;
 
 /**
  * Demande ce qui précédé.
@@ -49,7 +49,7 @@ public class PreviousAction extends AbstractPagodAction
                            IOException, ImagesManager.NotInitializedException
     {
         super("previous", "PreviousIcon.gif",
-                ApplicationManager.Request.PREVIOUS, KeyStroke.getKeyStroke(
+        		new Request(Request.RequestType.PREVIOUS), KeyStroke.getKeyStroke(
                         KeyEvent.VK_LEFT,KeyEvent.ALT_MASK));
     }
 }

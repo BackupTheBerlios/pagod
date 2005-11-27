@@ -1,5 +1,5 @@
 /*
- * $Id: AbstractPagodAction.java,v 1.3 2005/11/17 01:12:51 psyko Exp $
+ * $Id: AbstractPagodAction.java,v 1.4 2005/11/27 20:36:49 yak Exp $
  *
  *PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -35,6 +35,7 @@ import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
 import pagod.utils.LanguagesManager.NotInitializedException;
 import pagod.wizard.control.ApplicationManager;
+import pagod.wizard.control.states.Request;
 
 /**
  * Classe Abstraite mère de toutes les actions de PAGOD
@@ -46,7 +47,7 @@ public abstract class AbstractPagodAction extends CustomAction
     /**
      * requete
      */
-    protected ApplicationManager.Request request;
+    protected Request request;
 
     /**
      * Constructeur d'une Action composé d'un nom 
@@ -60,7 +61,7 @@ public abstract class AbstractPagodAction extends CustomAction
      * @throws IOException
      * @see LanguagesManager#setResourceFile(String, Locale)
      */
-    public AbstractPagodAction(String label, ApplicationManager.Request request)
+    public AbstractPagodAction(String label, Request request)
                                                                   throws NotInitializedException,
                                                                   IOException
     {
@@ -86,7 +87,7 @@ public abstract class AbstractPagodAction extends CustomAction
      * @see LanguagesManager#setResourceFile(String, Locale)
      */
     public AbstractPagodAction(String label, String icon,
-                               ApplicationManager.Request request)
+                               Request request)
                                                                   throws NotInitializedException,
                                                                   IOException,
                                                                   ImagesManager.NotInitializedException
@@ -115,7 +116,7 @@ public abstract class AbstractPagodAction extends CustomAction
      * @see LanguagesManager#setResourceFile(String, Locale)
      */
     public AbstractPagodAction(String label, String icon,
-                               ApplicationManager.Request request, char key,
+                               Request request, char key,
                                int eventMask)
                                              throws NotInitializedException,
                                              IOException,
@@ -144,7 +145,7 @@ public abstract class AbstractPagodAction extends CustomAction
      * @see LanguagesManager#setResourceFile(String, Locale)
      */
     public AbstractPagodAction(String label, String icon,
-                               ApplicationManager.Request request,
+                               Request request,
                                KeyStroke keystroke)
                                                    throws NotInitializedException,
                                                    IOException,

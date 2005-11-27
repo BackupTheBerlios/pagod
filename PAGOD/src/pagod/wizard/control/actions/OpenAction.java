@@ -1,5 +1,5 @@
 /*
- * $Id: OpenAction.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: OpenAction.java,v 1.2 2005/11/27 20:36:49 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -31,7 +31,7 @@ import javax.swing.KeyStroke;
 
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
-import pagod.wizard.control.ApplicationManager;
+import pagod.wizard.control.states.Request;
 
 /**
  * Action pour offrir un processus
@@ -48,7 +48,7 @@ public class OpenAction extends AbstractPagodAction
     public OpenAction() throws LanguagesManager.NotInitializedException,
                        IOException, ImagesManager.NotInitializedException
     {
-        super("open", "OpenIcon.gif", ApplicationManager.Request.OPEN_PROCESS,
+        super("open", "OpenIcon.gif", new Request(Request.RequestType.OPEN_PROCESS),
                 KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_MASK));
     }
 }
