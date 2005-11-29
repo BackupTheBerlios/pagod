@@ -1,12 +1,13 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ProjectOpenedState.java,v 1.2 2005/11/25 12:07:17 fabfoot Exp $
+ * $Id: ProjectOpenedState.java,v 1.3 2005/11/29 18:11:15 yak Exp $
  */
 package pagod.wizard.control.states.application;
 
 import pagod.wizard.control.ActivityScheduler;
 import pagod.wizard.control.ApplicationManager;
+import pagod.wizard.control.states.Request;
 
 
 
@@ -22,46 +23,15 @@ public class ProjectOpenedState extends AbstractApplicationState
 		// TODO Corps de constructeur g?n?r? automatiquement
 	}
 
-	@Override
-	public void createNewProject ()
+	/**
+	 * @param request
+	 *            la requete que l'on doit traiter
+	 * @return retourn vrai si on a changé d'état faut sinon
+	 */
+	public boolean manageRequest (Request request)
 	{
-		// TODO Corps de m?thode g?n?r? automatiquement
 		
-	}
-
-	@Override
-	public void openProject ()
-	{
-		// TODO Corps de m?thode g?n?r? automatiquement
-		
-	}
-
-	@Override
-	public void openProcess ()
-	{
-		// TODO Corps de m?thode g?n?r? automatiquement
-		
-	}
-
-	@Override
-	public void runActivity ()
-	{
-		// TODO Corps de m?thode g?n?r? automatiquement
-		
-	}
-
-	@Override
-	public void setTools ()
-	{
-		// TODO Corps de m?thode g?n?r? automatiquement
-		
-	}
-
-	@Override
-	public void closeProject ()
-	{
-		// TODO Corps de m?thode g?n?r? automatiquement
-		
+		return false;
 	}
 
 }

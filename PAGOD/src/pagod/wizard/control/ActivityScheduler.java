@@ -1,5 +1,5 @@
 /*
- * $Id: ActivityScheduler.java,v 1.25 2005/11/27 20:38:09 yak Exp $
+ * $Id: ActivityScheduler.java,v 1.26 2005/11/29 18:11:14 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -115,7 +115,7 @@ public class ActivityScheduler extends Observable
 	/**
 	 * Fenetre principale de l'application
 	 */
-	private MainFrame					mfPagod;
+//	private MainFrame					mfPagod;
 
 	/**
 	 * currentyActivitState : ?tat courant de l'activit?
@@ -149,19 +149,11 @@ public class ActivityScheduler extends Observable
 
 		this.state = State.INIT;
 		this.setStateList();
-		this.mfPagod = frame;
-		this.mfPagod.InitButtonPanel();
+		//TODO A SUPPR /!\ peut etre ?
+		/*this.mfPagod = frame;
+		this.mfPagod.InitButtonPanel();*/
 	}
 
-	/**
-	 * 
-	 */
-	/* TODO A SUPPR ENCORE ET TJS
-	public void initActivityScheduler ()
-	{
-		new StepFactory(this, this.activity, this.stateList, 0);
-	}
-	*/
 
 	/**
 	 * D?finit l'?tat de la machine ? ?tat qui represente une activit? lanc?
@@ -173,126 +165,6 @@ public class ActivityScheduler extends Observable
 	public void setActivityState (AbstractActivityState activityState)
 	{
 		this.activityState = activityState;
-	}
-
-	/**
-	 * Presente les produits passer en parametre
-	 * 
-	 * @param outputProducts
-	 */
-	public void presentProducts (Collection<Product> outputProducts)
-	{
-		this.mfPagod.presentProducts(outputProducts);
-		this.state = State.PRODUCTS_PRESENTATION;
-	}
-
-	/**
-	 * Presente l'etape passer en parametre
-	 * 
-	 * @param stepToPresent
-	 * @param rang
-	 * @param total
-	 */
-	public void presentStep (Step stepToPresent, int rang, int total)
-	{
-		this.mfPagod.presentStep(stepToPresent, rang + 1, total);
-		this.state = State.STEP_PRESENTATION;
-	}
-
-	/**
-	 * lance l'activit?
-	 * 
-	 */
-	public void presentActivity ()
-	{
-		this.mfPagod.presentActivity(this.activity);
-		this.state = State.ACTIVITY_PRESENTATION;
-	}
-
-	/**
-	 * 
-	 * 
-	 */
-	public void presentActivityAndProduct ()
-	{
-		this.mfPagod.presentActivityAndProduct(this.activity);
-	}
-
-	/**
-	 * Lance la verification des pr?requis
-	 * 
-	 */
-	public void checkBeforeStart ()
-	{
-		this.mfPagod.showCheckList(this.activity);
-		// this.state = State.ACTIVITY_CHECKLIST;
-	}
-
-	/**
-	 * Lance la verification des postconditions
-	 */
-	public void checkBeforeEnd ()
-	{
-		this.mfPagod.showEndCheckList(this.activity);
-		// this.state = State.ACTIVITY_ENDCHECKLIST;
-
-	}
-
-	/**
-	 * @return Retourne l'attribut mfPagod
-	 */
-	public MainFrame getMfPagod ()
-	{
-		return this.mfPagod;
-	}
-
-	/**
-	 * V?rifie les post conditions du projet
-	 * 
-	 * @return TRUE si on a verifi? les post cond FALSE sinon
-	 */
-	public boolean checkPostCondition ()
-	{
-		// on construit le message avec tout le produits
-		String sPrecondMessage = new String("");
-		String sPrecondTitle = LanguagesManager.getInstance().getString(
-				"postCondTitle");
-		sPrecondMessage += LanguagesManager.getInstance().getString(
-				"postCondMessage")
-				+ "\n";
-		// pour chaque produit on ajoute le nom a la liste des produits
-		for (Product productTemp : this.activity.getOutputProducts())
-		{
-			// ajout du nom au message
-			sPrecondMessage += productTemp.getName() + "\n";
-		}
-
-		int iRetour = JOptionPane.showConfirmDialog(this.getMfPagod(),
-				sPrecondMessage, sPrecondTitle, JOptionPane.YES_NO_OPTION);
-		// en fonction du retour un renvoir le bon booleen
-		switch (iRetour)
-		{
-			case JOptionPane.NO_OPTION:
-				return false;
-			case JOptionPane.YES_OPTION:
-				return true;
-			default:
-				return false;
-
-		}
-
-	}
-
-	/**
-	 * Remet a null le splitPane permettant d'afficher : - dans sa partie
-	 * sup?rieur la pr?sentation d'une activit? ou d'une ?tape - dans sa partie
-	 * inf?rieur les produits a cr?er durant cette ?tape ainsi que les plan type
-	 * s'il y en a
-	 * 
-	 */
-	public void resetSplitPane ()
-	{
-		this.mfPagod.resetSplitPane();
 	}
 
 	/**
@@ -338,14 +210,6 @@ public class ActivityScheduler extends Observable
 		return abstractActivityState;
 	}
 
-	/**
-	 * @param indice
-	 */
-	// TODO A SUPPR
-	/*public void setState (int indice)
-	{
-		this.activityState = this.getState(indice);
-	}*/
 
 	public void setState (AbstractActivityState activityState)
 	{
@@ -398,34 +262,6 @@ public class ActivityScheduler extends Observable
 
 		System.out.println("StateList OK : " + this.stateList.size() + " Elts");
 
-	}
-
-	/**
-	 * init ComboBOx
-	 */
-	public void initComboBox ()
-	{
-		this.mfPagod.getButtonPanel().getCbDirectAccess().removeActionListener(
-				ActionManager.getInstance()
-						.getAction(Constants.ACTION_GOTOSTEP));
-
-		// this.mfPagod.getButtonPanel().getCbDirectAccess().removeAll();
-		// this.mfPagod.getButtonPanel().getCbDirectAccess().removeAllItems();
-
-		// on remplit notre comboModel avec les elements de la statelist
-		for (AbstractActivityState states : this.stateList)
-		{
-			// this.mfPagod.getButtonPanel().getCbDirectAccess().addItem(states);
-			this.mfPagod.getButtonPanel().getCbDirectAccess().addItem(
-					new Request(Request.RequestType.GOTOSTEP, states));
-		}
-
-		// en 2 on remplit la combo box
-		this.mfPagod.getButtonPanel().getCbDirectAccess().setSelectedIndex(
-				this.currentActivityState);
-		this.mfPagod.getButtonPanel().getCbDirectAccess().addActionListener(
-				ActionManager.getInstance()
-						.getAction(Constants.ACTION_GOTOSTEP));
 	}
 
 	/**

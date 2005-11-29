@@ -1,5 +1,5 @@
 /*
- * $Id: ButtonPanel.java,v 1.7 2005/11/27 20:39:24 yak Exp $
+ * $Id: ButtonPanel.java,v 1.8 2005/11/29 18:11:15 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -42,6 +42,10 @@ import pagod.utils.ActionManager;
 import pagod.wizard.control.Constants;
 import pagod.wizard.control.states.Request;
 import pagod.wizard.control.states.activity.AbstractActivityState;
+import pagod.wizard.control.states.activity.ActivityPresentationState;
+import pagod.wizard.control.states.activity.PostConditionCheckerState;
+import pagod.wizard.control.states.activity.PreConditionCheckerState;
+import pagod.wizard.control.states.activity.StepState;
 
 /**
  * @author Cédric Panneau de boutons de navigation
@@ -204,15 +208,17 @@ public class ButtonPanel extends JPanel
 		return (this.cbDirectAccess);
 	}
 
-	public void init (List<AbstractActivityState> stateList)
+	/**
+	 * initialise la JComboBox avec les etapes récupérés en paramètre
+	 * 
+	 * @param stateList
+	 *            la liste des états
+	 */
+	public void initComboBox (List<AbstractActivityState> stateList)
 	{
-		/*
-		 * this.cbDirectAccess.removeActionListener( ActionManager.getInstance()
-		 * .getAction(Constants.ACTION_GOTOSTEP));
-		 */
 
-		// this.mfPagod.getButtonPanel().getCbDirectAccess().removeAll();
-		// this.mfPagod.getButtonPanel().getCbDirectAccess().removeAllItems();
+		this.cbDirectAccess.removeActionListener(ActionManager.getInstance()
+				.getAction(Constants.ACTION_GOTOSTEP));
 		// on remplit notre comboModel avec les elements de la statelist
 		for (AbstractActivityState states : stateList)
 		{
@@ -224,39 +230,64 @@ public class ButtonPanel extends JPanel
 		// en 2 on remplit la combo box
 		/*
 		 * this.cbDirectAccess.setSelectedIndex( this.currentActivityState);
-		 * this.mfPagod.getButtonPanel().getCbDirectAccess().addActionListener(
-		 * ActionManager.getInstance() .getAction(Constants.ACTION_GOTOSTEP));
 		 */
+		this.cbDirectAccess.addActionListener(ActionManager.getInstance()
+				.getAction(Constants.ACTION_GOTOSTEP));
+
 	}
 
-	
+	/**
+	 * positionne la JCombobox sur l'etape passée en parametre
+	 * 
+	 * @param state
+	 *            l'état sur lequel on est
+	 */
 	public void setSelectedIndex (AbstractActivityState state)
 	{
+		System.out.println("ButtonPanel.setSelectedIndex : " + state);
 		// on desactive le listener sur le comboBox
 		this.cbDirectAccess.removeActionListener(ActionManager.getInstance()
 				.getAction(Constants.ACTION_GOTOSTEP));
 
 		int i = 0;
-		boolean estFini = false;
-		while (i < this.cbDirectAccess.getItemCount() && ! estFini)
+		boolean trouve = false;
+		while (i < this.cbDirectAccess.getItemCount() && !trouve)
 		{
-			
-			if (state == ((AbstractActivityState)((Request)this.cbDirectAccess.getItemAt(i)).getContent()))
+			/*
+			 * TODO il faut changer cela en redefinissant equals dans tous les
+			 * classes qui interviennent, probablement toute les classes metiers
+			 */
+
+			// l'etat passe en parametre est le meme que celui de la combo s'il
+			// est de meme type pour les classes PreConditionCheckerState,
+			// ActivityPresentationState, PostConditionCheckerState
+			// car le JComboBox contient une seule instance de ces classes ou si
+			// l'etat passe en parametre est le meme que celui de la combo
+			// et que les etapes sont les memes (meme index)
+			AbstractActivityState activityState = (AbstractActivityState) ((Request) this.cbDirectAccess
+					.getItemAt(i)).getContent();
+			if ((state instanceof PreConditionCheckerState && activityState instanceof PreConditionCheckerState)
+					|| (state instanceof ActivityPresentationState && activityState instanceof ActivityPresentationState)
+					|| (state instanceof StepState
+							&& activityState instanceof StepState && state
+							.getIndex() == activityState.getIndex())
+					|| (state instanceof PostConditionCheckerState && activityState instanceof PostConditionCheckerState))
 			{
-				estFini = true;
+				trouve = true;
 				
 				System.err.println("ON A TROUVE");
 			}
-			i++;
+			else
+				i++;
 		}
-		if (i < this.cbDirectAccess.getItemCount())
+		
+		// si on a trouve l'etat on positionne selectionne cet elt dans la combo
+		if (trouve)
+		{
 			this.cbDirectAccess.setSelectedIndex(i); // regarde setSelectedItem
-		
-		
+		}
 		// on reactive le listener sur le comboBox
-		this.cbDirectAccess.addActionListener(
-				ActionManager.getInstance()
-						.getAction(Constants.ACTION_GOTOSTEP));
+		this.cbDirectAccess.addActionListener(ActionManager.getInstance()
+				.getAction(Constants.ACTION_GOTOSTEP));
 	}
-
 }

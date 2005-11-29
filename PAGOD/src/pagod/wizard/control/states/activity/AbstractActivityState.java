@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: AbstractActivityState.java,v 1.2 2005/11/27 20:37:52 yak Exp $
+ * $Id: AbstractActivityState.java,v 1.3 2005/11/29 18:11:15 yak Exp $
  */
 package pagod.wizard.control.states.activity;
 
@@ -109,17 +109,6 @@ public abstract class AbstractActivityState extends AbstractState
 	{
 		return this.stepList;
 	}
-
-	
-	/**
-	 * @param index
-	 */
-	// TODO a SUPPR
-	/*public void setState (int index)
-	{
-		this.activityScheduler.setState(this.activityScheduler.getMfPagod()
-				.getButtonPanel().getCbDirectAccess().getSelectedIndex());
-	}*/
 
 	/**
 	 * @param request

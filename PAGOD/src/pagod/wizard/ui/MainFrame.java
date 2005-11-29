@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.13 2005/11/27 20:39:24 yak Exp $
+ * $Id: MainFrame.java,v 1.14 2005/11/29 18:11:15 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -32,7 +32,6 @@ import java.awt.Rectangle;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Collection;
-import java.util.List;
 import java.util.MissingResourceException;
 import java.util.Observable;
 import java.util.Observer;
@@ -270,7 +269,7 @@ public class MainFrame extends JFrame implements Observer
 		// TODO il faudra fre cela qd le pb de la MainFrame sera regle
 		// on enregistre la MainFrame comme observer de l'ApplicationManager
 		// ApplicationManager.getInstance().addObserver(this);
-		
+
 		// TODO mnémonique pour accéder à la combo box, et mettre le focus
 		// dedans
 		// pr access clavier aux steps ...
@@ -340,26 +339,6 @@ public class MainFrame extends JFrame implements Observer
 	}
 
 	/**
-	 * @param activityToPresent
-	 */
-	public void presentActivity (Activity activityToPresent)
-	{
-		// on netoye les panneaux
-		this.centerPanel.removeAll();
-		this.southPanel.removeAll();
-		// mettre a jour le message
-		this.messagePanel.setMessage(LanguagesManager.getInstance().getString(
-				"activityPresentationMessage"));
-		// cr?er les panneaux
-		this.contentViewerPanel = new ContentViewerPane(activityToPresent);
-		this.centerPanel.add(this.contentViewerPanel);
-		this.buttonPanel = new ButtonPanel();
-		this.southPanel.add(this.buttonPanel);
-		this.setVisible(true);
-		this.contentViewerPanel.requestFocus();
-	}
-
-	/**
 	 * @param activity
 	 * @throws NotInitializedException
 	 *             Si le gestionnaire de langues n'est pas initialis?
@@ -377,7 +356,7 @@ public class MainFrame extends JFrame implements Observer
 				"activityCheckListMessage"));
 		// cr?er les panneaux
 		this.centerPanel.add(new CheckPane(activity));
-		this.buttonPanel = new ButtonPanel();
+
 		this.southPanel.add(this.buttonPanel);
 		this.setVisible(true);
 	}
@@ -397,7 +376,6 @@ public class MainFrame extends JFrame implements Observer
 				"activityEndCheckListMessage"));
 		// on cr?er les panneau
 		this.centerPanel.add(new EndCheckPanel(activity));
-		this.buttonPanel = new ButtonPanel();
 		this.southPanel.add(this.buttonPanel);
 		this.setVisible(true);
 
@@ -468,7 +446,7 @@ public class MainFrame extends JFrame implements Observer
 	 * 
 	 * @param activityToPresent
 	 */
-	public void presentActivityAndProduct (Activity activityToPresent)
+	public void presentActivity (Activity activityToPresent)
 	{
 		// on netoye le panneau
 		this.southPanel.removeAll();
@@ -499,8 +477,6 @@ public class MainFrame extends JFrame implements Observer
 			// on affiche uniquement la presentation des activites
 			this.centerPanel.add(this.contentViewerPanel);
 		}
-
-		this.buttonPanel = new ButtonPanel();
 		this.southPanel.add(this.buttonPanel);
 
 		this.setVisible(true);
@@ -558,8 +534,8 @@ public class MainFrame extends JFrame implements Observer
 		// (changement d'etat qd une activite est lancé)
 		if (obs instanceof ActivityScheduler)
 		{
-			ActivityScheduler activityScheduler = (ActivityScheduler)obs;
-			
+			ActivityScheduler activityScheduler = (ActivityScheduler) obs;
+
 			// on recupere l'etat de l'application
 			AbstractActivityState state = (AbstractActivityState) obj;
 
@@ -569,10 +545,7 @@ public class MainFrame extends JFrame implements Observer
 					.setEnabled(true);
 			ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP)
 					.setEnabled(true);
-			
-			// on initialise la comboBox du ButtonPanel
-			//this.buttonPanel.init(activityScheduler.getStateList());
-			
+
 			if (state instanceof PreConditionCheckerState)
 			{
 				// on rafraichit la MainFrame
@@ -591,9 +564,8 @@ public class MainFrame extends JFrame implements Observer
 				// on rafraichit la MainFrame
 				this.resetSplitPane();
 				System.err.println("ICI : Presnetation step");
-				this.presentActivityAndProduct(state.getActivity());
-				
-				
+				this.presentActivity(state.getActivity());
+
 				// s'il y a des produits en entrees on active previous
 				if (state.getActivity().hasInputProducts())
 				{
@@ -615,16 +587,17 @@ public class MainFrame extends JFrame implements Observer
 				else
 					ActionManager.getInstance()
 							.getAction(Constants.ACTION_NEXT).setEnabled(false);
-				 
+
 			}
 			else if (state instanceof StepState)
 			{
 				System.err.println("ICI : " + state);
-				
+
 				// on rafraichit la MainFrame
 				this.resetSplitPane();
-				this.presentStep(state.getStep(), state.getIndex() + 1, state.getStepList().size());
-								
+				this.presentStep(state.getStep(), state.getIndex() + 1, state
+						.getStepList().size());
+
 				// on peut toujours faire previous car au minimum on reviendra
 				// en ActivityPresentation
 				ActionManager.getInstance()
@@ -642,14 +615,14 @@ public class MainFrame extends JFrame implements Observer
 				else
 					ActionManager.getInstance()
 							.getAction(Constants.ACTION_NEXT).setEnabled(true);
-				
+
 			}
 			else if (state instanceof PostConditionCheckerState)
 			{
 				// on rafraichit la MainFrame
 				this.resetSplitPane();
 				this.showEndCheckList(state.getActivity());
-				
+
 				// on peut toujours faire previous car au minimum on reviendra
 				// en ActivityPresentation
 				ActionManager.getInstance()
@@ -657,19 +630,20 @@ public class MainFrame extends JFrame implements Observer
 
 				// on ne peut jamais faire next quand on est en
 				// PostConditionCheckerState
-				ActionManager.getInstance()
-						.getAction(Constants.ACTION_NEXT).setEnabled(false);
+				ActionManager.getInstance().getAction(Constants.ACTION_NEXT)
+						.setEnabled(false);
 			}
 			else
 			{
 				System.err
 						.println("ActivityScheduler est dans un etat inconnu !!!");
 			}
-			
+
 			// on position la combo sur le bon item
+
+			// on initialise la comboBox du ButtonPanel
 			
-			//this.buttonPanel.init(activityScheduler.getStateList());
-			//this.buttonPanel.setSelectedIndex(state);
+			this.buttonPanel.setSelectedIndex(state);
 			return;
 		}
 
@@ -677,14 +651,24 @@ public class MainFrame extends JFrame implements Observer
 		if (obs instanceof ApplicationManager)
 		{
 			// s'il l'objet passe est de type ActivityScheduler
-			// la MainFrame s'enregistre comme observer aupres de l'ActivityScheduler
+			// la MainFrame s'enregistre comme observer aupres de
+			// l'ActivityScheduler
 			if (obj instanceof ActivityScheduler)
 			{
-				((ActivityScheduler)obj).addObserver(this);
-				
-				
+
+				ActivityScheduler activityScheduler = (ActivityScheduler) obj;
+				activityScheduler.addObserver(this);
+				// a l'entrée dans un activité on crée un nouveau panel de
+				// boutton que l'on pourra ajouter
+				// ensuite en bas
+				// on peut faire cela car obj est de type ActivityScheduler
+				// lorsque l'on vient de lancer une activité
+				this.buttonPanel = new ButtonPanel();
+				// on initialise la combo box
+				this.buttonPanel.initComboBox(activityScheduler.getStateList());
+
 			}
-			
+
 		}
 
 	}
