@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: NewProjectDialog.java,v 1.1 2005/11/27 12:46:14 biniou Exp $
+ * $Id: NewProjectDialog.java,v 1.2 2005/11/29 18:23:16 biniou Exp $
  */
 package pagod.common.ui;
 
@@ -181,20 +181,30 @@ public class NewProjectDialog extends JDialog
 
             if (b == NewProjectDialog.this.btCreate)
             {
-                // on va verifier que le champs est bien rempli
+            	 //on supprime les espaces du nom du projet au cas ou
+                // et on les remplace par des _
+                String sProjectName = NewProjectDialog.this.txtProjectName.getText().replaceAll(" ","_");
+            	
+            	// on va verifier que le champs est bien rempli
                 Project newProject = new Project(
-						NewProjectDialog.this.txtProjectName.getText());
-          
+						sProjectName);
+ 
 				try
 				{
-					if	(!newProject.createProject(NewProjectDialog.this.txtProjectName.getText()))
+					if	(newProject.createProject(sProjectName))
 					{
+						// tout s'est bien déroulé, on ferme la fenetre
+		                NewProjectDialog.this.dispose();
+					}
+					else
+					{
+						// erreur
 						JOptionPane.showMessageDialog(NewProjectDialog.this,
 					            LanguagesManager.getInstance().getString(
 					                    "NewProjectErrorCreateException"),
 					            LanguagesManager.getInstance().getString(
 					                    "NewProjectErrorTitle"),
-					            JOptionPane.ERROR_MESSAGE);
+					            JOptionPane.ERROR_MESSAGE);	
 					}
 				}
 				catch (HeadlessException e1)
@@ -208,8 +218,10 @@ public class NewProjectDialog extends JDialog
 					e1.printStackTrace();
 				}
 				
-				// on ferme la fenetre
-				NewProjectDialog.this.dispose();
+				// on revient à la fenetre
+				NewProjectDialog.this.txtProjectName.selectAll();
+	
+				
             }         
             else
             {
