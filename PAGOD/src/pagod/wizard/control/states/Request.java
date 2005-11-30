@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: Request.java,v 1.1 2005/11/27 20:37:52 yak Exp $
+ * $Id: Request.java,v 1.2 2005/11/30 08:58:17 yak Exp $
  */
 package pagod.wizard.control.states;
 
@@ -29,6 +29,14 @@ public class Request
          * Ouvrir un processus
          */
         OPEN_PROCESS,
+        /**
+         * Ouvrir un project
+         */
+        OPEN_PROJECT,
+        /**
+         * Fermer un project
+         */
+        CLOSE_PROJECT,
         /**
          * Afficher le a propos
          */
