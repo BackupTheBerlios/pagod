@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.15 2005/11/30 08:52:25 yak Exp $
+ * $Id: MainFrame.java,v 1.16 2005/11/30 09:38:07 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -165,7 +165,7 @@ public class MainFrame extends JFrame implements Observer
 			this.splitPane.setResizeWeight(1.0);
 
 			// ajout du panneau permettant d'afficher les produits a creer
-			this.splitPane.setRightComponent(new ProductsPanel(this
+			this.splitPane.setRightComponent(new ProductsPanel(this.getActivity(), this
 					.getActivity().getOutputProducts()));
 			this.centerPanel.add(this.splitPane);
 
@@ -283,7 +283,7 @@ public class MainFrame extends JFrame implements Observer
 		// on enregistre la MainFrame comme observer de l'ApplicationManager
 		// ApplicationManager.getInstance().addObserver(this);
 
-		// TODO mnémonique pour accéder à la combo box, et mettre le focus
+		// TODO mn?monique pour acc?der ? la combo box, et mettre le focus
 		// dedans
 		// pr access clavier aux steps ...
 	}
@@ -438,9 +438,10 @@ public class MainFrame extends JFrame implements Observer
 	}
 
 	/**
+	 * @param activity 
 	 * @param ProductsToPresent
 	 */
-	public void presentProducts (Collection<Product> ProductsToPresent)
+	public void presentProducts (Activity activity, Collection<Product> ProductsToPresent)
 	{
 		// on netoye les panneaux
 		this.centerPanel.removeAll();
@@ -448,7 +449,7 @@ public class MainFrame extends JFrame implements Observer
 		this.messagePanel.setMessage(LanguagesManager.getInstance().getString(
 				"presentProductsMessage"));
 		// cr?er les panneaux
-		ProductsPanel productsPanel = new ProductsPanel(ProductsToPresent);
+		ProductsPanel productsPanel = new ProductsPanel(activity,ProductsToPresent);
 		this.centerPanel.add(productsPanel);
 		this.setVisible(true);
 		// demande le focus
@@ -613,7 +614,7 @@ public class MainFrame extends JFrame implements Observer
 	public void update (Observable obs, Object obj)
 	{
 		// s'il y a eu un changement d'etat dans ActivityScheduler
-		// (changement d'etat qd une activite est lancé)
+		// (changement d'etat qd une activite est lanc?)
 		if (obs instanceof ActivityScheduler)
 		{
 			ActionManager.getInstance()
@@ -742,11 +743,11 @@ public class MainFrame extends JFrame implements Observer
 
 				ActivityScheduler activityScheduler = (ActivityScheduler) obj;
 				activityScheduler.addObserver(this);
-				// a l'entrée dans un activité on crée un nouveau panel de
+				// a l'entr?e dans un activit? on cr?e un nouveau panel de
 				// boutton que l'on pourra ajouter
 				// ensuite en bas
 				// on peut faire cela car obj est de type ActivityScheduler
-				// lorsque l'on vient de lancer une activité
+				// lorsque l'on vient de lancer une activit?
 				this.buttonPanel = new ButtonPanel();
 				// on initialise la combo box
 				this.buttonPanel.initComboBox(activityScheduler.getStateList());
@@ -756,7 +757,7 @@ public class MainFrame extends JFrame implements Observer
 			{
 				System.err.println("mainFrame notifie");
 				
-				// on affiche la fenêtre
+				// on affiche la fen?tre
 				this.setVisible(true);
 				this.setExtendedState(Frame.MAXIMIZED_BOTH);
 

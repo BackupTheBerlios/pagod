@@ -1,5 +1,5 @@
 /*
- * $Id: ProductsPanel.java,v 1.2 2005/11/13 20:55:31 cyberal82 Exp $
+ * $Id: ProductsPanel.java,v 1.3 2005/11/30 09:38:07 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -30,7 +30,9 @@ import java.util.Collection;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
+import pagod.common.model.Activity;
 import pagod.common.model.Product;
+import pagod.common.model.Role;
 
 
 /**
@@ -53,9 +55,10 @@ public class ProductsPanel extends JSplitPane
     
     /**
      * Constructeur
+     * @param activity l'activite dont on veut presenter les produits passe en parametre
      * @param productsToPresent liste de produit ? pr?sent?e
      */
-    public ProductsPanel(Collection<Product> productsToPresent)
+    public ProductsPanel(Activity activity, Collection<Product> productsToPresent)
     {
         // creation du splitpane
         super();
@@ -64,7 +67,10 @@ public class ProductsPanel extends JSplitPane
         this.setResizeWeight(1.0);
         
         // creation du panneaux des actions positionner sur le premier produit
-        this.actionsPanel = new ActionsPanel();
+        // l'AtioPannel affiche les guides disponibles pour l'activite, le role qui realise cette activite
+        // ainsi que ceux sur les produits
+        this.actionsPanel = new ActionsPanel(activity);
+        
         // creation du panneaux listant les produits
         this.listProductsPanel = new ListProductsPanel(productsToPresent){
 
