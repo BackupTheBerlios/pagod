@@ -1,5 +1,5 @@
 /*
- * $Id: ActivityScheduler.java,v 1.26 2005/11/29 18:11:14 yak Exp $
+ * $Id: ActivityScheduler.java,v 1.27 2005/11/30 09:00:23 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -25,17 +25,11 @@
 package pagod.wizard.control;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Observable;
 
-import javax.swing.JOptionPane;
-
 import pagod.common.model.Activity;
-import pagod.common.model.Product;
 import pagod.common.model.Step;
-import pagod.utils.ActionManager;
-import pagod.utils.LanguagesManager;
 import pagod.wizard.control.states.Request;
 import pagod.wizard.control.states.activity.AbstractActivityState;
 import pagod.wizard.control.states.activity.ActivityPresentationState;
@@ -51,42 +45,6 @@ import pagod.wizard.ui.MainFrame;
  */
 public class ActivityScheduler extends Observable
 {
-	/**
-	 * Etat possible de l'application
-	 */
-	private enum State
-	{
-		/**
-		 * Etat initial
-		 */
-		INIT,
-		/**
-		 * Presentation de l'activit?
-		 */
-		ACTIVITY_PRESENTATION,
-		/**
-		 * Verification des prerequis de l'activit?
-		 */
-		ACTIVITY_CHECKLIST,
-		/**
-		 * Verification des post Condition de l'acitvit?
-		 */
-		ACTIVITY_ENDCHECKLIST,
-		/**
-		 * Presentation de l'?tape
-		 */
-		STEP_PRESENTATION,
-		/**
-		 * Presentation des produits ? r?alis?.
-		 */
-		PRODUCTS_PRESENTATION
-	}
-
-	/**
-	 * Etat du d?roulement de l'activit? pagod
-	 */
-	private State						state;
-
 	/**
 	 * Etat du d?roulement de l'activit? pagod
 	 */
@@ -112,20 +70,7 @@ public class ActivityScheduler extends Observable
 	 */
 	private Step						step;
 
-	/**
-	 * Fenetre principale de l'application
-	 */
-//	private MainFrame					mfPagod;
-
-	/**
-	 * currentyActivitState : ?tat courant de l'activit?
-	 */
-	private int							currentActivityState;
-
-	/**
-	 * Step utilis? par la combo en cas d acces direct
-	 */
-	// private int goToStepInd;
+	
 	/**
 	 * 
 	 * Liste des ?tats possibles de l'activit?
@@ -137,21 +82,15 @@ public class ActivityScheduler extends Observable
 	 * 
 	 * @param activity
 	 *            activit? ? d?rouler
-	 * @param frame
 	 */
-	public ActivityScheduler (final Activity activity, MainFrame frame)
+	public ActivityScheduler (final Activity activity)
 	{
 
 		System.out.println("Constr ActivityScheduler ");
 		this.activity = activity;
 		this.stateList = new ArrayList<AbstractActivityState>();
 		this.stepList = this.activity.getSteps();
-
-		this.state = State.INIT;
 		this.setStateList();
-		//TODO A SUPPR /!\ peut etre ?
-		/*this.mfPagod = frame;
-		this.mfPagod.InitButtonPanel();*/
 	}
 
 
@@ -211,6 +150,10 @@ public class ActivityScheduler extends Observable
 	}
 
 
+	/**
+	 * met a jour l'etat de l'ActivityScheduler
+	 * @param activityState l'etat de l'ActivityScheduler a mettre en place
+	 */
 	public void setState (AbstractActivityState activityState)
 	{
 		this.activityState = activityState;
@@ -219,6 +162,7 @@ public class ActivityScheduler extends Observable
 			System.err.println("ActivityState a null dans l'activity scheduler");
 			return;
 		}
+		System.out.println("activityScheduler.setState : "+this.activityState);
 		// on indique aux observers que l'etat a change
 		this.setChanged();
 		this.notifyObservers(this.activityState);
@@ -264,21 +208,6 @@ public class ActivityScheduler extends Observable
 
 	}
 
-	/**
-	 * @return l'etat courant de l'activit?
-	 */
-	public int getCurrentActivityState ()
-	{
-		return this.currentActivityState;
-	}
-
-	/**
-	 * @param currentActivityState
-	 */
-	public void setCurrentActivityState (int currentActivityState)
-	{
-		this.currentActivityState = currentActivityState;
-	}
 
 	/**
 	 * @param request

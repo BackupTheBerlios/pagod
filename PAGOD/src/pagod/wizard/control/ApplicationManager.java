@@ -1,5 +1,5 @@
 /*
- * $Id: ApplicationManager.java,v 1.11 2005/11/27 20:38:09 yak Exp $
+ * $Id: ApplicationManager.java,v 1.12 2005/11/30 09:00:23 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -54,9 +54,10 @@ import pagod.utils.LanguagesManager;
 import pagod.wizard.control.PreferencesManager.FileNotExecuteException;
 import pagod.wizard.control.PreferencesManager.InvalidExtensionException;
 import pagod.wizard.control.actions.AboutAction;
-import pagod.wizard.control.actions.DirectAccessAction;
+import pagod.wizard.control.actions.GotoAction;
 import pagod.wizard.control.actions.NextAction;
-import pagod.wizard.control.actions.OpenAction;
+import pagod.wizard.control.actions.OpenProcessAction;
+import pagod.wizard.control.actions.OpenProjectAction;
 import pagod.wizard.control.actions.PreferencesAction;
 import pagod.wizard.control.actions.PreviousAction;
 import pagod.wizard.control.actions.QuitAction;
@@ -64,6 +65,8 @@ import pagod.wizard.control.actions.RunActivityAction;
 import pagod.wizard.control.actions.TerminateAction;
 import pagod.wizard.control.actions.ToolsSettingsAction;
 import pagod.wizard.control.states.Request;
+import pagod.wizard.control.states.application.AbstractApplicationState;
+import pagod.wizard.control.states.application.InitState;
 import pagod.wizard.ui.MainFrame;
 import pagod.wizard.ui.PreferencesDialog;
 import pagod.wizard.ui.RolesChooserDialog;
@@ -157,27 +160,32 @@ public class ApplicationManager extends Observable
 	/**
 	 * Etat de l'application
 	 */
-	private State				state;
+	private State						state2;
 
+	/**
+	 * Etat de l'application
+	 */
+	private AbstractApplicationState	applicationState;
+	
 	/**
 	 * Fenetre principale de l'application
 	 */
-	private MainFrame			mfPagod;
+	private MainFrame					mfPagod;
 
 	/**
 	 * D?rouleur d'activit?
 	 */
-	private ActivityScheduler	activityScheduler;
+	private ActivityScheduler			activityScheduler;
 
 	/**
 	 * Processus en cours
 	 */
-	private Process				currentProcess	= null;
+	private Process						currentProcess	= null;
 
 	/**
 	 * Projet en cours
 	 */
-	private Project				currentProject	= null;
+	private Project						currentProject	= null;
 
 	/**
 	 * Constructeur priv? du gestionnaire d'application (impl?mentation d'un
@@ -234,7 +242,8 @@ public class ApplicationManager extends Observable
 			// Creation et enregistrement des actions de l'application
 			ActionManager am = ActionManager.getInstance();
 			am.registerAction(Constants.ACTION_QUIT, new QuitAction());
-			am.registerAction(Constants.ACTION_OPEN, new OpenAction());
+			am.registerAction(Constants.ACTION_OPENPROCESS, new OpenProcessAction());
+			am.registerAction(Constants.ACTION_OPENPROJECT, new OpenProjectAction());
 			am.registerAction(Constants.ACTION_ABOUT, new AboutAction());
 			am.registerAction(Constants.ACTION_RUN_ACTIVITY,
 					new RunActivityAction());
@@ -244,7 +253,7 @@ public class ApplicationManager extends Observable
 					.registerAction(Constants.ACTION_TERMINATE,
 							new TerminateAction());
 			am.registerAction(Constants.ACTION_GOTOSTEP,
-					new DirectAccessAction());
+					new GotoAction());
 
 			am.registerAction(Constants.ACTION_PREFERENCES,
 					new PreferencesAction());
@@ -252,8 +261,13 @@ public class ApplicationManager extends Observable
 					new ToolsSettingsAction());
 			// creation de la fenetre principale
 			this.mfPagod = new MainFrame();
+			// on met la main frame sur ecoute de l'application manager et de ces etats
+			this.addObserver(this.mfPagod);
 			// mettre a jour l'etat de l'application
-			this.state = State.LOADED;
+			this.state2 = State.LOADED;
+			//on passe dans l'état init
+			this.setState(new InitState(this));
+			
 		}
 		catch (Exception ex)
 		{
@@ -300,211 +314,9 @@ public class ApplicationManager extends Observable
 			}
 			else
 			{
-				// cas de requete d?pendante d'un ?tat
-				switch (this.state)
-				{
-					case LOADED:
-						switch (request.getCurrentRequest())
-						{
-							case RUN_APPLICATION:
-
-								this.run();
-								ActionManager.getInstance().getAction(
-										Constants.ACTION_RUN_ACTIVITY)
-										.setEnabled(false);
-								ActionManager.getInstance().getAction(
-										Constants.ACTION_NEXT)
-										.setEnabled(false);
-								ActionManager.getInstance().getAction(
-										Constants.ACTION_PREVIOUS).setEnabled(
-										false);
-								ActionManager.getInstance().getAction(
-										Constants.ACTION_TERMINATE).setEnabled(
-										false);
-								ActionManager.getInstance().getAction(
-										Constants.ACTION_GOTOSTEP).setEnabled(
-										false);
-								ActionManager.getInstance().getAction(
-										Constants.ACTION_TOOLSSETTINGS)
-										.setEnabled(false);
-								break;
-						}
-						break;
-					case INIT:
-						switch (request.getCurrentRequest())
-						{
-							case OPEN_PROCESS:
-								if (this.openProcess())
-								{
-									ActionManager.getInstance().getAction(
-											Constants.ACTION_TOOLSSETTINGS)
-											.setEnabled(true);
-								}
-								break;
-						}
-						break;
-					case PROCESS_OPENED:
-						switch (request.getCurrentRequest())
-						{
-							case OPEN_PROCESS:
-								if (this.openProcess())
-								{
-									ActionManager.getInstance().getAction(
-											Constants.ACTION_RUN_ACTIVITY)
-											.setEnabled(false);
-								}
-								if (this.state == State.INIT)
-								{
-									ActionManager.getInstance().getAction(
-											Constants.ACTION_RUN_ACTIVITY)
-											.setEnabled(false);
-									ActionManager.getInstance().getAction(
-											Constants.ACTION_NEXT).setEnabled(
-											false);
-									ActionManager.getInstance().getAction(
-											Constants.ACTION_PREVIOUS)
-											.setEnabled(false);
-									ActionManager.getInstance().getAction(
-											Constants.ACTION_GOTOSTEP)
-											.setEnabled(false);
-									ActionManager.getInstance().getAction(
-											Constants.ACTION_TERMINATE)
-											.setEnabled(false);
-									ActionManager.getInstance().getAction(
-											Constants.ACTION_TOOLSSETTINGS)
-											.setEnabled(false);
-								}
-								break;
-							case RUN_ACTIVITY:
-								this.runActivity();
-
-								ActionManager.getInstance().getAction(
-										Constants.ACTION_RUN_ACTIVITY)
-										.setEnabled(false);
-
-								/*
-								 * ActionManager.getInstance().getAction(
-								 * Constants.ACTION_TERMINATE).setEnabled(
-								 * true);
-								 */
-								break;
-							case SET_TOOLS:
-								this.showToolsSettingsDialog();
-								break;
-						}
-						break;
-					case ACTIVITY_LAUNCHED:
-						switch (request.getCurrentRequest())
-						{
-							case OPEN_PROCESS:
-								if (this.openProcess())
-								{
-									this.activityScheduler = null;
-									ActionManager.getInstance().getAction(
-											Constants.ACTION_RUN_ACTIVITY)
-											.setEnabled(false);
-									ActionManager.getInstance().getAction(
-											Constants.ACTION_TERMINATE)
-											.setEnabled(false);
-								}
-								if (this.state == State.INIT)
-								{
-									ActionManager.getInstance().getAction(
-											Constants.ACTION_RUN_ACTIVITY)
-											.setEnabled(false);
-									ActionManager.getInstance().getAction(
-											Constants.ACTION_NEXT).setEnabled(
-											false);
-									ActionManager.getInstance().getAction(
-											Constants.ACTION_PREVIOUS)
-											.setEnabled(false);
-									ActionManager.getInstance().getAction(
-											Constants.ACTION_GOTOSTEP)
-											.setEnabled(false);
-									ActionManager.getInstance().getAction(
-											Constants.ACTION_TERMINATE)
-											.setEnabled(false);
-									ActionManager.getInstance().getAction(
-											Constants.ACTION_TOOLSSETTINGS)
-											.setEnabled(false);
-								}
-								break;
-							case TERMINATE_ACTIVITY:
-								this.mfPagod.showProcess();
-								this.activityScheduler = null;
-								this.state = State.PROCESS_OPENED;
-								ActionManager.getInstance().getAction(
-										Constants.ACTION_RUN_ACTIVITY)
-										.setEnabled(true);
-								ActionManager.getInstance().getAction(
-										Constants.ACTION_NEXT)
-										.setEnabled(false);
-								ActionManager.getInstance().getAction(
-										Constants.ACTION_PREVIOUS).setEnabled(
-										false);
-								ActionManager.getInstance().getAction(
-										Constants.ACTION_GOTOSTEP).setEnabled(
-										false);
-								ActionManager.getInstance().getAction(
-										Constants.ACTION_TERMINATE).setEnabled(
-										false);
-								break;
-							case SET_TOOLS:
-								this.showToolsSettingsDialog();
-								break;
-
-							case NEXT:
-								ActionManager.getInstance().getAction(
-										Constants.ACTION_GOTOSTEP).setEnabled(
-										false);
-								System.out.println(request);
-								this.activityScheduler.ManageRequest(request);
-								/*
-								 * new StepFactory( this.activityScheduler,
-								 * this.activityScheduler.getActivity(),
-								 * this.activityScheduler.getStateList(),
-								 * this.activityScheduler.getCurrentActivityState()+
-								 * 1);
-								 */
-								break;
-							case PREVIOUS:
-								ActionManager.getInstance().getAction(
-										Constants.ACTION_GOTOSTEP).setEnabled(
-										false);
-								System.out.println(request);
-								
-								this.activityScheduler.ManageRequest(request);
-								
-								/*new StepFactory(this.activityScheduler,
-										this.activityScheduler.getActivity(),
-										this.activityScheduler.getStateList(),
-										this.activityScheduler
-												.getCurrentActivityState() - 1);
-												*/
-								break;
-							case GOTOSTEP:
-								/*ActionManager.getInstance().getAction(
-										Constants.ACTION_NEXT)
-										.setEnabled(false);
-								ActionManager.getInstance().getAction(
-										Constants.ACTION_PREVIOUS).setEnabled(
-										false);
-								*/
-								
-								this.activityScheduler.ManageRequest(request);
-								
-								/*TODO A SUPPR new StepFactory(this.activityScheduler,
-										this.activityScheduler.getActivity(),
-										this.activityScheduler.getStateList(),
-										this.mfPagod.getButtonPanel()
-												.getCbDirectAccess()
-												.getSelectedIndex());
-											*/
-								break;
-						}
-						break;
-
-				}
+				this.applicationState.manageRequest(request);
+				
+				
 			}
 		}
 		catch (Exception ex)
@@ -531,7 +343,7 @@ public class ApplicationManager extends Observable
 
 		// lancement de la fenetre de choix de workspace si besoin
 
-		// test si la valeur de la cl? workspace est d?finie ou pas
+//		 test si la valeur de la cl? workspace est d?finie ou pas
 		if (!PreferencesManager.getInstance().containWorkspace())
 		{
 			WorkspaceFileChooser workspaceChooser = new WorkspaceFileChooser();
@@ -552,7 +364,7 @@ public class ApplicationManager extends Observable
 		// on enregistre la MainFrame comme observer de l'ApplicationManager
 		this.addObserver(this.mfPagod);
 
-		this.state = State.INIT;
+		this.state2 = State.INIT;
 
 	}
 
@@ -618,6 +430,7 @@ public class ApplicationManager extends Observable
 	private boolean openProcess ()
 	{
 		boolean open = false;
+		
 
 		ProcessFileChooser fileChooser = new ProcessFileChooser();
 		if (fileChooser.showOpenDialog(this.mfPagod) == JFileChooser.APPROVE_OPTION)
@@ -648,7 +461,7 @@ public class ApplicationManager extends Observable
 					ToolsManager.getInstance().initialise(this.currentProcess);
 					ToolsManager.getInstance().loadToolsAssociation();
 					// mettre a jour l etat
-					this.state = State.PROCESS_OPENED;
+					this.state2 = State.PROCESS_OPENED;
 					open = true;
 				}
 				else
@@ -660,14 +473,15 @@ public class ApplicationManager extends Observable
 					// mettre a jour le processus en cours
 					this.currentProcess = null;
 					// mettre a jour l etat
-					this.state = State.INIT;
+					this.state2 = State.INIT;
 					open = false;
 				}
 			}
 		}
 		return open;
 	}
-
+	
+	
 	/**
 	 * Lance la fenetre de dialogue a propos
 	 */
@@ -681,14 +495,15 @@ public class ApplicationManager extends Observable
 
 	/**
 	 * Lance une activit?
+	 * TODO a suppr déplacée dans activity launched
 	 */
-	private void runActivity ()
+	/*private void runActivity ()
 	{
 		Activity activity = this.mfPagod.getActivity();
-		this.activityScheduler = new ActivityScheduler(activity, this.mfPagod);
-		// TODO A SUPPR 
+		this.activityScheduler = new ActivityScheduler(activity);
+		// TODO A SUPPR
 		// this.activityScheduler.initActivityScheduler();
-		this.state = State.ACTIVITY_LAUNCHED;
+		this.state2 = State.ACTIVITY_LAUNCHED;
 
 		// on notifie la MainFrame qu'on a lancé une activité
 		this.setChanged();
@@ -696,11 +511,11 @@ public class ApplicationManager extends Observable
 		// on passe a la MainFrame l'ActivityScheduler pour qu'elle
 		// puisse s'enregistrer comme observer de l'ActivityScheduler
 		this.notifyObservers(this.activityScheduler);
-		
+
 		// TODO solution temporaire
-		this.activityScheduler.setState(this.activityScheduler.getState(0));		
-		
-	}
+		this.activityScheduler.setState(this.activityScheduler.getState(0));
+
+	}*/
 
 	/**
 	 * lance la fenetre de configuration des preferences
@@ -724,7 +539,7 @@ public class ApplicationManager extends Observable
 	/**
 	 * Ferme le processus en cours
 	 */
-	private void closeProcess ()
+	public void closeProcess ()
 	{
 		ToolsManager.getInstance().storeToolsAssociation();
 	}
@@ -744,5 +559,58 @@ public class ApplicationManager extends Observable
 	public void setCurrentProject (Project currentProject)
 	{
 		this.currentProject = currentProject;
+	}
+
+	/**
+	 * @return Retourne l'attribut state
+	 */
+	public AbstractApplicationState getState ()
+	{
+		return this.applicationState;
+	}
+
+	/**
+	 * @param state Valeur à donner à state
+	 */
+	public void setState (AbstractApplicationState state)
+	{
+		this.applicationState = state;
+		//on indique aux observers que l'etat a change
+		this.setChanged();
+		this.notifyObservers(this.applicationState);
+		
+		// TODO pour debug
+		System.err.println(this.applicationState);
+	}
+
+	/**
+	 * @return Retourne l'attribut currentProcess
+	 */
+	public Process getCurrentProcess ()
+	{
+		return this.currentProcess;
+	}
+
+	/**
+	 * @param currentProcess Valeur à donner à currentProcess
+	 */
+	public void setCurrentProcess (Process currentProcess)
+	{
+		this.currentProcess = currentProcess;
+	}
+
+	/**
+	 * @return Retourne l'attribut mfPagod
+	 */
+	public MainFrame getMfPagod ()
+	{
+		return this.mfPagod;
+	}
+	//TODO A changer methode temporaire
+	public void notifyMainFrame(ActivityScheduler activityScheduler)
+	{
+		//notifie les observer (par ex la mainframe)
+		this.setChanged();
+		this.notifyObservers(activityScheduler);
 	}
 }
