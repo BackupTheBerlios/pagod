@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.14 2005/11/29 18:11:15 yak Exp $
+ * $Id: MainFrame.java,v 1.15 2005/11/30 08:52:25 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -27,10 +27,12 @@ package pagod.wizard.ui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Frame;
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.util.Collection;
 import java.util.MissingResourceException;
 import java.util.Observable;
@@ -38,15 +40,20 @@ import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
+import pagod.common.control.InterfaceManager;
 import pagod.common.control.adapters.ProcessTreeModel;
 import pagod.common.model.Activity;
+import pagod.common.model.Process;
 import pagod.common.model.Product;
 import pagod.common.model.Step;
 import pagod.common.ui.ContentViewerPane;
+import pagod.common.ui.ProcessFileChooser;
+import pagod.common.ui.WorkspaceFileChooser;
 import pagod.utils.ActionManager;
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
@@ -55,12 +62,18 @@ import pagod.utils.LanguagesManager.NotInitializedException;
 import pagod.wizard.control.ActivityScheduler;
 import pagod.wizard.control.ApplicationManager;
 import pagod.wizard.control.Constants;
+import pagod.wizard.control.PreferencesManager;
+import pagod.wizard.control.ToolsManager;
 import pagod.wizard.control.actions.AbstractPagodAction;
 import pagod.wizard.control.states.activity.AbstractActivityState;
 import pagod.wizard.control.states.activity.ActivityPresentationState;
 import pagod.wizard.control.states.activity.PostConditionCheckerState;
 import pagod.wizard.control.states.activity.PreConditionCheckerState;
 import pagod.wizard.control.states.activity.StepState;
+import pagod.wizard.control.states.application.ActivityLaunchedState;
+import pagod.wizard.control.states.application.InitState;
+import pagod.wizard.control.states.application.ProcessOpenedState;
+import pagod.wizard.control.states.application.ProjectOpenedState;
 
 /**
  * Fen?tre principale de l'application PAGOD
@@ -250,7 +263,7 @@ public class MainFrame extends JFrame implements Observer
 		// fenetre est active
 		// actions Menu Fichier
 		((AbstractPagodAction) ActionManager.getInstance().getAction(
-				Constants.ACTION_OPEN)).configureRootPane(this.getRootPane(),
+				Constants.ACTION_OPENPROCESS)).configureRootPane(this.getRootPane(),
 				JComponent.WHEN_IN_FOCUSED_WINDOW);
 		((AbstractPagodAction) ActionManager.getInstance().getAction(
 				Constants.ACTION_QUIT)).configureRootPane(this.getRootPane(),
@@ -483,6 +496,72 @@ public class MainFrame extends JFrame implements Observer
 		// demande le focus
 		this.contentViewerPanel.requestFocus();
 	}
+	
+	/**
+	 * G?re l'ouverture d'un processus
+	 * @return TODO a faire
+	 */
+	public boolean openProcess ()
+	{
+		ProcessFileChooser fileChooser = new ProcessFileChooser();
+		boolean opened = false;
+		if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
+		{
+
+			// Remplir le mod?le metier
+			File choosenfile = fileChooser.getSelectedFile();
+			Process aProcess = InterfaceManager.getInstance().importModel(
+					choosenfile.getAbsolutePath(), this, false);
+			if (aProcess != null)
+			{
+				if (ApplicationManager.getInstance().getCurrentProcess() != null) ApplicationManager.getInstance().closeProcess();
+				// Afficher la fenetre de choix des roles
+				RolesChooserDialog rolesChooser = new RolesChooserDialog(
+						this, aProcess.getRoles());
+				if (rolesChooser.showDialog() == RolesChooserDialog.APPROVE_OPTION)
+				{
+					// recuperer les Roles choisis
+					// creer le TreeModel n?cessaire au JTree de la fenetre
+					// presenter a l'utilisateur le processus
+					String fileName = choosenfile.getName();
+					this.showProcess(new ProcessTreeModel(aProcess,
+							rolesChooser.getChosenRoles()), fileName, aProcess
+							.getName());
+					// mettre a jour le processus en cours
+					ApplicationManager.getInstance().setCurrentProcess(aProcess);
+					// on ouvre les fichiers d'outils
+					ToolsManager.getInstance().initialise(ApplicationManager.getInstance().getCurrentProcess());
+					ToolsManager.getInstance().loadToolsAssociation();
+					opened = true;
+				}
+				else
+				{
+					/* TODO A SUPPR A PRIORI
+					// recuperer les Roles choisis
+					// creer le TreeModel n?cessaire au JTree de la fenetre
+					// presenter a l'utilisateur le processus
+					this.reinitialize();
+					
+					// mettre a jour le processus en cours
+					this.currentProcess = null;
+					// mettre a jour l etat
+					this.state2 = State.INIT;*/
+					opened = false;
+				}
+				
+			}
+		}
+		return opened;
+	}
+	
+	/**
+	 * 
+	 *
+	 */
+	public boolean openProject()
+	{
+		return true;
+	}
 
 	/**
 	 * reinitialise la fenetre
@@ -528,13 +607,18 @@ public class MainFrame extends JFrame implements Observer
 		this.buttonPanel = new ButtonPanel();
 	}
 
+	/** (non-Javadoc)
+	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+	 */
 	public void update (Observable obs, Object obj)
 	{
 		// s'il y a eu un changement d'etat dans ActivityScheduler
 		// (changement d'etat qd une activite est lancé)
 		if (obs instanceof ActivityScheduler)
 		{
-			ActivityScheduler activityScheduler = (ActivityScheduler) obs;
+			ActionManager.getInstance()
+			.getAction(Constants.ACTION_RUN_ACTIVITY).setEnabled(false);
+			System.err.println("notification actictivity sched");
 
 			// on recupere l'etat de l'application
 			AbstractActivityState state = (AbstractActivityState) obj;
@@ -642,7 +726,7 @@ public class MainFrame extends JFrame implements Observer
 			// on position la combo sur le bon item
 
 			// on initialise la comboBox du ButtonPanel
-			
+
 			this.buttonPanel.setSelectedIndex(state);
 			return;
 		}
@@ -668,6 +752,61 @@ public class MainFrame extends JFrame implements Observer
 				this.buttonPanel.initComboBox(activityScheduler.getStateList());
 
 			}
+			else if (obj instanceof InitState)
+			{
+				System.err.println("mainFrame notifie");
+				
+				// on affiche la fenêtre
+				this.setVisible(true);
+				this.setExtendedState(Frame.MAXIMIZED_BOTH);
+
+				// si aucun projet n'a ete creer on demande a l'utilisateur de le definir
+				// test si la valeur de la cl? workspace est d?finie ou pas
+				if (!PreferencesManager.getInstance().containWorkspace())
+				{
+					WorkspaceFileChooser workspaceChooser = new WorkspaceFileChooser();
+
+					if (workspaceChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
+					{
+						File file = workspaceChooser.getSelectedFile();
+						System.out.println(file.getPath());
+
+						// mettre le path dans le fichier preferences a la cl?
+						// "workspace"
+						PreferencesManager.getInstance().setWorkspace(
+								file.getPath());
+					}
+				}
+			}
+			else if (obj instanceof ProjectOpenedState)
+			{
+				
+			}
+			else if (obj instanceof ProcessOpenedState)
+			{
+				this.showProcess();
+				ActionManager.getInstance().getAction(
+						Constants.ACTION_RUN_ACTIVITY)
+						.setEnabled(true);
+				ActionManager.getInstance().getAction(
+						Constants.ACTION_NEXT)
+						.setEnabled(false);
+				ActionManager.getInstance().getAction(
+						Constants.ACTION_PREVIOUS).setEnabled(
+						false);
+				ActionManager.getInstance().getAction(
+						Constants.ACTION_GOTOSTEP).setEnabled(
+						false);
+				ActionManager.getInstance().getAction(
+						Constants.ACTION_TERMINATE).setEnabled(
+						false);
+				
+			}
+			else if (obj instanceof ActivityLaunchedState)
+			{
+				
+			}
+		
 
 		}
 
