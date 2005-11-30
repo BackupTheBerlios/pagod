@@ -1,5 +1,5 @@
 /*
- * $Id: TerminateAction.java,v 1.2 2005/11/27 20:36:49 yak Exp $
+ * $Id: TerminateAction.java,v 1.3 2005/11/30 08:57:47 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -24,6 +24,7 @@
 
 package pagod.wizard.control.actions;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 
@@ -31,6 +32,7 @@ import javax.swing.KeyStroke;
 
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
+import pagod.wizard.control.ApplicationManager;
 import pagod.wizard.control.states.Request;
 
 /**
@@ -52,4 +54,6 @@ public class TerminateAction extends AbstractPagodAction
         		new Request(Request.RequestType.TERMINATE_ACTIVITY), KeyStroke
                 .getKeyStroke(KeyEvent.VK_ESCAPE, 0));
     }
+    
+    
 }

@@ -1,5 +1,5 @@
 /*
- * $Id: RunActivityAction.java,v 1.2 2005/11/27 20:36:49 yak Exp $
+ * $Id: RunActivityAction.java,v 1.3 2005/11/30 08:57:48 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -24,6 +24,7 @@
 
 package pagod.wizard.control.actions;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 
@@ -31,6 +32,7 @@ import javax.swing.KeyStroke;
 
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
+import pagod.wizard.control.ApplicationManager;
 import pagod.wizard.control.states.Request;
 
 /**
@@ -54,5 +56,18 @@ public class RunActivityAction extends AbstractPagodAction
         super("runActivity", "LaunchActivity.gif",
         		new Request(Request.RequestType.RUN_ACTIVITY), KeyStroke
                         .getKeyStroke(KeyEvent.VK_ENTER, 0));
+    }
+    
+    /**
+     * Methode appélée lorsque l'action est déclenché
+     * 
+     * @param actionEvent
+     *            Evenement survenue
+     */
+    public void actionPerformed(ActionEvent actionEvent)
+    {
+    	//si le project a pu etre ouvert alors on delegue la requete à l'application manager
+    	this.request.setContent(ApplicationManager.getInstance().getMfPagod().getActivity());
+    	ApplicationManager.getInstance().manageRequest(this.request);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * $Id: OpenAction.java,v 1.2 2005/11/27 20:36:49 yak Exp $
+ * $Id: OpenProcessAction.java,v 1.1 2005/11/30 08:57:48 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -24,6 +24,7 @@
 
 package pagod.wizard.control.actions;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 
@@ -31,24 +32,39 @@ import javax.swing.KeyStroke;
 
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
+import pagod.wizard.control.ApplicationManager;
 import pagod.wizard.control.states.Request;
 
 /**
- * Action pour offrir un processus
+ * Action pour ouvrir un processus
  * 
  * @author MoOky
  */
-public class OpenAction extends AbstractPagodAction
+public class OpenProcessAction extends AbstractPagodAction
 {
     /**
      * @throws LanguagesManager.NotInitializedException
      * @throws IOException
      * @throws ImagesManager.NotInitializedException
      */
-    public OpenAction() throws LanguagesManager.NotInitializedException,
+    public OpenProcessAction() throws LanguagesManager.NotInitializedException,
                        IOException, ImagesManager.NotInitializedException
     {
-        super("open", "OpenIcon.gif", new Request(Request.RequestType.OPEN_PROCESS),
+        super("openProcess", "OpenIcon.gif", new Request(Request.RequestType.OPEN_PROCESS),
                 KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_MASK));
+    }
+    
+    
+    /**
+     * Methode appélée lorsque l'action est déclenché
+     * 
+     * @param actionEvent
+     *            Evenement survenue
+     */
+    public void actionPerformed(ActionEvent actionEvent)
+    {
+    	//si le processus a pu etre ouvert alors on delegue la requete à l'application manager
+    	if (ApplicationManager.getInstance().getMfPagod().openProcess())
+    		ApplicationManager.getInstance().manageRequest(this.request);
     }
 }

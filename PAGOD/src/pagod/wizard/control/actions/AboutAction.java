@@ -1,5 +1,5 @@
 /*
- * $Id: AboutAction.java,v 1.2 2005/11/27 20:36:49 yak Exp $
+ * $Id: AboutAction.java,v 1.3 2005/11/30 08:57:48 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -22,12 +22,17 @@
  *
  */
 
-package pagod.wizard.control.actions; 
+package pagod.wizard.control.actions;
 
+import java.awt.event.ActionEvent;
 import java.io.IOException;
 
+import pagod.common.ui.AboutDialog;
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
+import pagod.wizard.control.ApplicationManager;
+import pagod.wizard.control.Constants;
+import pagod.wizard.control.PreferencesManager;
 import pagod.wizard.control.states.Request;
 
 /**
@@ -37,14 +42,30 @@ import pagod.wizard.control.states.Request;
  */
 public class AboutAction extends AbstractPagodAction
 {
-    /**
-     * @throws ImagesManager.NotInitializedException
-     * @throws IOException
-     * @throws LanguagesManager.NotInitializedException
-     */
-    public AboutAction() throws LanguagesManager.NotInitializedException,
-                        IOException, ImagesManager.NotInitializedException
-    {
-        super("about", "AboutIcon.gif", new Request(Request.RequestType.SHOW_ABOUT));
-    }
+	/**
+	 * @throws ImagesManager.NotInitializedException
+	 * @throws IOException
+	 * @throws LanguagesManager.NotInitializedException
+	 */
+	public AboutAction () throws LanguagesManager.NotInitializedException,
+			IOException, ImagesManager.NotInitializedException
+	{
+		super("about", "AboutIcon.gif", new Request(
+				Request.RequestType.SHOW_ABOUT));
+	}
+
+	/**
+	 * Methode appélée lorsque l'action est déclenché
+	 * 
+	 * @param actionEvent
+	 *            Evenement survenue
+	 */
+	public void actionPerformed (ActionEvent actionEvent)
+	{
+		AboutDialog ad = new AboutDialog(ApplicationManager.getInstance().getMfPagod(),
+				Constants.APPLICATION_SHORT_NAME + " "
+						+ Constants.APPLICATION_VERSION);
+		ad.setVisible(true);
+	}
+
 }

@@ -1,5 +1,5 @@
 /*
- * $Id: GotoAction.java,v 1.1 2005/11/29 19:07:23 yak Exp $
+ * $Id: GotoAction.java,v 1.2 2005/11/30 08:57:47 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -34,7 +34,6 @@ import pagod.utils.LanguagesManager;
 import pagod.wizard.control.ApplicationManager;
 import pagod.wizard.control.Constants;
 import pagod.wizard.control.states.Request;
-import pagod.wizard.ui.ButtonPanel;
 
 /** 
  * 
