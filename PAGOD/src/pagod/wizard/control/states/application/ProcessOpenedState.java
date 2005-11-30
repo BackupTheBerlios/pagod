@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ProcessOpenedState.java,v 1.4 2005/11/30 08:52:44 yak Exp $
+ * $Id: ProcessOpenedState.java,v 1.5 2005/11/30 12:21:17 cyberal82 Exp $
  */
 package pagod.wizard.control.states.application;
 
@@ -24,16 +24,13 @@ public class ProcessOpenedState extends AbstractApplicationState
 	public ProcessOpenedState (ApplicationManager  applicationManager)
 	{
 		super(applicationManager );
-		
-		ActionManager.getInstance().getAction(
-				Constants.ACTION_RUN_ACTIVITY)
-				.setEnabled(false);
+	
 	}
 
 	/**
 	 * @param request
 	 *            la requete que l'on doit traiter
-	 * @return retourn vrai si on a changé d'état faut sinon
+	 * @return retourn vrai si on a chang? d'?tat faut sinon
 	 */
 	public boolean manageRequest (Request request)
 	{
@@ -49,7 +46,7 @@ public class ProcessOpenedState extends AbstractApplicationState
 				return false;
 
 			case CLOSE_PROJECT:
-				//TODO il y a ptetre des trucs a réinit
+				//TODO il y a ptetre des trucs a r?init
 				state = new InitState(this.applicationManager);
 				break;
 				
@@ -59,7 +56,7 @@ public class ProcessOpenedState extends AbstractApplicationState
 			
 			case RUN_ACTIVITY:
 				System.err.println("ici");
-				//on creer un nouvelle etat activité en passant en parametre l'actvité récupéré a partir 
+				//on creer un nouvelle etat activit? en passant en parametre l'actvit? r?cup?r? a partir 
 				// de la requete
 				//cf RunActivityAction.actionPerformed
 				state = new ActivityLaunchedState(this.applicationManager,(Activity)request.getContent());

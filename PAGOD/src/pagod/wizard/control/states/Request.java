@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: Request.java,v 1.2 2005/11/30 08:58:17 yak Exp $
+ * $Id: Request.java,v 1.3 2005/11/30 12:21:17 cyberal82 Exp $
  */
 package pagod.wizard.control.states;
 
@@ -29,6 +29,10 @@ public class Request
          * Ouvrir un processus
          */
         OPEN_PROCESS,
+        /**
+         * Fermer un processus
+         */
+        CLOSE_PROCESS,
         /**
          * Ouvrir un project
          */
@@ -113,7 +117,7 @@ public class Request
 		return this.content;
 	}
 	/**
-	 * @param content Valeur à donner à content
+	 * @param content Valeur ? donner ? content
 	 */
 	public void setContent (Object content)
 	{
@@ -127,7 +131,7 @@ public class Request
 		return this.currentRequest;
 	}
 	/**
-	 * @param currentRequest Valeur à donner à currentRequest
+	 * @param currentRequest Valeur ? donner ? currentRequest
 	 */
 	public void setCurrentRequest (RequestType currentRequest)
 	{

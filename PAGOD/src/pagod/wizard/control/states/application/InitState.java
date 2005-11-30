@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: InitState.java,v 1.4 2005/11/30 08:52:44 yak Exp $
+ * $Id: InitState.java,v 1.5 2005/11/30 12:21:17 cyberal82 Exp $
  */
 package pagod.wizard.control.states.application;
 
@@ -25,35 +25,12 @@ public class InitState extends AbstractApplicationState
 	public InitState (ApplicationManager applicationManager)
 	{
 		super(applicationManager);
-		
-		System.err.println("on passe en initState");
-		
-		//on desactive les actions
-		ActionManager.getInstance().getAction(
-				Constants.ACTION_RUN_ACTIVITY)
-				.setEnabled(false);
-		ActionManager.getInstance().getAction(
-				Constants.ACTION_NEXT)
-				.setEnabled(false);
-		ActionManager.getInstance().getAction(
-				Constants.ACTION_PREVIOUS).setEnabled(
-				false);
-		ActionManager.getInstance().getAction(
-				Constants.ACTION_TERMINATE).setEnabled(
-				false);
-		ActionManager.getInstance().getAction(
-				Constants.ACTION_GOTOSTEP).setEnabled(
-				false);
-		ActionManager.getInstance().getAction(
-				Constants.ACTION_TOOLSSETTINGS)
-				.setEnabled(false);
-
 	}
 
 	/**
 	 * @param request
 	 *            la requete que l'on doit traiter
-	 * @return retourn vrai si on a changé d'état faut sinon
+	 * @return retourn vrai si on a chang? d'?tat faut sinon
 	 */
 	public boolean manageRequest (Request request)
 	{

@@ -1,13 +1,14 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ActivityLaunchedState.java,v 1.4 2005/11/30 08:52:44 yak Exp $
+ * $Id: ActivityLaunchedState.java,v 1.5 2005/11/30 12:21:17 cyberal82 Exp $
  */
 package pagod.wizard.control.states.application;
 
 import pagod.common.model.Activity;
 import pagod.wizard.control.ActivityScheduler;
 import pagod.wizard.control.ApplicationManager;
+import pagod.wizard.control.actions.OpenProcessAction;
 import pagod.wizard.control.states.Request;
 
 /**
@@ -46,7 +47,7 @@ public class ActivityLaunchedState extends AbstractApplicationState
 	/**
 	 * @param request
 	 *            la requete que l'on doit traiter
-	 * @return retourn vrai si on a changé d'état faut sinon
+	 * @return retourn vrai si on a chang? d'?tat faut sinon
 	 */
 	public boolean manageRequest (Request request)
 	{
@@ -63,20 +64,20 @@ public class ActivityLaunchedState extends AbstractApplicationState
 				return false;
 
 			case CLOSE_PROJECT:
-				// TODO il y a ptetre des trucs a réinit
+				// TODO il y a ptetre des trucs a r?init
 				state = new InitState(this.applicationManager);
 				break;
 
 			case OPEN_PROCESS:
-				// TODO voir si on ne reviens pas en arriere a ce moment la
-				return false;
+				state = new ProcessOpenedState(this.applicationManager);
+				break;
 				
 			case TERMINATE_ACTIVITY:
 				this.activityScheduler = null;
 				state = new ProcessOpenedState (this.applicationManager);
 				break;
 
-			// si la requet request est inconnue on la délegue a l'activity
+			// si la requet request est inconnue on la d?legue a l'activity
 			// scheduler qui saura peut etre la traiter
 			default:
 				

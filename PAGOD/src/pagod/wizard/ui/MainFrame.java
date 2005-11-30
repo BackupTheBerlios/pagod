@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.16 2005/11/30 09:38:07 cyberal82 Exp $
+ * $Id: MainFrame.java,v 1.17 2005/11/30 12:21:17 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -165,8 +165,8 @@ public class MainFrame extends JFrame implements Observer
 			this.splitPane.setResizeWeight(1.0);
 
 			// ajout du panneau permettant d'afficher les produits a creer
-			this.splitPane.setRightComponent(new ProductsPanel(this.getActivity(), this
-					.getActivity().getOutputProducts()));
+			this.splitPane.setRightComponent(new ProductsPanel(this
+					.getActivity(), this.getActivity().getOutputProducts()));
 			this.centerPanel.add(this.splitPane);
 
 			/*
@@ -263,8 +263,8 @@ public class MainFrame extends JFrame implements Observer
 		// fenetre est active
 		// actions Menu Fichier
 		((AbstractPagodAction) ActionManager.getInstance().getAction(
-				Constants.ACTION_OPENPROCESS)).configureRootPane(this.getRootPane(),
-				JComponent.WHEN_IN_FOCUSED_WINDOW);
+				Constants.ACTION_OPENPROCESS)).configureRootPane(this
+				.getRootPane(), JComponent.WHEN_IN_FOCUSED_WINDOW);
 		((AbstractPagodAction) ActionManager.getInstance().getAction(
 				Constants.ACTION_QUIT)).configureRootPane(this.getRootPane(),
 				JComponent.WHEN_IN_FOCUSED_WINDOW);
@@ -438,10 +438,11 @@ public class MainFrame extends JFrame implements Observer
 	}
 
 	/**
-	 * @param activity 
+	 * @param activity
 	 * @param ProductsToPresent
 	 */
-	public void presentProducts (Activity activity, Collection<Product> ProductsToPresent)
+	public void presentProducts (Activity activity,
+			Collection<Product> ProductsToPresent)
 	{
 		// on netoye les panneaux
 		this.centerPanel.removeAll();
@@ -449,7 +450,8 @@ public class MainFrame extends JFrame implements Observer
 		this.messagePanel.setMessage(LanguagesManager.getInstance().getString(
 				"presentProductsMessage"));
 		// cr?er les panneaux
-		ProductsPanel productsPanel = new ProductsPanel(activity,ProductsToPresent);
+		ProductsPanel productsPanel = new ProductsPanel(activity,
+				ProductsToPresent);
 		this.centerPanel.add(productsPanel);
 		this.setVisible(true);
 		// demande le focus
@@ -497,9 +499,10 @@ public class MainFrame extends JFrame implements Observer
 		// demande le focus
 		this.contentViewerPanel.requestFocus();
 	}
-	
+
 	/**
 	 * G?re l'ouverture d'un processus
+	 * 
 	 * @return TODO a faire
 	 */
 	public boolean openProcess ()
@@ -515,10 +518,11 @@ public class MainFrame extends JFrame implements Observer
 					choosenfile.getAbsolutePath(), this, false);
 			if (aProcess != null)
 			{
-				if (ApplicationManager.getInstance().getCurrentProcess() != null) ApplicationManager.getInstance().closeProcess();
+				if (ApplicationManager.getInstance().getCurrentProcess() != null) ApplicationManager
+						.getInstance().closeProcess();
 				// Afficher la fenetre de choix des roles
-				RolesChooserDialog rolesChooser = new RolesChooserDialog(
-						this, aProcess.getRoles());
+				RolesChooserDialog rolesChooser = new RolesChooserDialog(this,
+						aProcess.getRoles());
 				if (rolesChooser.showDialog() == RolesChooserDialog.APPROVE_OPTION)
 				{
 					// recuperer les Roles choisis
@@ -529,37 +533,38 @@ public class MainFrame extends JFrame implements Observer
 							rolesChooser.getChosenRoles()), fileName, aProcess
 							.getName());
 					// mettre a jour le processus en cours
-					ApplicationManager.getInstance().setCurrentProcess(aProcess);
+					ApplicationManager.getInstance()
+							.setCurrentProcess(aProcess);
 					// on ouvre les fichiers d'outils
-					ToolsManager.getInstance().initialise(ApplicationManager.getInstance().getCurrentProcess());
+					ToolsManager.getInstance().initialise(
+							ApplicationManager.getInstance()
+									.getCurrentProcess());
 					ToolsManager.getInstance().loadToolsAssociation();
 					opened = true;
 				}
 				else
 				{
-					/* TODO A SUPPR A PRIORI
-					// recuperer les Roles choisis
-					// creer le TreeModel n?cessaire au JTree de la fenetre
-					// presenter a l'utilisateur le processus
-					this.reinitialize();
-					
-					// mettre a jour le processus en cours
-					this.currentProcess = null;
-					// mettre a jour l etat
-					this.state2 = State.INIT;*/
+					/*
+					 * TODO A SUPPR A PRIORI // recuperer les Roles choisis //
+					 * creer le TreeModel n?cessaire au JTree de la fenetre //
+					 * presenter a l'utilisateur le processus
+					 * this.reinitialize(); // mettre a jour le processus en
+					 * cours this.currentProcess = null; // mettre a jour l etat
+					 * this.state2 = State.INIT;
+					 */
 					opened = false;
 				}
-				
+
 			}
 		}
 		return opened;
 	}
-	
+
 	/**
 	 * 
-	 *
+	 * 
 	 */
-	public boolean openProject()
+	public boolean openProject ()
 	{
 		return true;
 	}
@@ -608,7 +613,9 @@ public class MainFrame extends JFrame implements Observer
 		this.buttonPanel = new ButtonPanel();
 	}
 
-	/** (non-Javadoc)
+	/**
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
 	 */
 	public void update (Observable obs, Object obj)
@@ -618,7 +625,7 @@ public class MainFrame extends JFrame implements Observer
 		if (obs instanceof ActivityScheduler)
 		{
 			ActionManager.getInstance()
-			.getAction(Constants.ACTION_RUN_ACTIVITY).setEnabled(false);
+					.getAction(Constants.ACTION_RUN_ACTIVITY).setEnabled(false);
 			System.err.println("notification actictivity sched");
 
 			// on recupere l'etat de l'application
@@ -755,13 +762,27 @@ public class MainFrame extends JFrame implements Observer
 			}
 			else if (obj instanceof InitState)
 			{
-				System.err.println("mainFrame notifie");
-				
+				// on desactive les actions
+				ActionManager.getInstance().getAction(
+						Constants.ACTION_RUN_ACTIVITY).setEnabled(false);
+				ActionManager.getInstance().getAction(Constants.ACTION_NEXT)
+						.setEnabled(false);
+				ActionManager.getInstance()
+						.getAction(Constants.ACTION_PREVIOUS).setEnabled(false);
+				ActionManager.getInstance().getAction(
+						Constants.ACTION_TERMINATE).setEnabled(false);
+				ActionManager.getInstance()
+						.getAction(Constants.ACTION_GOTOSTEP).setEnabled(false);
+				ActionManager.getInstance().getAction(
+						Constants.ACTION_TOOLSSETTINGS).setEnabled(false);
+				ActionManager.getInstance().getAction(
+						Constants.ACTION_OPENPROCESS).setEnabled(false);
 				// on affiche la fen?tre
 				this.setVisible(true);
 				this.setExtendedState(Frame.MAXIMIZED_BOTH);
 
-				// si aucun projet n'a ete creer on demande a l'utilisateur de le definir
+				// si aucun projet n'a ete creer on demande a l'utilisateur de
+				// le definir
 				// test si la valeur de la cl? workspace est d?finie ou pas
 				if (!PreferencesManager.getInstance().containWorkspace())
 				{
@@ -778,36 +799,37 @@ public class MainFrame extends JFrame implements Observer
 								file.getPath());
 					}
 				}
+
 			}
 			else if (obj instanceof ProjectOpenedState)
 			{
-				
+				// on desactive run activity
+				ActionManager.getInstance().getAction(
+						Constants.ACTION_RUN_ACTIVITY).setEnabled(false);
+				ActionManager.getInstance().getAction(
+						Constants.ACTION_TOOLSSETTINGS).setEnabled(true);
+				ActionManager.getInstance().getAction(
+						Constants.ACTION_OPENPROCESS).setEnabled(true);
 			}
 			else if (obj instanceof ProcessOpenedState)
 			{
 				this.showProcess();
 				ActionManager.getInstance().getAction(
-						Constants.ACTION_RUN_ACTIVITY)
-						.setEnabled(true);
-				ActionManager.getInstance().getAction(
-						Constants.ACTION_NEXT)
+						Constants.ACTION_RUN_ACTIVITY).setEnabled(true);
+				ActionManager.getInstance().getAction(Constants.ACTION_NEXT)
 						.setEnabled(false);
+				ActionManager.getInstance()
+						.getAction(Constants.ACTION_PREVIOUS).setEnabled(false);
+				ActionManager.getInstance()
+						.getAction(Constants.ACTION_GOTOSTEP).setEnabled(false);
 				ActionManager.getInstance().getAction(
-						Constants.ACTION_PREVIOUS).setEnabled(
-						false);
-				ActionManager.getInstance().getAction(
-						Constants.ACTION_GOTOSTEP).setEnabled(
-						false);
-				ActionManager.getInstance().getAction(
-						Constants.ACTION_TERMINATE).setEnabled(
-						false);
-				
+						Constants.ACTION_TERMINATE).setEnabled(false);
+
 			}
 			else if (obj instanceof ActivityLaunchedState)
 			{
-				
+
 			}
-		
 
 		}
 

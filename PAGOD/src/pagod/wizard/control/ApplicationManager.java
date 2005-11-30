@@ -1,5 +1,5 @@
 /*
- * $Id: ApplicationManager.java,v 1.12 2005/11/30 09:00:23 yak Exp $
+ * $Id: ApplicationManager.java,v 1.13 2005/11/30 12:21:52 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -39,7 +39,6 @@ import javax.swing.JFileChooser;
 
 import pagod.common.control.InterfaceManager;
 import pagod.common.control.adapters.ProcessTreeModel;
-import pagod.common.model.Activity;
 import pagod.common.model.Process;
 import pagod.common.model.Project;
 import pagod.common.ui.AboutDialog;
@@ -54,6 +53,7 @@ import pagod.utils.LanguagesManager;
 import pagod.wizard.control.PreferencesManager.FileNotExecuteException;
 import pagod.wizard.control.PreferencesManager.InvalidExtensionException;
 import pagod.wizard.control.actions.AboutAction;
+import pagod.wizard.control.actions.CloseProcessAction;
 import pagod.wizard.control.actions.GotoAction;
 import pagod.wizard.control.actions.NextAction;
 import pagod.wizard.control.actions.OpenProcessAction;
@@ -86,55 +86,6 @@ public class ApplicationManager extends Observable
 	private static ApplicationManager	amInstance	= null;
 
 	/**
-	 * Requete suceptible d'etre soumis ? l'application manager
-	 */
-	// public enum Request {
-	// /**
-	// * Lancer l'application
-	// */
-	// RUN_APPLICATION,
-	// /**
-	// * Quitter l'application
-	// */
-	// QUIT_APPLICATION,
-	// /**
-	// * Ouvrir un processus
-	// */
-	// OPEN_PROCESS,
-	// /**
-	// * Afficher le a propos
-	// */
-	// SHOW_ABOUT,
-	// /**
-	// * Afficher la fenetre de configuration des preferences
-	// */
-	// PREFERENCES,
-	// /**
-	// * Afficher la fenetre de configuration des outils
-	// */
-	// SET_TOOLS,
-	// /**
-	// * Lancer une activit?
-	// */
-	// RUN_ACTIVITY,
-	// /**
-	// * Demande la suite
-	// */
-	// NEXT,
-	// /**
-	// * Demande le retour
-	// */
-	// PREVIOUS,
-	// /**
-	// * Terminer l'activit?
-	// */
-	// TERMINATE_ACTIVITY,
-	// /**
-	// * aller ? une ?tape direct en utilisant la comboBox
-	// */
-	// GOTOSTEP
-	// }
-	/**
 	 * Etat possible de l'application
 	 */
 	private enum State
@@ -160,7 +111,7 @@ public class ApplicationManager extends Observable
 	/**
 	 * Etat de l'application
 	 */
-	private State						state2;
+	//private State						state2;
 
 	/**
 	 * Etat de l'application
@@ -243,6 +194,7 @@ public class ApplicationManager extends Observable
 			ActionManager am = ActionManager.getInstance();
 			am.registerAction(Constants.ACTION_QUIT, new QuitAction());
 			am.registerAction(Constants.ACTION_OPENPROCESS, new OpenProcessAction());
+			am.registerAction(Constants.ACTION_CLOSEPROCESS, new CloseProcessAction());
 			am.registerAction(Constants.ACTION_OPENPROJECT, new OpenProjectAction());
 			am.registerAction(Constants.ACTION_ABOUT, new AboutAction());
 			am.registerAction(Constants.ACTION_RUN_ACTIVITY,
@@ -263,9 +215,7 @@ public class ApplicationManager extends Observable
 			this.mfPagod = new MainFrame();
 			// on met la main frame sur ecoute de l'application manager et de ces etats
 			this.addObserver(this.mfPagod);
-			// mettre a jour l'etat de l'application
-			this.state2 = State.LOADED;
-			//on passe dans l'état init
+			//on passe dans l'?tat init
 			this.setState(new InitState(this));
 			
 		}
@@ -364,8 +314,6 @@ public class ApplicationManager extends Observable
 		// on enregistre la MainFrame comme observer de l'ApplicationManager
 		this.addObserver(this.mfPagod);
 
-		this.state2 = State.INIT;
-
 	}
 
 	/**
@@ -387,7 +335,7 @@ public class ApplicationManager extends Observable
 	 */
 	private void createNewProject ()
 	{
-		// on verifie que le workspace est bien créé sinon on force
+		// on verifie que le workspace est bien cr?? sinon on force
 		// l'utilisateur a le choisir
 
 		// test si la valeur de la cl? workspace est d?finie ou pas
@@ -411,7 +359,7 @@ public class ApplicationManager extends Observable
 			// si l'utilisateur ne choisit pas, on ne cree rien
 			else
 			{
-				System.err.println("Le workspace n'est pas défini.");
+				System.err.println("Le workspace n'est pas d?fini.");
 			}
 		}
 		else
@@ -460,8 +408,6 @@ public class ApplicationManager extends Observable
 					// on ouvre les fichiers d'outils
 					ToolsManager.getInstance().initialise(this.currentProcess);
 					ToolsManager.getInstance().loadToolsAssociation();
-					// mettre a jour l etat
-					this.state2 = State.PROCESS_OPENED;
 					open = true;
 				}
 				else
@@ -472,8 +418,6 @@ public class ApplicationManager extends Observable
 					this.mfPagod.reinitialize();
 					// mettre a jour le processus en cours
 					this.currentProcess = null;
-					// mettre a jour l etat
-					this.state2 = State.INIT;
 					open = false;
 				}
 			}
@@ -495,7 +439,7 @@ public class ApplicationManager extends Observable
 
 	/**
 	 * Lance une activit?
-	 * TODO a suppr déplacée dans activity launched
+	 * TODO a suppr d?plac?e dans activity launched
 	 */
 	/*private void runActivity ()
 	{
@@ -505,7 +449,7 @@ public class ApplicationManager extends Observable
 		// this.activityScheduler.initActivityScheduler();
 		this.state2 = State.ACTIVITY_LAUNCHED;
 
-		// on notifie la MainFrame qu'on a lancé une activité
+		// on notifie la MainFrame qu'on a lanc? une activit?
 		this.setChanged();
 
 		// on passe a la MainFrame l'ActivityScheduler pour qu'elle
@@ -554,7 +498,7 @@ public class ApplicationManager extends Observable
 
 	/**
 	 * @param currentProject
-	 *            Valeur à donner à currentProject
+	 *            Valeur ? donner ? currentProject
 	 */
 	public void setCurrentProject (Project currentProject)
 	{
@@ -570,7 +514,7 @@ public class ApplicationManager extends Observable
 	}
 
 	/**
-	 * @param state Valeur à donner à state
+	 * @param state Valeur ? donner ? state
 	 */
 	public void setState (AbstractApplicationState state)
 	{
@@ -592,7 +536,7 @@ public class ApplicationManager extends Observable
 	}
 
 	/**
-	 * @param currentProcess Valeur à donner à currentProcess
+	 * @param currentProcess Valeur ? donner ? currentProcess
 	 */
 	public void setCurrentProcess (Process currentProcess)
 	{

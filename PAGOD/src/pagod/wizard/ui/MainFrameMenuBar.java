@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrameMenuBar.java,v 1.2 2005/11/30 08:52:25 yak Exp $
+ * $Id: MainFrameMenuBar.java,v 1.3 2005/11/30 12:21:17 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -57,6 +57,9 @@ public class MainFrameMenuBar extends JMenuBar
         JMenuItem miOpenProcess = new JMenuItem(ActionManager.getInstance().getAction(
                 Constants.ACTION_OPENPROCESS));
         mFile.add(miOpenProcess);
+        JMenuItem miCloseProcess = new JMenuItem(ActionManager.getInstance().getAction(
+                Constants.ACTION_CLOSEPROCESS));
+        mFile.add(miCloseProcess);
 
         JMenuItem miToolsSettings = new JMenuItem(ActionManager.getInstance()
                 .getAction(Constants.ACTION_TOOLSSETTINGS));
@@ -68,7 +71,7 @@ public class MainFrameMenuBar extends JMenuBar
 
         this.add(mFile);
 
-        // Menu Activité
+        // Menu Activit?
         MnemonicMenu mActivity = new MnemonicMenu(LanguagesManager.getInstance().getString(
                 "activity"));
 

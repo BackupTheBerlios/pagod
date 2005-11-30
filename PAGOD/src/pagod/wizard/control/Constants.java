@@ -1,5 +1,5 @@
 /*
- * $Id: Constants.java,v 1.6 2005/11/30 09:00:23 yak Exp $
+ * $Id: Constants.java,v 1.7 2005/11/30 12:21:52 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -27,7 +27,7 @@ package pagod.wizard.control;
 import java.io.File;
 
 /**
- * Interface contenant l'ensemble de constante lié à l'application.
+ * Interface contenant l'ensemble de constante li? ? l'application.
  * 
  * @author MoOky
  */
@@ -49,12 +49,12 @@ public interface Constants
     public static final String APPLICATION_VERSION = "1.00 (20050323)";
 
     /**
-     * Chemin du répertoire ou vont etre stocker les fichiers de sauvegarde des outils
+     * Chemin du r?pertoire ou vont etre stocker les fichiers de sauvegarde des outils
      */
     public static final String TOOLS_DIRECTORY = "tools" + File.separator;
     
     /**
-     * Chemin du répertoire contenant les ressources de l'application
+     * Chemin du r?pertoire contenant les ressources de l'application
      */
     public static final String RESOURCES_DIRECTORY = "resources" +File.separator;
     
@@ -64,7 +64,7 @@ public interface Constants
     public static final String PREFERENCES_DIRECTORY = "preferences" + File.separator;
     
     /**
-     * Chemin du répertoire contenant les fichiers langues
+     * Chemin du r?pertoire contenant les fichiers langues
      */
     public static final String LANGUAGES_DIRECTORY = RESOURCES_DIRECTORY
         + "languages"+File.separator+"wizard"+File.separator ;
@@ -80,7 +80,7 @@ public interface Constants
     public static final String LANGUAGES_FILE = LANGUAGES_DIRECTORY
             + LANGUAGES_FILE_PREFIXE;
     /**
-     * Chemin du répertoire contenant les fichiers langues
+     * Chemin du r?pertoire contenant les fichiers langues
      */
     public static final String LANGUAGES_OUTPUT_DIRECTORY = "languages" + File.separator ;
     
@@ -105,12 +105,24 @@ public interface Constants
      * <code>ACTION_OPENPROCESS</code>
      */
     public static final String ACTION_OPENPROCESS = "openProcessAction";
+    
+    /**
+     * <code>ACTION_CLOSEPROCESS</code>
+     */
+    public static final String ACTION_CLOSEPROCESS = "closeProcessAction";
 
     /**
      * <code>ACTION_OPENPROJECT</code>
      */
     public static final String ACTION_OPENPROJECT = "openProjectAction";
-
+    
+    
+    
+    /**
+     * <code>ACTION_CLOSEPROJECT</code>
+     */
+    public static final String ACTION_CLOSEPROJECT = "closeProjectAction";
+    
     /**
      * <code>ACTION_ABOUT</code>
      */
