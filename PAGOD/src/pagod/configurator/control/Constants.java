@@ -1,5 +1,5 @@
 /*
- * $Id: Constants.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: Constants.java,v 1.2 2005/11/30 08:59:41 yak Exp $
  *
  * PAGOD - Spem Wizard
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -101,7 +101,7 @@ public interface Constants
     public static final String ACTION_QUIT = "quitAction";
 
     /**
-     * <code>ACTION_OPEN</code>
+     * <code>ACTION_OPENPROCESS</code>
      */
     public static final String ACTION_OPEN = "openAction";
 
