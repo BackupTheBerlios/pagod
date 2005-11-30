@@ -1,5 +1,5 @@
 /*
- * $Id: ApplicationManager.java,v 1.13 2005/11/30 12:21:52 cyberal82 Exp $
+ * $Id: ApplicationManager.java,v 1.14 2005/11/30 16:59:47 biniou Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -28,6 +28,7 @@ import java.awt.Frame;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
@@ -293,7 +294,7 @@ public class ApplicationManager extends Observable
 
 		// lancement de la fenetre de choix de workspace si besoin
 
-//		 test si la valeur de la cl? workspace est d?finie ou pas
+//		 test si la valeur de la clé workspace est définie ou pas
 		if (!PreferencesManager.getInstance().containWorkspace())
 		{
 			WorkspaceFileChooser workspaceChooser = new WorkspaceFileChooser();
@@ -310,7 +311,6 @@ public class ApplicationManager extends Observable
 		}
 
 		// fin de choix de workspace
-
 		// on enregistre la MainFrame comme observer de l'ApplicationManager
 		this.addObserver(this.mfPagod);
 
@@ -331,14 +331,14 @@ public class ApplicationManager extends Observable
 
 	/**
 	 * Gere la creation d'un projet
-	 * 
 	 */
 	private void createNewProject ()
 	{
-		// on verifie que le workspace est bien cr?? sinon on force
+		// on verifie que le workspace est bien créé sinon on force
 		// l'utilisateur a le choisir
+		boolean validWorkspace = false;
 
-		// test si la valeur de la cl? workspace est d?finie ou pas
+		// test si la valeur de la clé workspace est définie ou pas
 		if (!PreferencesManager.getInstance().containWorkspace())
 		{
 			WorkspaceFileChooser workspaceChooser = new WorkspaceFileChooser();
@@ -348,26 +348,103 @@ public class ApplicationManager extends Observable
 				File file = workspaceChooser.getSelectedFile();
 				System.out.println(file.getPath());
 
-				// mettre le path dans le fichier preferences a la cl?
+				// mettre le path dans le fichier preferences a la clé
 				// "workspace"
 				PreferencesManager.getInstance().setWorkspace(file.getPath());
 
-				// on affiche la fenetre qui permet de saisir le nom du projet
-				NewProjectDialog testDialog = new NewProjectDialog(this.mfPagod);
-				testDialog.setVisible(true);
+				validWorkspace = true;
 			}
 			// si l'utilisateur ne choisit pas, on ne cree rien
 			else
 			{
-				System.err.println("Le workspace n'est pas d?fini.");
+				System.err.println("Le workspace n'est pas défini.");
 			}
 		}
-		else
+		if (validWorkspace)
 		{
 			// on affiche la fenetre qui permet de saisir le nom du projet
 			NewProjectDialog testDialog = new NewProjectDialog(this.mfPagod);
 			testDialog.setVisible(true);
+			
+			// si le projet a bien été créé on demande a l'utilisateur
+			// de choisir un dpc
+			if (this.currentProject!=null)
+			{
+				associateDPCWithProject();
+			}
+			
 		}
+	}
+	
+	/**
+	 * Permet d'associer un dpc a un projet
+	 * et charge ce meme dpc dans le modele metier
+	 */
+	private void associateDPCWithProject()
+	{
+			// on demande a l'utilisateur de choisir un fichier processus
+			ProcessFileChooser fileChooser = new ProcessFileChooser();
+			if (fileChooser.showOpenDialog(this.mfPagod) == JFileChooser.APPROVE_OPTION)
+			{
+
+				// on associe le dpc/pagod au projet en cours
+				try
+				{
+					this.currentProject.changeDPC(fileChooser.getSelectedFile());
+				}
+				catch (IOException e)
+				{
+					// TODO Bloc de traitement des exceptions généré automatiquement
+					e.printStackTrace();
+				}
+				
+				// Remplir le modèle metier
+				File choosenfile = fileChooser.getSelectedFile();
+				Process aProcess = InterfaceManager.getInstance().importModel(
+						choosenfile.getAbsolutePath(), this.mfPagod, false);
+				if (aProcess != null)
+				{
+					if (this.currentProcess != null) this.closeProcess();
+					// Afficher la fenetre de choix des roles
+					RolesChooserDialog rolesChooser = new RolesChooserDialog(
+							this.mfPagod, aProcess.getRoles());
+					if (rolesChooser.showDialog() == RolesChooserDialog.APPROVE_OPTION)
+					{
+						// recuperer les Roles choisis
+						// creer le TreeModel n?cessaire au JTree de la fenetre
+						// presenter a l'utilisateur le processus
+						String fileName = choosenfile.getName();
+						this.mfPagod.showProcess(new ProcessTreeModel(aProcess,
+								rolesChooser.getChosenRoles()), fileName, aProcess
+								.getName());
+						// mettre a jour le processus en cours
+						this.currentProcess = aProcess;
+						// on ouvre les fichiers d'outils
+						ToolsManager.getInstance().initialise(this.currentProcess);
+						ToolsManager.getInstance().loadToolsAssociation();
+						
+						// on associe le processus metier au projet en cours
+						this.currentProject.setCurrentProcess(this.currentProcess);
+					}
+					else
+					{
+						this.mfPagod.reinitialize();
+						// mettre a jour le processus en cours
+						this.currentProcess = null;
+					}
+				}
+			}
+		
+	}
+	
+	/**
+	 * Permet d'ouvrir et de charger un projet deja existant
+	 * en parsant le contenu du repertoire workspace
+	 */
+	private void openProject()
+	{
+		
+		
 	}
 
 	/**
@@ -435,6 +512,8 @@ public class ApplicationManager extends Observable
 				Constants.APPLICATION_SHORT_NAME + " "
 						+ Constants.APPLICATION_VERSION);
 		ad.setVisible(true);
+		
+		
 	}
 
 	/**

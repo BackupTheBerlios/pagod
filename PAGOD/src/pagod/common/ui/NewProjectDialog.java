@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: NewProjectDialog.java,v 1.2 2005/11/29 18:23:16 biniou Exp $
+ * $Id: NewProjectDialog.java,v 1.3 2005/11/30 16:59:47 biniou Exp $
  */
 package pagod.common.ui;
 
@@ -30,6 +30,7 @@ import javax.swing.event.CaretListener;
 
 import pagod.common.model.Project;
 import pagod.utils.LanguagesManager;
+import pagod.wizard.control.ApplicationManager;
 
 
 /**
@@ -193,8 +194,10 @@ public class NewProjectDialog extends JDialog
 				{
 					if	(newProject.createProject(sProjectName))
 					{
-						// tout s'est bien déroulé, on ferme la fenetre
-		                NewProjectDialog.this.dispose();
+						// tout s'est bien déroulé, on designe le projet comme 
+						// etant le projet courant et on ferme la fenetre
+		                ApplicationManager.getInstance().setCurrentProject(newProject);
+						NewProjectDialog.this.dispose();
 					}
 					else
 					{
