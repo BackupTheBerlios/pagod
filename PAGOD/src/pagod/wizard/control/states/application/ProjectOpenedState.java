@@ -1,25 +1,27 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ProjectOpenedState.java,v 1.3 2005/11/29 18:11:15 yak Exp $
+ * $Id: ProjectOpenedState.java,v 1.4 2005/11/30 08:52:44 yak Exp $
  */
 package pagod.wizard.control.states.application;
 
-import pagod.wizard.control.ActivityScheduler;
 import pagod.wizard.control.ApplicationManager;
 import pagod.wizard.control.states.Request;
 
-
-
-public class ProjectOpenedState extends AbstractApplicationState 
+/**
+ * 
+ * @author yak & bob (contre attaque)
+ * 
+ */
+public class ProjectOpenedState extends AbstractApplicationState
 {
 
 	/**
-	 * @param applicationManager 
+	 * @param applicationManager
 	 */
-	public ProjectOpenedState (ApplicationManager  applicationManager)
+	public ProjectOpenedState (ApplicationManager applicationManager)
 	{
-		super(applicationManager );
+		super(applicationManager);
 		// TODO Corps de constructeur g?n?r? automatiquement
 	}
 
@@ -30,8 +32,30 @@ public class ProjectOpenedState extends AbstractApplicationState
 	 */
 	public boolean manageRequest (Request request)
 	{
-		
-		return false;
+
+		AbstractApplicationState state;
+
+		// on regarde le type de requete que l'on recoit
+		switch (request.getCurrentRequest())
+		{
+
+			case OPEN_PROJECT:
+				// TODO A faire
+				return false;
+
+			case CLOSE_PROJECT:
+				state = new InitState(this.applicationManager);
+				break;
+				
+			case OPEN_PROCESS:
+				state = new ProcessOpenedState(this.applicationManager);
+				break;
+				
+			default:
+				return false;
+		}
+		this.applicationManager.setState(state);
+		return true;
 	}
 
 }

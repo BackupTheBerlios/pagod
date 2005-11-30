@@ -1,17 +1,20 @@
 /*
  * Projet PAGOD
  * 
- * $Id: InitState.java,v 1.3 2005/11/29 18:11:15 yak Exp $
+ * $Id: InitState.java,v 1.4 2005/11/30 08:52:44 yak Exp $
  */
 package pagod.wizard.control.states.application;
 
-import pagod.wizard.control.ActivityScheduler;
+import pagod.utils.ActionManager;
 import pagod.wizard.control.ApplicationManager;
+import pagod.wizard.control.Constants;
 import pagod.wizard.control.states.Request;
 
 /**
- * @author m1isi26
- *
+ * etat Initial de l'application manager
+ * 
+ * @author fabfoot
+ * 
  */
 public class InitState extends AbstractApplicationState
 {
@@ -23,6 +26,28 @@ public class InitState extends AbstractApplicationState
 	{
 		super(applicationManager);
 		
+		System.err.println("on passe en initState");
+		
+		//on desactive les actions
+		ActionManager.getInstance().getAction(
+				Constants.ACTION_RUN_ACTIVITY)
+				.setEnabled(false);
+		ActionManager.getInstance().getAction(
+				Constants.ACTION_NEXT)
+				.setEnabled(false);
+		ActionManager.getInstance().getAction(
+				Constants.ACTION_PREVIOUS).setEnabled(
+				false);
+		ActionManager.getInstance().getAction(
+				Constants.ACTION_TERMINATE).setEnabled(
+				false);
+		ActionManager.getInstance().getAction(
+				Constants.ACTION_GOTOSTEP).setEnabled(
+				false);
+		ActionManager.getInstance().getAction(
+				Constants.ACTION_TOOLSSETTINGS)
+				.setEnabled(false);
+
 	}
 
 	/**
@@ -32,8 +57,23 @@ public class InitState extends AbstractApplicationState
 	 */
 	public boolean manageRequest (Request request)
 	{
-		
-		return false;
+		// AbstractApplicationState temporaire
+		AbstractApplicationState state;
+
+		// on regarde le type de requete que l'on recoit
+		switch (request.getCurrentRequest())
+		{
+
+			case OPEN_PROJECT:
+				state = new ProjectOpenedState(this.applicationManager);
+				break;
+
+			default:
+				return false;
+		}
+		this.applicationManager.setState(state);
+		return true;
+
 	}
 
 }
