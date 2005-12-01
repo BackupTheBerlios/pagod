@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.19 2005/12/01 16:22:00 yak Exp $
+ * $Id: MainFrame.java,v 1.20 2005/12/01 17:50:04 biniou Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -55,6 +55,7 @@ import pagod.common.model.Project;
 import pagod.common.model.Step;
 import pagod.common.ui.ContentViewerPane;
 import pagod.common.ui.NewProjectDialog;
+import pagod.common.ui.OpenProjectDialog;
 import pagod.common.ui.ProcessFileChooser;
 import pagod.common.ui.WorkspaceFileChooser;
 import pagod.utils.ActionManager;
@@ -564,14 +565,24 @@ public class MainFrame extends JFrame implements Observer
 	}
 
 	/**
-	 * @return 
+	 * @return vrai si le projet est bien ouvert
 	 * 
 	 * 
 	 */
 	public boolean openProject ()
 	{
 		this.reinitialize();
-		return true;
+		OpenProjectDialog opdialog = new OpenProjectDialog(this);
+		opdialog.setVisible(true);
+
+		if (ApplicationManager.getInstance().getCurrentProject()!=null)
+			{
+				return (true);
+			}
+			else
+			{
+				return (false);
+			}
 	}
 	/**
 	 * Méthode permettant de creer un nouveau projet et d'ouvrir le dialogue pour la creation
@@ -583,10 +594,10 @@ public class MainFrame extends JFrame implements Observer
 		Project p = newProjectDialog.getCreatedProject();
 		if (p == null)
 		{
-			System.err.println("PAS de project creer");
+			System.err.println("PAS de project créé");
 			return false;
 		}
-		System.err.println("Project creeer");
+		System.err.println("Project créé");
 		ApplicationManager.getInstance().setCurrentProject(p);
 		return true;
 	}
@@ -601,7 +612,6 @@ public class MainFrame extends JFrame implements Observer
 			ProcessFileChooser fileChooser = new ProcessFileChooser();
 			if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
 			{
-
 				// on associe le dpc/pagod au projet en cours
 				try
 				{
