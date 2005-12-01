@@ -1,5 +1,5 @@
 /*
- * $Id: ApplicationManager.java,v 1.15 2005/12/01 14:32:16 yak Exp $
+ * $Id: ApplicationManager.java,v 1.16 2005/12/01 16:22:00 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier

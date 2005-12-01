@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: NewProjectAction.java,v 1.1 2005/12/01 14:32:16 yak Exp $
+ * $Id: NewProjectAction.java,v 1.2 2005/12/01 16:22:00 yak Exp $
  */
 package pagod.wizard.control.actions;
 
@@ -36,19 +36,29 @@ public class NewProjectAction extends AbstractPagodAction
 				Request.RequestType.OPEN_PROJECT), KeyStroke.getKeyStroke(
 				KeyEvent.VK_N, KeyEvent.CTRL_MASK));
 	}
-	
-	 
-    /**
-     * Methode appélée lorsque l'action est déclenché
-     * 
-     * @param actionEvent
-     *            Evenement survenue
-     */
-    public void actionPerformed(ActionEvent actionEvent)
-    {
-    	//si le project a pu etre ouvert alors on delegue la requete à l'application manager
-    	if (ApplicationManager.getInstance().getMfPagod().newProject())
-    		ApplicationManager.getInstance().manageRequest(this.request);
-    }
+
+	/**
+	 * Methode appélée lorsque l'action est déclenché
+	 * 
+	 * @param actionEvent
+	 *            Evenement survenue
+	 */
+	public void actionPerformed (ActionEvent actionEvent)
+	{
+		// si le project a pu etre ouvert alors on delegue la requete à
+		// l'application manager
+		if (ApplicationManager.getInstance().getMfPagod().newProject())
+		{
+			ApplicationManager.getInstance().manageRequest(this.request);
+
+			// si le processus a pu etre ouvert alors on delegue la requete
+			// à l'application manager
+			if (ApplicationManager.getInstance().getMfPagod().openProcess())
+			{
+				ApplicationManager.getInstance().manageRequest(
+						new Request(Request.RequestType.OPEN_PROCESS));
+			}
+		}
+	}
 
 }

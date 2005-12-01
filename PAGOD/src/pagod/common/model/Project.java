@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: Project.java,v 1.3 2005/11/27 12:46:13 biniou Exp $
+ * $Id: Project.java,v 1.4 2005/12/01 16:26:38 yak Exp $
  */
 package pagod.common.model;
 
@@ -44,7 +44,7 @@ public class Project
 	 * currentProcess est le processus contenant le modèle métier
 	 * du dpc appartenant au projet
 	 */
-	private Process currentProcess;
+	private Process currentProcess = null;
 
 	/**
 	 * docsProperties est le properties contenant les associations
@@ -241,6 +241,15 @@ public class Project
 	public void setCurrentProcess (Process currentProcess)
 	{
 		this.currentProcess = currentProcess;
+	}
+	
+	/**
+	 * Retourne true si le projet a un processus associe sinon false
+	 * @return true si le projet a un processus associe sinon false
+	 */
+	public boolean hasCurrentProcess()
+	{
+		return this.currentProcess != null;
 	}
 
 	/**

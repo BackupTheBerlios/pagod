@@ -1,5 +1,5 @@
 /*
- * $Id: QuitAction.java,v 1.3 2005/11/30 08:57:48 yak Exp $
+ * $Id: QuitAction.java,v 1.4 2005/12/01 16:22:00 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -44,29 +44,30 @@ import pagod.wizard.ui.PreferencesDialog;
  */
 public class QuitAction extends AbstractPagodAction
 {
-    /**
-     * @throws ImagesManager.NotInitializedException
-     * @throws IOException
-     * @throws LanguagesManager.NotInitializedException
-     */
-    public QuitAction() throws ImagesManager.NotInitializedException,
-                       IOException, LanguagesManager.NotInitializedException
-    {
-        super("quit", "QuitIcon.gif",
-        		null, KeyStroke
-                .getKeyStroke(KeyEvent.VK_F4, KeyEvent.ALT_MASK));
-    }
-    /**
-     * Methode appélée lorsque l'action est déclenché
-     * 
-     * @param actionEvent
-     *            Evenement survenue
-     */
-    public void actionPerformed(ActionEvent actionEvent)
-    {
-//    	 on sauvegarde l'association Tool/chemin d'acces
-		if (ApplicationManager.getInstance().getCurrentProcess() != null) ApplicationManager.getInstance().closeProcess();
-    	PreferencesManager.getInstance().storeExtensions();
+	/**
+	 * @throws ImagesManager.NotInitializedException
+	 * @throws IOException
+	 * @throws LanguagesManager.NotInitializedException
+	 */
+	public QuitAction () throws ImagesManager.NotInitializedException,
+			IOException, LanguagesManager.NotInitializedException
+	{
+		super("quit", "QuitIcon.gif", null, KeyStroke.getKeyStroke(
+				KeyEvent.VK_F4, KeyEvent.ALT_MASK));
+	}
+
+	/**
+	 * Methode appélée lorsque l'action est déclenché
+	 * 
+	 * @param actionEvent
+	 *            Evenement survenue
+	 */
+	public void actionPerformed (ActionEvent actionEvent)
+	{
+		// on sauvegarde l'association Tool/chemin d'acces
+		if (ApplicationManager.getInstance().getCurrentProcess() != null) ApplicationManager
+				.getInstance().closeProcess();
+		PreferencesManager.getInstance().storeExtensions();
 		System.exit(0);
-    }
+	}
 }
