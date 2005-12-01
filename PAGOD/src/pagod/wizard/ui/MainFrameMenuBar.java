@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrameMenuBar.java,v 1.3 2005/11/30 12:21:17 cyberal82 Exp $
+ * $Id: MainFrameMenuBar.java,v 1.4 2005/12/01 14:32:16 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -50,6 +50,10 @@ public class MainFrameMenuBar extends JMenuBar
         MnemonicMenu mFile = new MnemonicMenu(LanguagesManager.getInstance()
                 .getString("file"));
         
+        JMenuItem miNewProject= new JMenuItem(ActionManager.getInstance().getAction(
+                Constants.ACTION_NEWPROJECT));
+        mFile.add(miNewProject);
+        
         JMenuItem miOpenProject= new JMenuItem(ActionManager.getInstance().getAction(
                 Constants.ACTION_OPENPROJECT));
         mFile.add(miOpenProject);
@@ -57,14 +61,15 @@ public class MainFrameMenuBar extends JMenuBar
         JMenuItem miOpenProcess = new JMenuItem(ActionManager.getInstance().getAction(
                 Constants.ACTION_OPENPROCESS));
         mFile.add(miOpenProcess);
-        JMenuItem miCloseProcess = new JMenuItem(ActionManager.getInstance().getAction(
-                Constants.ACTION_CLOSEPROCESS));
-        mFile.add(miCloseProcess);
-
+        mFile.addSeparator();
+        JMenuItem miCloseProject = new JMenuItem(ActionManager.getInstance().getAction(
+                Constants.ACTION_CLOSEPROJECT));
+        mFile.add(miCloseProject);
+        mFile.addSeparator();
         JMenuItem miToolsSettings = new JMenuItem(ActionManager.getInstance()
                 .getAction(Constants.ACTION_TOOLSSETTINGS));
         mFile.add(miToolsSettings);
-
+        mFile.addSeparator();
         JMenuItem miQuit = new JMenuItem(ActionManager.getInstance().getAction(
                 Constants.ACTION_QUIT));
         mFile.add(miQuit);

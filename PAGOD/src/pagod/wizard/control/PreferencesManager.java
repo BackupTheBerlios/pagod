@@ -1,5 +1,5 @@
 /*
- * $Id: PreferencesManager.java,v 1.3 2005/11/22 18:15:37 biniou Exp $
+ * $Id: PreferencesManager.java,v 1.4 2005/12/01 14:32:16 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -223,9 +223,10 @@ public class PreferencesManager extends Observable
         // on test si le fichier est executable
         File file = new File(path);
 
-        // si le fichier n'existe pas on leve une exception
-        if (!file.exists())
-            throw new FileNotFoundException();
+        // si le fichier n'existe pas on leve une exception si on utilise pas l'extension par default
+        if(!path.equals("default"))
+        	if (!file.exists())
+        		throw new FileNotFoundException();
 
         /*
          * // si le fichier n'est pas executable on leve une exception

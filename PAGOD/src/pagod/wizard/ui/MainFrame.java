@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.17 2005/11/30 12:21:17 cyberal82 Exp $
+ * $Id: MainFrame.java,v 1.18 2005/12/01 14:32:15 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -50,8 +50,10 @@ import pagod.common.control.adapters.ProcessTreeModel;
 import pagod.common.model.Activity;
 import pagod.common.model.Process;
 import pagod.common.model.Product;
+import pagod.common.model.Project;
 import pagod.common.model.Step;
 import pagod.common.ui.ContentViewerPane;
+import pagod.common.ui.NewProjectDialog;
 import pagod.common.ui.ProcessFileChooser;
 import pagod.common.ui.WorkspaceFileChooser;
 import pagod.utils.ActionManager;
@@ -561,13 +563,33 @@ public class MainFrame extends JFrame implements Observer
 	}
 
 	/**
+	 * @return 
 	 * 
 	 * 
 	 */
 	public boolean openProject ()
 	{
+		this.reinitialize();
 		return true;
 	}
+	/**
+	 * Méthode permettant de creer un nouveau projet et d'ouvrir le dialogue pour la creation
+	 * @return vrai si le projet a pu être creer sinon faux
+	 */
+	public boolean newProject ()
+	{
+		NewProjectDialog newProjectDialog = new NewProjectDialog(this);
+		Project p = newProjectDialog.getCreatedProject();
+		if (p == null)
+		{
+			System.err.println("PAS de project creer");
+			return false;
+		}
+		System.err.println("Project creeer");
+		ApplicationManager.getInstance().setCurrentProject(p);
+		return true;
+	}
+	
 
 	/**
 	 * reinitialise la fenetre
@@ -777,6 +799,9 @@ public class MainFrame extends JFrame implements Observer
 						Constants.ACTION_TOOLSSETTINGS).setEnabled(false);
 				ActionManager.getInstance().getAction(
 						Constants.ACTION_OPENPROCESS).setEnabled(false);
+				ActionManager.getInstance().getAction(
+						Constants.ACTION_CLOSEPROJECT).setEnabled(false);
+				
 				// on affiche la fen?tre
 				this.setVisible(true);
 				this.setExtendedState(Frame.MAXIMIZED_BOTH);
@@ -799,6 +824,7 @@ public class MainFrame extends JFrame implements Observer
 								file.getPath());
 					}
 				}
+				this.reinitialize();
 
 			}
 			else if (obj instanceof ProjectOpenedState)
@@ -807,23 +833,31 @@ public class MainFrame extends JFrame implements Observer
 				ActionManager.getInstance().getAction(
 						Constants.ACTION_RUN_ACTIVITY).setEnabled(false);
 				ActionManager.getInstance().getAction(
-						Constants.ACTION_TOOLSSETTINGS).setEnabled(true);
+						Constants.ACTION_TOOLSSETTINGS).setEnabled(false);
 				ActionManager.getInstance().getAction(
 						Constants.ACTION_OPENPROCESS).setEnabled(true);
+				ActionManager.getInstance().getAction(
+						Constants.ACTION_CLOSEPROJECT).setEnabled(true);
+				
+				
 			}
 			else if (obj instanceof ProcessOpenedState)
 			{
 				this.showProcess();
 				ActionManager.getInstance().getAction(
-						Constants.ACTION_RUN_ACTIVITY).setEnabled(true);
+						Constants.ACTION_RUN_ACTIVITY).setEnabled(false);
+				
+				ActionManager.getInstance().getAction(
+						Constants.ACTION_TOOLSSETTINGS).setEnabled(true);
 				ActionManager.getInstance().getAction(Constants.ACTION_NEXT)
-						.setEnabled(false);
+				.setEnabled(false);
 				ActionManager.getInstance()
 						.getAction(Constants.ACTION_PREVIOUS).setEnabled(false);
 				ActionManager.getInstance()
 						.getAction(Constants.ACTION_GOTOSTEP).setEnabled(false);
 				ActionManager.getInstance().getAction(
 						Constants.ACTION_TERMINATE).setEnabled(false);
+				
 
 			}
 			else if (obj instanceof ActivityLaunchedState)

@@ -1,5 +1,5 @@
 /*
- * $Id: ApplicationManager.java,v 1.14 2005/11/30 16:59:47 biniou Exp $
+ * $Id: ApplicationManager.java,v 1.15 2005/12/01 14:32:16 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -54,8 +54,9 @@ import pagod.utils.LanguagesManager;
 import pagod.wizard.control.PreferencesManager.FileNotExecuteException;
 import pagod.wizard.control.PreferencesManager.InvalidExtensionException;
 import pagod.wizard.control.actions.AboutAction;
-import pagod.wizard.control.actions.CloseProcessAction;
+import pagod.wizard.control.actions.CloseProjectAction;
 import pagod.wizard.control.actions.GotoAction;
+import pagod.wizard.control.actions.NewProjectAction;
 import pagod.wizard.control.actions.NextAction;
 import pagod.wizard.control.actions.OpenProcessAction;
 import pagod.wizard.control.actions.OpenProjectAction;
@@ -195,8 +196,9 @@ public class ApplicationManager extends Observable
 			ActionManager am = ActionManager.getInstance();
 			am.registerAction(Constants.ACTION_QUIT, new QuitAction());
 			am.registerAction(Constants.ACTION_OPENPROCESS, new OpenProcessAction());
-			am.registerAction(Constants.ACTION_CLOSEPROCESS, new CloseProcessAction());
+			am.registerAction(Constants.ACTION_CLOSEPROJECT, new CloseProjectAction());
 			am.registerAction(Constants.ACTION_OPENPROJECT, new OpenProjectAction());
+			am.registerAction(Constants.ACTION_NEWPROJECT, new NewProjectAction());
 			am.registerAction(Constants.ACTION_ABOUT, new AboutAction());
 			am.registerAction(Constants.ACTION_RUN_ACTIVITY,
 					new RunActivityAction());
