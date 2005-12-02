@@ -1,21 +1,21 @@
 /*
  * Projet PAGOD
  * 
- * $Id: OpenProjectAction.java,v 1.2 2005/12/01 16:22:00 yak Exp $
+ * $Id: OpenProjectAction.java,v 1.3 2005/12/02 16:04:42 yak Exp $
  */
 package pagod.wizard.control.actions;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.io.IOException;
 
 import javax.swing.KeyStroke;
 
-import pagod.utils.ActionManager;
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
 import pagod.wizard.control.ApplicationManager;
-import pagod.wizard.control.Constants;
+import pagod.wizard.control.PreferencesManager;
 import pagod.wizard.control.states.Request;
 
 /**
@@ -52,24 +52,37 @@ public class OpenProjectAction extends AbstractPagodAction
 		// l'application manager
 		if (ApplicationManager.getInstance().getMfPagod().openProject())
 		{
+			
+			
 			ApplicationManager.getInstance().manageRequest(this.request);
 
 			// si le projet a un processus d'affecter on declanche l'action
 			// openProcess
 			if (!ApplicationManager.getInstance().getCurrentProject()
-					.hasCurrentProcess())
+					.hasNameDPC())
 			{
 				// si le processus a pu etre ouvert alors on delegue la requete
 				// à l'application manager
-				if (ApplicationManager.getInstance().getMfPagod().openProcess())
+				if (ApplicationManager.getInstance().getMfPagod()
+						.associateDPCWithProject())
 				{
-					ApplicationManager.getInstance()
-							.manageRequest(new Request(Request.RequestType.OPEN_PROCESS));
+					ApplicationManager.getInstance().manageRequest(
+							new Request(Request.RequestType.OPEN_PROCESS));
 				}
 			}
 			else
 			{
-				// il y a un processus d'assicie donc on l'affiche
+				// il y a un processus d'associe donc on l'affiche
+
+				File processFile = new File(PreferencesManager.getInstance()
+						.getWorkspace()
+						+ File.separator
+						+ ApplicationManager.getInstance().getCurrentProject()
+								.getNameDPC());
+				ApplicationManager.getInstance().getMfPagod().openProcess(
+						processFile);
+				ApplicationManager.getInstance().manageRequest(
+						new Request(Request.RequestType.OPEN_PROCESS));
 				ApplicationManager.getInstance().getMfPagod().showProcess();
 			}
 		}

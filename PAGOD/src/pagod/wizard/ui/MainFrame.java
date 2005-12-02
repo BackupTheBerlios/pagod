@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.21 2005/12/01 18:43:50 biniou Exp $
+ * $Id: MainFrame.java,v 1.22 2005/12/02 16:04:42 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -509,7 +509,7 @@ public class MainFrame extends JFrame implements Observer
 	 * 
 	 * @return TODO a faire
 	 */
-	public boolean openProcess ()
+	public boolean chooseAndOpenProcess ()
 	{
 		ProcessFileChooser fileChooser = new ProcessFileChooser();
 		boolean opened = false;
@@ -518,52 +518,60 @@ public class MainFrame extends JFrame implements Observer
 
 			// Remplir le mod?le metier
 			File choosenfile = fileChooser.getSelectedFile();
-			Process aProcess = InterfaceManager.getInstance().importModel(
-					choosenfile.getAbsolutePath(), this, false);
-			if (aProcess != null)
-			{
-				if (ApplicationManager.getInstance().getCurrentProcess() != null) ApplicationManager
-						.getInstance().closeProcess();
-				// Afficher la fenetre de choix des roles
-				RolesChooserDialog rolesChooser = new RolesChooserDialog(this,
-						aProcess.getRoles());
-				if (rolesChooser.showDialog() == RolesChooserDialog.APPROVE_OPTION)
-				{
-					// recuperer les Roles choisis
-					// creer le TreeModel n?cessaire au JTree de la fenetre
-					// presenter a l'utilisateur le processus
-					String fileName = choosenfile.getName();
-					this.showProcess(new ProcessTreeModel(aProcess,
-							rolesChooser.getChosenRoles()), fileName, aProcess
-							.getName());
-					// mettre a jour le processus en cours
-					ApplicationManager.getInstance()
-							.setCurrentProcess(aProcess);
-					// on ouvre les fichiers d'outils
-					ToolsManager.getInstance().initialise(
-							ApplicationManager.getInstance()
-									.getCurrentProcess());
-					ToolsManager.getInstance().loadToolsAssociation();
-					opened = true;
-				}
-				else
-				{
-					/*
-					 * TODO A SUPPR A PRIORI // recuperer les Roles choisis //
-					 * creer le TreeModel n?cessaire au JTree de la fenetre //
-					 * presenter a l'utilisateur le processus
-					 * this.reinitialize(); // mettre a jour le processus en
-					 * cours this.currentProcess = null; // mettre a jour l etat
-					 * this.state2 = State.INIT;
-					 */
-					opened = false;
-				}
+			
 
-			}
+			this.openProcess(choosenfile);
 		}
 		return opened;
 	}
 
+	/**
+	 * Permet d'ouvrir et de charger le model métier avec un dpc a partir du fichier en entrée
+	 * @param processFile le fichier en entrée (le dpc)
+	 * @return vrai si le dpc a ete ouvert
+	 */
+	public boolean openProcess(File processFile)
+	{
+		boolean opened = false;
+		Process aProcess = InterfaceManager.getInstance().importModel(
+				processFile.getAbsolutePath(), this, false);
+		if (aProcess != null)
+		{
+			if (ApplicationManager.getInstance().getCurrentProcess() != null) ApplicationManager
+					.getInstance().closeProcess();
+			// Afficher la fenetre de choix des roles
+			RolesChooserDialog rolesChooser = new RolesChooserDialog(this,
+					aProcess.getRoles());
+			if (rolesChooser.showDialog() == RolesChooserDialog.APPROVE_OPTION)
+			{
+				// recuperer les Roles choisis
+				// creer le TreeModel n?cessaire au JTree de la fenetre
+				// presenter a l'utilisateur le processus
+				String fileName = processFile.getName();
+				this.showProcess(new ProcessTreeModel(aProcess,
+						rolesChooser.getChosenRoles()), fileName, aProcess
+						.getName());
+				// mettre a jour le processus en cours
+				ApplicationManager.getInstance()
+						.setCurrentProcess(aProcess);
+				ApplicationManager.getInstance().getCurrentProject().setCurrentProcess(aProcess);
+				// on ouvre les fichiers d'outils
+				ToolsManager.getInstance().initialise(
+						ApplicationManager.getInstance()
+								.getCurrentProcess());
+				ToolsManager.getInstance().loadToolsAssociation();
+				opened = true;
+			}
+			else
+			{
+				opened = false;
+			}
+		}
+		return opened;
+	}
+	
+	
+	
 	/**
 	 * @return vrai si le projet est bien ouvert
 	 * 
@@ -574,11 +582,24 @@ public class MainFrame extends JFrame implements Observer
 		boolean opened = false;
 		this.reinitialize();
 		OpenProjectDialog opDialog = new OpenProjectDialog(this);
-		opDialog.setVisible(true);
-
+		opDialog.showDialog();
+		Project projectTemp = null;
+		if (opDialog.hasProject())
+		{
+			projectTemp = opDialog.getOpenedProject();
+			ApplicationManager.getInstance().setCurrentProject(
+					projectTemp);
+		}
+		else
+		{
+			return opened;
+		}
+		opDialog.dispose();
+		
 		if (ApplicationManager.getInstance().getCurrentProject() != null)
 		{
 
+			System.out.println("On a a un project et on essaye de l'ouvrir");
 			File validTab[];
 			File dpc = null;
 			File directory = new File(PreferencesManager.getInstance()
@@ -587,11 +608,12 @@ public class MainFrame extends JFrame implements Observer
 					+ ApplicationManager.getInstance().getCurrentProject()
 							.getName());
 			validTab = directory.listFiles();
+
 			for (File currentFile : validTab)
 			{
 
-				if (currentFile.getName().endsWith("dpc")
-						|| currentFile.getName().endsWith("pagod"))
+				if (currentFile.getName().endsWith(".dpc")
+						|| currentFile.getName().endsWith(".pagod"))
 				{
 					dpc = currentFile;
 					System.out.println(currentFile.getName());
@@ -599,52 +621,15 @@ public class MainFrame extends JFrame implements Observer
 			}
 			if (dpc != null)
 			{
-				Process aProcess = InterfaceManager.getInstance().importModel(
-						dpc.getAbsolutePath(), this, false);
-
-				if (ApplicationManager.getInstance().getCurrentProcess() != null)
-				{
-					ApplicationManager.getInstance().closeProcess();
-				}
-
-				// Afficher la fenetre de choix des roles
-				RolesChooserDialog rolesChooser = new RolesChooserDialog(this,
-						aProcess.getRoles());
-				if (rolesChooser.showDialog() == RolesChooserDialog.APPROVE_OPTION)
-				{
-					// recuperer les Roles choisis
-					// creer le TreeModel n?cessaire au JTree de la fenetre
-					// presenter a l'utilisateur le processus
-					String fileName = dpc.getName();
-					this.showProcess(new ProcessTreeModel(aProcess,
-							rolesChooser.getChosenRoles()), fileName, aProcess
-							.getName());
-					// mettre a jour le processus en cours
-					ApplicationManager.getInstance()
-							.setCurrentProcess(aProcess);
-
-					// on ouvre les fichiers d'outils
-					ToolsManager.getInstance().initialise(
-							ApplicationManager.getInstance()
-									.getCurrentProcess());
-					ToolsManager.getInstance().loadToolsAssociation();
-					opened = true;
-				}
-				else
-				{
-					/*
-					 * TODO A SUPPR A PRIORI // recuperer les Roles choisis //
-					 * creer le TreeModel n?cessaire au JTree de la fenetre //
-					 * presenter a l'utilisateur le processus
-					 * this.reinitialize(); // mettre a jour le processus en
-					 * cours this.currentProcess = null; // mettre a jour l etat
-					 * this.state2 = State.INIT;
-					 */
-					opened = false;
-				}
+				ApplicationManager.getInstance().getCurrentProject().setNameDPC(dpc.getName());
+				opened = true;
+			}
+			else
+			{
+				opened = true;
 			}
 		}
-		return(opened);
+		return (opened);
 	}
 
 	/**
@@ -657,6 +642,7 @@ public class MainFrame extends JFrame implements Observer
 	{
 		NewProjectDialog newProjectDialog = new NewProjectDialog(this);
 		Project p = newProjectDialog.getCreatedProject();
+		newProjectDialog.dispose();
 		if (p == null)
 		{
 			System.err.println("PAS de project créé");
@@ -670,8 +656,9 @@ public class MainFrame extends JFrame implements Observer
 	/**
 	 * Permet d'associer un dpc a un projet et charge ce meme dpc dans le modele
 	 * metier
+	 * @return vrai si le dpc a pu etre associé sinon faux
 	 */
-	private void associateDPCWithProject ()
+	public boolean associateDPCWithProject ()
 	{
 		// on demande a l'utilisateur de choisir un fichier processus
 		ProcessFileChooser fileChooser = new ProcessFileChooser();
@@ -690,8 +677,10 @@ public class MainFrame extends JFrame implements Observer
 			}
 
 			// Remplir le modèle metier
-			File choosenfile = fileChooser.getSelectedFile();
-			Process aProcess = InterfaceManager.getInstance().importModel(
+			File choosenFile = fileChooser.getSelectedFile();
+			this.openProcess(choosenFile);
+			return ApplicationManager.getInstance().getCurrentProject().hasCurrentProcess();
+			/*Process aProcess = InterfaceManager.getInstance().importModel(
 					choosenfile.getAbsolutePath(), this, false);
 			if (aProcess != null)
 			{
@@ -731,9 +720,9 @@ public class MainFrame extends JFrame implements Observer
 					// mettre a jour le processus en cours
 					ApplicationManager.getInstance().setCurrentProject(null);
 				}
-			}
+			}*/
 		}
-
+		return false;
 	}
 
 	/**

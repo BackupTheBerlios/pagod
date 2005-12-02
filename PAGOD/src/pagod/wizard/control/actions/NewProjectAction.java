@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: NewProjectAction.java,v 1.2 2005/12/01 16:22:00 yak Exp $
+ * $Id: NewProjectAction.java,v 1.3 2005/12/02 16:04:42 yak Exp $
  */
 package pagod.wizard.control.actions;
 
@@ -53,7 +53,7 @@ public class NewProjectAction extends AbstractPagodAction
 
 			// si le processus a pu etre ouvert alors on delegue la requete
 			// à l'application manager
-			if (ApplicationManager.getInstance().getMfPagod().openProcess())
+			if (ApplicationManager.getInstance().getMfPagod().associateDPCWithProject())
 			{
 				ApplicationManager.getInstance().manageRequest(
 						new Request(Request.RequestType.OPEN_PROCESS));

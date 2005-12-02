@@ -1,5 +1,5 @@
 /*
- * $Id: PreferencesAction.java,v 1.3 2005/11/30 08:57:47 yak Exp $
+ * $Id: PreferencesAction.java,v 1.4 2005/12/02 16:04:42 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -24,14 +24,11 @@
 
 package pagod.wizard.control.actions;
 
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
-import pagod.wizard.control.ApplicationManager;
 import pagod.wizard.control.states.Request;
-import pagod.wizard.ui.PreferencesDialog;
 
 /**
  * Action de configuration des preferences

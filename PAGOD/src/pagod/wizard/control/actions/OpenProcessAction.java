@@ -1,5 +1,5 @@
 /*
- * $Id: OpenProcessAction.java,v 1.1 2005/11/30 08:57:48 yak Exp $
+ * $Id: OpenProcessAction.java,v 1.2 2005/12/02 16:04:42 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -64,7 +64,7 @@ public class OpenProcessAction extends AbstractPagodAction
     public void actionPerformed(ActionEvent actionEvent)
     {
     	//si le processus a pu etre ouvert alors on delegue la requete à l'application manager
-    	if (ApplicationManager.getInstance().getMfPagod().openProcess())
+    	if (ApplicationManager.getInstance().getMfPagod().chooseAndOpenProcess())
     		ApplicationManager.getInstance().manageRequest(this.request);
     }
 }
