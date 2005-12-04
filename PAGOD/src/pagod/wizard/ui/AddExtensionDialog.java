@@ -1,5 +1,5 @@
 /*
- * $Id: AddExtensionDialog.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: AddExtensionDialog.java,v 1.2 2005/12/04 18:20:06 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -77,6 +77,8 @@ public class AddExtensionDialog extends JDialog
     private JButton btCancel;
 
     private JButton btBrowse;
+    
+    private JButton btDefault;
 
     private JButton btUpdate = null;
 
@@ -101,6 +103,8 @@ public class AddExtensionDialog extends JDialog
                 "AddExtBtCancel"));
         this.btBrowse = new JButton(LanguagesManager.getInstance().getString(
                 "AddExtBtBrowse"));
+        this.btDefault = new JButton (LanguagesManager.getInstance().getString(
+                "AddExtBtDefault"));
 
         JLabel lblExtension = new JLabel(LanguagesManager.getInstance()
                 .getString("AddExtLabelExt"));
@@ -179,6 +183,7 @@ public class AddExtensionDialog extends JDialog
 
         // on ajoute les boutons
         bottomPanel.add(this.btAdd);
+        bottomPanel.add(this.btDefault);
         bottomPanel.add(this.btCancel);
 
         /*
@@ -216,6 +221,7 @@ public class AddExtensionDialog extends JDialog
          */
         this.btAdd.addActionListener(new ListenerBoutons());
         this.btCancel.addActionListener(new ListenerBoutons());
+        this.btDefault.addActionListener(new ListenerBoutons());
         this.btBrowse.addActionListener(new ListenerBoutons());
         // ajout de listener sur les deux texte field
         this.txtExtension.setFocusable(true);
@@ -224,6 +230,7 @@ public class AddExtensionDialog extends JDialog
         this.txtPath.addCaretListener(new ListenerTextField());
         // et on desactive le bouton
         AddExtensionDialog.this.btAdd.setEnabled(false);
+        AddExtensionDialog.this.btDefault.setEnabled(false);
         /*
          * on demande au gestionnaire d'adapter la taille de la fenetre en
          * fonction des composants qui sont dedans
@@ -261,6 +268,8 @@ public class AddExtensionDialog extends JDialog
                 "AddExtBtCancel"));
         this.btBrowse = new JButton(LanguagesManager.getInstance().getString(
                 "AddExtBtBrowse"));
+        this.btDefault = new JButton (LanguagesManager.getInstance().getString(
+        "AddExtBtDefault"));
         this.btUpdate = new JButton(LanguagesManager.getInstance().getString(
                 "AddExtBtUpdate"));
         JLabel lblExtension = new JLabel(LanguagesManager.getInstance()
@@ -342,6 +351,8 @@ public class AddExtensionDialog extends JDialog
 
         // on ajoute les boutons
         bottomPanel.add(this.btUpdate);
+        bottomPanel.add(this.btDefault);
+        
         bottomPanel.add(this.btCancel);
 
         /*
@@ -379,6 +390,8 @@ public class AddExtensionDialog extends JDialog
          */
         this.btUpdate.addActionListener(new ListenerBoutons());
         this.btCancel.addActionListener(new ListenerBoutons());
+
+        this.btDefault.addActionListener(new ListenerBoutons());
         this.btBrowse.addActionListener(new ListenerBoutons());
         // ajout de listener sur les deux texte field
         this.txtExtension.setFocusable(true);
@@ -417,8 +430,12 @@ public class AddExtensionDialog extends JDialog
                 "AddExtBtCancel"));
         this.btBrowse = new JButton(LanguagesManager.getInstance().getString(
                 "AddExtBtBrowse"));
+        this.btDefault = new JButton (LanguagesManager.getInstance().getString(
+        "AddExtBtDefault"));
         this.btUpdate = new JButton(LanguagesManager.getInstance().getString(
                 "AddExtBtUpdate"));
+        
+        
         JLabel lblExtension = new JLabel(LanguagesManager.getInstance()
                 .getString("AddExtLabelExt"));
         JLabel lblPath = new JLabel(LanguagesManager.getInstance().getString(
@@ -496,6 +513,7 @@ public class AddExtensionDialog extends JDialog
 
         // on ajoute les boutons
         bottomPanel.add(this.btUpdate);
+        bottomPanel.add(this.btDefault);
         bottomPanel.add(this.btCancel);
 
         /*
@@ -533,6 +551,7 @@ public class AddExtensionDialog extends JDialog
          */
         this.btUpdate.addActionListener(new ListenerBoutons());
         this.btCancel.addActionListener(new ListenerBoutons());
+        this.btDefault.addActionListener(new ListenerBoutons());
         this.btBrowse.addActionListener(new ListenerBoutons());
         // on ajoute des listener sur les boutons
 
@@ -580,6 +599,14 @@ public class AddExtensionDialog extends JDialog
                 else if (AddExtensionDialog.this.btUpdate != null)
                     AddExtensionDialog.this.btUpdate.setEnabled(false);
 
+            }
+            if (!(AddExtensionDialog.this.txtExtension.getText().equals("")))
+            {
+            	AddExtensionDialog.this.btDefault.setEnabled(true);
+            }
+            else
+            {
+            	AddExtensionDialog.this.btDefault.setEnabled(false);
             }
         }
 
@@ -682,6 +709,50 @@ public class AddExtensionDialog extends JDialog
                     AddExtensionDialog.this.txtPath.setText(filePath);
 
                 }
+            }
+            else if (b == AddExtensionDialog.this.btDefault)
+            {
+            	 try
+                 {
+                     // on ajoute directement
+                     PreferencesManager.getInstance().setPreference(
+                             AddExtensionDialog.this.txtExtension.getText(),"default");
+                     AddExtensionDialog.this.dispose();
+                 }
+                 catch (FileNotFoundException e1)
+                 {
+                     // on affiche un message explicant que le programme
+                     // n'existe pas
+                     JOptionPane.showMessageDialog(AddExtensionDialog.this,
+                             LanguagesManager.getInstance().getString(
+                                     "AddExtErrorFileNotFoundException"),
+                             LanguagesManager.getInstance().getString(
+                                     "AddExtErrorTitle"),
+                             JOptionPane.ERROR_MESSAGE);
+                 }
+                 catch (InvalidExtensionException e1)
+                 {
+                     // on affiche un message explicant que l'extension saisi
+                     // est invalide
+                     JOptionPane.showMessageDialog(AddExtensionDialog.this,
+                             LanguagesManager.getInstance().getString(
+                                     "AddExtErrorInvalidExtensionException"),
+                             LanguagesManager.getInstance().getString(
+                                     "AddExtErrorTitle"),
+                             JOptionPane.ERROR_MESSAGE);
+                 }
+                 catch (FileNotExecuteException e1)
+                 {
+                     // on affiche un message explicant que le programme
+                     // saisi pour ouvir l'extensio
+                     // n'est pas executable
+                     JOptionPane.showMessageDialog(AddExtensionDialog.this,
+                             LanguagesManager.getInstance().getString(
+                                     "AddExtErrorFileNotExecuteException"),
+                             LanguagesManager.getInstance().getString(
+                                     "AddExtErrorTitle"),
+                             JOptionPane.ERROR_MESSAGE);
+                 }
             }
             else
             {
