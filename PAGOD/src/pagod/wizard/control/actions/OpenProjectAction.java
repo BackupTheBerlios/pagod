@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: OpenProjectAction.java,v 1.3 2005/12/02 16:04:42 yak Exp $
+ * $Id: OpenProjectAction.java,v 1.4 2005/12/04 18:46:26 yak Exp $
  */
 package pagod.wizard.control.actions;
 
@@ -76,9 +76,10 @@ public class OpenProjectAction extends AbstractPagodAction
 
 				File processFile = new File(PreferencesManager.getInstance()
 						.getWorkspace()
-						+ File.separator
+						+ File.separator+ApplicationManager.getInstance().getCurrentProject().getName()+File.separator
 						+ ApplicationManager.getInstance().getCurrentProject()
 								.getNameDPC());
+				System.out.println(processFile.getAbsolutePath());
 				ApplicationManager.getInstance().getMfPagod().openProcess(
 						processFile);
 				ApplicationManager.getInstance().manageRequest(
