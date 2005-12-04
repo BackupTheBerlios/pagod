@@ -1,12 +1,11 @@
 /*
  * Projet PAGOD
  * 
- * $Id: OpenProjectDialog.java,v 1.1 2005/12/01 17:50:04 biniou Exp $
+ * $Id: OpenProjectDialog.java,v 1.2 2005/12/04 17:54:15 yak Exp $
  */
 package pagod.common.ui;
 
 import java.awt.BorderLayout;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -24,7 +23,6 @@ import javax.swing.JPanel;
 
 import pagod.common.model.Project;
 import pagod.utils.LanguagesManager;
-import pagod.wizard.control.ApplicationManager;
 import pagod.wizard.control.PreferencesManager;
 
 /**
@@ -35,12 +33,14 @@ public class OpenProjectDialog extends JDialog
 {
 
 	/* combobox qui contiendra la liste des projets */
-	private JComboBox	cbProject	= null;
+	private JComboBox	cbProject		= null;
 
 	/* Attribut contenant les boutons */
-	private JButton		btOpen		= null;
+	private JButton		btOpen			= null;
 
-	private JButton		btCancel;
+	private JButton		btCancel		= null;
+
+	private Project		openedProject	= null;
 
 	/**
 	 * constructeur de la newprojectdialog
@@ -52,72 +52,65 @@ public class OpenProjectDialog extends JDialog
 		// appel de la methode parente
 		super(parent, LanguagesManager.getInstance().getString(
 				"OpenProjectTitre"), true);
+		this.setVisible(false);
 
 		this.setFocusable(true);
 
-			// on spécifie les boutons avec leur titre
-			// TODO ressources
-			this.btOpen = new JButton(LanguagesManager.getInstance().getString(
-					"OpenProjectBtOpen"));
-			this.btCancel = new JButton(LanguagesManager.getInstance()
-					.getString("OpenProjectBtCancel"));
+		// on spécifie les boutons avec leur titre
+		// TODO ressources
+		this.btOpen = new JButton(LanguagesManager.getInstance().getString(
+				"OpenProjectBtOpen"));
+		this.btCancel = new JButton(LanguagesManager.getInstance().getString(
+				"OpenProjectBtCancel"));
 
-			/* panneau qui va contenir la combobox */
-			JPanel centralPanel = new JPanel();
-			
-			if (initializeComboBox())
+		/* panneau qui va contenir la combobox */
+		JPanel centralPanel = new JPanel();
+
+		if (initializeComboBox())
+		{
+			centralPanel.add(this.cbProject);
+		}
+
+		// panneau qui va contenir les boutons
+		JPanel bottomPanel = new JPanel();
+
+		// on ajoute les boutons
+		bottomPanel.add(this.btOpen);
+		bottomPanel.add(this.btCancel);
+
+		// positionnement des deux panels
+		this.getContentPane().add(centralPanel, BorderLayout.CENTER);
+		this.getContentPane().add(bottomPanel, BorderLayout.SOUTH);
+
+		/*
+		 * on ajoute une inner class anonyme (classe interne) faisant en sorte
+		 * que la croix en haut a droite ferme bien la fenetre
+		 */
+		this.addWindowListener(new WindowAdapter()
+		{
+			// on redefinit la methode windowsClosing heritee de
+			// WindowAdapter
+			void windowsClosing (WindowEvent e)
 			{
-				centralPanel.add(this.cbProject);
+				/*
+				 * on ferme la fenetre
+				 */
+				OpenProjectDialog.this.dispose();
 			}
-			else
-			{
-				centralPanel.add(new JComboBox());
-				JOptionPane.showMessageDialog(OpenProjectDialog.this,
-						LanguagesManager.getInstance().getString(
-								"OpenProjectErrorOpenException"),
-						LanguagesManager.getInstance().getString(
-								"OpenProjectErrorTitle"),
-						JOptionPane.ERROR_MESSAGE);
-				
-			}
-			// panneau qui va contenir les boutons
-			JPanel bottomPanel = new JPanel();
+		});
 
-			// on ajoute les boutons
-			bottomPanel.add(this.btOpen);
-			bottomPanel.add(this.btCancel);
+		// parametrage des boutons
+		this.btOpen.addActionListener(new ButtonListener());
+		this.btCancel.addActionListener(new ButtonListener());
 
-			// positionnement des deux panels
-			this.getContentPane().add(centralPanel, BorderLayout.CENTER);
-			this.getContentPane().add(bottomPanel, BorderLayout.SOUTH);
+		this.pack();
+		this.setLocationRelativeTo(parent);
 
-			/*
-			 * on ajoute une inner class anonyme (classe interne) faisant en
-			 * sorte que la croix en haut a droite ferme bien la fenetre
-			 */
-			this.addWindowListener(new WindowAdapter()
-			{
-				// on redefinit la methode windowsClosing heritee de
-				// WindowAdapter
-				void windowsClosing (WindowEvent e)
-				{
-					/*
-					 * on ferme la fenetre
-					 */
-					OpenProjectDialog.this.dispose();
-				}
-			});
-
-			// parametrage des boutons
-			this.btOpen.addActionListener(new ButtonListener());
-			this.btCancel.addActionListener(new ButtonListener());
-
-			this.pack();
-			this.setLocationRelativeTo(parent);		
 	}
 
 	/**
 	 * remplit la combobox
+	 * 
 	 * @return vrai si la combobox est remplie, faux sinon
 	 */
 	public boolean initializeComboBox ()
@@ -168,13 +161,29 @@ public class OpenProjectDialog extends JDialog
 
 				for (File currentFile : validList)
 				{
-					this.cbProject.addItem(currentFile.getName());	
+					this.cbProject.addItem(currentFile.getName());
 				}
-				resultat = true;		
+				resultat = true;
 			}
 		}
 		return (resultat);
 
+	}
+
+	/**
+	 * methode qui affiche la fenetre de dialogue si il existe des projets
+	 */
+	public void showDialog ()
+	{
+		if (this.cbProject != null) this.setVisible(true);
+		else
+		{
+			JOptionPane.showMessageDialog(OpenProjectDialog.this,
+					LanguagesManager.getInstance().getString(
+							"OpenProjectErrorOpenException"), LanguagesManager
+							.getInstance().getString("OpenProjectErrorTitle"),
+					JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	private class ButtonListener implements ActionListener
@@ -198,22 +207,36 @@ public class OpenProjectDialog extends JDialog
 						.getSelectedItem();
 				// on crée une instance du projet a ouvrir et on l'associe
 				// a l'applicationmanager
-				Project choosenProject = new Project(sProjectName);
+				OpenProjectDialog.this.openedProject = new Project(sProjectName);
 
-				ApplicationManager.getInstance().setCurrentProject(
-						choosenProject);
-				
-				// on ferme la fenetre, l'application manager se chargera
-				// d'afficher le processus et de charger le projet
-				OpenProjectDialog.this.dispose();
+				// on masque la fenetre
+				OpenProjectDialog.this.setVisible(false);
 
 			}
 			else
 			{
-				// bouton cancel : on ferme la fenetre
-				OpenProjectDialog.this.dispose();
+				// on masque la fenetre
+				OpenProjectDialog.this.setVisible(false);
 			}
 		}
+	}
+
+	/**
+	 * @return Retourne l'attribut openedProject
+	 */
+	public Project getOpenedProject ()
+	{
+		return this.openedProject;
+	}
+
+	/**
+	 * renvoie vrai si le project a ete choisi
+	 * 
+	 * @return renvoie vrai si le project a ete choisi
+	 */
+	public boolean hasProject ()
+	{
+		return this.openedProject != null;
 	}
 
 }

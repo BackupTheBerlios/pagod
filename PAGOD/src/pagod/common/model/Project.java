@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: Project.java,v 1.5 2005/12/01 18:08:45 cyberal82 Exp $
+ * $Id: Project.java,v 1.6 2005/12/04 17:54:15 yak Exp $
  */
 package pagod.common.model;
 
@@ -16,6 +16,7 @@ import java.util.Properties;
 
 // import pagod.common.ui.WorkspaceFileChooser;
 // import pagod.wizard.control.ApplicationManager;
+import pagod.utils.FilesManager;
 import pagod.wizard.control.PreferencesManager;
 
 /**
@@ -40,6 +41,8 @@ public class Project
 	 */
 	private String				sNameDPC		= null;
 
+	
+	
 	/**
 	 * currentProcess est le processus contenant le modèle métier du dpc
 	 * appartenant au projet
@@ -199,20 +202,7 @@ public class Project
 		FileInputStream fis = new FileInputStream(DPC);
 		FileOutputStream fos = new FileOutputStream(dpcCurrentFile);
 
-		FileChannel channelSrc = fis.getChannel();
-		FileChannel channelDest = fos.getChannel();
-
-		try
-		{
-			channelSrc.transferTo(0, channelSrc.size(), channelDest);
-		}
-		catch (IOException ioEx)
-		{
-			System.err.println("Erreur pendant la copie du fichier.");
-		}
-
-		fis.close();
-		fos.close();
+		FilesManager.getInstance().copyFile(fis,fos);
 	}
 
 	/**
@@ -301,7 +291,14 @@ public class Project
 	{
 		this.sNameDPC = nameDPC;
 	}
-
+	/**
+	 * retourne vrai si le nomDu dpc est mis en place
+	 * @return retourne vrai si le nomDu dpc est mis en place
+	 */
+	public boolean hasNameDPC ()
+	{
+		return this.sNameDPC != null;
+	}
 	/**
 	 * @return Retourne l'attribut docsProperties
 	 */

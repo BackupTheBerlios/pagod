@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: NewProjectDialog.java,v 1.4 2005/12/01 14:32:16 yak Exp $
+ * $Id: NewProjectDialog.java,v 1.5 2005/12/04 17:54:15 yak Exp $
  */
 package pagod.common.ui;
 
@@ -17,11 +17,9 @@ import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JOptionPane;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.CaretEvent;
@@ -29,9 +27,9 @@ import javax.swing.event.CaretListener;
 
 import pagod.common.model.Project;
 import pagod.utils.LanguagesManager;
-import pagod.wizard.control.ApplicationManager;
 
 /**
+ * TODO cette fenetre n'est jamais disposée, c'est l'appelant de faire le dispose()
  * @author biniou
  * 
  */
@@ -241,6 +239,7 @@ public class NewProjectDialog extends JDialog
 	 */
 	public Project getCreatedProject ()
 	{
+		
 		return this.createdProject;
 	}
 }
