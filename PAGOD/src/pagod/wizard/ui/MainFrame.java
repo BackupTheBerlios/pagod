@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.22 2005/12/02 16:04:42 yak Exp $
+ * $Id: MainFrame.java,v 1.23 2005/12/04 22:52:48 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -622,6 +622,7 @@ public class MainFrame extends JFrame implements Observer
 			if (dpc != null)
 			{
 				ApplicationManager.getInstance().getCurrentProject().setNameDPC(dpc.getName());
+				System.out.println(dpc.getName());
 				opened = true;
 			}
 			else
@@ -680,47 +681,7 @@ public class MainFrame extends JFrame implements Observer
 			File choosenFile = fileChooser.getSelectedFile();
 			this.openProcess(choosenFile);
 			return ApplicationManager.getInstance().getCurrentProject().hasCurrentProcess();
-			/*Process aProcess = InterfaceManager.getInstance().importModel(
-					choosenfile.getAbsolutePath(), this, false);
-			if (aProcess != null)
-			{
-				// on ne gere plus la fermeture d'un process pour le moment
-				// if (ApplicationManager.getInstance().getCurrentProject() !=
-				// null) this.closeProcess();
-				// Afficher la fenetre de choix des roles
-				RolesChooserDialog rolesChooser = new RolesChooserDialog(this,
-						aProcess.getRoles());
-				if (rolesChooser.showDialog() == RolesChooserDialog.APPROVE_OPTION)
-				{
-					// recuperer les Roles choisis
-					// creer le TreeModel n?cessaire au JTree de la fenetre
-					// presenter a l'utilisateur le processus
-					String fileName = choosenfile.getName();
-					this.showProcess(new ProcessTreeModel(aProcess,
-							rolesChooser.getChosenRoles()), fileName, aProcess
-							.getName());
-					// mettre a jour le processus en cours
-					ApplicationManager.getInstance()
-							.setCurrentProcess(aProcess);
-					// on ouvre les fichiers d'outils
-					ToolsManager.getInstance().initialise(
-							ApplicationManager.getInstance()
-									.getCurrentProcess());
-					ToolsManager.getInstance().loadToolsAssociation();
-
-					// on associe le processus metier au projet en cours
-					ApplicationManager.getInstance().getCurrentProject()
-							.setCurrentProcess(
-									ApplicationManager.getInstance()
-											.getCurrentProcess());
-				}
-				else
-				{
-					this.reinitialize();
-					// mettre a jour le processus en cours
-					ApplicationManager.getInstance().setCurrentProject(null);
-				}
-			}*/
+			
 		}
 		return false;
 	}

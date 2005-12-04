@@ -1,5 +1,5 @@
 /*
- * $Id: PreferencesManager.java,v 1.4 2005/12/01 14:32:16 yak Exp $
+ * $Id: PreferencesManager.java,v 1.5 2005/12/04 22:52:11 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -504,6 +504,7 @@ public class PreferencesManager extends Observable
             try
             {
                 preferences.load(new FileInputStream(filePreferences));
+                System.out.println(preferences.toString());
                 // si la cle "lang" n'a pas put etre trouve on defini le
                 // francais
                 // par defaut et on met la JVM en francais
@@ -587,15 +588,17 @@ public class PreferencesManager extends Observable
         for (Enumeration keys = preferences.keys() ; keys.hasMoreElements() ;)
         {
             String extension = keys.nextElement().toString();
-            if (!extension.equals("lang"))
+            //TODO a améliorer
+            if (!extension.equals("lang") && !extension.equals("workspace") )
             {
                 file = new File(preferences.getProperty(extension));
-
+               
                 // si le fichier n'existe pas on supprime l'association des
                 // preferences
-                if (!file.exists())
+                if (!file.exists()&&!file.getName().equals("default"))
                 {
-                    preferences.remove(extension);
+                   System.out.println("effacemment "+file.getName());
+                	preferences.remove(extension);
                 }
             }
         }

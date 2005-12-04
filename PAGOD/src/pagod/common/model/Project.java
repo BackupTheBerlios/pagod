@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: Project.java,v 1.6 2005/12/04 17:54:15 yak Exp $
+ * $Id: Project.java,v 1.7 2005/12/04 22:52:11 yak Exp $
  */
 package pagod.common.model;
 
@@ -9,13 +9,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.channels.FileChannel;
 import java.util.Properties;
 
-// import javax.swing.JFileChooser;
-
-// import pagod.common.ui.WorkspaceFileChooser;
-// import pagod.wizard.control.ApplicationManager;
 import pagod.utils.FilesManager;
 import pagod.wizard.control.PreferencesManager;
 

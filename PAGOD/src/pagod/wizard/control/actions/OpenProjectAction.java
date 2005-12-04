@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: OpenProjectAction.java,v 1.4 2005/12/04 18:46:26 yak Exp $
+ * $Id: OpenProjectAction.java,v 1.5 2005/12/04 22:52:32 yak Exp $
  */
 package pagod.wizard.control.actions;
 
@@ -52,12 +52,9 @@ public class OpenProjectAction extends AbstractPagodAction
 		// l'application manager
 		if (ApplicationManager.getInstance().getMfPagod().openProject())
 		{
-			
-			
+
 			ApplicationManager.getInstance().manageRequest(this.request);
 
-			// si le projet a un processus d'affecter on declanche l'action
-			// openProcess
 			if (!ApplicationManager.getInstance().getCurrentProject()
 					.hasNameDPC())
 			{
@@ -72,19 +69,25 @@ public class OpenProjectAction extends AbstractPagodAction
 			}
 			else
 			{
-				// il y a un processus d'associe donc on l'affiche
+				// si le projet a un processus d'affecter on declanche l'action
+				// openProcess
 
 				File processFile = new File(PreferencesManager.getInstance()
 						.getWorkspace()
-						+ File.separator+ApplicationManager.getInstance().getCurrentProject().getName()+File.separator
+						+ File.separator
+						+ ApplicationManager.getInstance().getCurrentProject()
+								.getName()
+						+ File.separator
 						+ ApplicationManager.getInstance().getCurrentProject()
 								.getNameDPC());
-				System.out.println(processFile.getAbsolutePath());
-				ApplicationManager.getInstance().getMfPagod().openProcess(
-						processFile);
-				ApplicationManager.getInstance().manageRequest(
-						new Request(Request.RequestType.OPEN_PROCESS));
-				ApplicationManager.getInstance().getMfPagod().showProcess();
+				if (ApplicationManager.getInstance().getMfPagod().openProcess(
+						processFile))
+				{
+					ApplicationManager.getInstance().manageRequest(
+							new Request(Request.RequestType.OPEN_PROCESS));
+					ApplicationManager.getInstance().getMfPagod().showProcess();
+				}
+				
 			}
 		}
 	}

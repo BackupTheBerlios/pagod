@@ -1,5 +1,5 @@
 /*
- * $Id: ModelResourcesManager.java,v 1.2 2005/12/04 18:20:06 yak Exp $
+ * $Id: ModelResourcesManager.java,v 1.3 2005/12/04 22:53:33 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -25,8 +25,6 @@
 package pagod.common.control;
 
 import java.awt.Image;
-import java.util.ArrayList;
-import java.util.List;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,9 +38,6 @@ import javax.swing.JOptionPane;
 
 import org.jdesktop.jdic.desktop.Desktop;
 import org.jdesktop.jdic.desktop.DesktopException;
-import org.jdesktop.jdic.filetypes.Action;
-import org.jdesktop.jdic.filetypes.Association;
-import org.jdesktop.jdic.filetypes.AssociationService;
 
 import pagod.common.model.Activity;
 import pagod.common.model.Guidance;
@@ -215,7 +210,7 @@ public class ModelResourcesManager
 	{
 		return new ImageIcon(this.getImage(processElement));
 	}
-
+ 
 	/**
 	 * lance le Loutil necessaire a la visualisation d'un fichier de contenu
 	 * 
