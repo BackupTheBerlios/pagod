@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: PostConditionCheckerState.java,v 1.2 2005/11/27 20:37:52 yak Exp $
+ * $Id: PostConditionCheckerState.java,v 1.3 2005/12/05 00:13:27 yak Exp $
  */
 package pagod.wizard.control.states.activity;
 
@@ -81,6 +81,7 @@ public class PostConditionCheckerState extends AbstractActivityState
 				else
 				{
 					state = new ActivityPresentationState(this.activityScheduler,this.activity);
+					
 				}
 				break;
 				
