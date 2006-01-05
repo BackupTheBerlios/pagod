@@ -1,5 +1,5 @@
 /*
- * $Id: PreferencesManager.java,v 1.5 2005/12/04 22:52:11 yak Exp $
+ * $Id: PreferencesManager.java,v 1.6 2006/01/05 15:29:00 biniou Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -284,6 +284,18 @@ public class PreferencesManager extends Observable
     public boolean containWorkspace()
     {
         return preferences.containsKey("workspace");
+    }
+    
+    /**
+     * supprime le workspace
+     */
+    public void removeWorkspace()
+    {
+    	if (this.containWorkspace())
+    	{
+    		preferences.remove("workspace");
+    	}
+    	
     }
 
     /**
