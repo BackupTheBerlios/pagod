@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.23 2005/12/04 22:52:48 yak Exp $
+ * $Id: MainFrame.java,v 1.24 2006/01/13 14:27:24 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -147,11 +147,20 @@ public class MainFrame extends JFrame implements Observer
 	 * 
 	 * Remarque 2 : si le splitPane n'existe pas il sera cree
 	 * 
+	 * Remarque 3 : - si obj est de type Activity on affiche dans la partie
+	 * inferieur la liste de tous les produits - si obj est de type Step on
+	 * affiche dans la partie inferieur la liste des produits en sortie de
+	 * l'etape
+	 * 
 	 * @param component
 	 *            est le composant que l'on veut voir apparaitre dans la partie
 	 *            sup?rieur du JSPlitPane
+	 * 
+	 * @param obj
+	 *            soit un objet de type Step ou Activity
+	 * 
 	 */
-	private void setComponentInJSplitPane (JComponent component)
+	private void setComponentInJSplitPane (JComponent component, Object obj)
 	{
 		// si le splitPane n'existe pas on le cree
 		if (this.splitPane == null)
@@ -169,26 +178,41 @@ public class MainFrame extends JFrame implements Observer
 			this.splitPane.setResizeWeight(1.0);
 
 			// ajout du panneau permettant d'afficher les produits a creer
+			/*
+			 * this.splitPane.setRightComponent(new ProductsPanel(this
+			 * .getActivity(), this.getActivity().getOutputProducts()));
+			 * this.centerPanel.add(this.splitPane);
+			 */
+
+		}
+
+		// ajout du panneau permettant d'afficher les produits a creer
+		if (obj instanceof Activity)
+		{
+			// ajout du panneau permettant d'afficher les produits a creer
 			this.splitPane.setRightComponent(new ProductsPanel(this
 					.getActivity(), this.getActivity().getOutputProducts()));
 			this.centerPanel.add(this.splitPane);
 
-			/*
-			 * if (this.dim == null) {
-			 * this.splitPane.setDividerLocation(this.dividerLocation); //
-			 * sauvegarde de la dimension this.dim =
-			 * this.splitPane.getRightComponent().getSize(); } else
-			 * this.splitPane.getRightComponent().setPreferredSize(this.dim);
-			 */
-
 		}
-		else
+		else if (obj instanceof Step)
 		{
-			// this.dividerLocation = this.splitPane.getLastDividerLocation();
-			// this.splitPane.setDividerLocation(this.dividerLocation);
+			Step aStep = (Step) obj;
 
-			// ca marcher pas trop mal
-			// this.dim = this.splitPane.getRightComponent().getSize();
+			if (aStep.hasOutputProducts())
+			{
+				// ajout du panneau permettant d'afficher les produits a creer
+				this.splitPane.setRightComponent(new ProductsPanel(this
+						.getActivity(), aStep.getOutputProducts()));
+				this.centerPanel.add(this.splitPane);
+			}
+			else
+			{
+				// s'il n'y a pas de produit en sortie de l'etape on vide le splitPane inferieur
+				//TODO a regarder de plus pres 
+				/*if (this.splitPane.getRightComponent() != null)
+					this.splitPane.remove(this.splitPane.getRightComponent()); */
+			}
 		}
 
 		/*
@@ -426,7 +450,7 @@ public class MainFrame extends JFrame implements Observer
 			// et en bas les produits en sorties
 			// cr?er les panneaux
 			this.setComponentInJSplitPane(new StepPanel(stepToPresent, rang,
-					total));
+					total), stepToPresent);
 			// this.dividerLocation = this.splitPane.getLastDividerLocation();
 			this.splitPane.setDividerLocation(this.dividerLocation);
 		}
@@ -484,7 +508,8 @@ public class MainFrame extends JFrame implements Observer
 			// on affiche un jsplitPane qui affiche en haut la presentation de
 			// l'activite
 			// et en bas les produits en sorties
-			this.setComponentInJSplitPane(this.contentViewerPanel);
+			this.setComponentInJSplitPane(this.contentViewerPanel,
+					activityToPresent);
 		}
 		else
 		{
@@ -518,7 +543,6 @@ public class MainFrame extends JFrame implements Observer
 
 			// Remplir le mod?le metier
 			File choosenfile = fileChooser.getSelectedFile();
-			
 
 			this.openProcess(choosenfile);
 		}
@@ -526,11 +550,14 @@ public class MainFrame extends JFrame implements Observer
 	}
 
 	/**
-	 * Permet d'ouvrir et de charger le model métier avec un dpc a partir du fichier en entrée
-	 * @param processFile le fichier en entrée (le dpc)
+	 * Permet d'ouvrir et de charger le model m?tier avec un dpc a partir du
+	 * fichier en entr?e
+	 * 
+	 * @param processFile
+	 *            le fichier en entr?e (le dpc)
 	 * @return vrai si le dpc a ete ouvert
 	 */
-	public boolean openProcess(File processFile)
+	public boolean openProcess (File processFile)
 	{
 		boolean opened = false;
 		Process aProcess = InterfaceManager.getInstance().importModel(
@@ -548,17 +575,15 @@ public class MainFrame extends JFrame implements Observer
 				// creer le TreeModel n?cessaire au JTree de la fenetre
 				// presenter a l'utilisateur le processus
 				String fileName = processFile.getName();
-				this.showProcess(new ProcessTreeModel(aProcess,
-						rolesChooser.getChosenRoles()), fileName, aProcess
-						.getName());
+				this.showProcess(new ProcessTreeModel(aProcess, rolesChooser
+						.getChosenRoles()), fileName, aProcess.getName());
 				// mettre a jour le processus en cours
-				ApplicationManager.getInstance()
+				ApplicationManager.getInstance().setCurrentProcess(aProcess);
+				ApplicationManager.getInstance().getCurrentProject()
 						.setCurrentProcess(aProcess);
-				ApplicationManager.getInstance().getCurrentProject().setCurrentProcess(aProcess);
 				// on ouvre les fichiers d'outils
 				ToolsManager.getInstance().initialise(
-						ApplicationManager.getInstance()
-								.getCurrentProcess());
+						ApplicationManager.getInstance().getCurrentProcess());
 				ToolsManager.getInstance().loadToolsAssociation();
 				opened = true;
 			}
@@ -569,9 +594,7 @@ public class MainFrame extends JFrame implements Observer
 		}
 		return opened;
 	}
-	
-	
-	
+
 	/**
 	 * @return vrai si le projet est bien ouvert
 	 * 
@@ -587,15 +610,14 @@ public class MainFrame extends JFrame implements Observer
 		if (opDialog.hasProject())
 		{
 			projectTemp = opDialog.getOpenedProject();
-			ApplicationManager.getInstance().setCurrentProject(
-					projectTemp);
+			ApplicationManager.getInstance().setCurrentProject(projectTemp);
 		}
 		else
 		{
 			return opened;
 		}
 		opDialog.dispose();
-		
+
 		if (ApplicationManager.getInstance().getCurrentProject() != null)
 		{
 
@@ -621,7 +643,8 @@ public class MainFrame extends JFrame implements Observer
 			}
 			if (dpc != null)
 			{
-				ApplicationManager.getInstance().getCurrentProject().setNameDPC(dpc.getName());
+				ApplicationManager.getInstance().getCurrentProject()
+						.setNameDPC(dpc.getName());
 				System.out.println(dpc.getName());
 				opened = true;
 			}
@@ -634,10 +657,10 @@ public class MainFrame extends JFrame implements Observer
 	}
 
 	/**
-	 * Méthode permettant de creer un nouveau projet et d'ouvrir le dialogue
+	 * M?thode permettant de creer un nouveau projet et d'ouvrir le dialogue
 	 * pour la creation
 	 * 
-	 * @return vrai si le projet a pu être creer sinon faux
+	 * @return vrai si le projet a pu ?tre creer sinon faux
 	 */
 	public boolean newProject ()
 	{
@@ -646,10 +669,10 @@ public class MainFrame extends JFrame implements Observer
 		newProjectDialog.dispose();
 		if (p == null)
 		{
-			System.err.println("PAS de project créé");
+			System.err.println("PAS de project cr??");
 			return false;
 		}
-		System.err.println("Project créé");
+		System.err.println("Project cr??");
 		ApplicationManager.getInstance().setCurrentProject(p);
 		return true;
 	}
@@ -657,7 +680,8 @@ public class MainFrame extends JFrame implements Observer
 	/**
 	 * Permet d'associer un dpc a un projet et charge ce meme dpc dans le modele
 	 * metier
-	 * @return vrai si le dpc a pu etre associé sinon faux
+	 * 
+	 * @return vrai si le dpc a pu etre associ? sinon faux
 	 */
 	public boolean associateDPCWithProject ()
 	{
@@ -673,15 +697,16 @@ public class MainFrame extends JFrame implements Observer
 			}
 			catch (IOException e)
 			{
-				// TODO Bloc de traitement des exceptions généré automatiquement
+				// TODO Bloc de traitement des exceptions g?n?r? automatiquement
 				e.printStackTrace();
 			}
 
-			// Remplir le modèle metier
+			// Remplir le mod?le metier
 			File choosenFile = fileChooser.getSelectedFile();
 			this.openProcess(choosenFile);
-			return ApplicationManager.getInstance().getCurrentProject().hasCurrentProcess();
-			
+			return ApplicationManager.getInstance().getCurrentProject()
+					.hasCurrentProcess();
+
 		}
 		return false;
 	}
