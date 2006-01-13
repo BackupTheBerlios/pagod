@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: Project.java,v 1.7 2005/12/04 22:52:11 yak Exp $
+ * $Id: Project.java,v 1.8 2006/01/13 13:31:39 cyberal82 Exp $
  */
 package pagod.common.model;
 
@@ -22,7 +22,7 @@ import pagod.wizard.control.PreferencesManager;
 public class Project
 {
 	/**
-	 * Chemin du répertoire ou vont etre stockees les documents produits
+	 * Chemin du r?pertoire ou vont etre stockees les documents produits
 	 */
 	public static final String	DOCS_DIRECTORY	= "docs" + File.separator;
 
@@ -32,14 +32,14 @@ public class Project
 	private String				sName;
 
 	/**
-	 * sNameDPC est le nom du dpc utilisé par le projet
+	 * sNameDPC est le nom du dpc utilis? par le projet
 	 */
 	private String				sNameDPC		= null;
 
 	
 	
 	/**
-	 * currentProcess est le processus contenant le modèle métier du dpc
+	 * currentProcess est le processus contenant le mod?le m?tier du dpc
 	 * appartenant au projet
 	 */
 	private Process				currentProcess	= null;
@@ -64,25 +64,25 @@ public class Project
 	/**
 	 * @param name
 	 *            est le nom que l'on veut donner au projet
-	 * @return result : vrai si l'operation s'est bien passée faux sinon
+	 * @return result : vrai si l'operation s'est bien pass?e faux sinon
 	 * @throws IOException
 	 */
 	public boolean createProject (String name) throws IOException
 	{
 		boolean result = true;
-		// on crée l'arborescence : d'abord le repertoire Project
+		// on cr?e l'arborescence : d'abord le repertoire Project
 		File projectDirectory = new File(PreferencesManager.getInstance()
 				.getWorkspace()
 				+ File.separator + name);
 		if (projectDirectory.mkdir())
 		{
-			System.out.println("Le repertoire projet est bien créé.");
+			System.out.println("Le repertoire projet est bien cr??.");
 		}
 		else
 		{
 			result = false;
 			System.err
-					.println("Le repertoire que vous voulez creer existe déjà.");
+					.println("Le repertoire que vous voulez creer existe d?j?.");
 		}
 
 		// creation du repertoire doc dans le repertoire projet
@@ -91,11 +91,11 @@ public class Project
 
 		if (docDirectory.mkdir())
 		{
-			System.out.println("Le repertoire docs est bien créé.");
+			System.out.println("Le repertoire docs est bien cr??.");
 		}
 		else
 		{
-			System.err.println("Repertoire docs deja présent.");
+			System.err.println("Repertoire docs deja pr?sent.");
 		}
 
 		// creation du .properties pour les documents
@@ -105,11 +105,11 @@ public class Project
 
 		if (documentationPreferenceFile.createNewFile())
 		{
-			System.out.println("Le fichier properties est bien créé.");
+			System.out.println("Le fichier properties est bien cr??.");
 		}
 		else
 		{
-			System.err.println("Le fichier properties est deja présent.");
+			System.err.println("Le fichier properties est deja pr?sent.");
 		}
 
 		// creation du .properties pour les stats
@@ -118,22 +118,22 @@ public class Project
 		 * projectDirectory.getAbsolutePath()+"/"+"");
 		 * 
 		 * if (documentationPreferenceFile.createNewFile()) {
-		 * System.out.println("Le fichier properties est bien créé."); } else {
-		 * System.err.println("Le fichier properties est deja présent."); }
+		 * System.out.println("Le fichier properties est bien cr??."); } else {
+		 * System.err.println("Le fichier properties est deja pr?sent."); }
 		 */
 		return (result);
 	}
 
 	/**
 	 * @param prod
-	 *            est le produit que l'utilisateur veut créer
+	 *            est le produit que l'utilisateur veut cr?er
 	 * @param name
-	 *            est le nom qui sera donné au document
+	 *            est le nom qui sera donn? au document
 	 * @throws IOException
 	 */
 	public void createDocument (Product prod, String name) throws IOException
 	{
-		// on crée le document dans le repertoire docs
+		// on cr?e le document dans le repertoire docs
 		File documentationFile = new File(PreferencesManager.getInstance()
 				.getWorkspace()
 				+ File.separator
@@ -144,15 +144,15 @@ public class Project
 
 		if (documentationFile.createNewFile())
 		{
-			System.out.println("Le document est bien créé.");
+			System.out.println("Le document est bien cr??.");
 		}
 		else
 		{
 			System.err
-					.println("Un document portant le meme nom est deja présent.");
+					.println("Un document portant le meme nom est deja pr?sent.");
 		}
 
-		// on rajoute une entrée dans le .properties
+		// on rajoute une entr?e dans le .properties
 		this.docsProperties.setProperty(prod.getId(), name);
 
 	}
@@ -175,18 +175,18 @@ public class Project
 			// on supprime l'ancien dpc
 			if (dpcCurrentFile.delete())
 			{
-				System.out.println("L'ancien dpc est supprimé.");
+				System.out.println("L'ancien dpc est supprim?.");
 			}
 			else
 			{
-				System.err.println("l'ancien dpc n'a pas été supprimé.");
+				System.err.println("l'ancien dpc n'a pas ?t? supprim?.");
 			}
 		}
 
-		// on réinitialise l'attribut sNameDPC
+		// on r?initialise l'attribut sNameDPC
 		this.setNameDPC(dpcCurrentFile.getName());
 
-		// on crée le fichier qui va accueillir le flux
+		// on cr?e le fichier qui va accueillir le flux
 		dpcCurrentFile = new File(PreferencesManager.getInstance()
 				.getWorkspace()
 				+ File.separator + this.sName + File.separator + DPC.getName());
@@ -236,7 +236,7 @@ public class Project
 
 	/**
 	 * @param currentProcess
-	 *            Valeur à donner à currentProcess
+	 *            Valeur ? donner ? currentProcess
 	 */
 	public void setCurrentProcess (Process currentProcess)
 	{
@@ -263,7 +263,7 @@ public class Project
 
 	/**
 	 * @param name
-	 *            Valeur à donner à sName
+	 *            Valeur ? donner ? sName
 	 */
 	public void setName (String name)
 	{
@@ -280,7 +280,7 @@ public class Project
 
 	/**
 	 * @param nameDPC
-	 *            Valeur à donner à sNameDPC
+	 *            Valeur ? donner ? sNameDPC
 	 */
 	public void setNameDPC (String nameDPC)
 	{
@@ -300,5 +300,18 @@ public class Project
 	public Properties getDocsProperties ()
 	{
 		return this.docsProperties;
+	}
+	
+	/**
+	 * Retourne le nom du document associe l'identificateur du produit p.
+	 * 
+	 * 
+	 * @param p le produit dont on veut recuperer le document (fichier.doc par exemple)
+	 * @return Retourne le nom du document associe l'identificateur du produit p si l'identificateur du produit existe
+	 * 			sinon null 
+	 */
+	public String getDocumentName(Product p)
+	{
+		return this.docsProperties.getProperty(p.getId());
 	}
 }
