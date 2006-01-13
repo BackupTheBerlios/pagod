@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: Request.java,v 1.4 2005/12/07 20:05:48 cyberal82 Exp $
+ * $Id: Request.java,v 1.5 2006/01/13 14:28:43 biniou Exp $
  */
 package pagod.wizard.control.states;
 
@@ -46,6 +46,10 @@ public class Request
 		 * Afficher le a propos
 		 */
 		SHOW_ABOUT,
+		/**
+		 * Afficher la Jtable des temps passes
+		 */
+		TIME_ACTIVITY,
 		/**
 		 * Afficher la fenetre de configuration des preferences
 		 */
@@ -152,7 +156,7 @@ public class Request
 	}
 
 	/**
-	 * Fonction appelé lorsqu'on veut afficher un object Request
+	 * Fonction appel? lorsqu'on veut afficher un object Request
 	 * 
 	 * @return une chaine de caractere
 	 * 
@@ -163,26 +167,26 @@ public class Request
 		{
 			String sTemp = this.content.toString();
 
-			// on remplace les &eacute; par des é
-			sTemp = sTemp.replaceAll("&eacute;", "é");
+			// on remplace les &eacute; par des ?
+			sTemp = sTemp.replaceAll("&eacute;", "?");
 
-			// on remplace les &egrave; par des è
-			sTemp = sTemp.replaceAll("&egrave;", "è");
+			// on remplace les &egrave; par des ?
+			sTemp = sTemp.replaceAll("&egrave;", "?");
 
-			// on remplace les &ccedil; par des ç
-			sTemp = sTemp.replaceAll("&ccedil;", "ç");
+			// on remplace les &ccedil; par des ?
+			sTemp = sTemp.replaceAll("&ccedil;", "?");
 
-			// on remplace les &ugrave; par des ù
-			sTemp = sTemp.replaceAll("&ugrave;", "ù");
+			// on remplace les &ugrave; par des ?
+			sTemp = sTemp.replaceAll("&ugrave;", "?");
 
-			// on remplace les &agrave; par des à
-			sTemp = sTemp.replaceAll("&agrave;", "à");
+			// on remplace les &agrave; par des ?
+			sTemp = sTemp.replaceAll("&agrave;", "?");
 
-			// on remplace les &ecirc; par des ê
-			sTemp = sTemp.replaceAll("&ecirc;", "ê");
+			// on remplace les &ecirc; par des ?
+			sTemp = sTemp.replaceAll("&ecirc;", "?");
 
-			// on remplace les &ocirc; par des ô
-			sTemp = sTemp.replaceAll("&ocirc;", "ô");
+			// on remplace les &ocirc; par des ?
+			sTemp = sTemp.replaceAll("&ocirc;", "?");
 
 			// on remplace les &nbsp; par des espaces
 			sTemp = sTemp.replaceAll("&nbsp;", " ");

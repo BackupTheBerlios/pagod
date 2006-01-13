@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrameMenuBar.java,v 1.4 2005/12/01 14:32:16 yak Exp $
+ * $Id: MainFrameMenuBar.java,v 1.5 2006/01/13 14:28:42 biniou Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -69,6 +69,12 @@ public class MainFrameMenuBar extends JMenuBar
         JMenuItem miToolsSettings = new JMenuItem(ActionManager.getInstance()
                 .getAction(Constants.ACTION_TOOLSSETTINGS));
         mFile.add(miToolsSettings);
+        // ajout menu pour les temps
+        mFile.addSeparator();
+        JMenuItem miTimeActivity = new JMenuItem(ActionManager.getInstance()
+                .getAction(Constants.ACTION_TIMEACTIVITY));
+        mFile.add(miTimeActivity);
+        
         mFile.addSeparator();
         JMenuItem miQuit = new JMenuItem(ActionManager.getInstance().getAction(
                 Constants.ACTION_QUIT));

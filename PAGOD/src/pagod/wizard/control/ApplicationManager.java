@@ -1,5 +1,5 @@
 /*
- * $Id: ApplicationManager.java,v 1.17 2005/12/02 16:04:42 yak Exp $
+ * $Id: ApplicationManager.java,v 1.18 2006/01/13 14:28:42 biniou Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -65,6 +65,7 @@ import pagod.wizard.control.actions.PreviousAction;
 import pagod.wizard.control.actions.QuitAction;
 import pagod.wizard.control.actions.RunActivityAction;
 import pagod.wizard.control.actions.TerminateAction;
+import pagod.wizard.control.actions.TimeActivityAction;
 import pagod.wizard.control.actions.ToolsSettingsAction;
 import pagod.wizard.control.states.Request;
 import pagod.wizard.control.states.application.AbstractApplicationState;
@@ -214,6 +215,11 @@ public class ApplicationManager extends Observable
 					new PreferencesAction());
 			am.registerAction(Constants.ACTION_TOOLSSETTINGS,
 					new ToolsSettingsAction());
+			
+			// ajout de l'action pour afficher le temps
+			am.registerAction(Constants.ACTION_TIMEACTIVITY,
+					new TimeActivityAction());
+			
 			// creation de la fenetre principale
 			this.mfPagod = new MainFrame();
 			// on met la main frame sur ecoute de l'application manager et de ces etats
@@ -296,7 +302,7 @@ public class ApplicationManager extends Observable
 
 		// lancement de la fenetre de choix de workspace si besoin
 
-//		 test si la valeur de la clé workspace est définie ou pas
+//		 test si la valeur de la cl? workspace est d?finie ou pas
 		if (!PreferencesManager.getInstance().containWorkspace())
 		{
 			WorkspaceFileChooser workspaceChooser = new WorkspaceFileChooser();
@@ -336,11 +342,11 @@ public class ApplicationManager extends Observable
 	 */
 	private void createNewProject ()
 	{
-		// on verifie que le workspace est bien créé sinon on force
+		// on verifie que le workspace est bien cr?? sinon on force
 		// l'utilisateur a le choisir
 		boolean validWorkspace = false;
 
-		// test si la valeur de la clé workspace est définie ou pas
+		// test si la valeur de la cl? workspace est d?finie ou pas
 		if (!PreferencesManager.getInstance().containWorkspace())
 		{
 			WorkspaceFileChooser workspaceChooser = new WorkspaceFileChooser();
@@ -350,7 +356,7 @@ public class ApplicationManager extends Observable
 				File file = workspaceChooser.getSelectedFile();
 				System.out.println(file.getPath());
 
-				// mettre le path dans le fichier preferences a la clé
+				// mettre le path dans le fichier preferences a la cl?
 				// "workspace"
 				PreferencesManager.getInstance().setWorkspace(file.getPath());
 
@@ -359,7 +365,7 @@ public class ApplicationManager extends Observable
 			// si l'utilisateur ne choisit pas, on ne cree rien
 			else
 			{
-				System.err.println("Le workspace n'est pas défini.");
+				System.err.println("Le workspace n'est pas d?fini.");
 			}
 		}
 		if (validWorkspace)
@@ -368,7 +374,7 @@ public class ApplicationManager extends Observable
 			NewProjectDialog testDialog = new NewProjectDialog(this.mfPagod);
 			testDialog.setVisible(true);
 			
-			// si le projet a bien été créé on demande a l'utilisateur
+			// si le projet a bien ?t? cr?? on demande a l'utilisateur
 			// de choisir un dpc
 			if (this.currentProject!=null)
 			{
@@ -396,11 +402,11 @@ public class ApplicationManager extends Observable
 				}
 				catch (IOException e)
 				{
-					// TODO Bloc de traitement des exceptions généré automatiquement
+					// TODO Bloc de traitement des exceptions g?n?r? automatiquement
 					e.printStackTrace();
 				}
 				
-				// Remplir le modèle metier
+				// Remplir le mod?le metier
 				File choosenfile = fileChooser.getSelectedFile();
 				Process aProcess = InterfaceManager.getInstance().importModel(
 						choosenfile.getAbsolutePath(), this.mfPagod, false);

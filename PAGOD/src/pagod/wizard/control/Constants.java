@@ -1,5 +1,5 @@
 /*
- * $Id: Constants.java,v 1.9 2005/12/01 18:54:01 yak Exp $
+ * $Id: Constants.java,v 1.10 2006/01/13 14:28:42 biniou Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -127,6 +127,11 @@ public interface Constants
      * <code>ACTION_ABOUT</code>
      */
     public static final String ACTION_ABOUT = "aboutAction";
+
+    /**
+     * <code>ACTION_TIMEACTIVITY</code>
+     */
+    public static final String ACTION_TIMEACTIVITY = "timeActivityAction";
 
     /**
      * <code>ACTION_RUN_ACTIVITY</code>
