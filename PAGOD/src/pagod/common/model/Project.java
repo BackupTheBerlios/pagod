@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: Project.java,v 1.8 2006/01/13 13:31:39 cyberal82 Exp $
+ * $Id: Project.java,v 1.9 2006/01/15 08:47:06 biniou Exp $
  */
 package pagod.common.model;
 
@@ -24,7 +24,8 @@ public class Project
 	/**
 	 * Chemin du r?pertoire ou vont etre stockees les documents produits
 	 */
-	public static final String	DOCS_DIRECTORY	= "docs" + File.separator;
+	// TODO rajouter dans le bundle pour avoir products ?
+	public static final String	DOCS_DIRECTORY	= "produits" + File.separator;
 
 	/**
 	 * sName est le nom (identifiant) du projet
@@ -36,8 +37,6 @@ public class Project
 	 */
 	private String				sNameDPC		= null;
 
-	
-	
 	/**
 	 * currentProcess est le processus contenant le mod?le m?tier du dpc
 	 * appartenant au projet
@@ -112,15 +111,19 @@ public class Project
 			System.err.println("Le fichier properties est deja pr?sent.");
 		}
 
-		// creation du .properties pour les stats
-		/*
-		 * File statsFile = new File(
-		 * projectDirectory.getAbsolutePath()+"/"+"");
-		 * 
-		 * if (documentationPreferenceFile.createNewFile()) {
-		 * System.out.println("Le fichier properties est bien cr??."); } else {
-		 * System.err.println("Le fichier properties est deja pr?sent."); }
-		 */
+		// creation du .xml pour les temps
+		File timeFile = new File(projectDirectory.getAbsolutePath()
+				+ File.separator + "time.xml");
+
+		if (timeFile.createNewFile())
+		{
+			System.out.println("Le fichier des temps est bien créé.");
+		}
+		else
+		{
+			System.err.println("Le fichier des temps est deja présent.");
+		}
+
 		return (result);
 	}
 
@@ -197,7 +200,7 @@ public class Project
 		FileInputStream fis = new FileInputStream(DPC);
 		FileOutputStream fos = new FileOutputStream(dpcCurrentFile);
 
-		FilesManager.getInstance().copyFile(fis,fos);
+		FilesManager.getInstance().copyFile(fis, fos);
 	}
 
 	/**
@@ -286,14 +289,17 @@ public class Project
 	{
 		this.sNameDPC = nameDPC;
 	}
+
 	/**
 	 * retourne vrai si le nomDu dpc est mis en place
+	 * 
 	 * @return retourne vrai si le nomDu dpc est mis en place
 	 */
 	public boolean hasNameDPC ()
 	{
 		return this.sNameDPC != null;
 	}
+
 	/**
 	 * @return Retourne l'attribut docsProperties
 	 */
@@ -301,16 +307,18 @@ public class Project
 	{
 		return this.docsProperties;
 	}
-	
+
 	/**
 	 * Retourne le nom du document associe l'identificateur du produit p.
 	 * 
 	 * 
-	 * @param p le produit dont on veut recuperer le document (fichier.doc par exemple)
-	 * @return Retourne le nom du document associe l'identificateur du produit p si l'identificateur du produit existe
-	 * 			sinon null 
+	 * @param p
+	 *            le produit dont on veut recuperer le document (fichier.doc par
+	 *            exemple)
+	 * @return Retourne le nom du document associe l'identificateur du produit p
+	 *         si l'identificateur du produit existe sinon null
 	 */
-	public String getDocumentName(Product p)
+	public String getDocumentName (Product p)
 	{
 		return this.docsProperties.getProperty(p.getId());
 	}
