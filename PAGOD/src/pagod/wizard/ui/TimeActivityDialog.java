@@ -1,30 +1,19 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimeActivityDialog.java,v 1.2 2006/01/15 09:20:18 biniou Exp $
+ * $Id: TimeActivityDialog.java,v 1.3 2006/01/15 09:21:15 biniou Exp $
  */
 package pagod.wizard.ui;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileNotFoundException;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.filechooser.FileSystemView;
-
 import pagod.utils.LanguagesManager;
-import pagod.wizard.control.PreferencesManager;
-import pagod.wizard.control.PreferencesManager.FileNotExecuteException;
-import pagod.wizard.control.PreferencesManager.InvalidExtensionException;
 
 /**
  * @author biniou
