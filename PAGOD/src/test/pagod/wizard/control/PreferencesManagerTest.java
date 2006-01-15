@@ -1,5 +1,5 @@
 /*
- * $Id: PreferencesManagerTest.java,v 1.4 2006/01/05 15:29:00 biniou Exp $
+ * $Id: PreferencesManagerTest.java,v 1.5 2006/01/15 10:05:49 biniou Exp $
  *
  * SPWIZ - Spem Wizard
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -41,17 +41,47 @@ import pagod.wizard.control.PreferencesManager.InvalidExtensionException;
 public class PreferencesManagerTest extends TestCase
 {
 
+	private String workspacePathSave = null;
+	private ArrayList<String> extensionArraySave = null;
+	private ArrayList<String> pathArraySave = null;
+	
 	/**
 	 * Permet de remettre a vide le PreferencesManager, il faut faire cela car
 	 * c'est une classe implementee comme un singleton
 	 */
 	public void setUp ()
 	{
+		
+		if (PreferencesManager.getInstance().containWorkspace())
+		{
+			// on sauvegarde l'ancien path du workspace
+			this.workspacePathSave = PreferencesManager.getInstance().getWorkspace();
+		}
+		
+		// initialisation des arraylist contenant les extensions/paths avant le test
+		this.extensionArraySave = PreferencesManager.getInstance().preferences();
+		this.pathArraySave = new ArrayList<String>();
+		
+		// pour chaque extension on recupere le path associé
+		for(final String currentExtension : this.extensionArraySave )
+		{
+			try
+			{
+				this.pathArraySave.add(PreferencesManager.getInstance().getPreference(currentExtension));
+			}
+			catch (InvalidExtensionException e)
+			{
+				// TODO Bloc de traitement des exceptions généré automatiquement
+				e.printStackTrace();
+			}
+			
+		}
 
 		for (String sExtension : PreferencesManager.getInstance().preferences())
 			PreferencesManager.getInstance().removePreference(sExtension);
 
 		PreferencesManager.getInstance().storePreferences();
+
 
 	}
 
@@ -142,13 +172,7 @@ public class PreferencesManagerTest extends TestCase
 	 */
 	public void testGetWorkspace ()
 	{
-		String workspacePathSave = null;
 
-		if (PreferencesManager.getInstance().containWorkspace())
-		{
-			// on sauvegarde l'ancien path du workspace
-			workspacePathSave = PreferencesManager.getInstance().getWorkspace();
-		}
 		// on cree un fichier temp pour etre sur de son existence
 		File f = createTempFile();
 		System.out.println(f.getAbsolutePath());
@@ -181,15 +205,6 @@ public class PreferencesManagerTest extends TestCase
 		// f.getAbsolutePath()
 		assertTrue(PreferencesManager.getInstance().getWorkspace().equals("tt"));
 
-		// on supprime le workspace yy pour que ce soit propre
-		PreferencesManager.getInstance().removeWorkspace();
-
-		if (workspacePathSave != null)
-		{
-			System.out.println("getworkspace"+workspacePathSave);
-			// s'il existait on remet en place le vrai workspace
-			PreferencesManager.getInstance().setWorkspace(workspacePathSave);
-		}
 	}
 
 	/**
@@ -198,28 +213,10 @@ public class PreferencesManagerTest extends TestCase
 	 */
 	public void testSetWorkspace ()
 	{
-		String workspacePathSave = null;
-
-		if (PreferencesManager.getInstance().containWorkspace())
-		{
-			// on sauvegarde l'ancien path du workspace
-			workspacePathSave = PreferencesManager.getInstance().getWorkspace();
-		}
-
 		PreferencesManager.getInstance().loadPreferences();
 
 		PreferencesManager.getInstance().setWorkspace("yy");
 		assertTrue(PreferencesManager.getInstance().getWorkspace().equals("yy"));
-
-		// on supprime le workspace yy pour que ce soit propre
-		PreferencesManager.getInstance().removeWorkspace();
-
-		if (workspacePathSave != null)
-		{
-			System.out.println("setworkspace"+workspacePathSave);
-			// s'il existait on remet en place le vrai workspace
-			PreferencesManager.getInstance().setWorkspace(workspacePathSave);
-		}
 	}
 
 	/**
@@ -402,12 +399,6 @@ public class PreferencesManagerTest extends TestCase
 	 */
 	public void testContainWorkspace ()
 	{
-		String workspacePathSave = null;
-		// on recupere l'ancien workspace s'il existe
-		if (PreferencesManager.getInstance().containWorkspace())
-		{
-			workspacePathSave = PreferencesManager.getInstance().getWorkspace();
-		}
 
 		// on supprime le workspace s'il existe
 		PreferencesManager.getInstance().removeWorkspace();
@@ -421,20 +412,6 @@ public class PreferencesManagerTest extends TestCase
 
 		assertTrue("On  devrait avoir un workspace", PreferencesManager
 				.getInstance().containWorkspace());
-		
-
-		// on remet l'ancien path du workspace s'il existe sinon
-		// on supprime pour que le .properties reste propre
-		if (workspacePathSave != null)
-		{
-			System.out.println("containworkspace"+workspacePathSave);
-			PreferencesManager.getInstance().setWorkspace(workspacePathSave);
-		}
-		else
-		{
-			PreferencesManager.getInstance().removeWorkspace();
-		}
-		
 	}
 
 	/**
@@ -442,35 +419,18 @@ public class PreferencesManagerTest extends TestCase
 	 */
 	public void testRemoveWorkspace ()
 	{
-		String workspacePathSave = null;
-
-		if (PreferencesManager.getInstance().containWorkspace())
-		{
-			// on sauvegarde l'ancien path du workspace
-			workspacePathSave = PreferencesManager.getInstance().getWorkspace();
 			PreferencesManager.getInstance().removeWorkspace();
 
 			// il ne doit plus y avoir de workspace
 			assertTrue("On  ne devrait pas avoir de workspace",
 					!PreferencesManager.getInstance().containWorkspace());
-
-			System.out.println("removeworkspace"+workspacePathSave);
-			
-			// on remet le workspace
-			PreferencesManager.getInstance().setWorkspace(workspacePathSave);
-		}
-
-		else
-		{
+		
 			// on rajoute un workspace pour le test
 			PreferencesManager.getInstance().setWorkspace("toto");
 			PreferencesManager.getInstance().removeWorkspace();
-
 			// il ne doit plus y avoir de workspace
 			assertTrue("On  ne devrait pas avoir de workspace",
 					!PreferencesManager.getInstance().containWorkspace());
-
-		}
 
 	}
 
@@ -763,9 +723,6 @@ public class PreferencesManagerTest extends TestCase
 			PreferencesManager.getInstance().loadPreferences();
 			assertTrue(PreferencesManager.getInstance().getPreference("toto")
 					.equals(f.getAbsolutePath()));
-			
-			// suppression de la preference
-			PreferencesManager.getInstance().removePreference("toto");
 		}
 		catch (Exception e)
 		{
@@ -779,6 +736,45 @@ public class PreferencesManagerTest extends TestCase
 	 */
 	public void tearDown ()
 	{
+		if (this.workspacePathSave != null)
+		{
+			// s'il existait on remet en place le vrai workspace
+			PreferencesManager.getInstance().setWorkspace(this.workspacePathSave);
+		}
+		else
+		{
+			// sinon on supprime
+			PreferencesManager.getInstance().removeWorkspace();
+		}
+				
+		//suppression des "fake"
+		for (String sExtension : PreferencesManager.getInstance().preferences())
+			PreferencesManager.getInstance().removePreference(sExtension);
+		
+		// remise en place des extensions/paths sauvegardés
+		for(int i =0;i<this.extensionArraySave.size();i++)
+		{	
+			try
+			{
+				PreferencesManager.getInstance().setPreference(this.extensionArraySave.get(i),this.pathArraySave.get(i));
+			}
+			catch (FileNotFoundException e)
+			{
+				// TODO Bloc de traitement des exceptions généré automatiquement
+				e.printStackTrace();
+			}
+			catch (InvalidExtensionException e)
+			{
+				// TODO Bloc de traitement des exceptions généré automatiquement
+				e.printStackTrace();
+			}
+			catch (FileNotExecuteException e)
+			{
+				// TODO Bloc de traitement des exceptions généré automatiquement
+				e.printStackTrace();
+			}			
+		}
+		
 		PreferencesManager.getInstance().setLanguage("fr");
 		PreferencesManager.getInstance().storePreferences();
 	}
