@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.24 2006/01/13 14:27:24 cyberal82 Exp $
+ * $Id: MainFrame.java,v 1.25 2006/01/15 13:58:03 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -210,8 +210,10 @@ public class MainFrame extends JFrame implements Observer
 			{
 				// s'il n'y a pas de produit en sortie de l'etape on vide le splitPane inferieur
 				//TODO a regarder de plus pres 
-				/*if (this.splitPane.getRightComponent() != null)
-					this.splitPane.remove(this.splitPane.getRightComponent()); */
+				this.splitPane.setRightComponent(new ProductsPanel(this
+						.getActivity(), aStep.getOutputProducts()));
+				this.splitPane.getRightComponent().setVisible(false);
+				this.centerPanel.add(this.splitPane);
 			}
 		}
 
