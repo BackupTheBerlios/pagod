@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: PreConditionCheckerState.java,v 1.2 2005/11/27 20:37:52 yak Exp $
+ * $Id: PreConditionCheckerState.java,v 1.3 2006/01/16 10:15:26 yak Exp $
  */
 package pagod.wizard.control.states.activity;
 
@@ -28,15 +28,6 @@ public class PreConditionCheckerState extends AbstractActivityState
            
     }
 
-  
-    /** (non-Javadoc)
-     * @see pagod.wizard.control.states.activity.AbstractActivityState#terminate()
-     */
-    public void terminate()
-    {
-     }
-    
-    
 	/** (non-Javadoc)
 	 * @see pagod.wizard.control.states.activity.AbstractActivityState#toString()
 	 */
@@ -45,22 +36,10 @@ public class PreConditionCheckerState extends AbstractActivityState
 //		TODO rajouter un message dans l'internationalisation
 		return(" Verification des PreConditions ");
 	}
-
 	
-	/** (non-Javadoc)
-	 * @see pagod.wizard.control.states.activity.AbstractActivityState#display()
-	 */
-	public void display ()
-	{
-		/*
-		this.activityScheduler.resetSplitPane();
-        this.activityScheduler.checkBeforeStart();
-        */
-	}
 	/** (non-Javadoc)
 	 * @see pagod.wizard.control.states.AbstractState#manageRequest(pagod.wizard.control.states.Request)
 	 */
-	
 	public boolean manageRequest (Request request)
 	{
 		//AbstractActivityState temporaire

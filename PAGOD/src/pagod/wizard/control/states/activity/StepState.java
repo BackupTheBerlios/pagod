@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: StepState.java,v 1.1 2005/11/27 20:37:52 yak Exp $
+ * $Id: StepState.java,v 1.2 2006/01/16 10:15:26 yak Exp $
  */
 package pagod.wizard.control.states.activity;
 
@@ -33,29 +33,18 @@ public class StepState extends AbstractActivityState
 		System.err.println(this.toString());
 	}
 
-	@Override
-	public void terminate ()
-	{
-		// TODO Corps de méthode généré automatiquement
+	
 
-	}
-
-	@Override
+	/**
+	 * @return le nom du step sous forme de chaine
+	 * 
+	 */
 	public String toString ()
 	{
 		return this.getStepList().get(this.index).getName();
 	}
 
-	@Override
-	public void display ()
-	{
-		/*
-		 * this.activityScheduler.resetSplitPane(); //TODO a supprimer
-		 * System.out.println("stateListSize " +
-		 * this.activityScheduler.getStateList().size()); //affichage de l'etape
-		 * this.activityScheduler.presentStep(this.stepList.get(this.index),this.index,this.stepList.size());
-		 */
-	}
+	
 
 	/**
 	 * (non-Javadoc)
@@ -72,7 +61,7 @@ public class StepState extends AbstractActivityState
 		switch (request.getCurrentRequest())
 		{
 			case NEXT:
-				// si on est sur la dernière étape
+				// si on est sur la derni?re ?tape
 				if (this.index == this.stepList.size() - 1)
 				{
 					if (this.activity.hasOutputProducts()) state = new PostConditionCheckerState(
@@ -89,7 +78,7 @@ public class StepState extends AbstractActivityState
 				break;
 
 			case PREVIOUS:
-				// si on est sur la première étape on revient sur
+				// si on est sur la premi?re ?tape on revient sur
 				// l'activityPresentation
 				if (this.index == 0)
 				{

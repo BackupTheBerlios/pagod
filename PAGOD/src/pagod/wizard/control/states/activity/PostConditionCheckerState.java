@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: PostConditionCheckerState.java,v 1.3 2005/12/05 00:13:27 yak Exp $
+ * $Id: PostConditionCheckerState.java,v 1.4 2006/01/16 10:15:26 yak Exp $
  */
 package pagod.wizard.control.states.activity;
 
@@ -29,14 +29,6 @@ public class PostConditionCheckerState extends AbstractActivityState
    }
 
 
-
-	/** (non-Javadoc)
-	 * @see pagod.wizard.control.states.activity.AbstractActivityState#terminate()
-	 */
-	public void terminate ()
-	{
-	}
-	
     
    
 	/** (non-Javadoc)
@@ -49,20 +41,10 @@ public class PostConditionCheckerState extends AbstractActivityState
 	}
 
 
-	/** (non-Javadoc)
-	 * @see pagod.wizard.control.states.activity.AbstractActivityState#display()
-	 */
-	public void display ()
-	{
-		/*
-		this.activityScheduler.resetSplitPane();
-		this.activityScheduler.checkBeforeEnd();
-		*/
-	}
+	
 	/** (non-Javadoc)
 	 * @see pagod.wizard.control.states.AbstractState#manageRequest(pagod.wizard.control.states.Request)
 	 */
-	
 	public boolean manageRequest (Request request)
 	{
 		//AbstractActivityState temporaire
@@ -75,7 +57,7 @@ public class PostConditionCheckerState extends AbstractActivityState
 			case PREVIOUS:
 				if (this.activity.hasSteps())
 				{
-					// on se positionne sur la dernière étape
+					// on se positionne sur la derni?re ?tape
 					state = new StepState(this.activityScheduler,this.activity,this.stepList.size()-1);
 				}
 				else

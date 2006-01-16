@@ -1,5 +1,5 @@
 /*
- * $Id: ActivityScheduler.java,v 1.27 2005/11/30 09:00:23 yak Exp $
+ * $Id: ActivityScheduler.java,v 1.28 2006/01/16 10:15:26 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -220,7 +220,7 @@ public class ActivityScheduler extends Observable
 
 		if (this.activityState.manageRequest(request))
 		{
-			this.activityState.display();
+			//this.activityState.display();
 			return true;
 		}
 		return false;

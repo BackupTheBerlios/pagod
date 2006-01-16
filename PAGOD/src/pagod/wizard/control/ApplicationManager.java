@@ -1,5 +1,5 @@
 /*
- * $Id: ApplicationManager.java,v 1.18 2006/01/13 14:28:42 biniou Exp $
+ * $Id: ApplicationManager.java,v 1.19 2006/01/16 10:15:26 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -253,8 +253,9 @@ public class ApplicationManager extends Observable
 	 * 
 	 * @param request
 	 *            requete ? traiter
+	 * @return vrai si il ya eu un changement d'etat, faux sinon
 	 */
-	public void manageRequest (Request request)
+	public boolean manageRequest (Request request)
 	{
 		try
 		{
@@ -262,10 +263,12 @@ public class ApplicationManager extends Observable
 			if (request.getCurrentRequest() == Request.RequestType.SHOW_ABOUT)
 			{
 				this.showAboutDialog();
+				
 			}
 			else if (request.getCurrentRequest() == Request.RequestType.QUIT_APPLICATION)
 			{
 				this.quit();
+				
 			}
 			else if (request.getCurrentRequest() == Request.RequestType.PREFERENCES)
 			{
@@ -273,16 +276,18 @@ public class ApplicationManager extends Observable
 			}
 			else
 			{
-				this.applicationState.manageRequest(request);
+				return this.applicationState.manageRequest(request);
 				
 				
 			}
+			return true;
 		}
 		catch (Exception ex)
 		{
 			ExceptionManager.getInstance().manage(ex);
 			System.exit(0);
 		}
+		return false;
 
 	}
 

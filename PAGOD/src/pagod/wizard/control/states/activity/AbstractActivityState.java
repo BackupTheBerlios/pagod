@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: AbstractActivityState.java,v 1.3 2005/11/29 18:11:15 yak Exp $
+ * $Id: AbstractActivityState.java,v 1.4 2006/01/16 10:15:26 yak Exp $
  */
 package pagod.wizard.control.states.activity;
 
@@ -61,19 +61,6 @@ public abstract class AbstractActivityState extends AbstractState
 		this.step = null;
 
 	}
-
-	/**
-	 * 
-	 * @param activityScheduler
-	 * @param activity
-	 * @param iCurrentStep
-	 */
-
-	/**
-	 * 
-	 */
-	public abstract void terminate ();
-
 	/**
 	 * (non-Javadoc)
 	 * 
@@ -81,26 +68,23 @@ public abstract class AbstractActivityState extends AbstractState
 	 */
 	public abstract String toString ();
 
-	/**
-	 * 
-	 */
-	public abstract void display ();
+	
 
 	/**
 	 * @param goToStepInd
 	 */
-	public void setGoToStepInd (int goToStepInd)
+	/*public void setGoToStepInd (int goToStepInd)
 	{
 		this.goToStepInd = goToStepInd;
-	}
+	}*/
 
 	/**
 	 * @return goToStepInd
 	 */
-	public int getGoToStepInd ()
+	/*public int getGoToStepInd ()
 	{
 		return this.goToStepInd;
-	}
+	}*/
 
 	/**
 	 * @return liste
@@ -113,7 +97,7 @@ public abstract class AbstractActivityState extends AbstractState
 	/**
 	 * @param request
 	 *            la requete que l'on doit traiter
-	 * @return retourn vrai si on a changé d'état faut sinon
+	 * @return retourn vrai si on a chang? d'?tat faut sinon
 	 */
 	public boolean manageRequest (Request request)
 	{
@@ -122,7 +106,7 @@ public abstract class AbstractActivityState extends AbstractState
 		// on regarde le type de requete que l'on recoit
 		switch (request.getCurrentRequest())
 		{
-			//code commun a toute les méthodes.
+			//code commun a toute les m?thodes.
 			case GOTOSTEP:
 				if (request.getContent()  instanceof AbstractActivityState)
 				{
@@ -167,7 +151,7 @@ public abstract class AbstractActivityState extends AbstractState
 	}
 
 	/**
-	 * @param stepList Valeur à donner à stepList
+	 * @param stepList Valeur ? donner ? stepList
 	 */
 	public void setStepList (List<Step> stepList)
 	{

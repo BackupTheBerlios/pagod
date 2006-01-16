@@ -1,5 +1,5 @@
 /*
- * $Id: TerminateAction.java,v 1.3 2005/11/30 08:57:47 yak Exp $
+ * $Id: TerminateAction.java,v 1.4 2006/01/16 10:15:26 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -30,13 +30,17 @@ import java.io.IOException;
 
 import javax.swing.KeyStroke;
 
+import com.sun.corba.se.impl.orbutil.closure.Constant;
+
+import pagod.utils.ActionManager;
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
 import pagod.wizard.control.ApplicationManager;
+import pagod.wizard.control.Constants;
 import pagod.wizard.control.states.Request;
 
 /**
- * Termine l'activité.
+ * Termine l'activit?.
  * 
  * @author MoOky
  */
@@ -54,6 +58,20 @@ public class TerminateAction extends AbstractPagodAction
         		new Request(Request.RequestType.TERMINATE_ACTIVITY), KeyStroke
                 .getKeyStroke(KeyEvent.VK_ESCAPE, 0));
     }
+	/**
+	 * Methode app?l?e lorsque l'action est d?clench?
+	 * 
+	 * @param actionEvent
+	 *            Evenement survenue
+	 */
+    public void actionPerformed (ActionEvent actionEvent)
+	{
+    	if ( ApplicationManager.getInstance().manageRequest(this.request))
+    	{
+    		ActionManager.getInstance().getAction(Constants.ACTION_RUN_ACTIVITY).setEnabled(true);
+    	}
+	
+	}
     
     
 }
