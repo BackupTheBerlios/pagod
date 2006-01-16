@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: Request.java,v 1.5 2006/01/13 14:28:43 biniou Exp $
+ * $Id: Request.java,v 1.6 2006/01/16 15:32:59 cyberal82 Exp $
  */
 package pagod.wizard.control.states;
 
@@ -167,26 +167,28 @@ public class Request
 		{
 			String sTemp = this.content.toString();
 
-			// on remplace les &eacute; par des ?
-			sTemp = sTemp.replaceAll("&eacute;", "?");
+			// on remplace les &eacute; par le caractere unicode correspondant
+			// je met pas le caractere directement car le serveur marine ne les 
+			// supporte pas, il les remplace par des ?
+			sTemp = sTemp.replaceAll("&eacute;", "\u00E9");
 
-			// on remplace les &egrave; par des ?
-			sTemp = sTemp.replaceAll("&egrave;", "?");
+			// on remplace les &egrave; par les caracteres unicode correspondants
+			sTemp = sTemp.replaceAll("&egrave;", "\u00E8");
 
-			// on remplace les &ccedil; par des ?
-			sTemp = sTemp.replaceAll("&ccedil;", "?");
+			// on remplace les &ccedil; par les caracteres unicode correspondants
+			sTemp = sTemp.replaceAll("&ccedil;", "\u00E7");
 
-			// on remplace les &ugrave; par des ?
-			sTemp = sTemp.replaceAll("&ugrave;", "?");
+			// on remplace les &ugrave; par les caracteres unicode correspondants
+			sTemp = sTemp.replaceAll("&ugrave;", "\u00F9");
 
-			// on remplace les &agrave; par des ?
-			sTemp = sTemp.replaceAll("&agrave;", "?");
+			// on remplace les &agrave; par les caracteres unicode correspondants
+			sTemp = sTemp.replaceAll("&agrave;", "\u00E0");
 
-			// on remplace les &ecirc; par des ?
-			sTemp = sTemp.replaceAll("&ecirc;", "?");
+			// on remplace les &ecirc; par les caracteres unicode correspondants
+			sTemp = sTemp.replaceAll("&ecirc;", "\u00EA");
 
-			// on remplace les &ocirc; par des ?
-			sTemp = sTemp.replaceAll("&ocirc;", "?");
+			// on remplace les &ocirc; par les caracteres unicode correspondants
+			sTemp = sTemp.replaceAll("&ocirc;", "\u00F4");
 
 			// on remplace les &nbsp; par des espaces
 			sTemp = sTemp.replaceAll("&nbsp;", " ");
