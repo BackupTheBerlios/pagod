@@ -1,11 +1,12 @@
 /*
  * Projet PAGOD
  * 
- * $Id: PreConditionCheckerState.java,v 1.3 2006/01/16 10:15:26 yak Exp $
+ * $Id: PreConditionCheckerState.java,v 1.4 2006/01/18 00:13:22 psyko Exp $
  */
 package pagod.wizard.control.states.activity;
 
 import pagod.common.model.Activity;
+import pagod.utils.LanguagesManager;
 import pagod.wizard.control.ActivityScheduler;
 import pagod.wizard.control.states.Request;
 
@@ -34,7 +35,7 @@ public class PreConditionCheckerState extends AbstractActivityState
 	public String toString ()
 	{
 //		TODO rajouter un message dans l'internationalisation
-		return(" Verification des PreConditions ");
+		return(LanguagesManager.getInstance().getString("preConditions"));
 	}
 	
 	/** (non-Javadoc)

@@ -1,11 +1,12 @@
 /*
  * Projet PAGOD
  * 
- * $Id: PostConditionCheckerState.java,v 1.4 2006/01/16 10:15:26 yak Exp $
+ * $Id: PostConditionCheckerState.java,v 1.5 2006/01/18 00:13:22 psyko Exp $
  */
 package pagod.wizard.control.states.activity;
 
 import pagod.common.model.Activity;
+import pagod.utils.LanguagesManager;
 import pagod.wizard.control.ActivityScheduler;
 import pagod.wizard.control.states.Request;
 
@@ -20,8 +21,7 @@ public class PostConditionCheckerState extends AbstractActivityState
 	 * @param activityScheduler
 	 * @param activity
 	 */
-	public PostConditionCheckerState (ActivityScheduler activityScheduler,
-			Activity activity)
+	public PostConditionCheckerState (ActivityScheduler activityScheduler,Activity activity)
 	{
 		super(activityScheduler, activity);
 //		TODO a supprimer
@@ -37,7 +37,7 @@ public class PostConditionCheckerState extends AbstractActivityState
 	public String toString ()
 	{
 //		TODO rajouter un message dans l'internationalisation
-		return(" Verification des PostConditions ");
+		return(LanguagesManager.getInstance().getString("postConditions"));
 	}
 
 

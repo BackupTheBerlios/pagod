@@ -1,12 +1,13 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ActivityPresentationState.java,v 1.2 2005/11/27 20:37:52 yak Exp $
+ * $Id: ActivityPresentationState.java,v 1.3 2006/01/18 00:13:22 psyko Exp $
  */
 
 package pagod.wizard.control.states.activity;
 
 import pagod.common.model.Activity;
+import pagod.utils.LanguagesManager;
 import pagod.wizard.control.ActivityScheduler;
 import pagod.wizard.control.states.Request;
 
@@ -49,7 +50,7 @@ public class ActivityPresentationState extends AbstractActivityState
 	public String toString ()
 	{
 		//TODO rajouter un message dans l'internationalisation
-		return(" Presentation de l'activite ");
+		return(LanguagesManager.getInstance().getString("activityPresentation"));	
 	}
 
 	
