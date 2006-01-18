@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: PostConditionCheckerState.java,v 1.5 2006/01/18 00:13:22 psyko Exp $
+ * $Id: PostConditionCheckerState.java,v 1.6 2006/01/18 13:36:39 cyberal82 Exp $
  */
 package pagod.wizard.control.states.activity;
 
@@ -24,8 +24,6 @@ public class PostConditionCheckerState extends AbstractActivityState
 	public PostConditionCheckerState (ActivityScheduler activityScheduler,Activity activity)
 	{
 		super(activityScheduler, activity);
-//		TODO a supprimer
-    	System.err.println(this.toString());
    }
 
 

@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ActivityPresentationState.java,v 1.3 2006/01/18 00:13:22 psyko Exp $
+ * $Id: ActivityPresentationState.java,v 1.4 2006/01/18 13:36:39 cyberal82 Exp $
  */
 
 package pagod.wizard.control.states.activity;
@@ -27,9 +27,6 @@ public class ActivityPresentationState extends AbstractActivityState
 			Activity activity)
 	{
 		super(activityScheduler, activity);
-		//TODO a supprimer
-    	System.err.println(this.toString());
-
 	}
 
 	
@@ -49,7 +46,6 @@ public class ActivityPresentationState extends AbstractActivityState
 	 */
 	public String toString ()
 	{
-		//TODO rajouter un message dans l'internationalisation
 		return(LanguagesManager.getInstance().getString("activityPresentation"));	
 	}
 

@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: PreConditionCheckerState.java,v 1.4 2006/01/18 00:13:22 psyko Exp $
+ * $Id: PreConditionCheckerState.java,v 1.5 2006/01/18 13:36:39 cyberal82 Exp $
  */
 package pagod.wizard.control.states.activity;
 
@@ -23,10 +23,7 @@ public class PreConditionCheckerState extends AbstractActivityState
      */
     public PreConditionCheckerState(ActivityScheduler activityScheduler, Activity activity)
     {
-    	super(activityScheduler, activity);
-    	//TODO a supprimer
-    	System.err.println(this.toString());
-           
+    	super(activityScheduler, activity);   
     }
 
 	/** (non-Javadoc)
@@ -34,7 +31,6 @@ public class PreConditionCheckerState extends AbstractActivityState
 	 */
 	public String toString ()
 	{
-//		TODO rajouter un message dans l'internationalisation
 		return(LanguagesManager.getInstance().getString("preConditions"));
 	}
 	

@@ -1,5 +1,5 @@
 /*
- * $Id: ActivityScheduler.java,v 1.28 2006/01/16 10:15:26 yak Exp $
+ * $Id: ActivityScheduler.java,v 1.29 2006/01/18 13:36:39 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -162,7 +162,7 @@ public class ActivityScheduler extends Observable
 			System.err.println("ActivityState a null dans l'activity scheduler");
 			return;
 		}
-		System.out.println("activityScheduler.setState : "+this.activityState);
+		
 		// on indique aux observers que l'etat a change
 		this.setChanged();
 		this.notifyObservers(this.activityState);
