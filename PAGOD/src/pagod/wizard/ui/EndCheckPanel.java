@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: EndCheckPanel.java,v 1.2 2005/11/16 13:54:19 cyberal82 Exp $
+ * $Id: EndCheckPanel.java,v 1.3 2006/01/18 00:12:55 psyko Exp $
  */
 package pagod.wizard.ui;
 
@@ -105,7 +105,7 @@ public class EndCheckPanel extends JScrollPane
                         .getSmallIcon(product));
                 lProductLabel.setBackground(Color.WHITE);
                 Font fontProduct = pProductTitlePanel.getFont();
-                lProductLabel.setFont(fontProduct.deriveFont(Font.ITALIC));
+                lProductLabel.setFont(fontProduct.deriveFont(Font.PLAIN));
                 pProduct.setBackground(Color.WHITE);
                 pProduct.add(lProductLabel);
                 Dimension productLabelSize = lProductLabel.getPreferredSize();

@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.25 2006/01/15 13:58:03 psyko Exp $
+ * $Id: MainFrame.java,v 1.26 2006/01/18 00:12:55 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -503,7 +503,7 @@ public class MainFrame extends JFrame implements Observer
 
 		// cr?er les panneaux
 		this.contentViewerPanel = new ContentViewerPane(activityToPresent);
-
+				
 		// s'il y a des produits en sorties de cette activite
 		if (activityToPresent.hasOutputProducts())
 		{

@@ -1,5 +1,5 @@
 /*
- * $Id: CheckPane.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: CheckPane.java,v 1.2 2006/01/18 00:12:55 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -130,7 +130,7 @@ public class CheckPane extends JScrollPane
                         .getSmallIcon(product));
                 lProductLabel.setBackground(Color.WHITE);
                 Font fontProduct = pProductTitlePanel.getFont();
-                lProductLabel.setFont(fontProduct.deriveFont(Font.ITALIC));
+                lProductLabel.setFont(fontProduct.deriveFont(Font.PLAIN));
                 pProduct.setBackground(Color.WHITE);
                 pProduct.add(lProductLabel);
                 Dimension productLabelSize = lProductLabel.getPreferredSize();
@@ -188,7 +188,7 @@ public class CheckPane extends JScrollPane
                             lToolLabel.setBackground(Color.WHITE);
                             Font fontTool = pProductTitlePanel.getFont();
                             lToolLabel
-                                    .setFont(fontTool.deriveFont(Font.ITALIC));
+                                    .setFont(fontTool.deriveFont(Font.PLAIN));
                             pTool.add(lToolLabel);
                             pTool.setBackground(Color.WHITE);
                             Dimension toolLabelSize = lToolLabel
@@ -282,7 +282,7 @@ public class CheckPane extends JScrollPane
                 }
                 lGuidanceLabel.setBackground(Color.WHITE);
                 Font fontTool = pGuidanceTitlePanel.getFont();
-                lGuidanceLabel.setFont(fontTool.deriveFont(Font.ITALIC));
+                lGuidanceLabel.setFont(fontTool.deriveFont(Font.PLAIN));
                 pGuidance.add(lGuidanceLabel);
                 pGuidance.setBackground(Color.WHITE);
                 Dimension toolLabelSize = lGuidanceLabel.getPreferredSize();
