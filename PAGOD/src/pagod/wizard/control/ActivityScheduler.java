@@ -1,5 +1,5 @@
 /*
- * $Id: ActivityScheduler.java,v 1.29 2006/01/18 13:36:39 cyberal82 Exp $
+ * $Id: ActivityScheduler.java,v 1.30 2006/01/19 23:34:36 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -36,7 +36,6 @@ import pagod.wizard.control.states.activity.ActivityPresentationState;
 import pagod.wizard.control.states.activity.PostConditionCheckerState;
 import pagod.wizard.control.states.activity.PreConditionCheckerState;
 import pagod.wizard.control.states.activity.StepState;
-import pagod.wizard.ui.MainFrame;
 
 /**
  * Classe g?rant le d?roulement de l'assitance d'un activit?
@@ -211,7 +210,7 @@ public class ActivityScheduler extends Observable
 
 	/**
 	 * @param request
-	 * @return
+	 * @return un bool
 	 */
 	public boolean ManageRequest (Request request)
 	{

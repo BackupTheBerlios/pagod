@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.27 2006/01/19 11:48:01 cyberal82 Exp $
+ * $Id: MainFrame.java,v 1.28 2006/01/19 23:34:36 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -222,9 +222,10 @@ public class MainFrame extends JFrame implements Observer
 		 * dimension.setSize(dimension.getWidth(), dimension.getHeight() / 2);
 		 * component.setMinimumSize(dimension);
 		 */
+		
 		this.splitPane.setLeftComponent(component);
-		// this.splitPane.setDividerLocation(this.dividerLocation);
 
+		// this.splitPane.setDividerLocation(this.dividerLocation);
 		// this.splitPane.getRightComponent().setPreferredSize(this.dim);
 	}
 
@@ -431,6 +432,7 @@ public class MainFrame extends JFrame implements Observer
 	 */
 	public void presentStep (Step stepToPresent, int rang, int total)
 	{
+		
 		// mettre a jour le message
 		if (!stepToPresent.hasOutputProducts()) this.messagePanel
 				.setMessage(LanguagesManager.getInstance().getString(
@@ -451,8 +453,10 @@ public class MainFrame extends JFrame implements Observer
 			// l'etape
 			// et en bas les produits en sorties
 			// cr?er les panneaux
+			
 			this.setComponentInJSplitPane(new StepPanel(stepToPresent, rang,
 					total), stepToPresent);
+
 			// this.dividerLocation = this.splitPane.getLastDividerLocation();
 			this.splitPane.setDividerLocation(this.dividerLocation);
 		}
@@ -799,7 +803,7 @@ public class MainFrame extends JFrame implements Observer
 			{
 				// on rafraichit la MainFrame
 				this.resetSplitPane();
-				System.err.println("ICI : Presnetation step");
+				System.err.println("ICI : Presentation step");
 				this.presentActivity(state.getActivity());
 
 				// s'il y a des produits en entrees on active previous

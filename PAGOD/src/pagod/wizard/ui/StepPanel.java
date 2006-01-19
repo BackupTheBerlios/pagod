@@ -1,5 +1,5 @@
 /*
- * $Id: StepPanel.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: StepPanel.java,v 1.2 2006/01/19 23:34:36 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -81,6 +81,15 @@ public class StepPanel extends JScrollPane
                 BorderLayout.EAST);
         innerPane.add(Box.createHorizontalStrut(innerPaneBorderSize),
                 BorderLayout.WEST);
+        
+        
+        //TODO a supprimer si ne fonctionne pas
+        //innerPane.setAutoscrolls(false);
+        //innerPane.setMaximumSize(globalPane.getSize());
+        innerPane.setPreferredSize(globalPane.getSize());
+        //innerPane.setSize(globalPane.getSize());
+        
+        
         globalPane.add(innerPane, BorderLayout.CENTER);
         // entete du descriptif de l'étape
         String title = "<html><u>"

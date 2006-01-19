@@ -1,5 +1,5 @@
 /*
- * $Id: ContentViewerPane.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: ContentViewerPane.java,v 1.2 2006/01/19 23:34:36 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -48,7 +48,7 @@ import pagod.utils.LanguagesManager;
  * 
  * @author Cédric
  */
-public class ContentViewerPane extends JPanel
+public class ContentViewerPane extends JPanel 
 {
     /**
      * Bouton de lancement du fichier de contenu
@@ -81,8 +81,9 @@ public class ContentViewerPane extends JPanel
     public ContentViewerPane()
     {
         super();
+  
         this.setLayout(new BorderLayout());
-//        this.contentPane = new TextViewerPane(ProcessElement.getStyleSheet());
+        // this.contentPane = new TextViewerPane(ProcessElement.getStyleSheet());
         this.contentPane = new TextViewerPane();
         this.viewerLauncherButton = new JButton(LanguagesManager.getInstance()
                 .getString("seeFileOfContents"));
