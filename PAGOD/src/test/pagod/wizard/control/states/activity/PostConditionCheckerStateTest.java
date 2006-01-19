@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: PostConditionCheckerStateTest.java,v 1.1 2005/12/05 00:13:27 yak Exp $
+ * $Id: PostConditionCheckerStateTest.java,v 1.2 2006/01/19 19:43:07 psyko Exp $
  */
 package test.pagod.wizard.control.states.activity;
 
@@ -18,7 +18,6 @@ import pagod.wizard.control.ActivityScheduler;
 import pagod.wizard.control.states.Request;
 import pagod.wizard.control.states.activity.ActivityPresentationState;
 import pagod.wizard.control.states.activity.PostConditionCheckerState;
-import pagod.wizard.control.states.activity.StepState;
 
 /**
  * Test unitaire de la classe PostConditionCheckerState correspondant a un état

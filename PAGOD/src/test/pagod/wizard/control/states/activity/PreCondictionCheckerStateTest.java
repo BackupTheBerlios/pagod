@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: PreCondictionCheckerStateTest.java,v 1.1 2005/12/06 22:47:35 psyko Exp $
+ * $Id: PreCondictionCheckerStateTest.java,v 1.2 2006/01/19 19:43:08 psyko Exp $
  */
 package test.pagod.wizard.control.states.activity;
 
@@ -16,6 +16,7 @@ import pagod.common.model.WorkDefinition;
 import pagod.wizard.control.ActivityScheduler;
 import pagod.wizard.control.states.Request;
 import pagod.wizard.control.states.activity.ActivityPresentationState;
+import pagod.wizard.control.states.activity.PostConditionCheckerState;
 import pagod.wizard.control.states.activity.PreConditionCheckerState;
 import junit.framework.TestCase;
 
@@ -63,21 +64,18 @@ public class PreCondictionCheckerStateTest extends TestCase
 	 */
 	public void testManageRequest ()
 	{
-		// creation des requetes
-		Request reqNext = new Request(Request.RequestType.NEXT);
-		Request reqPrevious = new Request(Request.RequestType.PREVIOUS);
-		Request reqAleat = new Request(Request.RequestType.CLOSE_PROCESS);
-		
-		// création d'une activité vide pour les tests
-		this.activity = new Activity("", "", null, null, new ArrayList<Step>(),
-				new WorkDefinition("", "", null, null, new ArrayList<Activity>()), 
-				new ArrayList<Product>(), new ArrayList<Product>(), 
-				new Role("", "", null, null, new ArrayList<Activity>()));
-		
 		// creation d'une liste de produits en entrée
 		List<Product> lInputProduct = new ArrayList<Product>();
 		lInputProduct.add(new Product("", "produit1", null, null, null));
 
+		// creation des requetes
+		Request reqNext = new Request(Request.RequestType.NEXT);
+		Request reqPrevious = new Request(Request.RequestType.PREVIOUS);
+		Request reqAleat = new Request(Request.RequestType.CLOSE_PROCESS);
+		Request reqGotoStep_1 = new Request(Request.RequestType.GOTOSTEP, new PreConditionCheckerState(this.activityScheduler,this.activity));
+		Request reqGotoStep_2 = new Request(Request.RequestType.GOTOSTEP, new ActivityPresentationState(this.activityScheduler,this.activity));
+		Request reqGotoStep_3 = new Request(Request.RequestType.GOTOSTEP, new PostConditionCheckerState(this.activityScheduler,this.activity));
+		
 		// ajout des produits en entrée de l'activité
 		this.activity.setInputProducts(lInputProduct);
 		
@@ -87,6 +85,16 @@ public class PreCondictionCheckerStateTest extends TestCase
 		//on passe a l'etat suivant et on verifie que c'est un ActivityPresentationState
 		assertTrue ("Requete NEXT envoyée a l'etat : changement vers l'etat. ActivityPresentationState",this.state.manageRequest(reqNext));
 		assertTrue ("L'etat actuel doit etre un ActivityPresentationState",this.activityScheduler.getActivityState() instanceof ActivityPresentationState);
+	
+		// on passe a l'etat preconditionCheckerState et on verifie que c'est un PreConditionCheckerState
+		assertTrue ("Requete GOTOSTEP_1 envoyée a l'etat : changement vers l'état PreConditionCheckerState ",this.state.manageRequest(reqGotoStep_1));
+		assertTrue ("L'etat actuel doit etre un PreConditionCheckerState",this.activityScheduler.getActivityState() instanceof PreConditionCheckerState);
+		// on passe a l'etat preconditionCheckerState et on verifie que c'est un PreConditionCheckerState
+		assertTrue ("Requete GOTOSTEP_2 envoyée a l'etat : changement vers l'état ActivityPresentationState ",this.state.manageRequest(reqGotoStep_2));
+		assertTrue ("L'etat actuel doit etre un ActivityPresentationState",this.activityScheduler.getActivityState() instanceof ActivityPresentationState);
+		// on passe a l'etat preconditionCheckerState et on verifie que c'est un PostConditionCheckerState
+		assertTrue ("Requete GOTOSTEP_3 envoyée a l'etat : changement vers l'état PostConditionCheckerState ",this.state.manageRequest(reqGotoStep_3));
+		assertTrue ("L'etat actuel doit etre un PostConditionCheckerState",this.activityScheduler.getActivityState() instanceof PostConditionCheckerState);
 		
 		
 		//avec ou sans steps dans l'activité, on passe ds tous les cas  

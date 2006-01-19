@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ActivityPresentationStateTest.java,v 1.3 2006/01/16 15:34:09 cyberal82 Exp $
+ * $Id: ActivityPresentationStateTest.java,v 1.4 2006/01/19 19:43:08 psyko Exp $
  */
 package test.pagod.wizard.control.states.activity;
 
@@ -15,7 +15,6 @@ import pagod.common.model.Role;
 import pagod.common.model.Step;
 import pagod.common.model.WorkDefinition;
 import pagod.wizard.control.ActivityScheduler;
-import pagod.wizard.control.actions.NextAction;
 import pagod.wizard.control.states.Request;
 import pagod.wizard.control.states.activity.AbstractActivityState;
 import pagod.wizard.control.states.activity.ActivityPresentationState;
