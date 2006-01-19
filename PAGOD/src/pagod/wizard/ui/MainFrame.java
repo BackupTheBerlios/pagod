@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.26 2006/01/18 00:12:55 psyko Exp $
+ * $Id: MainFrame.java,v 1.27 2006/01/19 11:48:01 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -546,7 +546,7 @@ public class MainFrame extends JFrame implements Observer
 			// Remplir le mod?le metier
 			File choosenfile = fileChooser.getSelectedFile();
 
-			this.openProcess(choosenfile);
+			opened = this.openProcess(choosenfile);
 		}
 		return opened;
 	}
