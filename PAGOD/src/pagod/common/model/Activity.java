@@ -1,5 +1,5 @@
 /*
- * $Id: Activity.java,v 1.2 2005/11/14 23:37:22 psyko Exp $
+ * $Id: Activity.java,v 1.3 2006/01/19 09:40:46 fabfoot Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -30,37 +30,42 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Activité d'un processus
+ * Activit? d'un processus
  * 
  * @author MoOky
  */
 public class Activity extends ProcessElement
 {
     /**
-     * Liste des étapes de l'activités
+     * Liste des ?tapes de l'activit?s
      */
     private List<Step> steps = new ArrayList<Step>();
 
     /**
-     * Définition de travail qui contient l'activité
+     * D?finition de travail qui contient l'activit?
      */
     private WorkDefinition workDefinition = null;
 
     /**
-     * Les produits en entrée de l'activité
+     * Les produits en entr?e de l'activit?
      */
     private List<Product> inputProducts = new ArrayList<Product>();
 
     /**
-     * Les produits en sortie de l'activité
+     * Les produits en sortie de l'activit?
      */
     private List<Product> outputProducts = new ArrayList<Product>();
 
     /**
-     * Role qui doit réaliser l'activité
+     * Role qui doit r?aliser l'activit?
      */
     private Role role = null;
-
+    
+    /**
+     * Time qui permet de quver le temps
+     **/
+    private int time = 0;
+    
     /**
      * Constructeur complet d'une activite
      * 
@@ -155,19 +160,40 @@ public class Activity extends ProcessElement
 
         final Role oldRole = this.role;
 
-        // blocage de la récursivité
+        // blocage de la r?cursivit?
         this.role = null;
 
         // suppression de l'ancienne liaison si existante
         if (oldRole != null)
             oldRole.removeActivity(this);
 
-        // création de la nouvelle liaison
+        // cr?ation de la nouvelle liaison
         if (role != null)
         {
             this.role = role;
             role.addActivity(this);
         }
+    }
+    
+    /**
+     * Retourne l'attribut time
+     * 
+     * @return times
+     */
+    public int getTime()
+    {
+        return this.time;
+    }
+
+    /**
+     * Initialise l'attribut time
+     * 
+     * @param itime
+     *            la valeur a attribuer.
+     */
+    public void setTime(int itime)
+    {
+        this.time = itime ;
     }
 
     /**
@@ -214,14 +240,14 @@ public class Activity extends ProcessElement
 
         final WorkDefinition oldWorkDefinition = this.workDefinition;
 
-        // blocage de la récursivité
+        // blocage de la r?cursivit?
         this.workDefinition = null;
 
         // suppression de l'ancienne liaison si existante
         if (oldWorkDefinition != null)
             oldWorkDefinition.removeActivity(this);
 
-        // création de la nouvelle liaison
+        // cr?ation de la nouvelle liaison
         if (workDefinition != null)
         {
             this.workDefinition = workDefinition;
@@ -230,9 +256,9 @@ public class Activity extends ProcessElement
     }
 
     /**
-     * Pour savoir s'il y a des produits en entrées
+     * Pour savoir s'il y a des produits en entr?es
      * 
-     * @return true si l'activité a des produits en entrée
+     * @return true si l'activit? a des produits en entr?e
      */
     public boolean hasInputProducts()
     {
@@ -242,7 +268,7 @@ public class Activity extends ProcessElement
     /**
      * Pour savoir s'il y a des produits en sortie
      * 
-     * @return true si l'activité a des produits en sortie
+     * @return true si l'activit? a des produits en sortie
      */
     public boolean hasOutputProducts()
     {
@@ -250,9 +276,9 @@ public class Activity extends ProcessElement
     }
 
     /**
-     * Pour savoir si l'activité a besoin d'outils ou pas
+     * Pour savoir si l'activit? a besoin d'outils ou pas
      * 
-     * @return true si l'activité nécessite l'utilisation outil particulier
+     * @return true si l'activit? n?cessite l'utilisation outil particulier
      */
     public boolean needsTools()
     {
@@ -268,9 +294,9 @@ public class Activity extends ProcessElement
     }
 
     /**
-     * Pour savoir si l'activité est décomposé en étapes ou pas
+     * Pour savoir si l'activit? est d?compos? en ?tapes ou pas
      * 
-     * @return vrai si l'activité a des étapes associées
+     * @return vrai si l'activit? a des ?tapes associ?es
      */
     public boolean hasSteps()
     {
@@ -279,8 +305,8 @@ public class Activity extends ProcessElement
 
     /**
      * @param step
-     *            étape à ajouter à l'activité (sans effet si cette étape est
-     *            déjà une étape de l'activité)
+     *            ?tape ? ajouter ? l'activit? (sans effet si cette ?tape est
+     *            d?j? une ?tape de l'activit?)
      */
     public void addStep(Step step)
     {
@@ -303,8 +329,8 @@ public class Activity extends ProcessElement
     }
     /**
      * @param step
-     *            étape à supprimer de l'activité (sans effet si step n'est pas
-     *            une étape de l'activité)
+     *            ?tape ? supprimer de l'activit? (sans effet si step n'est pas
+     *            une ?tape de l'activit?)
      */
     public void removeStep(Step step)
     {
@@ -328,10 +354,10 @@ public class Activity extends ProcessElement
 
     /**
      * @param step 
-     *            étape à ajouter à l'activité (sans effet si cette étape est
-     *            déjà une étape de l'activité)
+     *            ?tape ? ajouter ? l'activit? (sans effet si cette ?tape est
+     *            d?j? une ?tape de l'activit?)
      * @param index
-     *          rang où ajouter l'étape 
+     *          rang o? ajouter l'?tape 
      */
 
 }
