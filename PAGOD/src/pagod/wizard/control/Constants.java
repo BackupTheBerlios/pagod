@@ -1,5 +1,5 @@
 /*
- * $Id: Constants.java,v 1.10 2006/01/13 14:28:42 biniou Exp $
+ * $Id: Constants.java,v 1.11 2006/01/20 13:11:27 fabfoot Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -168,5 +168,9 @@ public interface Constants
      */
     public static final String ACTION_TOOLSSETTINGS = "toolsSettingsAction";
     
+    /**
+     * <code>NAME_FILE_TIME</code>
+     */
+    public static final String NAME_FILE_TIME = "time.xml";
     
 }
