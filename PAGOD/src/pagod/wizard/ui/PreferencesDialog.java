@@ -1,5 +1,5 @@
 /*
- * $Id: PreferencesDialog.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: PreferencesDialog.java,v 1.2 2006/01/20 15:43:38 coincoin Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -39,7 +39,7 @@ import pagod.utils.LanguagesManager;
 import pagod.wizard.control.PreferencesManager;
 
 /**
- * Fenetre des Préférences de l'application.
+ * Fenetre des Pr?f?rences de l'application.
  * 
  * @author MoOky
  */
@@ -60,17 +60,17 @@ public class PreferencesDialog extends JDialog implements ActionListener
     private ViewerPanel pViewer = null;
 
     /**
-     * Constructeur d'une PreferencesDialog, ayant pour fenêtre appelante
+     * Constructeur d'une PreferencesDialog, ayant pour fen?tre appelante
      * parentFrame
      * 
      * @param parentFrame
-     *            fenêtre appelante du AboutDialog Si
+     *            fen?tre appelante du AboutDialog Si
      *            GraphicsEnvironment.isHeadless() retourne vrai.
      */
     public PreferencesDialog(JFrame parentFrame)
     {
         super(parentFrame);
-        // boîte de dialogue modale et centrée par rapport à l'appelant
+        // bo?te de dialogue modale et centr?e par rapport ? l'appelant
         this.setModal(true);
 
         // on met le titre
@@ -117,7 +117,7 @@ public class PreferencesDialog extends JDialog implements ActionListener
         PreferencesManager.getInstance().storePreferences();
         this.pack();
 
-        // boîte de dialogue centrée par rapport à l'appelant
+        // bo?te de dialogue centr?e par rapport ? l'appelant
         this.setLocationRelativeTo(parentFrame);
     }
 
@@ -139,6 +139,9 @@ public class PreferencesDialog extends JDialog implements ActionListener
             String sPrecLang = PreferencesManager.getInstance().getLanguage();
 
             PreferencesManager.getInstance().setLanguage(sLang);
+            /*Modif Coin coin*/
+            PreferencesManager.getInstance().setWorkspace(this.pLanguage.getWorkspace());
+            /*Fin Modif Coin coin*/
             PreferencesManager.getInstance().storePreferences();
             PreferencesManager.getInstance().setLanguage(sPrecLang);
 
@@ -152,6 +155,11 @@ public class PreferencesDialog extends JDialog implements ActionListener
                                 "titleInfoChangeLanguage"),
                         JOptionPane.INFORMATION_MESSAGE);
             }
+            
+            
+            
+            
+            
             this.dispose();
         }
         else
