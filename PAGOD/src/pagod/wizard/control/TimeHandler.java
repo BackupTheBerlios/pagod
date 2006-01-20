@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimeHandler.java,v 1.6 2006/01/20 13:23:05 garwind111 Exp $
+ * $Id: TimeHandler.java,v 1.7 2006/01/20 13:38:14 fabfoot Exp $
  */
 package pagod.wizard.control;
 import java.io.File;
@@ -30,20 +30,24 @@ public class TimeHandler
    private Document doc;
    
   
-  
 /**
- * 
+ * constucteur vide
  */
 public TimeHandler()
+   {}  
+/**
+ * @param document 
+ * 
+ */
+public TimeHandler(Document document)
    {
-	   this.doc = new Document ();
-   }
-	
+	   this.doc = document;
+   }	
 	/**
 	 * @param process
-	 * @return document
+
 	 */
-	public static Document init(Process process)
+	public void init(Process process)
 	{
 		
 		final Element racine = new Element("stats");
@@ -61,7 +65,7 @@ public TimeHandler()
              activi.addContent(time);
         }
             
-        return document;
+        this.doc=  document;
 	}
 	
 	/**
@@ -74,7 +78,7 @@ public TimeHandler()
 		 SAXBuilder sxb = new SAXBuilder();
 	      try
 	      {
-	    	  this.doc = sxb.build(new File(sNameproject));
+	    	  this.doc = sxb.build(new File(PreferencesManager.getInstance().getWorkspace() + File.separator + sNameproject +File.separator +Constants.NAME_FILE_TIME ));
 	      }
 	      catch(Exception e){}
 		  		
@@ -144,14 +148,11 @@ public TimeHandler()
 	 */
 	public void writeXML(String sNameproject)
 	{
-		String sworkspace; 
 		try
 		   {
 		      //On utilise ici un affichage classique avec getPrettyFormat()
 		      XMLOutputter sortie = new XMLOutputter(Format.getPrettyFormat());
-		       sworkspace = PreferencesManager.getInstance().getWorkspace();   
-		      sworkspace = sworkspace + sNameproject ; 
-		       sortie.output(this.doc,new FileOutputStream(sworkspace));
+		      sortie.output(this.doc,new FileOutputStream(PreferencesManager.getInstance().getWorkspace() + File.separator + sNameproject +File.separator +Constants.NAME_FILE_TIME  ));
 	
 		   }
 		 catch(java.io.IOException e){}
