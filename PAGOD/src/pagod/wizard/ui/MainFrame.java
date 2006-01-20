@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.29 2006/01/20 15:08:17 fabfoot Exp $
+ * $Id: MainFrame.java,v 1.30 2006/01/20 19:15:40 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -986,20 +986,20 @@ public class MainFrame extends JFrame implements Observer
 				
 				
 				// TODO fab pour tester le timeHandler
-				TimeHandler th = new TimeHandler ();
-				th.loadXML( ApplicationManager.getInstance().getCurrentProject().getName());
+				//TimeHandler th = new TimeHandler ();
+				//th.loadXML( ApplicationManager.getInstance().getCurrentProject().getName());
 				//th.affiche() ;
-				th.fillModel(ApplicationManager.getInstance().getCurrentProcess() );
+				//th.fillModel(ApplicationManager.getInstance().getCurrentProcess() );
 				//th.loadModel(ApplicationManager.getInstance().getCurrentProcess() );
 				//System.err.println("fab");
 				//th.affiche(); 
 				//th.writeXML(ApplicationManager.getInstance().getCurrentProject().getName());
-				final Collection<Activity > cactivity = ApplicationManager.getInstance().getCurrentProcess().getAllActivities ();
+				/*final Collection<Activity > cactivity = ApplicationManager.getInstance().getCurrentProcess().getAllActivities ();
 		        for (Activity acty : cactivity)
 		        {	
 		        	System.err.println(acty.getTime() );
 		        	
-		        }
+		        }*/
 			}
 			else if (obj instanceof ActivityLaunchedState)
 			{
