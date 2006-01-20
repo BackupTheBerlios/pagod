@@ -1,21 +1,19 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimeHandler.java,v 1.2 2006/01/19 08:32:59 fabfoot Exp $
+ * $Id: TimeHandler.java,v 1.3 2006/01/20 10:12:41 fabfoot Exp $
  */
 package pagod.wizard.control;
+import java.io.File;
 import java.io.FileOutputStream;
-import java.text.Format;
 import java.util.Collection;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
-
+import org.jdom.Attribute;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.input.SAXBuilder;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
 
 import pagod.common.model.Activity;
 import pagod.common.model.Process;
@@ -27,49 +25,39 @@ public class TimeHandler
 {
 	/** Processus lu par le parser */
    private Document doc;
+   
   
-   /**
- * @param d
+  
+/**
+ * 
  */
-public TimeHandler(Document d)
+public TimeHandler()
    {
-	   this.doc = d;
+	   this.doc = new Document ();
    }
 	
 	/**
 	 * @param process
-	 * @param sNameproject
 	 * @return document
 	 */
-	public static Document init(Process process,String sNameproject)
+	public static Document init(Process process)
 	{
-		final DocumentBuilderFactory fabrique = DocumentBuilderFactory.newInstance();
-		DocumentBuilder constructeur = null ;
-		try
-		{
-			constructeur = fabrique.newDocumentBuilder();
-			//document  = constructeur.newDocument();
-			PreferencesManager.getInstance().getWorkspace();     
-		}
-		catch (ParserConfigurationException e)
-		{
-			e.printStackTrace();
-		}
-		final Document document = constructeur.newDocument();
-        final Element racine = document.createElement("stats");
-
-        // récupération des activités via le processus
+		
+		final Element racine = new Element("stats");
+		final Document document = new Document(racine);
+        // r?cup?ration des activit?s via le processus
         final Collection<Activity > cactivity = process.getAllActivities ();
         for (Activity acty : cactivity)
         {
-             final Element activi = document.createElement("activity");
-             activi.setAttribute("idref", acty.getId());
-             final Element time = document.createElement("time");
-             time.setTextContent("");
-             activi.appendChild(time);
-             racine.appendChild(activi);
+        	 Element activi= new Element("activity");
+             racine.addContent(activi);
+             Attribute id = new Attribute("idref",acty.getId());
+             activi.setAttribute(id);
+             Element time = new Element ("time");
+             time.setText("");
+             activi.addContent(time);
         }
-                 
+            
         return document;
 	}
 	
@@ -80,34 +68,47 @@ public TimeHandler(Document d)
 	 */
 	public Document loadXML(Process process,String sNameproject)
 	{	     
+		 SAXBuilder sxb = new SAXBuilder();
+	      try
+	      {
+	    	  this.doc = sxb.build(new File(sNameproject));
+	      }
+	      catch(Exception e){}
+		  		
 		return this.doc;
 	}
 
-		 
+	/**
+	 * Charge le model metier a partir du doc
+	 */
+	public void fillModel()
+	{
+		
+		
+	}
 	
 	/**
-	 * @param idActivity
-	 * @return
+	 * 
 	 */
-	public int getTime(String idActivity)
-	{
-		int timeActivity=0;
-		return timeActivity ;
-		
-	}
+	public void loadModel()
+	{}
+	
+	
+	
 	/**
-	 * @param idActivity
-	 * @param timeActivity
-	 */
-	public void setTime(String idActivity,int timeActivity)
-	{
-		
-	}
-	/**
-	 * @param document
+	 * @param sNameproject 
 	 */
 	public void writeXML(String sNameproject)
-	{}
+	{
+		 try
+		   {
+		      //On utilise ici un affichage classique avec getPrettyFormat()
+		      XMLOutputter sortie = new XMLOutputter(Format.getPrettyFormat());
+		      sortie.output(this.doc,new FileOutputStream(sNameproject));
+	
+		   }
+		 catch(java.io.IOException e){}
+	}
 }
 		
 
