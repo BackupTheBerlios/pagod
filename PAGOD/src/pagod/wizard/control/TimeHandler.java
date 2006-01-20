@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimeHandler.java,v 1.8 2006/01/20 14:26:36 fabfoot Exp $
+ * $Id: TimeHandler.java,v 1.9 2006/01/20 15:08:17 fabfoot Exp $
  */
 package pagod.wizard.control;
 import java.io.File;
@@ -59,11 +59,11 @@ public TimeHandler(Document document)
 	   catch (java.io.IOException e){}
 	}
 	/**
-	 * @param process
+
 	 * @param sNameproject 
-	 * @return document
+
 	 */
-	public Document loadXML(Process process,String sNameproject)
+	public void loadXML(String sNameproject)
 	{	     
 		 SAXBuilder sxb = new SAXBuilder();
 	      try
@@ -72,7 +72,7 @@ public TimeHandler(Document document)
 	      }
 	      catch(Exception e){}
 		  		
-		return this.doc;
+		
 	}
 
 	/**
@@ -83,22 +83,25 @@ public TimeHandler(Document document)
 	{
 		// Recuperation de la structure
 		Element rootnode = this.doc.getRootElement();
-		List nodelist = rootnode.getChildren("activty");
+		List nodelist = rootnode.getChildren("activity");
 		// Iterateur de la structure
 		Iterator nodeiterator = nodelist.iterator();
 		// Charge les activit?s dans une collection
 		Collection<Activity > cactivity = process.getAllActivities ();
-		
+		//System.err.println("test");
 		while(nodeiterator.hasNext()) {
 			Element node = (Element) nodeiterator.next();
 			Attribute idnode = node.getAttribute("idref");
+			//System.err.println("test1");
 			// Recherche l'activit? dans les process
 			for (Activity acty : cactivity) {
 				String activity_id = acty.getId();
 				// Si id activit? trouv?
+				//System.err.println("test de l'activit et de lid");
 				if (activity_id == idnode.toString()) {
 					Element time = node.getChild("time");
-					time.setText(Integer.toString(acty.getTime()));
+					acty.setTime(Integer.getInteger(time.getText()).intValue());
+					//System.err.println(acty.getTime());
 					break;
 				}
 			}

@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.28 2006/01/19 23:34:36 psyko Exp $
+ * $Id: MainFrame.java,v 1.29 2006/01/20 15:08:17 fabfoot Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -67,6 +67,7 @@ import pagod.wizard.control.ActivityScheduler;
 import pagod.wizard.control.ApplicationManager;
 import pagod.wizard.control.Constants;
 import pagod.wizard.control.PreferencesManager;
+import pagod.wizard.control.TimeHandler;
 import pagod.wizard.control.ToolsManager;
 import pagod.wizard.control.actions.AbstractPagodAction;
 import pagod.wizard.control.states.activity.AbstractActivityState;
@@ -982,7 +983,23 @@ public class MainFrame extends JFrame implements Observer
 						.getAction(Constants.ACTION_GOTOSTEP).setEnabled(false);
 				ActionManager.getInstance().getAction(
 						Constants.ACTION_TERMINATE).setEnabled(false);
-
+				
+				
+				// TODO fab pour tester le timeHandler
+				TimeHandler th = new TimeHandler ();
+				th.loadXML( ApplicationManager.getInstance().getCurrentProject().getName());
+				//th.affiche() ;
+				th.fillModel(ApplicationManager.getInstance().getCurrentProcess() );
+				//th.loadModel(ApplicationManager.getInstance().getCurrentProcess() );
+				//System.err.println("fab");
+				//th.affiche(); 
+				//th.writeXML(ApplicationManager.getInstance().getCurrentProject().getName());
+				final Collection<Activity > cactivity = ApplicationManager.getInstance().getCurrentProcess().getAllActivities ();
+		        for (Activity acty : cactivity)
+		        {	
+		        	System.err.println(acty.getTime() );
+		        	
+		        }
 			}
 			else if (obj instanceof ActivityLaunchedState)
 			{

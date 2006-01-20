@@ -1,5 +1,5 @@
 /*
- * $Id: ApplicationManager.java,v 1.20 2006/01/20 13:49:21 yak Exp $
+ * $Id: ApplicationManager.java,v 1.21 2006/01/20 15:08:17 fabfoot Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -427,6 +427,7 @@ public class ApplicationManager extends Observable
 						this.currentProcess = null;
 					}
 				}
+				
 			}
 		
 	}

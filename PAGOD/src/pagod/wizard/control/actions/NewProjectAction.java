@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: NewProjectAction.java,v 1.3 2005/12/02 16:04:42 yak Exp $
+ * $Id: NewProjectAction.java,v 1.4 2006/01/20 15:08:17 fabfoot Exp $
  */
 package pagod.wizard.control.actions;
 
@@ -14,6 +14,7 @@ import javax.swing.KeyStroke;
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
 import pagod.wizard.control.ApplicationManager;
+import pagod.wizard.control.TimeHandler;
 import pagod.wizard.control.states.Request;
 
 /**
@@ -38,26 +39,27 @@ public class NewProjectAction extends AbstractPagodAction
 	}
 
 	/**
-	 * Methode appélée lorsque l'action est déclenché
+	 * Methode app?l?e lorsque l'action est d?clench?
 	 * 
 	 * @param actionEvent
 	 *            Evenement survenue
 	 */
 	public void actionPerformed (ActionEvent actionEvent)
 	{
-		// si le project a pu etre ouvert alors on delegue la requete à
+		// si le project a pu etre ouvert alors on delegue la requete ?
 		// l'application manager
 		if (ApplicationManager.getInstance().getMfPagod().newProject())
 		{
 			ApplicationManager.getInstance().manageRequest(this.request);
 
 			// si le processus a pu etre ouvert alors on delegue la requete
-			// à l'application manager
+			// ? l'application manager
 			if (ApplicationManager.getInstance().getMfPagod().associateDPCWithProject())
 			{
 				ApplicationManager.getInstance().manageRequest(
 						new Request(Request.RequestType.OPEN_PROCESS));
 			}
+			
 		}
 	}
 
