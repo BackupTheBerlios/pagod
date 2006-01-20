@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimeHandler.java,v 1.3 2006/01/20 10:12:41 fabfoot Exp $
+ * $Id: TimeHandler.java,v 1.4 2006/01/20 12:20:24 fabfoot Exp $
  */
 package pagod.wizard.control;
 import java.io.File;
@@ -80,17 +80,19 @@ public TimeHandler()
 
 	/**
 	 * Charge le model metier a partir du doc
+	 * @param process 
 	 */
-	public void fillModel()
+	public void fillModel(Process process)
 	{
 		
 		
 	}
 	
 	/**
-	 * 
+	 * charge le doc a partir du modele metier
+	 * @param process 
 	 */
-	public void loadModel()
+	public void loadModel(Process process)
 	{}
 	
 	
@@ -100,11 +102,14 @@ public TimeHandler()
 	 */
 	public void writeXML(String sNameproject)
 	{
-		 try
+		String sworkspace; 
+		try
 		   {
 		      //On utilise ici un affichage classique avec getPrettyFormat()
 		      XMLOutputter sortie = new XMLOutputter(Format.getPrettyFormat());
-		      sortie.output(this.doc,new FileOutputStream(sNameproject));
+		       sworkspace = PreferencesManager.getInstance().getWorkspace();   
+		      sworkspace = sworkspace + sNameproject ; 
+		       sortie.output(this.doc,new FileOutputStream(sworkspace));
 	
 		   }
 		 catch(java.io.IOException e){}
