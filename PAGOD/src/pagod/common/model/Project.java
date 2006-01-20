@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: Project.java,v 1.9 2006/01/15 08:47:06 biniou Exp $
+ * $Id: Project.java,v 1.10 2006/01/20 13:12:35 fabfoot Exp $
  */
 package pagod.common.model;
 
@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 import pagod.utils.FilesManager;
+import pagod.wizard.control.Constants;
 import pagod.wizard.control.PreferencesManager;
 
 /**
@@ -113,15 +114,15 @@ public class Project
 
 		// creation du .xml pour les temps
 		File timeFile = new File(projectDirectory.getAbsolutePath()
-				+ File.separator + "time.xml");
+				+ File.separator + Constants.NAME_FILE_TIME );
 
 		if (timeFile.createNewFile())
 		{
-			System.out.println("Le fichier des temps est bien créé.");
+			System.out.println("Le fichier des temps est bien cr??.");
 		}
 		else
 		{
-			System.err.println("Le fichier des temps est deja présent.");
+			System.err.println("Le fichier des temps est deja pr?sent.");
 		}
 
 		return (result);
