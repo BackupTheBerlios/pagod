@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimeHandler.java,v 1.5 2006/01/20 13:21:32 garwind111 Exp $
+ * $Id: TimeHandler.java,v 1.6 2006/01/20 13:23:05 garwind111 Exp $
  */
 package pagod.wizard.control;
 import java.io.File;
@@ -88,7 +88,7 @@ public TimeHandler()
 	public void fillModel(Process process)
 	{
 		// Recuperation de la structure
-		Element rootnode = doc.getRootElement();
+		Element rootnode = this.doc.getRootElement();
 		List nodelist = rootnode.getChildren("activty");
 		// Iterateur de la structure
 		Iterator nodeiterator = nodelist.iterator();
