@@ -1,5 +1,5 @@
 /*
- * $Id: AboutAction.java,v 1.3 2005/11/30 08:57:48 yak Exp $
+ * $Id: AboutAction.java,v 1.4 2006/01/20 13:49:21 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -27,20 +27,19 @@ package pagod.wizard.control.actions;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 
+import pagod.common.control.actions.CustomAction;
 import pagod.common.ui.AboutDialog;
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
 import pagod.wizard.control.ApplicationManager;
 import pagod.wizard.control.Constants;
-import pagod.wizard.control.PreferencesManager;
-import pagod.wizard.control.states.Request;
 
 /**
  * Action pour offrir un processus
  * 
  * @author MoOky
  */
-public class AboutAction extends AbstractPagodAction
+public class AboutAction extends CustomAction
 {
 	/**
 	 * @throws ImagesManager.NotInitializedException
@@ -50,12 +49,11 @@ public class AboutAction extends AbstractPagodAction
 	public AboutAction () throws LanguagesManager.NotInitializedException,
 			IOException, ImagesManager.NotInitializedException
 	{
-		super("about", "AboutIcon.gif", new Request(
-				Request.RequestType.SHOW_ABOUT));
+		super("about", "AboutIcon.gif");
 	}
 
 	/**
-	 * Methode appélée lorsque l'action est déclenché
+	 * Methode app?l?e lorsque l'action est d?clench?
 	 * 
 	 * @param actionEvent
 	 *            Evenement survenue

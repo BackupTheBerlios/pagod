@@ -1,5 +1,5 @@
 /*
- * $Id: ApplicationManager.java,v 1.19 2006/01/16 10:15:26 yak Exp $
+ * $Id: ApplicationManager.java,v 1.20 2006/01/20 13:49:21 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -259,28 +259,9 @@ public class ApplicationManager extends Observable
 	{
 		try
 		{
-			// cas de requete traiter quelque soit etat
-			if (request.getCurrentRequest() == Request.RequestType.SHOW_ABOUT)
-			{
-				this.showAboutDialog();
-				
-			}
-			else if (request.getCurrentRequest() == Request.RequestType.QUIT_APPLICATION)
-			{
-				this.quit();
-				
-			}
-			else if (request.getCurrentRequest() == Request.RequestType.PREFERENCES)
-			{
-				this.showPreferencesDialog();
-			}
-			else
-			{
+			
 				return this.applicationState.manageRequest(request);
-				
-				
-			}
-			return true;
+			
 		}
 		catch (Exception ex)
 		{
@@ -553,23 +534,13 @@ public class ApplicationManager extends Observable
 
 	}*/
 
-	/**
-	 * lance la fenetre de configuration des preferences
-	 */
-	private void showPreferencesDialog ()
-	{
-		PreferencesDialog pd = new PreferencesDialog(this.mfPagod);
-		pd.setVisible(true);
-	}
 
 	/**
 	 * lance la fenetre de configuration des preferences
 	 */
 	private void showToolsSettingsDialog ()
 	{
-		ToolsSettingsDialog tsd = new ToolsSettingsDialog(this.mfPagod,
-				this.currentProcess.getRoles());
-		tsd.setVisible(true);
+		
 	}
 
 	/**

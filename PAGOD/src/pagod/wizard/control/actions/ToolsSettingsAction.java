@@ -1,5 +1,5 @@
 /*
- * $Id: ToolsSettingsAction.java,v 1.2 2005/11/27 20:36:49 yak Exp $
+ * $Id: ToolsSettingsAction.java,v 1.3 2006/01/20 13:49:21 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -24,18 +24,21 @@
 
 package pagod.wizard.control.actions;
 
+import java.awt.event.ActionEvent;
 import java.io.IOException;
 
+import pagod.common.control.actions.CustomAction;
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
-import pagod.wizard.control.states.Request;
+import pagod.wizard.control.ApplicationManager;
+import pagod.wizard.ui.ToolsSettingsDialog;
 
 /**
  * Action de lancement de la configuration des outils
  * 
  * @author MoOky
  */ 
-public class ToolsSettingsAction extends AbstractPagodAction
+public class ToolsSettingsAction extends CustomAction
 {
     /**
      * @throws LanguagesManager.NotInitializedException
@@ -47,7 +50,13 @@ public class ToolsSettingsAction extends AbstractPagodAction
                                 IOException,
                                 ImagesManager.NotInitializedException
     {
-        super("toolsSettings", "ToolsSettingsIcon.gif",
-        		new Request(Request.RequestType.SET_TOOLS));
+        super("toolsSettings", "ToolsSettingsIcon.gif");
     }
+
+	public void actionPerformed (ActionEvent e)
+	{
+		ToolsSettingsDialog tsd = new ToolsSettingsDialog(ApplicationManager.getInstance().getMfPagod(),
+				ApplicationManager.getInstance().getCurrentProcess().getRoles());
+		tsd.setVisible(true);
+	}
 }
