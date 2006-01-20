@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimeActivityAction.java,v 1.2 2006/01/15 09:20:18 biniou Exp $
+ * $Id: TimeActivityAction.java,v 1.3 2006/01/20 15:38:00 biniou Exp $
  */
 package pagod.wizard.control.actions;
 
@@ -16,7 +16,7 @@ import pagod.wizard.control.states.Request;
 import pagod.wizard.ui.TimeActivityDialog;
 
 /**
- * @author m1isi13
+ * @author ppmaxynoob et biniou
  *
  */
 public class TimeActivityAction extends AbstractPagodAction
@@ -30,13 +30,12 @@ public class TimeActivityAction extends AbstractPagodAction
 			IOException, ImagesManager.NotInitializedException
 	{
 		// TODO remplacer par la bonne action (timeActivity)
-		// => trouver un moyen pour créer une action sans requete
+		// => trouver un moyen pour cr?er une action sans requete
 		// cf modifier encore la machine a etat?
 		
 		//TODO changer l'icone
 		
-		super("timeActivity", "AboutIcon.gif", new Request(
-				Request.RequestType.SHOW_ABOUT));
+		super("timeActivity", "AboutIcon.gif", null);
 	}
 	
 	/**
