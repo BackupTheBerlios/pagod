@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimeHandler.java,v 1.7 2006/01/20 13:38:14 fabfoot Exp $
+ * $Id: TimeHandler.java,v 1.8 2006/01/20 14:26:36 fabfoot Exp $
  */
 package pagod.wizard.control;
 import java.io.File;
@@ -43,31 +43,21 @@ public TimeHandler(Document document)
    {
 	   this.doc = document;
    }	
-	/**
-	 * @param process
 
-	 */
-	public void init(Process process)
-	{
-		
-		final Element racine = new Element("stats");
-		final Document document = new Document(racine);
-        // r?cup?ration des activit?s via le processus
-        final Collection<Activity > cactivity = process.getAllActivities ();
-        for (Activity acty : cactivity)
-        {
-        	 Element activi= new Element("activity");
-             racine.addContent(activi);
-             Attribute id = new Attribute("idref",acty.getId());
-             activi.setAttribute(id);
-             Element time = new Element ("time");
-             time.setText("");
-             activi.addContent(time);
-        }
-            
-        this.doc=  document;
-	}
 	
+	/**
+	 * 
+	 */
+	public void affiche()
+	{
+	   try
+	   {
+	      //On utilise ici un affichage classique avec getPrettyFormat()
+	      XMLOutputter sortie = new XMLOutputter(Format.getPrettyFormat());
+	      sortie.output(this.doc, System.out);
+	   }
+	   catch (java.io.IOException e){}
+	}
 	/**
 	 * @param process
 	 * @param sNameproject 
@@ -96,16 +86,16 @@ public TimeHandler(Document document)
 		List nodelist = rootnode.getChildren("activty");
 		// Iterateur de la structure
 		Iterator nodeiterator = nodelist.iterator();
-		// Charge les activités dans une collection
+		// Charge les activit?s dans une collection
 		Collection<Activity > cactivity = process.getAllActivities ();
 		
 		while(nodeiterator.hasNext()) {
 			Element node = (Element) nodeiterator.next();
 			Attribute idnode = node.getAttribute("idref");
-			// Recherche l'activité dans les process
+			// Recherche l'activit? dans les process
 			for (Activity acty : cactivity) {
 				String activity_id = acty.getId();
-				// Si id activité trouvé
+				// Si id activit? trouv?
 				if (activity_id == idnode.toString()) {
 					Element time = node.getChild("time");
 					time.setText(Integer.toString(acty.getTime()));
@@ -118,9 +108,8 @@ public TimeHandler(Document document)
 	/**
 	 * charge le doc a partir du modele metier
 	 * @param process
-	 * @return Document xml
 	 */
-	public Document loadModel(Process process)
+	public void loadModel(Process process)
 	{
 		final Element racine = new Element("stats");
 		final Document document = new Document(racine);
@@ -137,7 +126,7 @@ public TimeHandler(Document document)
              activi.addContent(time);
         }
             
-        return document;
+        this.doc = document;
 		
 	}
 	
