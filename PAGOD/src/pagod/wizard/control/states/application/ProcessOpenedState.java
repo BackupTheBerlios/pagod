@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ProcessOpenedState.java,v 1.5 2005/11/30 12:21:17 cyberal82 Exp $
+ * $Id: ProcessOpenedState.java,v 1.6 2006/01/21 17:09:23 cyberal82 Exp $
  */
 package pagod.wizard.control.states.application;
 
@@ -23,7 +23,7 @@ public class ProcessOpenedState extends AbstractApplicationState
 	 */
 	public ProcessOpenedState (ApplicationManager  applicationManager)
 	{
-		super(applicationManager );
+		super(applicationManager);
 	
 	}
 
