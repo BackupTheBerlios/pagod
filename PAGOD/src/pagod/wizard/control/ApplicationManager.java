@@ -1,5 +1,5 @@
 /*
- * $Id: ApplicationManager.java,v 1.21 2006/01/20 15:08:17 fabfoot Exp $
+ * $Id: ApplicationManager.java,v 1.22 2006/01/21 17:11:16 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -114,13 +114,12 @@ public class ApplicationManager extends Observable
 	/**
 	 * Etat de l'application
 	 */
-	//private State						state2;
-
+	// private State state2;
 	/**
 	 * Etat de l'application
 	 */
 	private AbstractApplicationState	applicationState;
-	
+
 	/**
 	 * Fenetre principale de l'application
 	 */
@@ -196,10 +195,14 @@ public class ApplicationManager extends Observable
 			// Creation et enregistrement des actions de l'application
 			ActionManager am = ActionManager.getInstance();
 			am.registerAction(Constants.ACTION_QUIT, new QuitAction());
-			am.registerAction(Constants.ACTION_OPENPROCESS, new OpenProcessAction());
-			am.registerAction(Constants.ACTION_CLOSEPROJECT, new CloseProjectAction());
-			am.registerAction(Constants.ACTION_OPENPROJECT, new OpenProjectAction());
-			am.registerAction(Constants.ACTION_NEWPROJECT, new NewProjectAction());
+			am.registerAction(Constants.ACTION_OPENPROCESS,
+					new OpenProcessAction());
+			am.registerAction(Constants.ACTION_CLOSEPROJECT,
+					new CloseProjectAction());
+			am.registerAction(Constants.ACTION_OPENPROJECT,
+					new OpenProjectAction());
+			am.registerAction(Constants.ACTION_NEWPROJECT,
+					new NewProjectAction());
 			am.registerAction(Constants.ACTION_ABOUT, new AboutAction());
 			am.registerAction(Constants.ACTION_RUN_ACTIVITY,
 					new RunActivityAction());
@@ -208,25 +211,24 @@ public class ApplicationManager extends Observable
 			am
 					.registerAction(Constants.ACTION_TERMINATE,
 							new TerminateAction());
-			am.registerAction(Constants.ACTION_GOTOSTEP,
-					new GotoAction());
+			am.registerAction(Constants.ACTION_GOTOSTEP, new GotoAction());
 
 			am.registerAction(Constants.ACTION_PREFERENCES,
 					new PreferencesAction());
 			am.registerAction(Constants.ACTION_TOOLSSETTINGS,
 					new ToolsSettingsAction());
-			
+
 			// ajout de l'action pour afficher le temps
 			am.registerAction(Constants.ACTION_TIMEACTIVITY,
 					new TimeActivityAction());
-			
-			// creation de la fenetre principale
-			this.mfPagod = new MainFrame();
-			// on met la main frame sur ecoute de l'application manager et de ces etats
-			this.addObserver(this.mfPagod);
-			//on passe dans l'?tat init
-			this.setState(new InitState(this));
-			
+
+			// TODO Alex deplacer pour qu'on puisse tester la machine a etat de l'application
+			/*
+			 * // creation de la fenetre principale this.mfPagod = new
+			 * MainFrame(); // on met la main frame sur ecoute de l'application
+			 * manager et de ces etats this.addObserver(this.mfPagod); //on
+			 * passe dans l'?tat init this.setState(new InitState(this));
+			 */
 		}
 		catch (Exception ex)
 		{
@@ -259,9 +261,9 @@ public class ApplicationManager extends Observable
 	{
 		try
 		{
-			
-				return this.applicationState.manageRequest(request);
-			
+
+			return this.applicationState.manageRequest(request);
+
 		}
 		catch (Exception ex)
 		{
@@ -288,7 +290,7 @@ public class ApplicationManager extends Observable
 
 		// lancement de la fenetre de choix de workspace si besoin
 
-//		 test si la valeur de la cl? workspace est d?finie ou pas
+		// test si la valeur de la cl? workspace est d?finie ou pas
 		if (!PreferencesManager.getInstance().containWorkspace())
 		{
 			WorkspaceFileChooser workspaceChooser = new WorkspaceFileChooser();
@@ -359,87 +361,86 @@ public class ApplicationManager extends Observable
 			// on affiche la fenetre qui permet de saisir le nom du projet
 			NewProjectDialog testDialog = new NewProjectDialog(this.mfPagod);
 			testDialog.setVisible(true);
-			
+
 			// si le projet a bien ?t? cr?? on demande a l'utilisateur
 			// de choisir un dpc
-			if (this.currentProject!=null)
+			if (this.currentProject != null)
 			{
 				associateDPCWithProject();
 			}
-			
+
 		}
 	}
-	
-	/**
-	 * Permet d'associer un dpc a un projet
-	 * et charge ce meme dpc dans le modele metier
-	 */
-	private void associateDPCWithProject()
-	{
-			// on demande a l'utilisateur de choisir un fichier processus
-			ProcessFileChooser fileChooser = new ProcessFileChooser();
-			if (fileChooser.showOpenDialog(this.mfPagod) == JFileChooser.APPROVE_OPTION)
-			{
 
-				// on associe le dpc/pagod au projet en cours
-				try
-				{
-					this.currentProject.changeDPC(fileChooser.getSelectedFile());
-				}
-				catch (IOException e)
-				{
-					// TODO Bloc de traitement des exceptions g?n?r? automatiquement
-					e.printStackTrace();
-				}
-				
-				// Remplir le mod?le metier
-				File choosenfile = fileChooser.getSelectedFile();
-				Process aProcess = InterfaceManager.getInstance().importModel(
-						choosenfile.getAbsolutePath(), this.mfPagod, false);
-				if (aProcess != null)
-				{
-					if (this.currentProcess != null) this.closeProcess();
-					// Afficher la fenetre de choix des roles
-					RolesChooserDialog rolesChooser = new RolesChooserDialog(
-							this.mfPagod, aProcess.getRoles());
-					if (rolesChooser.showDialog() == RolesChooserDialog.APPROVE_OPTION)
-					{
-						// recuperer les Roles choisis
-						// creer le TreeModel n?cessaire au JTree de la fenetre
-						// presenter a l'utilisateur le processus
-						String fileName = choosenfile.getName();
-						this.mfPagod.showProcess(new ProcessTreeModel(aProcess,
-								rolesChooser.getChosenRoles()), fileName, aProcess
-								.getName());
-						// mettre a jour le processus en cours
-						this.currentProcess = aProcess;
-						// on ouvre les fichiers d'outils
-						ToolsManager.getInstance().initialise(this.currentProcess);
-						ToolsManager.getInstance().loadToolsAssociation();
-						
-						// on associe le processus metier au projet en cours
-						this.currentProject.setCurrentProcess(this.currentProcess);
-					}
-					else
-					{
-						this.mfPagod.reinitialize();
-						// mettre a jour le processus en cours
-						this.currentProcess = null;
-					}
-				}
-				
-			}
-		
-	}
-	
 	/**
-	 * Permet d'ouvrir et de charger un projet deja existant
-	 * en parsant le contenu du repertoire workspace
+	 * Permet d'associer un dpc a un projet et charge ce meme dpc dans le modele
+	 * metier
 	 */
-	private void openProject()
+	private void associateDPCWithProject ()
 	{
-		
-		
+		// on demande a l'utilisateur de choisir un fichier processus
+		ProcessFileChooser fileChooser = new ProcessFileChooser();
+		if (fileChooser.showOpenDialog(this.mfPagod) == JFileChooser.APPROVE_OPTION)
+		{
+
+			// on associe le dpc/pagod au projet en cours
+			try
+			{
+				this.currentProject.changeDPC(fileChooser.getSelectedFile());
+			}
+			catch (IOException e)
+			{
+				// TODO Bloc de traitement des exceptions g?n?r? automatiquement
+				e.printStackTrace();
+			}
+
+			// Remplir le mod?le metier
+			File choosenfile = fileChooser.getSelectedFile();
+			Process aProcess = InterfaceManager.getInstance().importModel(
+					choosenfile.getAbsolutePath(), this.mfPagod, false);
+			if (aProcess != null)
+			{
+				if (this.currentProcess != null) this.closeProcess();
+				// Afficher la fenetre de choix des roles
+				RolesChooserDialog rolesChooser = new RolesChooserDialog(
+						this.mfPagod, aProcess.getRoles());
+				if (rolesChooser.showDialog() == RolesChooserDialog.APPROVE_OPTION)
+				{
+					// recuperer les Roles choisis
+					// creer le TreeModel n?cessaire au JTree de la fenetre
+					// presenter a l'utilisateur le processus
+					String fileName = choosenfile.getName();
+					this.mfPagod.showProcess(new ProcessTreeModel(aProcess,
+							rolesChooser.getChosenRoles()), fileName, aProcess
+							.getName());
+					// mettre a jour le processus en cours
+					this.currentProcess = aProcess;
+					// on ouvre les fichiers d'outils
+					ToolsManager.getInstance().initialise(this.currentProcess);
+					ToolsManager.getInstance().loadToolsAssociation();
+
+					// on associe le processus metier au projet en cours
+					this.currentProject.setCurrentProcess(this.currentProcess);
+				}
+				else
+				{
+					this.mfPagod.reinitialize();
+					// mettre a jour le processus en cours
+					this.currentProcess = null;
+				}
+			}
+
+		}
+
+	}
+
+	/**
+	 * Permet d'ouvrir et de charger un projet deja existant en parsant le
+	 * contenu du repertoire workspace
+	 */
+	private void openProject ()
+	{
+
 	}
 
 	/**
@@ -450,7 +451,6 @@ public class ApplicationManager extends Observable
 	private boolean openProcess ()
 	{
 		boolean open = false;
-		
 
 		ProcessFileChooser fileChooser = new ProcessFileChooser();
 		if (fileChooser.showOpenDialog(this.mfPagod) == JFileChooser.APPROVE_OPTION)
@@ -496,8 +496,7 @@ public class ApplicationManager extends Observable
 		}
 		return open;
 	}
-	
-	
+
 	/**
 	 * Lance la fenetre de dialogue a propos
 	 */
@@ -507,41 +506,33 @@ public class ApplicationManager extends Observable
 				Constants.APPLICATION_SHORT_NAME + " "
 						+ Constants.APPLICATION_VERSION);
 		ad.setVisible(true);
-		
-		
+
 	}
 
 	/**
-	 * Lance une activit?
-	 * TODO a suppr d?plac?e dans activity launched
+	 * Lance une activit? TODO a suppr d?plac?e dans activity launched
 	 */
-	/*private void runActivity ()
-	{
-		Activity activity = this.mfPagod.getActivity();
-		this.activityScheduler = new ActivityScheduler(activity);
-		// TODO A SUPPR
-		// this.activityScheduler.initActivityScheduler();
-		this.state2 = State.ACTIVITY_LAUNCHED;
-
-		// on notifie la MainFrame qu'on a lanc? une activit?
-		this.setChanged();
-
-		// on passe a la MainFrame l'ActivityScheduler pour qu'elle
-		// puisse s'enregistrer comme observer de l'ActivityScheduler
-		this.notifyObservers(this.activityScheduler);
-
-		// TODO solution temporaire
-		this.activityScheduler.setState(this.activityScheduler.getState(0));
-
-	}*/
-
+	/*
+	 * private void runActivity () { Activity activity =
+	 * this.mfPagod.getActivity(); this.activityScheduler = new
+	 * ActivityScheduler(activity); // TODO A SUPPR //
+	 * this.activityScheduler.initActivityScheduler(); this.state2 =
+	 * State.ACTIVITY_LAUNCHED;
+	 *  // on notifie la MainFrame qu'on a lanc? une activit? this.setChanged();
+	 *  // on passe a la MainFrame l'ActivityScheduler pour qu'elle // puisse
+	 * s'enregistrer comme observer de l'ActivityScheduler
+	 * this.notifyObservers(this.activityScheduler);
+	 *  // TODO solution temporaire
+	 * this.activityScheduler.setState(this.activityScheduler.getState(0));
+	 *  }
+	 */
 
 	/**
 	 * lance la fenetre de configuration des preferences
 	 */
 	private void showToolsSettingsDialog ()
 	{
-		
+
 	}
 
 	/**
@@ -578,15 +569,16 @@ public class ApplicationManager extends Observable
 	}
 
 	/**
-	 * @param state Valeur ? donner ? state
+	 * @param state
+	 *            Valeur ? donner ? state
 	 */
 	public void setState (AbstractApplicationState state)
 	{
 		this.applicationState = state;
-		//on indique aux observers que l'etat a change
+		// on indique aux observers que l'etat a change
 		this.setChanged();
 		this.notifyObservers(this.applicationState);
-		
+
 		// TODO pour debug
 		System.err.println(this.applicationState);
 	}
@@ -600,11 +592,29 @@ public class ApplicationManager extends Observable
 	}
 
 	/**
-	 * @param currentProcess Valeur ? donner ? currentProcess
+	 * @param currentProcess
+	 *            Valeur ? donner ? currentProcess
 	 */
 	public void setCurrentProcess (Process currentProcess)
 	{
 		this.currentProcess = currentProcess;
+	}
+
+	/**
+	 * 
+	 * @param mainFrame
+	 *            est la fenetre principale de l'application
+	 */
+	public void setMfPagod (MainFrame mainFrame)
+	{
+		this.mfPagod = mainFrame;
+
+		// on met la main frame sur ecoute de l'application manager et de ces
+		// etats
+		this.addObserver(this.mfPagod);
+		
+		// on passe dans l'?tat init
+		this.setState(new InitState(this));
 	}
 
 	/**
@@ -614,14 +624,16 @@ public class ApplicationManager extends Observable
 	{
 		return this.mfPagod;
 	}
-	//TODO A changer methode temporaire
+
+	// TODO A changer methode temporaire
 	/**
 	 * 
-	 * @param activityScheduler le scheduler
+	 * @param activityScheduler
+	 *            le scheduler
 	 */
-	public void notifyMainFrame(ActivityScheduler activityScheduler)
+	public void notifyMainFrame (ActivityScheduler activityScheduler)
 	{
-		//notifie les observer (par ex la mainframe)
+		// notifie les observer (par ex la mainframe)
 		this.setChanged();
 		this.notifyObservers(activityScheduler);
 	}

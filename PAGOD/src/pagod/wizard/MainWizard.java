@@ -1,5 +1,5 @@
 /*
- * $Id: MainWizard.java,v 1.2 2005/11/27 20:39:24 yak Exp $
+ * $Id: MainWizard.java,v 1.3 2006/01/21 17:11:16 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -26,6 +26,7 @@ package pagod.wizard;
 
 import pagod.wizard.control.ApplicationManager;
 import pagod.wizard.control.states.Request;
+import pagod.wizard.ui.MainFrame;
 
 /**
  * Classe principale de PAGOD.
@@ -34,19 +35,25 @@ import pagod.wizard.control.states.Request;
  */
 public class MainWizard
 {
-    /**
-     * Méthode Principale de pagod
-     * 
-     * @param args
-     *            PAGOD n'utilise pas les paramètres passés en ligne de
-     *            commande.
-     */
-    public static void main(String[] args)
-    {
-        // lancement de l'application
-        ApplicationManager applicationManager = ApplicationManager
-                .getInstance();
-        applicationManager
-                .manageRequest(new Request(Request.RequestType.RUN_APPLICATION));
-    }
+	/**
+	 * Méthode Principale de pagod
+	 * 
+	 * @param args
+	 *            PAGOD n'utilise pas les paramètres passés en ligne de
+	 *            commande.
+	 */
+	public static void main (String[] args)
+	{
+		// lancement de l'application
+		ApplicationManager applicationManager = ApplicationManager
+				.getInstance();
+
+		// creation de la fenetre principale
+		MainFrame mfPagod = new MainFrame();
+		
+		applicationManager.setMfPagod(mfPagod);
+
+		applicationManager.manageRequest(new Request(
+				Request.RequestType.RUN_APPLICATION));
+	}
 }
