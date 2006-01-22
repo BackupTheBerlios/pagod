@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimeActivityDialog.java,v 1.5 2006/01/22 07:58:56 biniou Exp $
+ * $Id: TimeActivityDialog.java,v 1.6 2006/01/22 08:23:23 biniou Exp $
  */
 package pagod.wizard.ui;
 
@@ -212,7 +212,6 @@ public class TimeActivityDialog extends JDialog implements ActionListener
 		public String getColumnName (int iColumnIndex)
 		{
 			// nom des colonnes
-			// TODO fichier de ressources
 			if (iColumnIndex == 0) return LanguagesManager.getInstance().getString(
 			"TimeActivityColumnNameActivity");
 			else

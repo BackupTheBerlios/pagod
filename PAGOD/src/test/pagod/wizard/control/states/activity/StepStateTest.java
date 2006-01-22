@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: StepStateTest.java,v 1.1 2005/12/05 14:10:20 biniou Exp $
+ * $Id: StepStateTest.java,v 1.2 2006/01/22 08:23:23 biniou Exp $
  */
 package test.pagod.wizard.control.states.activity;
 
@@ -15,8 +15,10 @@ import pagod.common.model.Step;
 import pagod.common.model.WorkDefinition;
 import pagod.wizard.control.ActivityScheduler;
 import pagod.wizard.control.states.Request;
+import pagod.wizard.control.states.activity.AbstractActivityState;
 import pagod.wizard.control.states.activity.ActivityPresentationState;
 import pagod.wizard.control.states.activity.PostConditionCheckerState;
+import pagod.wizard.control.states.activity.PreConditionCheckerState;
 import pagod.wizard.control.states.activity.StepState;
 import junit.framework.TestCase;
 
@@ -57,7 +59,7 @@ public class StepStateTest extends TestCase
 		// creation de l'etat StepState indicé a 0
 		this.state = new StepState(this.activityScheduler, this.activity, 0);
 
-		// on met l'ActivityScheduler dans l'etat ActivityPresentationState
+		// on met l'ActivityScheduler dans l'etat StepState
 		this.activityScheduler.setActivityState(this.state);
 	}
 
@@ -107,7 +109,7 @@ public class StepStateTest extends TestCase
 				"L'etat du scheduler devrait etre de type PostCond",
 				this.activityScheduler.getActivityState() instanceof PostConditionCheckerState);
 
-		// on rajoute 1 etape
+		// on rajoute une etape
 		this.activityScheduler.setState(this.state);
 		this.activity.addStep(new Step("", "step 2", "", null));
 		assertTrue("L'etat ne doit pas changer : il y a encore une etape",
@@ -125,7 +127,7 @@ public class StepStateTest extends TestCase
 		// Creation d'une requete NEXT
 		Request requestPrevious = new Request(Request.RequestType.PREVIOUS);
 
-		// l'etat ne doit pas changé mais l'index doit passé à 0
+		// l'etat ne doit pas changer mais l'index doit passer à 0
 		assertTrue("L'etat ne doit pas changer : il y a une étape avant",
 				this.state.manageRequest(requestPrevious));
 		
@@ -147,6 +149,92 @@ public class StepStateTest extends TestCase
 		assertTrue(
 				"L'etat du scheduler devrait etre de type StepState (il ne devrait pas avoir changé)",
 				this.activityScheduler.getActivityState() instanceof ActivityPresentationState);
+		
+		/** ******* Test sur une requete GOTOSTEP ********** */
+//		 creation d'un ArrayList de step avec 2 etapes
+		ArrayList<Step> arrStep = new ArrayList<Step>();
+		arrStep.add(new Step("Etape 1", null, new ArrayList<Product>()));
+		arrStep.add(new Step("Etape 2", null, new ArrayList<Product>()));
+		
+		// création d'une activité vide pour les tests
+		this.activity = new Activity("", "", null, null, arrStep,
+				new WorkDefinition("", "", null, null,
+						new ArrayList<Activity>()), new ArrayList<Product>(),
+				new ArrayList<Product>(), new Role("", "", null, null,
+						new ArrayList<Activity>()));
+
+		// creation d'un ActivityScheduler
+		this.activityScheduler = new ActivityScheduler(this.activity);
+
+		ArrayList<AbstractActivityState> arrState = new ArrayList<AbstractActivityState>();
+
+		// initialisation de l'ArrayList
+		arrState.add(new PreConditionCheckerState(this.activityScheduler,
+				this.activity));
+		arrState.add(new StepState(this.activityScheduler, this.activity, 0));
+		arrState.add(new StepState(this.activityScheduler, this.activity, 1));
+		arrState.add(new PostConditionCheckerState(this.activityScheduler,
+				this.activity));
+
+		// on teste la requet GOTOSTEP
+		for (int i = 0; i < arrState.size(); i++)
+		{
+			// on se met dans le bon etat : 1ere etape de l'activite
+			this.state = new StepState(this.activityScheduler,
+					this.activity,0);
+
+			// on met l'ActivityScheduler dans l'etat StepState
+			this.activityScheduler.setActivityState(this.state);
+
+			// Creation d'une requete GOTOSTEP
+			Request request = new Request(Request.RequestType.GOTOSTEP,
+					arrState.get(i));
+
+			assertTrue("L'etat devrait changer", this.activityScheduler
+					.ManageRequest(request));
+			assertTrue("L'etat devrait etre celui de tab[i]",
+					this.activityScheduler.getActivityState() == arrState
+							.get(i));
+		}
+		
+		/** ****** Test sur une requete quelconque ******* */
+
+		// on se met dans le bon etat : 1ere etape de l'activite
+		this.state = new StepState(this.activityScheduler,
+				this.activity,0);
+
+		// on met l'ActivityScheduler dans l'etat StepState
+		this.activityScheduler.setActivityState(this.state);
+
+		// pour toutes les autres requetes l'etat ne devrait pas changer
+		for (Request.RequestType aRequest : Request.RequestType.values())
+		{
+
+			// si la requete est previous ou next on passe a l'iteration
+			// suivante car ces cas la on deja etaient teste
+			if (aRequest == Request.RequestType.PREVIOUS
+					|| aRequest == Request.RequestType.NEXT
+					|| aRequest == Request.RequestType.GOTOSTEP) 
+				continue;
+
+			Request request = new Request(aRequest);
+
+			assertTrue(
+					"L'etat de l'l'ActivityScheduler devrait etre de type",
+					this.activityScheduler.getActivityState() instanceof StepState);
+
+			assertFalse(
+					"L'etat ne devrait pas changer car ce type de requete ne fait pas changer lorsqu'on est dans l'etat StepState",
+					this.state.manageRequest(request));
+
+			assertTrue(
+					"L'etat du scheduler devrait etre de type StepState (il ne devrait pas avoir changé)",
+					this.activityScheduler.getActivityState() instanceof StepState);
+
+			assertTrue(
+					"L'etat du scheduler devrait etre celui contenu dans this.state (le meme objet)",
+					this.activityScheduler.getActivityState() == this.state);
+		}
 		
 	}
 
