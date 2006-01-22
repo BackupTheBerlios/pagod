@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimerManager.java,v 1.2 2005/11/09 11:40:52 yak Exp $
+ * $Id: TimerManager.java,v 1.3 2006/01/22 15:45:39 yak Exp $
  */
 package pagod.utils;
 import java.awt.event.ActionEvent;
@@ -69,6 +69,8 @@ public class TimerManager implements ActionListener
 	public void start (int initValue)
 	{
 		this.value = initValue;
+		//TODO a supprimer
+		System.out.println("demarrage a "+initValue);
 		theSwingTimer.start();
 		
 	}
@@ -80,7 +82,25 @@ public class TimerManager implements ActionListener
 	public int stop ()
 	{
 		//on arrete le timer et on retourne la valeur
+		System.out.println("TimerManager arreter a "+this.value);
 		theSwingTimer.stop();
+		return this.value;
+	}
+	/**
+	 * retourne vrai si le timer est lancer
+	 * @return retourne vrai si le timer est lancer vrai sinon
+	 */
+	public boolean isStarted ()
+	{
+		return theSwingTimer.isRunning();
+	}
+	/**
+	 * 
+	 * @return la valeur du timer
+	 * 
+	 */
+	public int getValue ()
+	{
 		return this.value;
 	}
 	

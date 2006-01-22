@@ -1,14 +1,13 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ActivityLaunchedState.java,v 1.5 2005/11/30 12:21:17 cyberal82 Exp $
+ * $Id: ActivityLaunchedState.java,v 1.6 2006/01/22 15:45:39 yak Exp $
  */
 package pagod.wizard.control.states.application;
 
 import pagod.common.model.Activity;
 import pagod.wizard.control.ActivityScheduler;
 import pagod.wizard.control.ApplicationManager;
-import pagod.wizard.control.actions.OpenProcessAction;
 import pagod.wizard.control.states.Request;
 
 /**
@@ -25,7 +24,7 @@ public class ActivityLaunchedState extends AbstractApplicationState
 
 	/**
 	 * @param applicationManager
-	 * @param activity 
+	 * @param activity
 	 */
 	public ActivityLaunchedState (ApplicationManager applicationManager,
 			Activity activity)
@@ -36,9 +35,9 @@ public class ActivityLaunchedState extends AbstractApplicationState
 
 		// on passe a la MainFrame l'ActivityScheduler pour qu'elle
 		// puisse s'enregistrer comme observer de l'ActivityScheduler
-		//TODO a changer
+		// TODO a changer
 		applicationManager.notifyMainFrame(this.activityScheduler);
-		
+
 		// TODO solution temporaire
 		this.activityScheduler.setState(this.activityScheduler.getState(0));
 
@@ -71,16 +70,17 @@ public class ActivityLaunchedState extends AbstractApplicationState
 			case OPEN_PROCESS:
 				state = new ProcessOpenedState(this.applicationManager);
 				break;
-				
+
 			case TERMINATE_ACTIVITY:
 				this.activityScheduler = null;
-				state = new ProcessOpenedState (this.applicationManager);
+				// on stop le timer et on enregistre le temps necessaire
+				state = new ProcessOpenedState(this.applicationManager);
 				break;
 
 			// si la requet request est inconnue on la d?legue a l'activity
 			// scheduler qui saura peut etre la traiter
 			default:
-				
+
 				boolean bReturn = this.activityScheduler.ManageRequest(request);
 				this.applicationManager.setState(this);
 				return bReturn;

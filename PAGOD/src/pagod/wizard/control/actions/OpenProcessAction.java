@@ -1,5 +1,5 @@
 /*
- * $Id: OpenProcessAction.java,v 1.2 2005/12/02 16:04:42 yak Exp $
+ * $Id: OpenProcessAction.java,v 1.3 2006/01/22 15:45:39 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -30,8 +30,10 @@ import java.io.IOException;
 
 import javax.swing.KeyStroke;
 
+import pagod.common.model.Activity;
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
+import pagod.utils.TimerManager;
 import pagod.wizard.control.ApplicationManager;
 import pagod.wizard.control.states.Request;
 
@@ -42,29 +44,44 @@ import pagod.wizard.control.states.Request;
  */
 public class OpenProcessAction extends AbstractPagodAction
 {
-    /**
-     * @throws LanguagesManager.NotInitializedException
-     * @throws IOException
-     * @throws ImagesManager.NotInitializedException
-     */
-    public OpenProcessAction() throws LanguagesManager.NotInitializedException,
-                       IOException, ImagesManager.NotInitializedException
-    {
-        super("openProcess", "OpenIcon.gif", new Request(Request.RequestType.OPEN_PROCESS),
-                KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_MASK));
-    }
-    
-    
-    /**
-     * Methode appélée lorsque l'action est déclenché
-     * 
-     * @param actionEvent
-     *            Evenement survenue
-     */
-    public void actionPerformed(ActionEvent actionEvent)
-    {
-    	//si le processus a pu etre ouvert alors on delegue la requete à l'application manager
-    	if (ApplicationManager.getInstance().getMfPagod().chooseAndOpenProcess())
-    		ApplicationManager.getInstance().manageRequest(this.request);
-    }
+	/**
+	 * @throws LanguagesManager.NotInitializedException
+	 * @throws IOException
+	 * @throws ImagesManager.NotInitializedException
+	 */
+	public OpenProcessAction ()
+			throws LanguagesManager.NotInitializedException, IOException,
+			ImagesManager.NotInitializedException
+	{
+		super("openProcess", "OpenIcon.gif", new Request(
+				Request.RequestType.OPEN_PROCESS), KeyStroke.getKeyStroke(
+				KeyEvent.VK_O, KeyEvent.CTRL_MASK));
+	}
+
+	/**
+	 * Methode appélée lorsque l'action est déclenché
+	 * 
+	 * @param actionEvent
+	 *            Evenement survenue
+	 */
+	public void actionPerformed (ActionEvent actionEvent)
+	{
+		// si le processus a pu etre ouvert alors on delegue la requete à
+		// l'application manager
+		if (ApplicationManager.getInstance().getMfPagod()
+				.chooseAndOpenProcess())
+		{
+			// on stop le timer
+			if (TimerManager.getInstance().isStarted())
+			{
+				TimerManager.getInstance().stop();
+				Activity aTemp = ApplicationManager.getInstance().getMfPagod()
+						.getActivity();
+				// on enregistre le temps pour l'activité
+				aTemp.setTime(TimerManager.getInstance().getValue());
+			}
+			ApplicationManager.getInstance().manageRequest(this.request);
+		}
+
+	}
 }

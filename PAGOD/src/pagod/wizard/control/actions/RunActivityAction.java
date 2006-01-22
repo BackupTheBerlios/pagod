@@ -1,5 +1,5 @@
 /*
- * $Id: RunActivityAction.java,v 1.3 2005/11/30 08:57:48 yak Exp $
+ * $Id: RunActivityAction.java,v 1.4 2006/01/22 15:45:39 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -30,8 +30,10 @@ import java.io.IOException;
 
 import javax.swing.KeyStroke;
 
+import pagod.common.model.Activity;
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
+import pagod.utils.TimerManager;
 import pagod.wizard.control.ApplicationManager;
 import pagod.wizard.control.states.Request;
 
@@ -67,7 +69,11 @@ public class RunActivityAction extends AbstractPagodAction
     public void actionPerformed(ActionEvent actionEvent)
     {
     	//si le project a pu etre ouvert alors on delegue la requete à l'application manager
-    	this.request.setContent(ApplicationManager.getInstance().getMfPagod().getActivity());
+    	Activity aTemp = ApplicationManager.getInstance().getMfPagod().getActivity();
+    	this.request.setContent(aTemp);
+    	//on demarre le manager 
+    	TimerManager.getInstance().start(aTemp.getTime());
+    	
     	ApplicationManager.getInstance().manageRequest(this.request);
     }
 }
