@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimeActivityDialog.java,v 1.4 2006/01/20 15:38:00 biniou Exp $
+ * $Id: TimeActivityDialog.java,v 1.5 2006/01/22 07:58:56 biniou Exp $
  */
 package pagod.wizard.ui;
 
@@ -23,8 +23,7 @@ import pagod.utils.LanguagesManager;
 import pagod.wizard.control.ApplicationManager;
 
 /**
- * @author biniou
- * 
+ * @author pp et biniou
  */
 public class TimeActivityDialog extends JDialog implements ActionListener
 {
@@ -214,9 +213,11 @@ public class TimeActivityDialog extends JDialog implements ActionListener
 		{
 			// nom des colonnes
 			// TODO fichier de ressources
-			if (iColumnIndex == 0) return "Activites";
+			if (iColumnIndex == 0) return LanguagesManager.getInstance().getString(
+			"TimeActivityColumnNameActivity");
 			else
-				return "temps";
+				return LanguagesManager.getInstance().getString(
+				"TimeActivityColumnNameTime");
 		}
 
 		/**
