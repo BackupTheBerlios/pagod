@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: Project.java,v 1.11 2006/01/20 15:08:17 fabfoot Exp $
+ * $Id: Project.java,v 1.12 2006/01/22 10:05:25 biniou Exp $
  */
 package pagod.common.model;
 
@@ -14,7 +14,6 @@ import java.util.Properties;
 import pagod.utils.FilesManager;
 import pagod.wizard.control.Constants;
 import pagod.wizard.control.PreferencesManager;
-import pagod.wizard.control.TimeHandler;
 
 /**
  * @author biniou
@@ -23,6 +22,7 @@ import pagod.wizard.control.TimeHandler;
 
 public class Project
 {
+	
 	/**
 	 * Chemin du r?pertoire ou vont etre stockees les documents produits
 	 */
@@ -190,7 +190,7 @@ public class Project
 		}
 
 		// on r?initialise l'attribut sNameDPC
-		this.setNameDPC(dpcCurrentFile.getName());
+		this.setNameDPC(DPC.getName());
 
 		// on cr?e le fichier qui va accueillir le flux
 		dpcCurrentFile = new File(PreferencesManager.getInstance()
