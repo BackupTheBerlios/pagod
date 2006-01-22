@@ -1,5 +1,5 @@
 /*
- * $Id: QuitAction.java,v 1.4 2005/12/01 16:22:00 yak Exp $
+ * $Id: QuitAction.java,v 1.5 2006/01/22 15:45:39 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -30,8 +30,10 @@ import java.io.IOException;
 
 import javax.swing.KeyStroke;
 
+import pagod.common.model.Activity;
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
+import pagod.utils.TimerManager;
 import pagod.wizard.control.ApplicationManager;
 import pagod.wizard.control.PreferencesManager;
 import pagod.wizard.control.states.Request;
@@ -67,6 +69,18 @@ public class QuitAction extends AbstractPagodAction
 		// on sauvegarde l'association Tool/chemin d'acces
 		if (ApplicationManager.getInstance().getCurrentProcess() != null) ApplicationManager
 				.getInstance().closeProcess();
+		
+		//on stop le timer
+		if (TimerManager.getInstance().isStarted())
+		{	
+			TimerManager.getInstance().stop();
+			Activity aTemp = ApplicationManager.getInstance().getMfPagod().getActivity();
+			//on enregistre le temps pour l'activité
+			aTemp.setTime(TimerManager.getInstance().getValue());
+		}
+	
+		
+		
 		PreferencesManager.getInstance().storeExtensions();
 		System.exit(0);
 	}
