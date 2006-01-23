@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ActivityLaunchedState.java,v 1.6 2006/01/22 15:45:39 yak Exp $
+ * $Id: ActivityLaunchedState.java,v 1.7 2006/01/23 20:56:07 yak Exp $
  */
 package pagod.wizard.control.states.application;
 
@@ -53,7 +53,6 @@ public class ActivityLaunchedState extends AbstractApplicationState
 
 		System.out.println("ActivityLaunchedState.manageRequest :" + request);
 		AbstractApplicationState state;
-
 		// on regarde le type de requete que l'on recoit
 		switch (request.getCurrentRequest())
 		{
@@ -73,8 +72,8 @@ public class ActivityLaunchedState extends AbstractApplicationState
 
 			case TERMINATE_ACTIVITY:
 				this.activityScheduler = null;
-				// on stop le timer et on enregistre le temps necessaire
 				state = new ProcessOpenedState(this.applicationManager);
+			
 				break;
 
 			// si la requet request est inconnue on la d?legue a l'activity
