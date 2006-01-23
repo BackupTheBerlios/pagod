@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: PostConditionCheckerStateTest.java,v 1.4 2006/01/23 14:13:21 psyko Exp $
+ * $Id: PostConditionCheckerStateTest.java,v 1.5 2006/01/23 20:55:38 yak Exp $
  */
 package test.pagod.wizard.control.states.activity;
 
@@ -179,14 +179,6 @@ public class PostConditionCheckerStateTest extends TestCase
 		
 	}
 
-	/**
-	 * Test method for
-	 * 'pagod.wizard.control.states.activity.PostConditionCheckerState.terminate()'
-	 */
-	public void testTerminate ()
-	{
-
-	}
 
 	/**
 	 * Test method for
@@ -197,13 +189,6 @@ public class PostConditionCheckerStateTest extends TestCase
 
 	}
 
-	/**
-	 * Test method for
-	 * 'pagod.wizard.control.states.activity.PostConditionCheckerState.display()'
-	 */
-	public void testDisplay ()
-	{
-
-	}
+	
 
 }
