@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: PostConditionCheckerStateTest.java,v 1.3 2006/01/19 21:48:22 psyko Exp $
+ * $Id: PostConditionCheckerStateTest.java,v 1.4 2006/01/23 14:13:21 psyko Exp $
  */
 package test.pagod.wizard.control.states.activity;
 
@@ -16,9 +16,11 @@ import pagod.common.model.Step;
 import pagod.common.model.WorkDefinition;
 import pagod.wizard.control.ActivityScheduler;
 import pagod.wizard.control.states.Request;
+import pagod.wizard.control.states.activity.AbstractActivityState;
 import pagod.wizard.control.states.activity.ActivityPresentationState;
 import pagod.wizard.control.states.activity.PostConditionCheckerState;
 import pagod.wizard.control.states.activity.PreConditionCheckerState;
+import pagod.wizard.control.states.activity.StepState;
 
 /**
  * Test unitaire de la classe PostConditionCheckerState correspondant a un état
@@ -31,7 +33,7 @@ public class PostConditionCheckerStateTest extends TestCase
 {
 	Activity					activity;
 	ActivityScheduler			activityScheduler;
-	PostConditionCheckerState	state;
+	AbstractActivityState	state;
 
 	protected void setUp () throws Exception
 	{
@@ -71,11 +73,7 @@ public class PostConditionCheckerStateTest extends TestCase
 		Request reqNext = new Request(Request.RequestType.NEXT);
 		Request reqPrevious = new Request(Request.RequestType.PREVIOUS);
 		Request reqAleat = new Request(Request.RequestType.CLOSE_PROCESS);
-		Request reqGotoStep_1 = new Request(Request.RequestType.GOTOSTEP, new PreConditionCheckerState(this.activityScheduler,this.activity));
-		Request reqGotoStep_2 = new Request(Request.RequestType.GOTOSTEP, new ActivityPresentationState(this.activityScheduler,this.activity));
-		Request reqGotoStep_3 = new Request(Request.RequestType.GOTOSTEP, new PostConditionCheckerState(this.activityScheduler,this.activity));
-		
-		
+				
 		// création d'une activité vide pour les tests
 		this.activity = new Activity("", "", null, null, new ArrayList<Step>(),
 				new WorkDefinition("", "", null, null,
@@ -115,24 +113,68 @@ public class PostConditionCheckerStateTest extends TestCase
 		
 		this.activityScheduler.setState(this.state);
 		//on envoie un ensemble de requete et on test si elle ont changé l'etat de la machine
-		assertFalse("Requete CLOSE_PROCESS envoyée a l'etat, rien ne doit se passer", this.state.manageRequest(reqAleat));
-		assertTrue ("L'etat actuel doit etre un PostConditionCheckerState",this.activityScheduler.getActivityState() == this.state);
-		reqAleat = new Request(Request.RequestType.CLOSE_PROJECT);
-		assertFalse("Requete CLOSE_PROJECT envoyée a l'etat, rien ne doit se passer", this.state.manageRequest(reqAleat));
-		assertTrue ("L'etat actuel doit etre un PostConditionCheckerState",this.activityScheduler.getActivityState()  == this.state);
-		reqAleat = new Request(Request.RequestType.TERMINATE_ACTIVITY);
-		assertFalse("Requete TERMINATE_ACTIVITY envoyée a l'etat, rien ne doit se passer", this.state.manageRequest(reqAleat));
-		assertTrue ("L'etat actuel doit etre un PostConditionCheckerState",this.activityScheduler.getActivityState()  == this.state);
+		assertFalse("Requete CLOSE_PROCESS envoyée a l'etat, rien ne doit se passer", 
+				this.state.manageRequest(reqAleat));
+		assertTrue ("L'etat actuel doit etre un PostConditionCheckerState",
+				this.activityScheduler.getActivityState() == this.state);
 		
-		// on passe a l'etat preconditionCheckerState et on verifie que c'est un PreConditionCheckerState
-		assertTrue ("Requete GOTOSTEP_1 envoyée a l'etat : changement vers l'état PreConditionCheckerState ",this.state.manageRequest(reqGotoStep_1));
-		assertTrue ("L'etat actuel doit etre un PreConditionCheckerState",this.activityScheduler.getActivityState() instanceof PreConditionCheckerState);
-		// on passe a l'etat preconditionCheckerState et on verifie que c'est un PreConditionCheckerState
-		assertTrue ("Requete GOTOSTEP_2 envoyée a l'etat : changement vers l'état ActivityPresentationState ",this.state.manageRequest(reqGotoStep_2));
-		assertTrue ("L'etat actuel doit etre un ActivityPresentationState",this.activityScheduler.getActivityState() instanceof ActivityPresentationState);
-		// on passe a l'etat preconditionCheckerState et on verifie que c'est un PostConditionCheckerState
-		assertTrue ("Requete GOTOSTEP_3 envoyée a l'etat : changement vers l'état PostConditionCheckerState ",this.state.manageRequest(reqGotoStep_3));
-		assertTrue ("L'etat actuel doit etre un PostConditionCheckerState",this.activityScheduler.getActivityState() instanceof PostConditionCheckerState);
+		reqAleat = new Request(Request.RequestType.CLOSE_PROJECT);
+		assertFalse("Requete CLOSE_PROJECT envoyée a l'etat, rien ne doit se passer", 
+				this.state.manageRequest(reqAleat));
+		assertTrue ("L'etat actuel doit etre un PostConditionCheckerState",
+				this.activityScheduler.getActivityState()  == this.state);
+		
+		reqAleat = new Request(Request.RequestType.TERMINATE_ACTIVITY);
+		assertFalse("Requete TERMINATE_ACTIVITY envoyée a l'etat, rien ne doit se passer", 
+				this.state.manageRequest(reqAleat));
+		assertTrue ("L'etat actuel doit etre un PostConditionCheckerState",
+				this.activityScheduler.getActivityState()  == this.state);
+		
+		
+		// Test de GOTOSTEP
+		// creation d'un ArrayList de step avec une etape
+		ArrayList<Step> arrStep = new ArrayList<Step>();
+		arrStep.add(new Step("Etape 1", null, new ArrayList<Product>()));
+
+		// création d'une activité vide pour les tests
+		this.activity = new Activity("", "", null, null, arrStep,
+				new WorkDefinition("", "", null, null,
+						new ArrayList<Activity>()), new ArrayList<Product>(),
+				new ArrayList<Product>(), new Role("", "", null, null,
+						new ArrayList<Activity>()));
+
+		// creation d'un ActivityScheduler
+		this.activityScheduler = new ActivityScheduler(this.activity);
+
+		ArrayList<AbstractActivityState> arrState = new ArrayList<AbstractActivityState>();
+
+		// initialisation de l'ArrayList
+		arrState.add(new PreConditionCheckerState(this.activityScheduler,
+				this.activity));
+		arrState.add(new StepState(this.activityScheduler, this.activity, 0));
+		arrState.add(new PostConditionCheckerState(this.activityScheduler,
+				this.activity));
+
+		// on teste la requete GOTOSTEP
+		for (int i = 0; i < arrState.size(); i++)
+		{
+			// on se met dans le bon etat
+			// creation de l'etat ActivityState
+			this.state = new ActivityPresentationState(this.activityScheduler,
+					this.activity);
+
+			// on met l'ActivityScheduler dans l'etat ActivityPresentationState
+			this.activityScheduler.setActivityState(this.state);
+
+			// Creation d'une requete GOTOSTEP
+			Request request = new Request(Request.RequestType.GOTOSTEP,
+					arrState.get(i));
+
+			assertTrue("L'etat devrait changer", 
+					this.activityScheduler.ManageRequest(request));
+			assertTrue("L'etat devrait etre celui de tab[i]",
+					this.activityScheduler.getActivityState() == arrState.get(i));
+		}
 		
 		
 	}
