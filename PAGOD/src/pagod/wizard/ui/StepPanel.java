@@ -1,5 +1,5 @@
 /*
- * $Id: StepPanel.java,v 1.3 2006/01/23 17:14:11 cyberal82 Exp $
+ * $Id: StepPanel.java,v 1.4 2006/01/23 21:51:30 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -26,6 +26,7 @@ package pagod.wizard.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 
 import javax.swing.Box;
 import javax.swing.JEditorPane;
@@ -60,41 +61,28 @@ public class StepPanel extends JScrollPane
     public StepPanel(Step stepToPresent, int rang, int total)
     {
 
-        super();
+        super(  JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, 
+        		JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         // panneaux global nécessaire pour des contrainte de présentation
-        JPanel globalPane = new JPanel();
-        globalPane.setLayout(new BorderLayout());
-        globalPane.setBackground(Color.WHITE);
-        int globalPaneBorderSize = 7;
-        globalPane.add(Box.createVerticalStrut(globalPaneBorderSize),
-                BorderLayout.NORTH);
-        globalPane.add(Box.createHorizontalStrut(globalPaneBorderSize),
-                BorderLayout.EAST);
-        globalPane.add(Box.createHorizontalStrut(globalPaneBorderSize),
-                BorderLayout.WEST);
+               
         // panneaux interne
         JPanel innerPane = new JPanel();
         innerPane.setLayout(new BorderLayout());
-        innerPane.setOpaque(false);
+        innerPane.setBackground(Color.WHITE);
+        innerPane.setOpaque(true);
         int innerPaneBorderSize = 7;
         innerPane.add(Box.createHorizontalStrut(innerPaneBorderSize),
                 BorderLayout.EAST);
         innerPane.add(Box.createHorizontalStrut(innerPaneBorderSize),
                 BorderLayout.WEST);
         
+        innerPane.setPreferredSize(new Dimension(this.getWidth(), 1500));
+        this.setViewportView(innerPane);
+        this.viewport.setPreferredSize(this.getSize());
         
-        //TODO a supprimer si ne fonctionne pas
-        //innerPane.setAutoscrolls(false);
-        //innerPane.setMaximumSize(globalPane.getSize());
-        innerPane.setPreferredSize(globalPane.getSize());
-        //innerPane.setSize(globalPane.getSize());
-        
-        
-        globalPane.add(innerPane, BorderLayout.CENTER);
         // entete du descriptif de l'étape
         String title = "<html><u>"
-            + LanguagesManager.getInstance().getString(
-                    "stepPresentation");
+            + LanguagesManager.getInstance().getString("stepPresentation");
         if (stepToPresent.getName() != null)
         {
             String name = stepToPresent.getName();
@@ -107,23 +95,24 @@ public class StepPanel extends JScrollPane
         // corps du descriptif de l'étape
         this.body = new JEditorPane();
         this.body.setEditable(false);
-        this.body.setOpaque(false);
+        this.body.setOpaque(true);
         this.body.setContentType("text/html");
         String message;
         if (stepToPresent.getComment() == null)
         {
             message = LanguagesManager.getInstance().getString("noComment");
-
         }
         else
         {
             message = stepToPresent.getComment();
         }
-        this.body.setText(message);
-        JScrollPane jsBodyStep = new JScrollPane(this.body, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        
         this.body.setBackground(Color.WHITE);
-        innerPane.add(jsBodyStep, BorderLayout.CENTER);
-        // ajout du globalpane dans le viewportview
-        this.setViewportView(globalPane);
+        this.body.setText(message);
+        innerPane.add(this.body);
+        
+        //JScrollPane jsBodyStep = new JScrollPane(innerPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        //innerPane.add(jsBodyStep, BorderLayout.CENTER);
+        //this.viewport.setLocation(this.header.getLocation());
     }
 }
