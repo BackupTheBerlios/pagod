@@ -1,5 +1,5 @@
 /*
- * $Id: Constants.java,v 1.2 2005/11/30 08:59:41 yak Exp $
+ * $Id: Constants.java,v 1.3 2006/01/23 17:43:55 yak Exp $
  *
  * PAGOD - Spem Wizard
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -68,7 +68,7 @@ public interface Constants
     /**
      * Prefixe des fichiers langues
      */
-    public static final String LANGUAGES_FILE_PREFIXE = "PAGOD_configurator";
+    public static final String LANGUAGES_FILE_PREFIXE = "pagod_configurator";
 
     /**
      * Chemin du fichier de langue par defaut
