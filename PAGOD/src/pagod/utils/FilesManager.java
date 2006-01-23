@@ -1,5 +1,5 @@
 /*
- * $Id: FilesManager.java,v 1.2 2006/01/20 15:53:49 flotueur Exp $
+ * $Id: FilesManager.java,v 1.3 2006/01/23 01:55:06 flotueur Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -227,22 +227,25 @@ public class FilesManager
 	 * Copie un fichier source vers un fichier destination
 	 * 
 	 * @param source
-	 * 			
-	 * @param destination
-	 * @return boolean
+	 * 			Fichier source à copier
+	 * @param target
+	 * 			Fichier destination
+	 * @return result
+	 * 			Indique si la copie à été un succes ou un échec
 	 */
-    public static boolean copier( File source, File destination )
+    public static boolean copyAFile( File source, File target )
     {
-            boolean resultat = false;
+            
+    		boolean result = false;
             // Declaration des flux
             java.io.FileInputStream sourceFile=null;
             java.io.FileOutputStream destinationFile=null;
             try {
                     // Cr?ation du fichier :
-                    destination.createNewFile();
+            	target.createNewFile();
                     // Ouverture des flux
                     sourceFile = new java.io.FileInputStream(source);
-                    destinationFile = new java.io.FileOutputStream(destination);
+                    destinationFile = new java.io.FileOutputStream(target);
                     // Lecture par segment de 0.5Mo 
                     byte buffer[]=new byte[512*1024];
                     int nbLecture;
@@ -250,7 +253,7 @@ public class FilesManager
                             destinationFile.write(buffer, 0, nbLecture);
                     } 
                     // Copie r?ussie
-                    resultat = true;
+                    result = true;
             } catch( java.io.FileNotFoundException f ) {
             } catch( java.io.IOException e ) {
             } finally {
@@ -262,62 +265,97 @@ public class FilesManager
                             destinationFile.close();
                     } catch(Exception e) { }
             } 
-            return( resultat );
+            return( result );
     }
     
 	/**
 	 * Parcours recursivement un repertoire donne et deplace les fichiers 
 	 * vers un repertoire destination
 	 * 
-	 * @param source_directory
-	 * @param target_directory
+	 * @param source
+	 * 			Repertoire source dont on veut copier le contenu
+	 * @param target
+	 * 			Repertoire cible dans lequel on va copier les fochiers contenus dans source
+     * @return result
+     * 			Indique si la copie à été un succes ou un échec
 	 */
-    public static void copyDirectory ( File source_directory, File target_directory ) {
-        if ( source_directory.isDirectory ( ) ) {
-            File[] list = source_directory.listFiles();
+    public static boolean copyDirectory ( File source, File target) {
+    	boolean result = true; 
+        //On vérifie d'abord que les fichier passés en paramêtre sont bien des répertoires
+    	if (source.isDirectory() && target.isDirectory()){
+    		 
+    		//Nous sommes dans un répertoire, on liste donc le contenu
+            File[] list = source.listFiles();
+            
             for ( int i = 0; i < list.length; i++) {
-            		// Puisque le fichier point est un repertoire, on cree un nouveau repertoire
-            		// portant le meme nom dans le repertoire destination
-	        		File targetDir = new File(target_directory.getAbsolutePath()+list[i].getName());
-	        		if (targetDir.mkdir())
-	        		{
-	        			System.out.println("Le repertoire projet est bien cr??.");
-	        		}
-	        		else
-	        		{
-	        			System.err
-	        					.println("Le repertoire que vous voulez creer existe d?j?.");
-	        		}
-                    // Appel r?cursif sur les sous-r?pertoires
-            		copyDirectory(list[i],target_directory);
+
+            	if (list[i].isDirectory()){
+		    		// Si le fichier pointé est un repertoire, on cree un nouveau repertoire
+		    		// portant le meme nom dans le repertoire destination
+		    		File targetdir = new File(target.getAbsolutePath()+File.separator+list[i].getName());
+		    		if (targetdir.mkdir())
+		    		{
+		    			System.out.println(i+". Le repertoire "+targetdir+" est bien copié.\n");
+		    		}
+		    		else
+		    		{
+		    			System.err.println(i+". Le repertoire "+targetdir+" que vous voulez creer existe déjà.\n");
+		    		}
+	
+	                // Appel récursif sur les sous-répertoires
+	            	copyDirectory(list[i],targetdir);
+            	}
+            	else {
+                	// Si le fichier pointé n'est pas un répertoire, on créé un fichier identique
+            		// dans l'emplacement de destination
+            		File targetfile=new File(target.getAbsolutePath()+File.separator+list[i].getName());
+                	
+                	// Copie du fichier
+            		copyAFile(list[i],targetfile);
+                	
+                }
+
             } 
-        } else {
-        	//Si le chemin pointe sur un fichier, on le copie dans l'emplacement destination
-        	copier(source_directory,target_directory);
-        	
+        }  else{
+        	if (!source.isDirectory()){
+        		System.err.println(source+" n'existe pas ou n'est pas un répertoire valide!");
+        	}
+        	if (!target.isDirectory()){
+        		System.err.println(target+" n'existe pas ou n'est pas un répertoire valide!");
+        	}
+        	result = false;
         }
+    	return( result );
     }
     
     /**
+     * Supprime un répertoire passé en paramètre ainsi que son contenu
      * 
      * @param path
-     * @return resultat
+     * 			Chemin du répertoire à vider puis à supprimer
+     * @return result
+     * 			Indique si la suppression à été un succes ou un échec
      */
     static public boolean deleteDirectory(File path) { 
-        boolean resultat = true; 
+        boolean result = true; 
+        // On teste l'existance du chemin pour vider le contenu du repertoire
         if( path.exists() ) { 
+        		// Comme on est dans un répertoire, on liste son contenu
                 File[] files = path.listFiles(); 
                 for(int i=0; i<files.length; i++) { 
                         if(files[i].isDirectory()) { 
-                                resultat &= deleteDirectory(files[i]); 
+                        	// Si le fichier est un répertoire, on rapelle la fonction récursivement
+                        	result &= deleteDirectory(files[i]); 
                         } 
                         else { 
-                        resultat &= files[i].delete(); 
+                        	// Si le fichier n'est pas un répertoire, on le supprime
+                        	result &= files[i].delete(); 
                         } 
                 } 
         } 
-        resultat &= path.delete(); 
-        return( resultat ); 
+        // Finalement on supprime le répertoire en lui meme
+        result &= path.delete(); 
+        return( result ); 
     }
     
     
