@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimeHandler.java,v 1.9 2006/01/20 15:08:17 fabfoot Exp $
+ * $Id: TimeHandler.java,v 1.10 2006/01/23 09:53:56 fabfoot Exp $
  */
 package pagod.wizard.control;
 import java.io.File;
@@ -98,9 +98,11 @@ public TimeHandler(Document document)
 				String activity_id = acty.getId();
 				// Si id activit? trouv?
 				//System.err.println("test de l'activit et de lid");
-				if (activity_id == idnode.toString()) {
+				if (activity_id.equals(idnode.getValue()) ) {
 					Element time = node.getChild("time");
-					acty.setTime(Integer.getInteger(time.getText()).intValue());
+					//System.err.println("id trouv");
+					//System.err.println(time.getText());
+					acty.setTime(new Integer(time.getText()).intValue());
 					//System.err.println(acty.getTime());
 					break;
 				}
