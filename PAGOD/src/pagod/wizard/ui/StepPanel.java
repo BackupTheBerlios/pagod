@@ -1,5 +1,5 @@
 /*
- * $Id: StepPanel.java,v 1.2 2006/01/19 23:34:36 psyko Exp $
+ * $Id: StepPanel.java,v 1.3 2006/01/23 17:14:11 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -120,7 +120,9 @@ public class StepPanel extends JScrollPane
             message = stepToPresent.getComment();
         }
         this.body.setText(message);
-        innerPane.add(this.body, BorderLayout.CENTER);
+        JScrollPane jsBodyStep = new JScrollPane(this.body, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        this.body.setBackground(Color.WHITE);
+        innerPane.add(jsBodyStep, BorderLayout.CENTER);
         // ajout du globalpane dans le viewportview
         this.setViewportView(globalPane);
     }
