@@ -1,5 +1,5 @@
 /*
- * $Id: PreferencesDialog.java,v 1.2 2006/01/20 15:43:38 coincoin Exp $
+ * $Id: PreferencesDialog.java,v 1.3 2006/01/23 19:59:22 flotueur Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -27,6 +27,7 @@ package pagod.wizard.ui;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -37,6 +38,7 @@ import javax.swing.JTabbedPane;
 
 import pagod.utils.LanguagesManager;
 import pagod.wizard.control.PreferencesManager;
+import pagod.utils.FilesManager;
 
 /**
  * Fenetre des Pr?f?rences de l'application.
@@ -140,6 +142,16 @@ public class PreferencesDialog extends JDialog implements ActionListener
 
             PreferencesManager.getInstance().setLanguage(sLang);
             /*Modif Coin coin*/
+            
+            // On instancie les fichiers
+    		File sourceWorkspace = new File(PreferencesManager.getInstance().getWorkspace());
+    		File targetWorkspace = new File(this.pLanguage.getWorkspace());
+    		
+    		// On copie le répertoire source dans le répertoire destination
+    		FilesManager.copyDirectory(sourceWorkspace,targetWorkspace);
+    		// On efface le répertoire source
+    		FilesManager.deleteDirectory(sourceWorkspace);
+            
             PreferencesManager.getInstance().setWorkspace(this.pLanguage.getWorkspace());
             /*Fin Modif Coin coin*/
             PreferencesManager.getInstance().storePreferences();
