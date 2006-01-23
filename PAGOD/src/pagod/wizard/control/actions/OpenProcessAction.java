@@ -1,5 +1,5 @@
 /*
- * $Id: OpenProcessAction.java,v 1.3 2006/01/22 15:45:39 yak Exp $
+ * $Id: OpenProcessAction.java,v 1.4 2006/01/23 18:35:23 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -26,6 +26,7 @@ package pagod.wizard.control.actions;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.io.IOException;
 
 import javax.swing.KeyStroke;
@@ -35,6 +36,7 @@ import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
 import pagod.utils.TimerManager;
 import pagod.wizard.control.ApplicationManager;
+import pagod.wizard.control.PreferencesManager;
 import pagod.wizard.control.states.Request;
 
 /**
@@ -68,20 +70,34 @@ public class OpenProcessAction extends AbstractPagodAction
 	{
 		// si le processus a pu etre ouvert alors on delegue la requete à
 		// l'application manager
-		if (ApplicationManager.getInstance().getMfPagod()
-				.chooseAndOpenProcess())
+		//on essaye d'effacer l'ancien dpc
+		File processFile = new File(PreferencesManager.getInstance()
+				.getWorkspace()
+				+ File.separator
+				+ ApplicationManager.getInstance().getCurrentProject()
+						.getName()
+				+ File.separator
+				+ ApplicationManager.getInstance().getCurrentProject()
+						.getNameDPC());
+		if (processFile.delete())
 		{
-			// on stop le timer
-			if (TimerManager.getInstance().isStarted())
+			//si le fichier a ete effacer ;) on l'associe au projet
+			if (ApplicationManager.getInstance().getMfPagod()
+					.associateDPCWithProject())
 			{
-				TimerManager.getInstance().stop();
-				Activity aTemp = ApplicationManager.getInstance().getMfPagod()
-						.getActivity();
-				// on enregistre le temps pour l'activité
-				aTemp.setTime(TimerManager.getInstance().getValue());
+				// on stop le timer
+				if (TimerManager.getInstance().isStarted())
+				{
+					TimerManager.getInstance().stop();
+					Activity aTemp = ApplicationManager.getInstance().getMfPagod()
+							.getActivity();
+					// on enregistre le temps pour l'activité
+					aTemp.setTime(TimerManager.getInstance().getValue());
+				}
+				ApplicationManager.getInstance().manageRequest(this.request);
 			}
-			ApplicationManager.getInstance().manageRequest(this.request);
 		}
+		
 
 	}
 }
