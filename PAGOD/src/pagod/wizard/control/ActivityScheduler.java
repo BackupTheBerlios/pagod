@@ -1,5 +1,5 @@
 /*
- * $Id: ActivityScheduler.java,v 1.31 2006/01/25 13:51:40 cyberal82 Exp $
+ * $Id: ActivityScheduler.java,v 1.32 2006/01/25 13:54:28 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -210,15 +210,7 @@ public class ActivityScheduler extends Observable
 	 */
 	public boolean ManageRequest (Request request)
 	{
-		// TODO a remetre tel quel
-		// return this.activityState.manageRequest(request);
-
-		if (this.activityState.manageRequest(request))
-		{
-			//this.activityState.display();
-			return true;
-		}
-		return false;
+		return this.activityState.manageRequest(request);
 	}
 
 }
