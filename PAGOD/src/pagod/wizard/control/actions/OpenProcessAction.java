@@ -1,5 +1,5 @@
 /*
- * $Id: OpenProcessAction.java,v 1.4 2006/01/23 18:35:23 yak Exp $
+ * $Id: OpenProcessAction.java,v 1.5 2006/01/25 09:21:23 fabfoot Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -37,6 +37,7 @@ import pagod.utils.LanguagesManager;
 import pagod.utils.TimerManager;
 import pagod.wizard.control.ApplicationManager;
 import pagod.wizard.control.PreferencesManager;
+import pagod.wizard.control.TimeHandler;
 import pagod.wizard.control.states.Request;
 
 /**
@@ -61,16 +62,14 @@ public class OpenProcessAction extends AbstractPagodAction
 	}
 
 	/**
-	 * Methode appélée lorsque l'action est déclenché
+	 * Methode app?l?e lorsque l'action est d?clench?
 	 * 
 	 * @param actionEvent
 	 *            Evenement survenue
 	 */
 	public void actionPerformed (ActionEvent actionEvent)
 	{
-		// si le processus a pu etre ouvert alors on delegue la requete à
-		// l'application manager
-		//on essaye d'effacer l'ancien dpc
+
 		File processFile = new File(PreferencesManager.getInstance()
 				.getWorkspace()
 				+ File.separator
@@ -81,7 +80,10 @@ public class OpenProcessAction extends AbstractPagodAction
 						.getNameDPC());
 		if (processFile.delete())
 		{
-			//si le fichier a ete effacer ;) on l'associe au projet
+			// si le processus a pu etre ouvert alors on delegue la requete ?
+			// l'application manager
+			// on essaye d'effacer l'ancien dpc
+			// si le fichier a ete effacer ;) on l'associe au projet
 			if (ApplicationManager.getInstance().getMfPagod()
 					.associateDPCWithProject())
 			{
@@ -89,15 +91,24 @@ public class OpenProcessAction extends AbstractPagodAction
 				if (TimerManager.getInstance().isStarted())
 				{
 					TimerManager.getInstance().stop();
-					Activity aTemp = ApplicationManager.getInstance().getMfPagod()
-							.getActivity();
-					// on enregistre le temps pour l'activité
+					Activity aTemp = ApplicationManager.getInstance()
+							.getMfPagod().getActivity();
+					// on enregistre le temps pour l'activit?
 					aTemp.setTime(TimerManager.getInstance().getValue());
 				}
 				ApplicationManager.getInstance().manageRequest(this.request);
+				 
+				//initialiser le document time 
+				TimeHandler th = new TimeHandler ();
+				th.loadXML( ApplicationManager.getInstance().getCurrentProject().getName());
+				System.out.println("apres le load xml pasing");
+				th.affiche(); 
+				th.fillModel(ApplicationManager.getInstance().getCurrentProcess() );
+				System.out.println("apres la mont du model");
+				th.affiche();
 			}
+			
 		}
-		
 
 	}
 }

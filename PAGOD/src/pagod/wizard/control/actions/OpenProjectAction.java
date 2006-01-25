@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: OpenProjectAction.java,v 1.6 2006/01/22 15:45:39 yak Exp $
+ * $Id: OpenProjectAction.java,v 1.7 2006/01/25 09:21:23 fabfoot Exp $
  */
 package pagod.wizard.control.actions;
 
@@ -18,6 +18,7 @@ import pagod.utils.LanguagesManager;
 import pagod.utils.TimerManager;
 import pagod.wizard.control.ApplicationManager;
 import pagod.wizard.control.PreferencesManager;
+import pagod.wizard.control.TimeHandler;
 import pagod.wizard.control.states.Request;
 
 /**
@@ -43,14 +44,14 @@ public class OpenProjectAction extends AbstractPagodAction
 	}
 
 	/**
-	 * Methode appélée lorsque l'action est déclenché
+	 * Methode app?l?e lorsque l'action est d?clench?
 	 * 
 	 * @param actionEvent
 	 *            Evenement survenue
 	 */
 	public void actionPerformed (ActionEvent actionEvent)
 	{
-		// si le project a pu etre ouvert alors on delegue la requete à
+		// si le project a pu etre ouvert alors on delegue la requete ?
 		// l'application manager
 		if (ApplicationManager.getInstance().getMfPagod().openProject())
 		{
@@ -61,7 +62,7 @@ public class OpenProjectAction extends AbstractPagodAction
 				TimerManager.getInstance().stop();
 				Activity aTemp = ApplicationManager.getInstance().getMfPagod()
 						.getActivity();
-				// on enregistre le temps pour l'activité
+				// on enregistre le temps pour l'activit?
 				aTemp.setTime(TimerManager.getInstance().getValue());
 			}
 
@@ -71,12 +72,16 @@ public class OpenProjectAction extends AbstractPagodAction
 					.hasNameDPC())
 			{
 				// si le processus a pu etre ouvert alors on delegue la requete
-				// à l'application manager
+				// ? l'application manager
 				if (ApplicationManager.getInstance().getMfPagod()
 						.associateDPCWithProject())
 				{
 					ApplicationManager.getInstance().manageRequest(
 							new Request(Request.RequestType.OPEN_PROCESS));
+					TimeHandler th = new TimeHandler ();
+					System.out.println("fabfabafabbba");
+					th.loadXML(ApplicationManager.getInstance().getCurrentProject().getName());
+					th.fillModel(ApplicationManager.getInstance().getCurrentProcess() );
 				}
 			}
 			else
@@ -97,6 +102,11 @@ public class OpenProjectAction extends AbstractPagodAction
 				{
 					ApplicationManager.getInstance().manageRequest(
 							new Request(Request.RequestType.OPEN_PROCESS));
+					TimeHandler th = new TimeHandler ();
+					th.loadXML(ApplicationManager.getInstance().getCurrentProject().getName());
+					System.out.println("openprject ");
+					th.affiche() ;
+					th.fillModel(ApplicationManager.getInstance().getCurrentProcess() );
 					ApplicationManager.getInstance().getMfPagod().showProcess();
 				}
 

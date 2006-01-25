@@ -1,5 +1,5 @@
 /*
- * $Id: QuitAction.java,v 1.6 2006/01/22 15:48:17 yak Exp $
+ * $Id: QuitAction.java,v 1.7 2006/01/25 09:21:23 fabfoot Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -36,6 +36,7 @@ import pagod.utils.LanguagesManager;
 import pagod.utils.TimerManager;
 import pagod.wizard.control.ApplicationManager;
 import pagod.wizard.control.PreferencesManager;
+import pagod.wizard.control.TimeHandler;
 
 /**
  * Action pour quitter l'application
@@ -57,7 +58,7 @@ public class QuitAction extends AbstractPagodAction
 	}
 
 	/**
-	 * Methode appélée lorsque l'action est déclenché
+	 * Methode app?l?e lorsque l'action est d?clench?
 	 * 
 	 * @param actionEvent
 	 *            Evenement survenue
@@ -73,10 +74,16 @@ public class QuitAction extends AbstractPagodAction
 		{	
 			TimerManager.getInstance().stop();
 			Activity aTemp = ApplicationManager.getInstance().getMfPagod().getActivity();
-			//on enregistre le temps pour l'activité
+			//on enregistre le temps pour l'activit?
 			aTemp.setTime(TimerManager.getInstance().getValue());
 		}
-	
+		/*TODO test pour le xml*/
+		if (ApplicationManager.getInstance().getCurrentProcess() != null  )
+		{
+			TimeHandler th = new TimeHandler ();
+			th.loadModel(ApplicationManager.getInstance().getCurrentProcess() );
+			th.writeXML( ApplicationManager.getInstance().getCurrentProject().getName());
+		}
 		
 		
 		PreferencesManager.getInstance().storeExtensions();
