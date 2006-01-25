@@ -15,6 +15,7 @@
 
 	<!-- Déclaration des variables librairie -->
 	<property name="lib_parserHTML" location="lib/htmlparser.jar" />
+	<property name="lib_parserXML" location="lib/jdom.jar" />
 	<property name="lib_jdicWin" location="lib/windows/jdic.jar" />
 
 
@@ -28,7 +29,8 @@
 			<classpath>
 				<pathelement path="${java.class.path}" />
 				<pathelement location="lib/htmlparser.jar" />
-
+				<pathelement location="lib/jdom.jar" />
+				<pathelement location="lib/jdic.jar" />
 			</classpath>
 		</javac>
 	</target>
@@ -49,16 +51,18 @@
 		<!-- copie des fichier librairie -->
 		<copy file="lib/htmlparser.jar" todir="${curbuild}/lib/" />
 		<copy file="lib/windows/jdic.jar" todir="${curbuild}/lib/" />
-		<jar jarfile="${curbuild}/pagod_wizard.jar" basedir="${bin}">
+		<copy file="lib/jdom.jar" todir="${curbuild}/lib/" />
+		<jar jarfile="${curbuild}/pagod_wizard.jar" basedir="${bin}" excludes="test/** resources/*.** resources/exportpabe/**">
 			<manifest>
 				<!--<attribute name="Built-By" value="${user.name}" />-->
 				<attribute name="Main-Class" value="pagod.wizard.MainWizard" />
-				<attribute name="Class-Path" value="lib/htmlparser.jar lib/jdic.jar" />
+				<attribute name="Class-Path" value="lib/htmlparser.jar lib/jdic.jar lib/jdom.jar" />
 			</manifest>
+			
 		</jar>
 
 	</target>
-	<target name="jarWizardLin" description="Construit le jar du wizard pour linux" depends="wizard">
+	<target name="jarWizardLin" description="Construit le jar du wizard pour linux" depends="wizard" >
 			<buildnumber file="antwizard.properties" />
 			<!--Creation des repertoire pour la build courante-->
 			<!--Variable ou générer la build-->
@@ -69,7 +73,7 @@
 			<!-- copie des fichier librairie -->
 			<copy file="lib/htmlparser.jar" todir="${curbuild}/lib/" />
 			<copy file="lib/linux/jdic.jar" todir="${curbuild}/lib/" />
-			<jar jarfile="${curbuild}/pagod_wizard.jar" basedir="${bin}">
+			<jar jarfile="${curbuild}/pagod_wizard.jar" basedir="${bin}" excludes="test/** resources/*.** resources/exportpabe/**">
 				<manifest>
 					<!--<attribute name="Built-By" value="${user.name}" />-->
 					<attribute name="Main-Class" value="pagod.wizard.MainWizard" />
