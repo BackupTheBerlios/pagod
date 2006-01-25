@@ -1,5 +1,5 @@
 /*
- * $Id: ModelResourcesManager.java,v 1.3 2005/12/04 22:53:33 yak Exp $
+ * $Id: ModelResourcesManager.java,v 1.4 2006/01/25 16:32:56 themorpheus Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -26,10 +26,13 @@ package pagod.common.control;
 
 import java.awt.Image;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Properties;
 
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
@@ -52,6 +55,7 @@ import pagod.utils.FilesManager;
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
 import pagod.utils.ImagesManager.NotInitializedException;
+import pagod.wizard.control.ApplicationManager;
 import pagod.wizard.control.PreferencesManager;
 import pagod.wizard.control.PreferencesManager.InvalidExtensionException;
 import pagod.wizard.ui.AddExtensionDialog;
@@ -236,7 +240,7 @@ public class ModelResourcesManager
 			}
 			catch (IOException e2)
 			{
-				// TODO Bloc de traitement des exceptions généré automatiquement
+				// TODO Bloc de traitement des exceptions g?n?r? automatiquement
 				ExceptionManager.getInstance().manage(e2);
 			}
 			if (fileStream != null)
@@ -244,7 +248,7 @@ public class ModelResourcesManager
 				File fTempFile = FilesManager.getInstance().createTempFile(
 						fileStream, sName, sExt, true);
 				String tempFilePath = fTempFile.getAbsolutePath();
-				// si extension n'est pas défini on demande a l'utilisateur
+				// si extension n'est pas d?fini on demande a l'utilisateur
 				if (!PreferencesManager.getInstance().containPreference(sExt))
 				{
 					JOptionPane.showMessageDialog(null, LanguagesManager
@@ -312,9 +316,9 @@ public class ModelResourcesManager
 			}
 		}
 	}
-
+	
 	/**
-	 * lance l'outil associé au produit
+	 * lance l'outil associ? au produit
 	 * 
 	 * @param product
 	 *            produit pour lequel il faut lancer l'application
@@ -350,13 +354,43 @@ public class ModelResourcesManager
 				// execution de la commande complete
 				try
 				{
+					JOptionPane.showMessageDialog(null,
+							LanguagesManager.getInstance().getString(
+									"WarningSaveProductName"), LanguagesManager
+									.getInstance().getString(
+											"WarningSaveProductNameTitle"),
+								JOptionPane.INFORMATION_MESSAGE);
 					Process p = Runtime.getRuntime().exec(sPath);
-					if (p == null) JOptionPane.showMessageDialog(null,
+					if (p == null)
+					{
+						JOptionPane.showMessageDialog(null,
 							LanguagesManager.getInstance().getString(
 									"ErreurDeLancement"), LanguagesManager
 									.getInstance().getString(
 											"ErreurDeLancementTitle"),
 							JOptionPane.WARNING_MESSAGE);
+					}
+					else
+					{
+						/* debut des modifications -> baloo */
+						// l'application cible est bien lancee, on cree une reference
+						// au produit (que va enregistrer l'utilisateur) dans le fichier
+						// documentation.properties
+						Properties pProduct = new Properties();
+						// recupere le workspace courant
+						String sPathProperties = PreferencesManager.getInstance().getWorkspace();
+						// recupere le chemin du .properties du projet courant
+						sPathProperties += "/"+ApplicationManager.getInstance().getCurrentProject().getName();
+						sPathProperties += "/documentation.properties";
+						File fileProperties = new File(sPathProperties);
+						// charge le fichier
+						pProduct.load(new FileInputStream(fileProperties));
+						pProduct.setProperty(product.getId(),product.getName());
+						// enregistre les modifications
+						pProduct.store(new FileOutputStream(fileProperties),LanguagesManager.getInstance()
+				                .getString("ListProductsPanelCommentsFileProperties"));
+					}
+					/* fin des modifications -> baloo */
 				}
 				catch (IOException e)
 				{
@@ -369,6 +403,113 @@ public class ModelResourcesManager
 									"ErreurDeLancementTitle"),
 							JOptionPane.WARNING_MESSAGE);
 				}
+			}
+		}
+	}
+	
+	/**
+	 * lance l'outil associ? au produit
+	 * 
+	 * @param product
+	 *            produit pour lequel il faut lancer l'application
+	 */
+	public void launchUpdateProductApplication (Product product)
+	{
+		
+		// on recupere le logiciel
+		Tool tToolProduct = product.getEditor();
+		if (tToolProduct == null)
+		{
+			JOptionPane.showMessageDialog(null, LanguagesManager.getInstance()
+					.getString("nonDefineTool"), LanguagesManager.getInstance()
+					.getString("nonDefineToolTitle"),
+					JOptionPane.WARNING_MESSAGE);
+		}
+		else
+		{
+			// recuperation du nom et du chemin
+			String sPath = tToolProduct.getPath();
+			// on test si le path existe
+			if (sPath == null || sPath.equals(""))
+			{
+				JOptionPane.showMessageDialog(null, LanguagesManager
+						.getInstance().getString("nonDefineToolPath"),
+						LanguagesManager.getInstance().getString(
+								"nonDefineToolPathTitle"),
+						JOptionPane.WARNING_MESSAGE);
+				// on ouvre le dialogue
+				new SetToolDialog(null, tToolProduct);
+			}
+			else
+			{
+				// execution de la commande complete
+				try
+				{
+					/* debut des modifications -> baloo */
+					Properties pProduct = new Properties();
+					// recupere le workspace courant
+					String sPathProperties = PreferencesManager.getInstance().getWorkspace();
+					File fWorskpace = new File(sPathProperties);
+					// recupere le chemin du .properties du projet courant
+					sPathProperties += fWorskpace.separator+ApplicationManager.getInstance().getCurrentProject().getName();
+					String sPathProduct = sPathProperties+fWorskpace.separator+"produits"+fWorskpace.separator;
+					sPathProperties += fWorskpace.separator+"documentation.properties";
+					//fichier .properties
+					File fileProperties = new File(sPathProperties);
+					File fileProduct = new File(sPathProduct);
+					// charge le fichier
+					pProduct.load(new FileInputStream(fileProperties));
+					// recupere le nom du produit associé
+					String sProduct = pProduct.getProperty(product.getId());
+					// recherche si un nom de produit correspond dans la liste des produits
+					int i = 0;
+					boolean bFind = false;
+					while (i < fileProduct.list().length && !bFind)
+					{
+						String[] sTabProduct = fileProduct.list();
+						if (sTabProduct[i].startsWith(sProduct))
+						{
+							// un produit correspond
+							sPathProduct += sTabProduct[i];
+							bFind = true;
+						}
+						else
+						{
+							i++;
+						}
+					}
+					// un produit correspond, on lance ce produit dans l'application qui lui est défini
+					if (bFind)
+					{
+						String sCmd = sPath + " " + sPathProduct;
+						Process p = Runtime.getRuntime().exec(sCmd);
+						if (p == null)
+						{
+							JOptionPane.showMessageDialog(null,
+								LanguagesManager.getInstance().getString(
+										"ErreurDeLancement"), LanguagesManager
+										.getInstance().getString(
+												"ErreurDeLancementTitle"),
+								JOptionPane.WARNING_MESSAGE);
+						}
+					}
+					/* fin des modifications -> baloo */
+				}
+				catch (IOException e)
+				{
+					// TODO GERER CETTE ERREUR
+					// automatiquement
+					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, LanguagesManager
+							.getInstance().getString("ErreurDeLancement"),
+							LanguagesManager.getInstance().getString(
+									"ErreurDeLancementTitle"),
+							JOptionPane.WARNING_MESSAGE);
+				}
+				/*catch (DesktopException ex) 
+				{
+					ex.printStackTrace();
+				}*/
 			}
 		}
 	}
