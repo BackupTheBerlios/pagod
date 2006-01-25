@@ -1,5 +1,5 @@
 /*
- * $Id: ListProductsPanel.java,v 1.3 2005/11/13 20:55:31 cyberal82 Exp $
+ * $Id: ListProductsPanel.java,v 1.4 2006/01/25 16:32:56 themorpheus Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -31,7 +31,11 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Collection;
+import java.util.Properties;
 
 import javax.swing.Box;
 import javax.swing.DefaultListCellRenderer;
@@ -39,6 +43,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -46,6 +51,8 @@ import javax.swing.event.ListSelectionListener;
 import pagod.common.control.ModelResourcesManager;
 import pagod.common.model.Product;
 import pagod.utils.LanguagesManager;
+import pagod.wizard.control.ApplicationManager;
+import pagod.wizard.control.PreferencesManager;
 
 /**
  * Presente une liste de produits
@@ -63,7 +70,7 @@ public abstract class ListProductsPanel extends JPanel
     private Product theSelectedProduct;
 
     /**
-     * label pour prévenir
+     * label pour pr?venir
      */
     private JLabel message;
 
@@ -71,12 +78,17 @@ public abstract class ListProductsPanel extends JPanel
      * Bouton permettant de lancer la creation d'un produit
      */
     private JButton bpLauncherProduct;
+    
+    /**
+     * Bouton permettant de lancer la modification d'un produit
+     */
+    private JButton bpUpdaterProduct;
 
     /**
      * Constructeur
      * 
      * @param productsToPresent
-     *            liste de produit à présentée
+     *            liste de produit ? pr?sent?e
      */
     public ListProductsPanel(Collection<Product> productsToPresent)
     {
@@ -97,10 +109,13 @@ public abstract class ListProductsPanel extends JPanel
         // creation et ajout d'un bouton pour lancer la creation du produit
         this.bpLauncherProduct = new JButton(LanguagesManager.getInstance()
                 .getString("ListProductsPanelBpLauncherProduct"));
-
+        // creation et ajout d'un bouton pour modifier le produit existant
+        this.bpUpdaterProduct = new JButton(LanguagesManager.getInstance()
+                .getString("ListProductsPanelBpUpdaterProduct"));
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout(FlowLayout.CENTER));
         panel.add(this.bpLauncherProduct);
+        panel.add(this.bpUpdaterProduct);
         panel.setBackground(Color.WHITE);
         // creation et ajout du Label
         this.message = new JLabel(LanguagesManager.getInstance()
@@ -116,19 +131,29 @@ public abstract class ListProductsPanel extends JPanel
                         ListProductsPanel.this.theSelectedProduct);
             }
         });
-
-        // * Créer la liste * //
+        
+        // mise sur ecoute du bouton pour lancer la modification du produit
+        this.bpUpdaterProduct.addMouseListener(new MouseAdapter()
+        {
+            public void mouseClicked(MouseEvent e)
+            {
+                ModelResourcesManager.getInstance().launchUpdateProductApplication(
+                        ListProductsPanel.this.theSelectedProduct);
+            }
+        });
+        
+        // * Cr?er la liste * //
         // Rremplir le model de la Jlist
         DefaultListModel model = new DefaultListModel();
         for (Product p : productsToPresent)
         {
             model.addElement(p);
         }
-        // Créer la JList
+        // Cr?er la JList
         this.productsList = new JList(model);
-        // mettre en place un renderer Personnalisé
+        // mettre en place un renderer Personnalis?
         this.productsList.setCellRenderer(new ListProductRenderer());
-        // Associer un écouteur à la liste
+        // Associer un ?couteur ? la liste
         this.productsList.addListSelectionListener(new ListProductListener());
         // selectionner la premiere liste
         this.productsList.setSelectedIndex(0);
@@ -145,10 +170,10 @@ public abstract class ListProductsPanel extends JPanel
     }
 
     /**
-     * Methode appélé lors d'un changement de selection de ligne
+     * Methode app?l? lors d'un changement de selection de ligne
      * 
      * @param selectedProduct
-     *            produit selectionné
+     *            produit selectionn?
      */
     public abstract void onSelection(Product selectedProduct);
 
@@ -160,25 +185,64 @@ public abstract class ListProductsPanel extends JPanel
          */
         public void valueChanged(ListSelectionEvent e)
         {
-            if (!e.getValueIsAdjusting())
-            {
-                // Product selectedProduct;
-                ListProductsPanel.this.theSelectedProduct = (Product) ((JList) e
-                        .getSource()).getSelectedValue();
-                if (ListProductsPanel.this.theSelectedProduct.getEditor() != null)
+        	/* debut des modifications -> baloo */
+        	try
+        	{
+        		Properties pProduct = new Properties();
+    			// recupere le workspace courant
+    			String sPathProperties = PreferencesManager.getInstance().getWorkspace();
+    			// recupere le chemin du .properties du projet courant
+    			sPathProperties += "/"+ApplicationManager.getInstance().getCurrentProject().getName();
+    			sPathProperties += "/documentation.properties";
+    			File fileProperties = new File(sPathProperties);
+    			// charge le fichier
+    			pProduct.load(new FileInputStream(fileProperties));
+    			
+                if (!e.getValueIsAdjusting())
                 {
-                    ListProductsPanel.this.bpLauncherProduct.setVisible(true);
-                    ListProductsPanel.this.message.setVisible(false);
+                    // Product selectedProduct;
+                    ListProductsPanel.this.theSelectedProduct = (Product) ((JList) e
+                            .getSource()).getSelectedValue();
+                    if (ListProductsPanel.this.theSelectedProduct.getEditor() != null)
+                    {
+                        //teste si un document est deja cree pour le produit
+                        if (pProduct.getProperty(ListProductsPanel.this.theSelectedProduct.getId()) != null)
+                        {
+                        	ListProductsPanel.this.bpLauncherProduct.setVisible(true);
+                            ListProductsPanel.this.bpUpdaterProduct.setVisible(true);
+                            ListProductsPanel.this.bpLauncherProduct.setEnabled(false);
+                            ListProductsPanel.this.bpUpdaterProduct.setEnabled(true);
+                            ListProductsPanel.this.message.setVisible(false);
+                        }
+                        else
+                        {
+                        	ListProductsPanel.this.bpLauncherProduct.setVisible(true);
+                            ListProductsPanel.this.bpUpdaterProduct.setVisible(true);
+                            ListProductsPanel.this.bpLauncherProduct.setEnabled(true);
+                            ListProductsPanel.this.bpUpdaterProduct.setEnabled(false);
+                            ListProductsPanel.this.message.setVisible(false);
+                        }
+                    }
+                    else
+                    {
+                        ListProductsPanel.this.bpLauncherProduct.setVisible(false);
+                        ListProductsPanel.this.bpUpdaterProduct.setVisible(false);
+                        ListProductsPanel.this.message.setVisible(true);
+                    }
+                    onSelection(ListProductsPanel.this.theSelectedProduct);
                 }
-                else
-                {
-                    ListProductsPanel.this.bpLauncherProduct.setVisible(false);
-                    ListProductsPanel.this.message.setVisible(true);
-                }
-                onSelection(ListProductsPanel.this.theSelectedProduct);
-            }
+        	}
+        	catch (IOException ex)
+			{
+				ex.printStackTrace();
+				JOptionPane.showMessageDialog(null, LanguagesManager
+						.getInstance().getString("ErreurDeLancement"),
+						LanguagesManager.getInstance().getString(
+								"ErreurDeLancementTitle"),
+						JOptionPane.WARNING_MESSAGE);
+			}
         }
-
+        /* fin des modifications -> baloo */
     }
 
     private class ListProductRenderer extends DefaultListCellRenderer
@@ -190,7 +254,7 @@ public abstract class ListProductsPanel extends JPanel
          * @param index
          * @param isSelected
          * @param cellHasFocus
-         * @return Composant à afficher
+         * @return Composant ? afficher
          * 
          */
         public Component getListCellRendererComponent(JList list, Object value,

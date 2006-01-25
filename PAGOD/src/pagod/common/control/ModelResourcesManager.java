@@ -1,5 +1,5 @@
 /*
- * $Id: ModelResourcesManager.java,v 1.4 2006/01/25 16:32:56 themorpheus Exp $
+ * $Id: ModelResourcesManager.java,v 1.5 2006/01/25 16:34:20 themorpheus Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -407,6 +407,7 @@ public class ModelResourcesManager
 		}
 	}
 	
+	/* debut des modifications -> baloo */
 	/**
 	 * lance l'outil associ? au produit
 	 * 
@@ -513,4 +514,5 @@ public class ModelResourcesManager
 			}
 		}
 	}
+	/* fin des modifications -> baloo */
 }
