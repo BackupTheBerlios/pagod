@@ -1,5 +1,5 @@
 /*
- * $Id: ModelResourcesManager.java,v 1.5 2006/01/25 16:34:20 themorpheus Exp $
+ * $Id: ModelResourcesManager.java,v 1.6 2006/01/25 16:35:59 themorpheus Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -409,7 +409,7 @@ public class ModelResourcesManager
 	
 	/* debut des modifications -> baloo */
 	/**
-	 * lance l'outil associ? au produit
+	 * lance le produit à modifier dans l'outil associé
 	 * 
 	 * @param product
 	 *            produit pour lequel il faut lancer l'application
