@@ -1,5 +1,5 @@
 /*
- * $Id: PreferencesManagerTest.java,v 1.1 2005/10/30 10:45:00 yak Exp $
+ * $Id: PreferencesManagerTest.java,v 1.2 2006/01/25 13:51:40 cyberal82 Exp $
  *
  * SPWIZ - Spem Wizard
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -647,6 +647,8 @@ public class PreferencesManagerTest extends TestCase
         catch (Exception e)
         {
             System.out.println("Ne devrait pas arriver");
+            //TODO assertTrue(false)
+            assertTrue(false);
             e.printStackTrace();
         }
     }

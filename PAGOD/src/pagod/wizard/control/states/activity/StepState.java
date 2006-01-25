@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: StepState.java,v 1.2 2006/01/16 10:15:26 yak Exp $
+ * $Id: StepState.java,v 1.3 2006/01/25 13:51:40 cyberal82 Exp $
  */
 package pagod.wizard.control.states.activity;
 
@@ -28,9 +28,6 @@ public class StepState extends AbstractActivityState
 		super(activityScheduler, activity);
 		this.index = stepInd;
 		this.step = this.stepList.get(this.index);
-
-		// TODO a supprimer
-		System.err.println(this.toString());
 	}
 
 	

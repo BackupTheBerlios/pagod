@@ -1,5 +1,5 @@
 /*
- * $Id: PreferencesManagerTest.java,v 1.5 2006/01/15 10:05:49 biniou Exp $
+ * $Id: PreferencesManagerTest.java,v 1.6 2006/01/25 13:51:40 cyberal82 Exp $
  *
  * SPWIZ - Spem Wizard
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -62,7 +62,7 @@ public class PreferencesManagerTest extends TestCase
 		this.extensionArraySave = PreferencesManager.getInstance().preferences();
 		this.pathArraySave = new ArrayList<String>();
 		
-		// pour chaque extension on recupere le path associé
+		// pour chaque extension on recupere le path associ?
 		for(final String currentExtension : this.extensionArraySave )
 		{
 			try
@@ -71,7 +71,7 @@ public class PreferencesManagerTest extends TestCase
 			}
 			catch (InvalidExtensionException e)
 			{
-				// TODO Bloc de traitement des exceptions généré automatiquement
+				// TODO Bloc de traitement des exceptions g?n?r? automatiquement
 				e.printStackTrace();
 			}
 			
@@ -403,7 +403,7 @@ public class PreferencesManagerTest extends TestCase
 		// on supprime le workspace s'il existe
 		PreferencesManager.getInstance().removeWorkspace();
 
-		// avant qu'on recree un workspace ou si rien n'a été supprimé
+		// avant qu'on recree un workspace ou si rien n'a ?t? supprim?
 		assertTrue("On  ne devrait pas avoir de workspace", !PreferencesManager
 				.getInstance().containWorkspace());
 
@@ -727,6 +727,7 @@ public class PreferencesManagerTest extends TestCase
 		catch (Exception e)
 		{
 			System.out.println("Ne devrait pas arriver");
+			//TODO assertTrue(false)???
 			e.printStackTrace();
 		}
 	}
@@ -751,7 +752,7 @@ public class PreferencesManagerTest extends TestCase
 		for (String sExtension : PreferencesManager.getInstance().preferences())
 			PreferencesManager.getInstance().removePreference(sExtension);
 		
-		// remise en place des extensions/paths sauvegardés
+		// remise en place des extensions/paths sauvegard?s
 		for(int i =0;i<this.extensionArraySave.size();i++)
 		{	
 			try
@@ -760,17 +761,17 @@ public class PreferencesManagerTest extends TestCase
 			}
 			catch (FileNotFoundException e)
 			{
-				// TODO Bloc de traitement des exceptions généré automatiquement
+				// TODO Bloc de traitement des exceptions g?n?r? automatiquement
 				e.printStackTrace();
 			}
 			catch (InvalidExtensionException e)
 			{
-				// TODO Bloc de traitement des exceptions généré automatiquement
+				// TODO Bloc de traitement des exceptions g?n?r? automatiquement
 				e.printStackTrace();
 			}
 			catch (FileNotExecuteException e)
 			{
-				// TODO Bloc de traitement des exceptions généré automatiquement
+				// TODO Bloc de traitement des exceptions g?n?r? automatiquement
 				e.printStackTrace();
 			}			
 		}

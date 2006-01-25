@@ -1,30 +1,30 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ProcessOpenedState.java,v 1.6 2006/01/21 17:09:23 cyberal82 Exp $
+ * $Id: ProcessOpenedState.java,v 1.7 2006/01/25 13:51:40 cyberal82 Exp $
  */
 package pagod.wizard.control.states.application;
 
 import pagod.common.model.Activity;
-import pagod.utils.ActionManager;
 import pagod.wizard.control.ApplicationManager;
-import pagod.wizard.control.Constants;
 import pagod.wizard.control.states.Request;
 
 /**
- * Etat de l'ApplicationManager lrosque un project est ouvert et que le processus est ouvert aussi
- * @author yak & bob contre attaque le retour 
+ * Etat de l'ApplicationManager lrosque un project est ouvert et que le
+ * processus est ouvert aussi
+ * 
+ * @author yak & bob contre attaque le retour
  */
-public class ProcessOpenedState extends AbstractApplicationState 
+public class ProcessOpenedState extends AbstractApplicationState
 {
 
 	/**
 	 * @param applicationManager
 	 */
-	public ProcessOpenedState (ApplicationManager  applicationManager)
+	public ProcessOpenedState (ApplicationManager applicationManager)
 	{
 		super(applicationManager);
-	
+
 	}
 
 	/**
@@ -34,34 +34,37 @@ public class ProcessOpenedState extends AbstractApplicationState
 	 */
 	public boolean manageRequest (Request request)
 	{
-		
+
 		AbstractApplicationState state;
-		System.err.println("ProcessOpened.manageRequest :"+request);
+		System.err.println("ProcessOpened.manageRequest :" + request);
 		// on regarde le type de requete que l'on recoit
 		switch (request.getCurrentRequest())
 		{
 
 			case OPEN_PROJECT:
-				// TODO A faire
-				return false;
+				state = new ProjectOpenedState(this.applicationManager);
+				break;
 
 			case CLOSE_PROJECT:
-				//TODO il y a ptetre des trucs a r?init
+				// TODO il y a ptetre des trucs a r?init
 				state = new InitState(this.applicationManager);
 				break;
-				
+
 			case OPEN_PROCESS:
-				//TODO voir si on ne reviens pas en arriere a ce moment la
+				// qd on est dans l'etat ProcessOpenedState la requete
+				// OPEN_PROCESS ne change pas l'etat
 				return false;
-			
+
 			case RUN_ACTIVITY:
 				System.err.println("ici");
-				//on creer un nouvelle etat activit? en passant en parametre l'actvit? r?cup?r? a partir 
+				// on creer un nouvelle etat activit? en passant en parametre
+				// l'actvit? r?cup?r? a partir
 				// de la requete
-				//cf RunActivityAction.actionPerformed
-				state = new ActivityLaunchedState(this.applicationManager,(Activity)request.getContent());
+				// cf RunActivityAction.actionPerformed
+				state = new ActivityLaunchedState(this.applicationManager,
+						(Activity) request.getContent());
 				break;
-				
+
 			default:
 				return false;
 		}

@@ -1,5 +1,5 @@
 /*
- * $Id: ApplicationManager.java,v 1.22 2006/01/21 17:11:16 cyberal82 Exp $
+ * $Id: ApplicationManager.java,v 1.23 2006/01/25 13:51:40 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -71,9 +71,7 @@ import pagod.wizard.control.states.Request;
 import pagod.wizard.control.states.application.AbstractApplicationState;
 import pagod.wizard.control.states.application.InitState;
 import pagod.wizard.ui.MainFrame;
-import pagod.wizard.ui.PreferencesDialog;
 import pagod.wizard.ui.RolesChooserDialog;
-import pagod.wizard.ui.ToolsSettingsDialog;
 
 /**
  * Gestionnaire de l'application impl?ment? comme un singleton Cette classe g?re
@@ -222,7 +220,8 @@ public class ApplicationManager extends Observable
 			am.registerAction(Constants.ACTION_TIMEACTIVITY,
 					new TimeActivityAction());
 
-			// TODO Alex deplacer pour qu'on puisse tester la machine a etat de l'application
+			// TODO Alex deplacer pour qu'on puisse tester la machine a etat de
+			// l'application
 			/*
 			 * // creation de la fenetre principale this.mfPagod = new
 			 * MainFrame(); // on met la main frame sur ecoute de l'application
@@ -261,9 +260,7 @@ public class ApplicationManager extends Observable
 	{
 		try
 		{
-
 			return this.applicationState.manageRequest(request);
-
 		}
 		catch (Exception ex)
 		{
@@ -342,6 +339,7 @@ public class ApplicationManager extends Observable
 			if (workspaceChooser.showOpenDialog(this.mfPagod) == JFileChooser.APPROVE_OPTION)
 			{
 				File file = workspaceChooser.getSelectedFile();
+				//TODO a supprimer
 				System.out.println(file.getPath());
 
 				// mettre le path dans le fichier preferences a la cl?
@@ -517,14 +515,12 @@ public class ApplicationManager extends Observable
 	 * this.mfPagod.getActivity(); this.activityScheduler = new
 	 * ActivityScheduler(activity); // TODO A SUPPR //
 	 * this.activityScheduler.initActivityScheduler(); this.state2 =
-	 * State.ACTIVITY_LAUNCHED;
-	 *  // on notifie la MainFrame qu'on a lanc? une activit? this.setChanged();
-	 *  // on passe a la MainFrame l'ActivityScheduler pour qu'elle // puisse
-	 * s'enregistrer comme observer de l'ActivityScheduler
-	 * this.notifyObservers(this.activityScheduler);
-	 *  // TODO solution temporaire
-	 * this.activityScheduler.setState(this.activityScheduler.getState(0));
-	 *  }
+	 * State.ACTIVITY_LAUNCHED; // on notifie la MainFrame qu'on a lanc? une
+	 * activit? this.setChanged(); // on passe a la MainFrame
+	 * l'ActivityScheduler pour qu'elle // puisse s'enregistrer comme observer
+	 * de l'ActivityScheduler this.notifyObservers(this.activityScheduler); //
+	 * TODO solution temporaire
+	 * this.activityScheduler.setState(this.activityScheduler.getState(0)); }
 	 */
 
 	/**
@@ -612,7 +608,7 @@ public class ApplicationManager extends Observable
 		// on met la main frame sur ecoute de l'application manager et de ces
 		// etats
 		this.addObserver(this.mfPagod);
-		
+
 		// on passe dans l'?tat init
 		this.setState(new InitState(this));
 	}

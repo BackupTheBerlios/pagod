@@ -1,5 +1,5 @@
 /*
- * $Id: PreferencesManager.java,v 1.6 2006/01/05 15:29:00 biniou Exp $
+ * $Id: PreferencesManager.java,v 1.7 2006/01/25 13:51:40 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -277,7 +277,7 @@ public class PreferencesManager extends Observable
     }
     
     /**
-     * Permet de tester l'existence d'un chemin par défaut pour le workspace
+     * Permet de tester l'existence d'un chemin par d?faut pour le workspace
      * 
      * @return true s'il existe un chemin dans les preferences sinon false
      */
@@ -336,7 +336,7 @@ public class PreferencesManager extends Observable
      * de cette classe) a l'emplacement design? par le parametre
      * sPathFilePreferences
      * 
-     * @return vrai si les preferences ont été sauvegardé
+     * @return vrai si les preferences ont ?t? sauvegard?
      * 
      */
     public boolean storePreferences()
@@ -371,7 +371,7 @@ public class PreferencesManager extends Observable
      * le fichier "wizard_preferences.properties" (cf attribut static
      * sNameFilePreferences de cette classe) a l'emplacement design? par le
      * parametre sPathFilePreferences
-     * @return vrai si les extensions on bien été enregistrés
+     * @return vrai si les extensions on bien ?t? enregistr?s
      * 
      */
     public boolean storeExtensions()
@@ -500,7 +500,7 @@ public class PreferencesManager extends Observable
 
     /**
      * Charge les preferencse definies par l'utilisateur.
-     * @return vrai si les preferences on put être charger
+     * @return vrai si les preferences on put ?tre charger
      * 
      */
     public boolean loadPreferences()
@@ -516,7 +516,6 @@ public class PreferencesManager extends Observable
             try
             {
                 preferences.load(new FileInputStream(filePreferences));
-                System.out.println(preferences.toString());
                 // si la cle "lang" n'a pas put etre trouve on defini le
                 // francais
                 // par defaut et on met la JVM en francais
@@ -600,7 +599,7 @@ public class PreferencesManager extends Observable
         for (Enumeration keys = preferences.keys() ; keys.hasMoreElements() ;)
         {
             String extension = keys.nextElement().toString();
-            //TODO a améliorer
+            //TODO a am?liorer
             if (!extension.equals("lang") && !extension.equals("workspace") )
             {
                 file = new File(preferences.getProperty(extension));
@@ -609,7 +608,6 @@ public class PreferencesManager extends Observable
                 // preferences
                 if (!file.exists()&&!file.getName().equals("default"))
                 {
-                   System.out.println("effacemment "+file.getName());
                 	preferences.remove(extension);
                 }
             }

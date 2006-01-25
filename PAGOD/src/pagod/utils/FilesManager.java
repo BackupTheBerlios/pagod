@@ -1,5 +1,5 @@
 /*
- * $Id: FilesManager.java,v 1.3 2006/01/23 01:55:06 flotueur Exp $
+ * $Id: FilesManager.java,v 1.4 2006/01/25 13:51:40 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -221,17 +221,17 @@ public class FilesManager
         }
     }
     
-    //modif Flotueur
+    //TODO modif Flotueur
     
 	/**
 	 * Copie un fichier source vers un fichier destination
 	 * 
 	 * @param source
-	 * 			Fichier source à copier
+	 * 			Fichier source ? copier
 	 * @param target
 	 * 			Fichier destination
 	 * @return result
-	 * 			Indique si la copie à été un succes ou un échec
+	 * 			Indique si la copie ? ?t? un succes ou un ?chec
 	 */
     public static boolean copyAFile( File source, File target )
     {
@@ -277,36 +277,36 @@ public class FilesManager
 	 * @param target
 	 * 			Repertoire cible dans lequel on va copier les fochiers contenus dans source
      * @return result
-     * 			Indique si la copie à été un succes ou un échec
+     * 			Indique si la copie ? ?t? un succes ou un ?chec
 	 */
     public static boolean copyDirectory ( File source, File target) {
     	boolean result = true; 
-        //On vérifie d'abord que les fichier passés en paramêtre sont bien des répertoires
+        //On v?rifie d'abord que les fichier pass?s en param?tre sont bien des r?pertoires
     	if (source.isDirectory() && target.isDirectory()){
     		 
-    		//Nous sommes dans un répertoire, on liste donc le contenu
+    		//Nous sommes dans un r?pertoire, on liste donc le contenu
             File[] list = source.listFiles();
             
             for ( int i = 0; i < list.length; i++) {
 
             	if (list[i].isDirectory()){
-		    		// Si le fichier pointé est un repertoire, on cree un nouveau repertoire
+		    		// Si le fichier point? est un repertoire, on cree un nouveau repertoire
 		    		// portant le meme nom dans le repertoire destination
 		    		File targetdir = new File(target.getAbsolutePath()+File.separator+list[i].getName());
 		    		if (targetdir.mkdir())
 		    		{
-		    			System.out.println(i+". Le repertoire "+targetdir+" est bien copié.\n");
+		    			System.out.println(i+". Le repertoire "+targetdir+" est bien copi?.\n");
 		    		}
 		    		else
 		    		{
-		    			System.err.println(i+". Le repertoire "+targetdir+" que vous voulez creer existe déjà.\n");
+		    			System.err.println(i+". Le repertoire "+targetdir+" que vous voulez creer existe d?j?.\n");
 		    		}
 	
-	                // Appel récursif sur les sous-répertoires
+	                // Appel r?cursif sur les sous-r?pertoires
 	            	copyDirectory(list[i],targetdir);
             	}
             	else {
-                	// Si le fichier pointé n'est pas un répertoire, on créé un fichier identique
+                	// Si le fichier point? n'est pas un r?pertoire, on cr?? un fichier identique
             		// dans l'emplacement de destination
             		File targetfile=new File(target.getAbsolutePath()+File.separator+list[i].getName());
                 	
@@ -318,10 +318,10 @@ public class FilesManager
             } 
         }  else{
         	if (!source.isDirectory()){
-        		System.err.println(source+" n'existe pas ou n'est pas un répertoire valide!");
+        		System.err.println(source+" n'existe pas ou n'est pas un r?pertoire valide!");
         	}
         	if (!target.isDirectory()){
-        		System.err.println(target+" n'existe pas ou n'est pas un répertoire valide!");
+        		System.err.println(target+" n'existe pas ou n'est pas un r?pertoire valide!");
         	}
         	result = false;
         }
@@ -329,31 +329,31 @@ public class FilesManager
     }
     
     /**
-     * Supprime un répertoire passé en paramètre ainsi que son contenu
+     * Supprime un r?pertoire pass? en param?tre ainsi que son contenu
      * 
      * @param path
-     * 			Chemin du répertoire à vider puis à supprimer
+     * 			Chemin du r?pertoire ? vider puis ? supprimer
      * @return result
-     * 			Indique si la suppression à été un succes ou un échec
+     * 			Indique si la suppression ? ?t? un succes ou un ?chec
      */
     static public boolean deleteDirectory(File path) { 
         boolean result = true; 
         // On teste l'existance du chemin pour vider le contenu du repertoire
         if( path.exists() ) { 
-        		// Comme on est dans un répertoire, on liste son contenu
+        		// Comme on est dans un r?pertoire, on liste son contenu
                 File[] files = path.listFiles(); 
                 for(int i=0; i<files.length; i++) { 
                         if(files[i].isDirectory()) { 
-                        	// Si le fichier est un répertoire, on rapelle la fonction récursivement
+                        	// Si le fichier est un r?pertoire, on rapelle la fonction r?cursivement
                         	result &= deleteDirectory(files[i]); 
                         } 
                         else { 
-                        	// Si le fichier n'est pas un répertoire, on le supprime
+                        	// Si le fichier n'est pas un r?pertoire, on le supprime
                         	result &= files[i].delete(); 
                         } 
                 } 
         } 
-        // Finalement on supprime le répertoire en lui meme
+        // Finalement on supprime le r?pertoire en lui meme
         result &= path.delete(); 
         return( result ); 
     }

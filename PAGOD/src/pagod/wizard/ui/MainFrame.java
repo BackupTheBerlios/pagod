@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.30 2006/01/20 19:15:40 cyberal82 Exp $
+ * $Id: MainFrame.java,v 1.31 2006/01/25 13:51:40 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -610,7 +610,7 @@ public class MainFrame extends JFrame implements Observer
 	public boolean openProject ()
 	{
 		boolean opened = false;
-		this.reinitialize();
+		
 		OpenProjectDialog opDialog = new OpenProjectDialog(this);
 		opDialog.showDialog();
 		Project projectTemp = null;
@@ -618,6 +618,7 @@ public class MainFrame extends JFrame implements Observer
 		{
 			projectTemp = opDialog.getOpenedProject();
 			ApplicationManager.getInstance().setCurrentProject(projectTemp);
+			this.reinitialize();
 		}
 		else
 		{

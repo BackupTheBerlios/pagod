@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: OpenProjectAction.java,v 1.7 2006/01/25 09:21:23 fabfoot Exp $
+ * $Id: OpenProjectAction.java,v 1.8 2006/01/25 13:51:40 cyberal82 Exp $
  */
 package pagod.wizard.control.actions;
 
@@ -66,7 +66,9 @@ public class OpenProjectAction extends AbstractPagodAction
 				aTemp.setTime(TimerManager.getInstance().getValue());
 			}
 
-			ApplicationManager.getInstance().manageRequest(this.request);
+			boolean test = ApplicationManager.getInstance().manageRequest(this.request);
+			
+			System.err.println("OpenProjectAction test alex : " + test);
 
 			if (!ApplicationManager.getInstance().getCurrentProject()
 					.hasNameDPC())
@@ -104,8 +106,7 @@ public class OpenProjectAction extends AbstractPagodAction
 							new Request(Request.RequestType.OPEN_PROCESS));
 					TimeHandler th = new TimeHandler ();
 					th.loadXML(ApplicationManager.getInstance().getCurrentProject().getName());
-					System.out.println("openprject ");
-					th.affiche() ;
+					//TODO  th.affiche() ;
 					th.fillModel(ApplicationManager.getInstance().getCurrentProcess() );
 					ApplicationManager.getInstance().getMfPagod().showProcess();
 				}

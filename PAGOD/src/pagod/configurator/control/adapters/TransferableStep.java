@@ -1,5 +1,5 @@
 /*
- * $Id: TransferableStep.java,v 1.1 2005/10/30 10:45:00 yak Exp $
+ * $Id: TransferableStep.java,v 1.2 2006/01/25 13:51:40 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -32,7 +32,7 @@ import java.io.IOException;
 import pagod.common.model.Step;
 
 /**
- * Classe TransferableStep : permet d'encapsuler une step pour la transférer
+ * Classe TransferableStep : permet d'encapsuler une step pour la transf?rer
  * notamment par DnD
  * 
  * @author Benjamin
@@ -52,18 +52,19 @@ public class TransferableStep implements Transferable
         }
         catch (Exception e)
         {
-            System.err.println(e);
+            //TODO UTILISER LE MANAGER!
+        	System.err.println(e);
         }
     }
 
     /**
-     * l'étape que l'on encapsule
+     * l'?tape que l'on encapsule
      */
     private Step step;
 
     /**
      * @param s
-     *            la step à encapsuler dans le TransferableStep
+     *            la step ? encapsuler dans le TransferableStep
      */
     public TransferableStep(Step s)
     {
@@ -72,7 +73,7 @@ public class TransferableStep implements Transferable
 
     /**
      * @see java.awt.datatransfer.Transferable#getTransferDataFlavors()
-     * @return les DataFlavor supportés par le TransferableStep
+     * @return les DataFlavor support?s par le TransferableStep
      */
     public DataFlavor[] getTransferDataFlavors()
     {
@@ -82,7 +83,7 @@ public class TransferableStep implements Transferable
 
     /**
      * @see java.awt.datatransfer.Transferable#isDataFlavorSupported(java.awt.datatransfer.DataFlavor)
-     * @return true si flavor est supporté par TransferableStep
+     * @return true si flavor est support? par TransferableStep
      */
     public boolean isDataFlavorSupported(DataFlavor flavor)
     {
@@ -91,7 +92,7 @@ public class TransferableStep implements Transferable
 
     /**
      * @see java.awt.datatransfer.Transferable#getTransferData(java.awt.datatransfer.DataFlavor)
-     * @return la Step encapsulée dans ce Transferable
+     * @return la Step encapsul?e dans ce Transferable
      */
     public Object getTransferData(DataFlavor flavor)
                                                     throws UnsupportedFlavorException,

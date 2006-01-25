@@ -1,5 +1,5 @@
 /*
- * $Id: ActivityScheduler.java,v 1.30 2006/01/19 23:34:36 psyko Exp $
+ * $Id: ActivityScheduler.java,v 1.31 2006/01/25 13:51:40 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -84,8 +84,6 @@ public class ActivityScheduler extends Observable
 	 */
 	public ActivityScheduler (final Activity activity)
 	{
-
-		System.out.println("Constr ActivityScheduler ");
 		this.activity = activity;
 		this.stateList = new ArrayList<AbstractActivityState>();
 		this.stepList = this.activity.getSteps();
@@ -202,8 +200,6 @@ public class ActivityScheduler extends Observable
 
 		if (this.activity.hasOutputProducts()) this
 				.addState(new PostConditionCheckerState(this, this.activity));
-
-		System.out.println("StateList OK : " + this.stateList.size() + " Elts");
 
 	}
 

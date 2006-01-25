@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: CloseProjectAction.java,v 1.2 2006/01/25 09:02:05 fabfoot Exp $
+ * $Id: CloseProjectAction.java,v 1.3 2006/01/25 13:51:40 cyberal82 Exp $
  */
 package pagod.wizard.control.actions;
 
@@ -39,7 +39,7 @@ public class CloseProjectAction extends AbstractPagodAction
 				KeyEvent.VK_C, KeyEvent.CTRL_MASK));
 	}
 
-	/* (non-Javadoc)
+	/** (non-Javadoc)
 	 * @see pagod.wizard.control.actions.AbstractPagodAction#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	public void actionPerformed (ActionEvent actionEvent)
@@ -59,6 +59,8 @@ public class CloseProjectAction extends AbstractPagodAction
 			th.loadModel(ApplicationManager.getInstance().getCurrentProcess() );
 			th.writeXML( ApplicationManager.getInstance().getCurrentProject().getName());
 		}
+		
+		ApplicationManager.getInstance().manageRequest(this.request);
 		
 	}
 

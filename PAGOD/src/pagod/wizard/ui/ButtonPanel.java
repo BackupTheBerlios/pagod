@@ -1,5 +1,5 @@
 /*
- * $Id: ButtonPanel.java,v 1.8 2005/11/29 18:11:15 yak Exp $
+ * $Id: ButtonPanel.java,v 1.9 2006/01/25 13:51:40 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -48,14 +48,14 @@ import pagod.wizard.control.states.activity.PreConditionCheckerState;
 import pagod.wizard.control.states.activity.StepState;
 
 /**
- * @author Cédric Panneau de boutons de navigation
+ * @author C?dric Panneau de boutons de navigation
  */
 public class ButtonPanel extends JPanel
 {
 	/** Bouton "Suivant" */
 	private JButton		pbNext;
 
-	/** Bouton "Précédent" */
+	/** Bouton "Pr?c?dent" */
 	private JButton		pbPrevious;
 
 	/** Bouton "Terminer" */
@@ -71,11 +71,11 @@ public class ButtonPanel extends JPanel
 	{
 		/** Bouton suivant */
 		PB_NEXT,
-		/** Bouton précédent */
+		/** Bouton pr?c?dent */
 		PB_PREVIOUS,
 		/** Bouton terminer */
 		PB_TERMINATE,
-		/** Combo pour acces direct aux étapes */
+		/** Combo pour acces direct aux ?tapes */
 		CB_GOTOSTEP
 
 	}
@@ -88,10 +88,10 @@ public class ButtonPanel extends JPanel
 	{
 		super(new BorderLayout());
 
-		// Récupération de l'instance du gestionnaire d'actions
+		// R?cup?ration de l'instance du gestionnaire d'actions
 		ActionManager am = ActionManager.getInstance();
 
-		// Création des boutons
+		// Cr?ation des boutons
 		this.pbNext = new JButton(am.getAction(ACTION_NEXT));
 		this.pbNext.setHorizontalTextPosition(SwingConstants.LEADING);
 		this.pbPrevious = new JButton(am.getAction(ACTION_PREVIOUS));
@@ -100,7 +100,7 @@ public class ButtonPanel extends JPanel
 		this.cbDirectAccess = new JComboBox();
 		this.cbDirectAccess.addActionListener(am.getAction(ACTION_GOTOSTEP));
 
-		// Création de panneaux intermédiaires pour la taille des boutons
+		// Cr?ation de panneaux interm?diaires pour la taille des boutons
 		JPanel pnlGauche = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		JPanel pnlCentre = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		JPanel pnlDroite = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -115,18 +115,18 @@ public class ButtonPanel extends JPanel
 		pnlGauche.add(this.pbPrevious);
 		pnlCentre.add(this.pbTerminate);
 		pnlDroite.add(this.pbNext);
-		// TODO rajouter les entrées de Aller à : -> Go to
+		// TODO rajouter les entr?es de Aller ? : -> Go to
 		// dans le properties ...
-		// ça devrait permettre d'utiliser un mnémonique
+		// ?a devrait permettre d'utiliser un mn?monique
 
 		pnlBas.add(this.cbDirectAccess);
 	}
 
 	/**
-	 * Affiche les boutons spécifiés
+	 * Affiche les boutons sp?cifi?s
 	 * 
 	 * @param buttons
-	 *            Boutons à afficher
+	 *            Boutons ? afficher
 	 */
 	public void showButtons (Buttons... buttons)
 	{
@@ -134,10 +134,10 @@ public class ButtonPanel extends JPanel
 	}
 
 	/**
-	 * Masque les boutons spécifiés
+	 * Masque les boutons sp?cifi?s
 	 * 
 	 * @param buttons
-	 *            Boutons à masquer
+	 *            Boutons ? masquer
 	 */
 	public void hideButtons (Buttons... buttons)
 	{
@@ -161,10 +161,10 @@ public class ButtonPanel extends JPanel
 	}
 
 	/**
-	 * Change la visibilité des boutons spécifiés
+	 * Change la visibilit? des boutons sp?cifi?s
 	 * 
 	 * @param buttons
-	 *            Boutons à modifier
+	 *            Boutons ? modifier
 	 * @param visible
 	 *            VRAI pour afficher les boutons, FAUX pour les masquer
 	 */
@@ -188,7 +188,7 @@ public class ButtonPanel extends JPanel
 	}
 
 	/**
-	 * Change la visibilité de tous les boutons
+	 * Change la visibilit? de tous les boutons
 	 * 
 	 * @param visible
 	 *            VRAI pour afficher tous les boutons, FAUX pour les masquer
@@ -201,7 +201,7 @@ public class ButtonPanel extends JPanel
 	}
 
 	/**
-	 * @return la combo poru l acces direct, utilisé dans le MainFrame
+	 * @return la combo poru l acces direct, utilis? dans le MainFrame
 	 */
 	public JComboBox getCbDirectAccess ()
 	{
@@ -209,10 +209,10 @@ public class ButtonPanel extends JPanel
 	}
 
 	/**
-	 * initialise la JComboBox avec les etapes récupérés en paramètre
+	 * initialise la JComboBox avec les etapes r?cup?r?s en param?tre
 	 * 
 	 * @param stateList
-	 *            la liste des états
+	 *            la liste des ?tats
 	 */
 	public void initComboBox (List<AbstractActivityState> stateList)
 	{
@@ -237,14 +237,13 @@ public class ButtonPanel extends JPanel
 	}
 
 	/**
-	 * positionne la JCombobox sur l'etape passée en parametre
+	 * positionne la JCombobox sur l'etape pass?e en parametre
 	 * 
 	 * @param state
-	 *            l'état sur lequel on est
+	 *            l'?tat sur lequel on est
 	 */
 	public void setSelectedIndex (AbstractActivityState state)
 	{
-		System.out.println("ButtonPanel.setSelectedIndex : " + state);
 		// on desactive le listener sur le comboBox
 		this.cbDirectAccess.removeActionListener(ActionManager.getInstance()
 				.getAction(Constants.ACTION_GOTOSTEP));
@@ -274,8 +273,6 @@ public class ButtonPanel extends JPanel
 					|| (state instanceof PostConditionCheckerState && activityState instanceof PostConditionCheckerState))
 			{
 				trouve = true;
-				
-				System.err.println("ON A TROUVE");
 			}
 			else
 				i++;

@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ActivityLaunchedState.java,v 1.7 2006/01/23 20:56:07 yak Exp $
+ * $Id: ActivityLaunchedState.java,v 1.8 2006/01/25 13:51:40 cyberal82 Exp $
  */
 package pagod.wizard.control.states.application;
 
@@ -58,8 +58,8 @@ public class ActivityLaunchedState extends AbstractApplicationState
 		{
 
 			case OPEN_PROJECT:
-				// TODO A faire
-				return false;
+				state = new ProjectOpenedState(this.applicationManager);
+				break;
 
 			case CLOSE_PROJECT:
 				// TODO il y a ptetre des trucs a r?init
@@ -73,7 +73,7 @@ public class ActivityLaunchedState extends AbstractApplicationState
 			case TERMINATE_ACTIVITY:
 				this.activityScheduler = null;
 				state = new ProcessOpenedState(this.applicationManager);
-			
+
 				break;
 
 			// si la requet request est inconnue on la d?legue a l'activity
