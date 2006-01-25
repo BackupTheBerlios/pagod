@@ -1,5 +1,5 @@
 /*
- * $Id: OpenProcessAction.java,v 1.5 2006/01/25 09:21:23 fabfoot Exp $
+ * $Id: OpenProcessAction.java,v 1.6 2006/01/25 09:51:34 fabfoot Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -101,11 +101,11 @@ public class OpenProcessAction extends AbstractPagodAction
 				//initialiser le document time 
 				TimeHandler th = new TimeHandler ();
 				th.loadXML( ApplicationManager.getInstance().getCurrentProject().getName());
-				System.out.println("apres le load xml pasing");
-				th.affiche(); 
+				//System.out.println("apres le load xml pasing");
+				//th.affiche(); 
 				th.fillModel(ApplicationManager.getInstance().getCurrentProcess() );
-				System.out.println("apres la mont du model");
-				th.affiche();
+				//System.out.println("apres la mont du model");
+				//th.affiche();
 			}
 			
 		}
