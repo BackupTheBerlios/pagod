@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.31 2006/01/25 13:51:40 cyberal82 Exp $
+ * $Id: MainFrame.java,v 1.32 2006/01/26 19:39:52 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -61,6 +61,7 @@ import pagod.common.ui.WorkspaceFileChooser;
 import pagod.utils.ActionManager;
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
+import pagod.utils.TimerManager;
 import pagod.utils.ActionManager.KeyNotFoundException;
 import pagod.utils.LanguagesManager.NotInitializedException;
 import pagod.wizard.control.ActivityScheduler;
@@ -283,6 +284,7 @@ public class MainFrame extends JFrame implements Observer
 
 		// creation et initialisation du Panneaux de message
 		this.messagePanel = new MessagePanel();
+		TimerManager.getInstance().setJToUpdate(this.messagePanel.getLabelTemps());
 		this.messagePanel.setMessage(LanguagesManager.getInstance().getString(
 				"welcomeMessage"));
 		this.northPanel.add(this.messagePanel);

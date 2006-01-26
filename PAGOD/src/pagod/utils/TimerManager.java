@@ -1,12 +1,14 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimerManager.java,v 1.4 2006/01/25 13:51:40 cyberal82 Exp $
+ * $Id: TimerManager.java,v 1.5 2006/01/26 19:39:52 yak Exp $
  */
 package pagod.utils;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JEditorPane;
+import javax.swing.JLabel;
 import javax.swing.Timer;
 
 /**
@@ -16,6 +18,9 @@ import javax.swing.Timer;
 public class TimerManager implements ActionListener
 {
 
+	private JEditorPane jToUpdate = null;
+	private String prefix = "Temps sur l'activité :";
+	private String message ="";
 	/**
 	 * Instance du timer
 	 */
@@ -68,6 +73,7 @@ public class TimerManager implements ActionListener
 	 */
 	public void start (int initValue)
 	{
+		this.jToUpdate.setText("<center>"+this.message+"<br>"+this.prefix+this.value+"</center");
 		this.value = initValue;
 		theSwingTimer.start();
 		
@@ -110,8 +116,29 @@ public class TimerManager implements ActionListener
 	{
 		//on augmente la valeur
 		this.value++;
+		//mise a jour de la valeur
+		this.jToUpdate.setText("<center>"+this.message+"<br>"+this.prefix+this.value+"</center");
 		
 	}
+	
+	
+	/**
+	 * @param toUpdate Valeur à donner à jToUpdate
+	 */
+	public void setJToUpdate (JEditorPane toUpdate)
+	{
+		this.jToUpdate = toUpdate;
+	}
+
+	/**
+	 * @param message Valeur à donner à message
+	 */
+	public void setMessage (String message)
+	{
+		this.message = message;
+	}
+	
+	
 	
 
 }

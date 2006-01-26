@@ -1,5 +1,5 @@
 /*
- * $Id: MessagePanel.java,v 1.2 2005/11/17 01:12:53 psyko Exp $
+ * $Id: MessagePanel.java,v 1.3 2006/01/26 19:39:52 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -32,6 +32,7 @@ import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.awt.RenderingHints;
 
+import javax.management.timer.Timer;
 import javax.swing.Box;
 import javax.swing.Icon;
 import javax.swing.JEditorPane;
@@ -41,6 +42,7 @@ import javax.swing.border.MatteBorder;
 
 
 import pagod.utils.ImagesManager;
+import pagod.utils.TimerManager;
 
 /**
  * Panneaux d'affichage de message
@@ -59,6 +61,7 @@ public class MessagePanel extends JPanel
      */
     private JLabel avatar;
 
+   
     /**
      * Constructeur du Panneaux d'affichage de message
      * 
@@ -88,16 +91,18 @@ public class MessagePanel extends JPanel
         messagePanel.setOpaque(false);
         messagePanel.setBorder(new BalloonBorder());
         messagePanel.add(this.messageArea);
-        messagePanel.add(this.messageArea);
         JPanel layoutPanel = new JPanel(new BorderLayout());
         layoutPanel.setOpaque(false);
         layoutPanel.add(messagePanel, BorderLayout.CENTER);
-        layoutPanel.add(Box.createVerticalStrut(avatarIcon.getIconHeight()/2),BorderLayout.SOUTH);
+      
+        layoutPanel.add(Box.createVerticalStrut(avatarIcon.getIconHeight()/4),BorderLayout.SOUTH);
+  
         this.add(layoutPanel, BorderLayout.CENTER);
+        
         //mise en page
         int borderSize = 7;
         // ajout d'une glue pour laisser aerer au dessus
-        this.add(Box.createVerticalStrut(borderSize), BorderLayout.NORTH);
+       this.add(Box.createVerticalStrut(borderSize), BorderLayout.NORTH);
         // ajout d'une glue pour laisser aerer sur le coté
         this.add(Box.createHorizontalStrut(borderSize), BorderLayout.EAST);
         // ajout d'une glue pour laisser aerer en dessous
@@ -111,9 +116,9 @@ public class MessagePanel extends JPanel
      */
     public void setMessage(String message)
     {
-
-        this.messageArea.setText("<center>"+message+"</center>");
-        // this.messageLabel.setHorizontalTextPosition(JLabel.CENTER);
+    	//TODO trouver un moyen de changer ca
+       TimerManager.getInstance().setMessage(message);
+    	this.messageArea.setText("<center>"+message+"</center>");
     }
 
     private class BalloonBorder extends MatteBorder
@@ -175,4 +180,12 @@ public class MessagePanel extends JPanel
 
         }
     }
+
+	/**
+	 * @return Retourne l'attribut labelTemps
+	 */
+	public  JEditorPane getLabelTemps ()
+	{
+		return this.messageArea;
+	}
 }
