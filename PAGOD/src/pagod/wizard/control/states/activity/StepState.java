@@ -1,11 +1,12 @@
 /*
  * Projet PAGOD
  * 
- * $Id: StepState.java,v 1.3 2006/01/25 13:51:40 cyberal82 Exp $
+ * $Id: StepState.java,v 1.4 2006/01/27 17:26:59 psyko Exp $
  */
 package pagod.wizard.control.states.activity;
 
 import pagod.common.model.Activity;
+import pagod.utils.LanguagesManager;
 import pagod.wizard.control.ActivityScheduler;
 import pagod.wizard.control.states.Request;
 
@@ -38,7 +39,7 @@ public class StepState extends AbstractActivityState
 	 */
 	public String toString ()
 	{
-		return this.getStepList().get(this.index).getName();
+		return ("- "+LanguagesManager.getInstance().getString("step") +" : "+this.getStepList().get(this.index).getName());
 	}
 
 	
