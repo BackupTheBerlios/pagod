@@ -1,5 +1,5 @@
 /*
- * $Id: StepPanel.java,v 1.4 2006/01/23 21:51:30 psyko Exp $
+ * $Id: StepPanel.java,v 1.5 2006/01/27 17:20:30 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -81,14 +81,13 @@ public class StepPanel extends JScrollPane
         this.viewport.setPreferredSize(this.getSize());
         
         // entete du descriptif de l'étape
-        String title = "<html><u>"
-            + LanguagesManager.getInstance().getString("stepPresentation");
+        String title = "<html>";
         if (stepToPresent.getName() != null)
         {
             String name = stepToPresent.getName();
             title += " " + name ;
         }
-        title+= " (" + rang+ "/" + total + ") : </u></html>";
+        title+= " (" + rang+ "/" + total + ") : </html>";
         this.header = new JLabel(title);
         innerPane.add(this.header, BorderLayout.NORTH);
     
