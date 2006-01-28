@@ -1,5 +1,5 @@
 /*
- * $Id: ModelResourcesManager.java,v 1.6 2006/01/25 16:35:59 themorpheus Exp $
+ * $Id: ModelResourcesManager.java,v 1.7 2006/01/28 22:09:21 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -47,6 +47,7 @@ import pagod.common.model.Guidance;
 import pagod.common.model.ProcessComponent;
 import pagod.common.model.ProcessElement;
 import pagod.common.model.Product;
+import pagod.common.model.Project;
 import pagod.common.model.Role;
 import pagod.common.model.Tool;
 import pagod.common.model.WorkDefinition;
@@ -214,7 +215,7 @@ public class ModelResourcesManager
 	{
 		return new ImageIcon(this.getImage(processElement));
 	}
- 
+
 	/**
 	 * lance le Loutil necessaire a la visualisation d'un fichier de contenu
 	 * 
@@ -288,7 +289,8 @@ public class ModelResourcesManager
 						}
 						catch (DesktopException e)
 						{
-							// TODO informer l'utilisateur que jdic n'est pas installer
+							// TODO informer l'utilisateur que jdic n'est pas
+							// installer
 							e.printStackTrace();
 						}
 					}
@@ -316,7 +318,7 @@ public class ModelResourcesManager
 			}
 		}
 	}
-	
+
 	/**
 	 * lance l'outil associ? au produit
 	 * 
@@ -354,41 +356,68 @@ public class ModelResourcesManager
 				// execution de la commande complete
 				try
 				{
-					JOptionPane.showMessageDialog(null,
-							LanguagesManager.getInstance().getString(
-									"WarningSaveProductName"), LanguagesManager
-									.getInstance().getString(
-											"WarningSaveProductNameTitle"),
-								JOptionPane.INFORMATION_MESSAGE);
+					// sBody on construit sBody pour qu'il y ait la chaine
+					// suivante
+					// Le produit doit être sauvegarder dans le dossier
+					// /unChemin et doit avoir pour nom nomProduit.
+					String sBody = LanguagesManager.getInstance().getString(
+							"WarningSaveProductName1")
+							+ " "
+							+ PreferencesManager.getInstance().getWorkspace()
+							+ File.separator
+							+ ApplicationManager.getInstance()
+									.getCurrentProject().getName()
+							+ File.separator
+							+ Project.DOCS_DIRECTORY
+							+ " "
+							+ LanguagesManager.getInstance().getString(
+									"WarningSaveProductName2")
+							+ " \""
+							+ product.getName() + "\".";
+
+					JOptionPane.showMessageDialog(null, sBody, LanguagesManager
+							.getInstance().getString(
+									"WarningSaveProductNameTitle"),
+							JOptionPane.INFORMATION_MESSAGE);
 					Process p = Runtime.getRuntime().exec(sPath);
 					if (p == null)
 					{
-						JOptionPane.showMessageDialog(null,
-							LanguagesManager.getInstance().getString(
-									"ErreurDeLancement"), LanguagesManager
-									.getInstance().getString(
-											"ErreurDeLancementTitle"),
-							JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(null, LanguagesManager
+								.getInstance().getString("ErreurDeLancement"),
+								LanguagesManager.getInstance().getString(
+										"ErreurDeLancementTitle"),
+								JOptionPane.WARNING_MESSAGE);
 					}
 					else
 					{
 						/* debut des modifications -> baloo */
-						// l'application cible est bien lancee, on cree une reference
-						// au produit (que va enregistrer l'utilisateur) dans le fichier
+						// l'application cible est bien lancee, on cree une
+						// reference
+						// au produit (que va enregistrer l'utilisateur) dans le
+						// fichier
 						// documentation.properties
 						Properties pProduct = new Properties();
 						// recupere le workspace courant
-						String sPathProperties = PreferencesManager.getInstance().getWorkspace();
+						String sPathProperties = PreferencesManager
+								.getInstance().getWorkspace();
 						// recupere le chemin du .properties du projet courant
-						sPathProperties += "/"+ApplicationManager.getInstance().getCurrentProject().getName();
+						sPathProperties += "/"
+								+ ApplicationManager.getInstance()
+										.getCurrentProject().getName();
 						sPathProperties += "/documentation.properties";
 						File fileProperties = new File(sPathProperties);
 						// charge le fichier
 						pProduct.load(new FileInputStream(fileProperties));
-						pProduct.setProperty(product.getId(),product.getName());
+						pProduct
+								.setProperty(product.getId(), product.getName());
 						// enregistre les modifications
-						pProduct.store(new FileOutputStream(fileProperties),LanguagesManager.getInstance()
-				                .getString("ListProductsPanelCommentsFileProperties"));
+						pProduct
+								.store(
+										new FileOutputStream(fileProperties),
+										LanguagesManager
+												.getInstance()
+												.getString(
+														"ListProductsPanelCommentsFileProperties"));
 					}
 					/* fin des modifications -> baloo */
 				}
@@ -406,7 +435,7 @@ public class ModelResourcesManager
 			}
 		}
 	}
-	
+
 	/* debut des modifications -> baloo */
 	/**
 	 * lance le produit à modifier dans l'outil associé
@@ -416,7 +445,7 @@ public class ModelResourcesManager
 	 */
 	public void launchUpdateProductApplication (Product product)
 	{
-		
+
 		// on recupere le logiciel
 		Tool tToolProduct = product.getEditor();
 		if (tToolProduct == null)
@@ -449,20 +478,27 @@ public class ModelResourcesManager
 					/* debut des modifications -> baloo */
 					Properties pProduct = new Properties();
 					// recupere le workspace courant
-					String sPathProperties = PreferencesManager.getInstance().getWorkspace();
+					String sPathProperties = PreferencesManager.getInstance()
+							.getWorkspace();
 					File fWorskpace = new File(sPathProperties);
 					// recupere le chemin du .properties du projet courant
-					sPathProperties += fWorskpace.separator+ApplicationManager.getInstance().getCurrentProject().getName();
-					String sPathProduct = sPathProperties+fWorskpace.separator+"produits"+fWorskpace.separator;
-					sPathProperties += fWorskpace.separator+"documentation.properties";
-					//fichier .properties
+					sPathProperties += fWorskpace.separator
+							+ ApplicationManager.getInstance()
+									.getCurrentProject().getName();
+					String sPathProduct = sPathProperties
+							+ fWorskpace.separator + "produits"
+							+ fWorskpace.separator;
+					sPathProperties += fWorskpace.separator
+							+ "documentation.properties";
+					// fichier .properties
 					File fileProperties = new File(sPathProperties);
 					File fileProduct = new File(sPathProduct);
 					// charge le fichier
 					pProduct.load(new FileInputStream(fileProperties));
 					// recupere le nom du produit associé
 					String sProduct = pProduct.getProperty(product.getId());
-					// recherche si un nom de produit correspond dans la liste des produits
+					// recherche si un nom de produit correspond dans la liste
+					// des produits
 					int i = 0;
 					boolean bFind = false;
 					while (i < fileProduct.list().length && !bFind)
@@ -479,19 +515,20 @@ public class ModelResourcesManager
 							i++;
 						}
 					}
-					// un produit correspond, on lance ce produit dans l'application qui lui est défini
+					// un produit correspond, on lance ce produit dans
+					// l'application qui lui est défini
 					if (bFind)
 					{
-						String sCmd = sPath + " " + sPathProduct;
-						Process p = Runtime.getRuntime().exec(sCmd);
+						String[] cmdArray = new String[] { sPath, sPathProduct };
+						Process p = Runtime.getRuntime().exec(cmdArray);
 						if (p == null)
 						{
 							JOptionPane.showMessageDialog(null,
-								LanguagesManager.getInstance().getString(
-										"ErreurDeLancement"), LanguagesManager
-										.getInstance().getString(
-												"ErreurDeLancementTitle"),
-								JOptionPane.WARNING_MESSAGE);
+									LanguagesManager.getInstance().getString(
+											"ErreurDeLancement"),
+									LanguagesManager.getInstance().getString(
+											"ErreurDeLancementTitle"),
+									JOptionPane.WARNING_MESSAGE);
 						}
 					}
 					/* fin des modifications -> baloo */
@@ -507,10 +544,9 @@ public class ModelResourcesManager
 									"ErreurDeLancementTitle"),
 							JOptionPane.WARNING_MESSAGE);
 				}
-				/*catch (DesktopException ex) 
-				{
-					ex.printStackTrace();
-				}*/
+				/*
+				 * catch (DesktopException ex) { ex.printStackTrace(); }
+				 */
 			}
 		}
 	}

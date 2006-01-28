@@ -1,5 +1,5 @@
 /*
- * $Id: ProductsPanel.java,v 1.3 2005/11/30 09:38:07 cyberal82 Exp $
+ * $Id: ProductsPanel.java,v 1.4 2006/01/28 22:09:21 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -55,7 +55,7 @@ public class ProductsPanel extends JSplitPane
     
     /**
      * Constructeur
-     * @param activity l'activite dont on veut presenter les produits passe en parametre
+     * @param activity l'activite dont on veut presenter les produits passes en parametre
      * @param productsToPresent liste de produit ? pr?sent?e
      */
     public ProductsPanel(Activity activity, Collection<Product> productsToPresent)
