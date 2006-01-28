@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ActivityLaunchedStateTest.java,v 1.1 2006/01/23 20:55:47 yak Exp $
+ * $Id: ActivityLaunchedStateTest.java,v 1.2 2006/01/28 16:34:02 cyberal82 Exp $
  */
 package test.pagod.wizard.control.states.application;
 
@@ -53,11 +53,10 @@ public class ActivityLaunchedStateTest extends TestCase
 	 */
 	public void testManageRequest ()
 	{
-		//TODO voir si le test est vraiment complet 
 		//creation de la requete initiale
 		Request request = new Request(
 				Request.RequestType.OPEN_PROJECT);
-		assertFalse("La requete close project doit retourner false", this.activityLaunchedState.manageRequest(request));
+		assertTrue("La requete close project doit retourner true", this.activityLaunchedState.manageRequest(request));
 	
 		
 		//creation de la requete close project

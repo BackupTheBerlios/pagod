@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: Project.java,v 1.12 2006/01/22 10:05:25 biniou Exp $
+ * $Id: Project.java,v 1.13 2006/01/28 16:34:02 cyberal82 Exp $
  */
 package pagod.common.model;
 
@@ -223,7 +223,7 @@ public class Project
 
 		try
 		{
-			(this.docsProperties).store(new FileOutputStream(
+			this.docsProperties.store(new FileOutputStream(
 					documentationPreferenceFile), comments);
 		}
 		catch (IOException ioEx)

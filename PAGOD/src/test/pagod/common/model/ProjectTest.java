@@ -1,19 +1,19 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ProjectTest.java,v 1.1 2006/01/22 10:05:25 biniou Exp $
+ * $Id: ProjectTest.java,v 1.2 2006/01/28 16:34:02 cyberal82 Exp $
  */
 package test.pagod.common.model;
 
 import java.io.File;
 import java.io.IOException;
 
+import junit.framework.TestCase;
+import pagod.common.model.Process;
 import pagod.common.model.Product;
 import pagod.common.model.Project;
-import pagod.common.model.Process;
 import pagod.wizard.control.Constants;
 import pagod.wizard.control.PreferencesManager;
-import junit.framework.TestCase;
 
 /**
  * Junit de la classe Project
@@ -26,6 +26,10 @@ public class ProjectTest extends TestCase
 	/* objet que l'on teste */
 	private Project	project;
 
+	// indique si le workspace utiliser pour le test est le repertoire
+	// temporaire de la machine
+	private boolean	bWorkspaceIsTmpDir	= false;
+
 	/**
 	 * @param arg0
 	 */
@@ -37,6 +41,19 @@ public class ProjectTest extends TestCase
 	protected void setUp () throws Exception
 	{
 		super.setUp();
+
+		// on verifi que l'utilisateur a defini un espace de travail
+		if (PreferencesManager.getInstance().getWorkspace() == null)
+		{
+			String sTmpDir = System.getProperty("java.io.tmpdir");
+			if (sTmpDir == null) fail("Impossible de recuperer un repertoire temporaire pour en faire l'espace de travail durant le test");
+
+			// on defini le repertoire temporaire comme espace de travail pour
+			// le test
+			PreferencesManager.getInstance().setWorkspace(sTmpDir);
+			this.bWorkspaceIsTmpDir = true;
+		}
+
 		// creation d'un projet fictif
 		String sName = "nomProjet";
 		this.project = new Project(sName);
@@ -77,15 +94,20 @@ public class ProjectTest extends TestCase
 		timeFile.delete();
 		projectDirectory.delete();
 
+		// si le workspace utiliser pour le test est le repertoire
+		// temporaire de la machine on supprime l'espace de travail
+		if (!this.bWorkspaceIsTmpDir) 
+			PreferencesManager.getInstance()
+				.removeWorkspace();
+
 	}
 
 	/**
 	 * Test method for 'pagod.common.model.Project.finalize()'
 	 */
-	/*public void testFinalize ()
-	{
-
-	}*/
+	/*
+	 * public void testFinalize () { }
+	 */
 
 	/**
 	 * test du constructeur
@@ -309,13 +331,15 @@ public class ProjectTest extends TestCase
 	public void testHasCurrentProcess ()
 	{
 		Process p = this.project.getCurrentProcess();
-		
+
 		this.project.setCurrentProcess(null);
-		assertFalse("il n'y a pas de processus associé",this.project.hasCurrentProcess());
+		assertFalse("il n'y a pas de processus associé", this.project
+				.hasCurrentProcess());
 		Process process = new Process("idprocess", "nameprocess", null, null);
 		this.project.setCurrentProcess(process);
-		assertTrue("il y a un process associé",this.project.hasCurrentProcess());
-		
+		assertTrue("il y a un process associé", this.project
+				.hasCurrentProcess());
+
 		this.project.setCurrentProcess(p);
 	}
 
@@ -329,9 +353,9 @@ public class ProjectTest extends TestCase
 		String tempName = "nomTemporaire";
 		String name = this.project.getName();
 		this.project.setName(tempName);
-		assertEquals(this.project.getName(),tempName);
+		assertEquals(this.project.getName(), tempName);
 		this.project.setName(name);
-		assertEquals(this.project.getName(),name);
+		assertEquals(this.project.getName(), name);
 	}
 
 	/**
@@ -344,9 +368,9 @@ public class ProjectTest extends TestCase
 		String tempName = "nomTemporaire";
 		String name = this.project.getName();
 		this.project.setName(tempName);
-		assertEquals(this.project.getName(),tempName);
+		assertEquals(this.project.getName(), tempName);
 		this.project.setName(name);
-		assertEquals(this.project.getName(),name);
+		assertEquals(this.project.getName(), name);
 	}
 
 	/**
@@ -359,10 +383,10 @@ public class ProjectTest extends TestCase
 		String dpc = this.project.getNameDPC();
 		String namedpc = "nomDPC";
 		this.project.setNameDPC(namedpc);
-		assertEquals(this.project.getNameDPC(),namedpc);
-		
+		assertEquals(this.project.getNameDPC(), namedpc);
+
 		this.project.setNameDPC(dpc);
-		assertEquals(this.project.getNameDPC(),dpc);
+		assertEquals(this.project.getNameDPC(), dpc);
 	}
 
 	/**
@@ -375,10 +399,10 @@ public class ProjectTest extends TestCase
 		String dpc = this.project.getNameDPC();
 		String namedpc = "nomDPC";
 		this.project.setNameDPC(namedpc);
-		assertEquals(this.project.getNameDPC(),namedpc);
-		
+		assertEquals(this.project.getNameDPC(), namedpc);
+
 		this.project.setNameDPC(dpc);
-		assertEquals(this.project.getNameDPC(),dpc);
+		assertEquals(this.project.getNameDPC(), dpc);
 	}
 
 	/**
@@ -389,13 +413,13 @@ public class ProjectTest extends TestCase
 	public void testHasNameDPC ()
 	{
 		String dpc = this.project.getNameDPC();
-		
+
 		String test = "nomdpc";
 		this.project.setNameDPC(null);
 		assertFalse(this.project.hasNameDPC());
 		this.project.setNameDPC(test);
 		assertTrue(this.project.hasNameDPC());
-		
+
 		this.project.setNameDPC(dpc);
 	}
 
@@ -406,7 +430,7 @@ public class ProjectTest extends TestCase
 	 */
 	public void testGetDocsProperties ()
 	{
-		//pas trouvé comment testé puisque pas de setter
+		//TODO pas trouvé comment testé puisque pas de setter
 	}
 
 	/**
@@ -416,30 +440,30 @@ public class ProjectTest extends TestCase
 	 */
 	public void testGetDocumentName ()
 	{
-		Product prod = new Product("id","nom",null,null,null);
+		Product prod = new Product("id", "nom", null, null, null);
 		String doc = "nomDoc";
-		
+
 		File documentationFile = new File(PreferencesManager.getInstance()
 				.getWorkspace()
 				+ File.separator
 				+ this.project.getName()
 				+ File.separator
 				+ Project.DOCS_DIRECTORY + doc);
-		
+
 		try
 		{
-			this.project.createDocument(prod,doc);
+			this.project.createDocument(prod, doc);
 		}
 		catch (IOException e)
 		{
 			// TODO Bloc de traitement des exceptions généré automatiquement
 			e.printStackTrace();
 		}
-		
-		assertEquals(this.project.getDocumentName(prod),doc);
-		
+
+		assertEquals(this.project.getDocumentName(prod), doc);
+
 		documentationFile.delete();
-		
+
 	}
 
 }
