@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.32 2006/01/26 19:39:52 yak Exp $
+ * $Id: MainFrame.java,v 1.33 2006/01/30 16:00:51 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -171,21 +171,12 @@ public class MainFrame extends JFrame implements Observer
 			this.centerPanel.removeAll();
 
 			this.splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-			this.splitPane.setOneTouchExpandable(true);
 
 			// on indique que lorsqu'il y a de l'espace suppl?mentaire dans le
 			// splitpane
 			// le composant contenu en bas ou a droite ne prendra rien de
 			// l'espace suppl?mentaire
 			this.splitPane.setResizeWeight(1.0);
-
-			// ajout du panneau permettant d'afficher les produits a creer
-			/*
-			 * this.splitPane.setRightComponent(new ProductsPanel(this
-			 * .getActivity(), this.getActivity().getOutputProducts()));
-			 * this.centerPanel.add(this.splitPane);
-			 */
-
 		}
 
 		// ajout du panneau permettant d'afficher les produits a creer
@@ -195,6 +186,8 @@ public class MainFrame extends JFrame implements Observer
 			this.splitPane.setRightComponent(new ProductsPanel(this
 					.getActivity(), this.getActivity().getOutputProducts()));
 			this.centerPanel.add(this.splitPane);
+			
+			this.splitPane.setOneTouchExpandable(true);
 
 		}
 		else if (obj instanceof Step)
@@ -207,6 +200,8 @@ public class MainFrame extends JFrame implements Observer
 				this.splitPane.setRightComponent(new ProductsPanel(this
 						.getActivity(), aStep.getOutputProducts()));
 				this.centerPanel.add(this.splitPane);
+				
+				this.splitPane.setOneTouchExpandable(true);
 			}
 			else
 			{
@@ -216,6 +211,8 @@ public class MainFrame extends JFrame implements Observer
 						.getActivity(), aStep.getOutputProducts()));
 				this.splitPane.getRightComponent().setVisible(false);
 				this.centerPanel.add(this.splitPane);
+				
+				this.splitPane.setOneTouchExpandable(false);
 			}
 		}
 
