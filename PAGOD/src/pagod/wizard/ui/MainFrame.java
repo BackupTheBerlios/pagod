@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.33 2006/01/30 16:00:51 cyberal82 Exp $
+ * $Id: MainFrame.java,v 1.34 2006/01/31 21:35:20 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -281,7 +281,10 @@ public class MainFrame extends JFrame implements Observer
 
 		// creation et initialisation du Panneaux de message
 		this.messagePanel = new MessagePanel();
-		TimerManager.getInstance().setJToUpdate(this.messagePanel.getLabelTemps());
+		//on ajoute de panneau de message comme observer du timer
+		TimerManager.getInstance().addObserver(this.messagePanel);
+		TimerManager.getInstance().addObserver(this);
+		
 		this.messagePanel.setMessage(LanguagesManager.getInstance().getString(
 				"welcomeMessage"));
 		this.northPanel.add(this.messagePanel);

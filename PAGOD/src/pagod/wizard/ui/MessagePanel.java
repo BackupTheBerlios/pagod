@@ -1,5 +1,5 @@
 /*
- * $Id: MessagePanel.java,v 1.3 2006/01/26 19:39:52 yak Exp $
+ * $Id: MessagePanel.java,v 1.4 2006/01/31 21:35:20 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -31,8 +31,9 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.awt.RenderingHints;
+import java.util.Observable;
+import java.util.Observer;
 
-import javax.management.timer.Timer;
 import javax.swing.Box;
 import javax.swing.Icon;
 import javax.swing.JEditorPane;
@@ -40,8 +41,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.MatteBorder;
 
-
 import pagod.utils.ImagesManager;
+import pagod.utils.LanguagesManager;
 import pagod.utils.TimerManager;
 
 /**
@@ -49,7 +50,7 @@ import pagod.utils.TimerManager;
  * 
  * @author MoOky
  */
-public class MessagePanel extends JPanel
+public class MessagePanel extends JPanel implements Observer
 {
     /**
      * Message
@@ -60,6 +61,10 @@ public class MessagePanel extends JPanel
      * Avatar de PAGOD
      */
     private JLabel avatar;
+    /**
+     * le message courant
+     */
+	private String	message;
 
    
     /**
@@ -116,8 +121,8 @@ public class MessagePanel extends JPanel
      */
     public void setMessage(String message)
     {
-    	//TODO trouver un moyen de changer ca
-       TimerManager.getInstance().setMessage(message);
+    	this.message = message;
+    	//on met a jour le message
     	this.messageArea.setText("<center>"+message+"</center>");
     }
 
@@ -187,5 +192,20 @@ public class MessagePanel extends JPanel
 	public  JEditorPane getLabelTemps ()
 	{
 		return this.messageArea;
+	}
+	/**
+	 *  (non-Javadoc)
+	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+	 * methode pour mettre a jour le message ;)
+	 */
+	public void update (Observable sender, Object content)
+	{
+		if (sender instanceof TimerManager)
+		{
+			//on transforme la valeur
+			String sMess = LanguagesManager.getInstance().getString("timeElapsedMessage")+TimerManager.stringFromTime(((Integer)content).intValue());
+			this.messageArea.setText(this.message+"<BR>"+sMess);
+		}
+		
 	}
 }
