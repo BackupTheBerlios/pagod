@@ -1,5 +1,5 @@
  /*
- * $Id: LanguageChooserPanel.java,v 1.2 2006/01/20 15:43:38 coincoin Exp $
+ * $Id: LanguageChooserPanel.java,v 1.3 2006/02/01 17:00:39 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -71,12 +71,10 @@ public class LanguageChooserPanel extends JPanel
     
     /*Modif Coin coin*/
     private JLabel lChangeWorkspace = new JLabel("Chemin d'acces au Workspace :");
-    private JTextField tfChangeWorkspace = new JTextField(PreferencesManager.getInstance().getWorkspace());
-    private JButton bChangeWorkspace = new JButton("Parcourir");
-    
-    
-    
-    
+    private JTextField tfChangeWorkspace = new JTextField(
+    		PreferencesManager.getInstance().getWorkspace());
+    private JButton bChangeWorkspace = new JButton(
+    	LanguagesManager.getInstance().getString("BrowseButtonLabel"));
     
     //private JFileChooser fcChangeWorkspace = new JFileChooser();
     /*Fin Modif Coin coin*/
@@ -100,10 +98,9 @@ public class LanguageChooserPanel extends JPanel
         this.languages = new ArrayList<String>();
         this.initLanguages();
 
-        //      panneau contenant le label de langue et le comboBox
+        // panneau contenant le label de langue et le comboBox
         JPanel pCenter = new JPanel();
-        
-        
+               
         
         /*Modif Coin coin*/
         //pCenter.setLayout(new FlowLayout());
