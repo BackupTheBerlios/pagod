@@ -1,5 +1,5 @@
 /*
- * $Id: ApplicationManager.java,v 1.23 2006/01/25 13:51:40 cyberal82 Exp $
+ * $Id: ApplicationManager.java,v 1.24 2006/02/01 22:03:47 biniou Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -37,6 +37,7 @@ import java.util.Locale;
 import java.util.Observable;
 
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 import pagod.common.control.InterfaceManager;
 import pagod.common.control.adapters.ProcessTreeModel;
@@ -286,6 +287,7 @@ public class ApplicationManager extends Observable
 		this.mfPagod.setExtendedState(Frame.MAXIMIZED_BOTH);
 
 		// lancement de la fenetre de choix de workspace si besoin
+		boolean validWorkspace = false;
 
 		// test si la valeur de la cl? workspace est d?finie ou pas
 		if (!PreferencesManager.getInstance().containWorkspace())
@@ -298,11 +300,32 @@ public class ApplicationManager extends Observable
 				System.out.println(file.getPath());
 
 				// mettre le path dans le fichier preferences a la cl?
-				// "workspace"
-				PreferencesManager.getInstance().setWorkspace(file.getPath());
+				// "workspace" s'il existe
+				if (file.exists())
+				{	
+					validWorkspace=true;
+					PreferencesManager.getInstance().setWorkspace(file.getPath());
+				}
 			}
 		}
+		else
+		{
+			// le workspace est deja defini
+			validWorkspace = true;		
+		}
 
+		// si le workspace n'est pas choisi on affiche un message d'erreur
+		if (!validWorkspace)
+		{
+//			 affichage d'un message d'erreur si le workspace n'est pas défini ou invalide
+			JOptionPane.showMessageDialog(this.mfPagod,
+					LanguagesManager.getInstance().getString(
+							"WorkspaceException"),
+					LanguagesManager.getInstance().getString(
+							"WorkspaceErrorTitle"),
+					JOptionPane.ERROR_MESSAGE);
+		}
+		
 		// fin de choix de workspace
 		// on enregistre la MainFrame comme observer de l'ApplicationManager
 		this.addObserver(this.mfPagod);
@@ -341,18 +364,27 @@ public class ApplicationManager extends Observable
 				File file = workspaceChooser.getSelectedFile();
 				//TODO a supprimer
 				System.out.println(file.getPath());
-
+				
+				// on verifie que le workspace choisi existe
 				// mettre le path dans le fichier preferences a la cl?
 				// "workspace"
-				PreferencesManager.getInstance().setWorkspace(file.getPath());
-
-				validWorkspace = true;
+				if (file.exists())
+				{
+					PreferencesManager.getInstance().setWorkspace(file.getPath());
+					validWorkspace = true;
+				}
+			
 			}
 			// si l'utilisateur ne choisit pas, on ne cree rien
 			else
 			{
 				System.err.println("Le workspace n'est pas d?fini.");
 			}
+		}
+		else
+		{
+			// le workspace existe deja
+			validWorkspace = true;
 		}
 		if (validWorkspace)
 		{
@@ -367,6 +399,16 @@ public class ApplicationManager extends Observable
 				associateDPCWithProject();
 			}
 
+		}
+		else
+		{	
+		// affichage d'un message d'erreur si le workspace n'est pas défini ou invalide
+			JOptionPane.showMessageDialog(this.mfPagod,
+					LanguagesManager.getInstance().getString(
+							"WorkspaceException"),
+					LanguagesManager.getInstance().getString(
+							"WorkspaceErrorTitle"),
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 

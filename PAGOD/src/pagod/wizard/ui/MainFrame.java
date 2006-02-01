@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.34 2006/01/31 21:35:20 yak Exp $
+ * $Id: MainFrame.java,v 1.35 2006/02/01 22:03:47 biniou Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -43,6 +43,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
@@ -68,7 +69,6 @@ import pagod.wizard.control.ActivityScheduler;
 import pagod.wizard.control.ApplicationManager;
 import pagod.wizard.control.Constants;
 import pagod.wizard.control.PreferencesManager;
-import pagod.wizard.control.TimeHandler;
 import pagod.wizard.control.ToolsManager;
 import pagod.wizard.control.actions.AbstractPagodAction;
 import pagod.wizard.control.states.activity.AbstractActivityState;
@@ -186,7 +186,7 @@ public class MainFrame extends JFrame implements Observer
 			this.splitPane.setRightComponent(new ProductsPanel(this
 					.getActivity(), this.getActivity().getOutputProducts()));
 			this.centerPanel.add(this.splitPane);
-			
+
 			this.splitPane.setOneTouchExpandable(true);
 
 		}
@@ -200,18 +200,19 @@ public class MainFrame extends JFrame implements Observer
 				this.splitPane.setRightComponent(new ProductsPanel(this
 						.getActivity(), aStep.getOutputProducts()));
 				this.centerPanel.add(this.splitPane);
-				
+
 				this.splitPane.setOneTouchExpandable(true);
 			}
 			else
 			{
-				// s'il n'y a pas de produit en sortie de l'etape on vide le splitPane inferieur
-				//TODO a regarder de plus pres 
+				// s'il n'y a pas de produit en sortie de l'etape on vide le
+				// splitPane inferieur
+				// TODO a regarder de plus pres
 				this.splitPane.setRightComponent(new ProductsPanel(this
 						.getActivity(), aStep.getOutputProducts()));
 				this.splitPane.getRightComponent().setVisible(false);
 				this.centerPanel.add(this.splitPane);
-				
+
 				this.splitPane.setOneTouchExpandable(false);
 			}
 		}
@@ -221,7 +222,7 @@ public class MainFrame extends JFrame implements Observer
 		 * dimension.setSize(dimension.getWidth(), dimension.getHeight() / 2);
 		 * component.setMinimumSize(dimension);
 		 */
-		
+
 		this.splitPane.setLeftComponent(component);
 
 		// this.splitPane.setDividerLocation(this.dividerLocation);
@@ -281,10 +282,10 @@ public class MainFrame extends JFrame implements Observer
 
 		// creation et initialisation du Panneaux de message
 		this.messagePanel = new MessagePanel();
-		//on ajoute de panneau de message comme observer du timer
+		// on ajoute de panneau de message comme observer du timer
 		TimerManager.getInstance().addObserver(this.messagePanel);
 		TimerManager.getInstance().addObserver(this);
-		
+
 		this.messagePanel.setMessage(LanguagesManager.getInstance().getString(
 				"welcomeMessage"));
 		this.northPanel.add(this.messagePanel);
@@ -435,7 +436,7 @@ public class MainFrame extends JFrame implements Observer
 	 */
 	public void presentStep (Step stepToPresent, int rang, int total)
 	{
-		
+
 		// mettre a jour le message
 		if (!stepToPresent.hasOutputProducts()) this.messagePanel
 				.setMessage(LanguagesManager.getInstance().getString(
@@ -456,7 +457,7 @@ public class MainFrame extends JFrame implements Observer
 			// l'etape
 			// et en bas les produits en sorties
 			// cr?er les panneaux
-			
+
 			this.setComponentInJSplitPane(new StepPanel(stepToPresent, rang,
 					total), stepToPresent);
 
@@ -510,7 +511,7 @@ public class MainFrame extends JFrame implements Observer
 
 		// cr?er les panneaux
 		this.contentViewerPanel = new ContentViewerPane(activityToPresent);
-				
+
 		// s'il y a des produits en sorties de cette activite
 		if (activityToPresent.hasOutputProducts())
 		{
@@ -612,7 +613,7 @@ public class MainFrame extends JFrame implements Observer
 	public boolean openProject ()
 	{
 		boolean opened = false;
-		
+
 		OpenProjectDialog opDialog = new OpenProjectDialog(this);
 		opDialog.showDialog();
 		Project projectTemp = null;
@@ -939,6 +940,9 @@ public class MainFrame extends JFrame implements Observer
 				// si aucun projet n'a ete creer on demande a l'utilisateur de
 				// le definir
 				// test si la valeur de la cl? workspace est d?finie ou pas
+
+				boolean validWorkspace = false;
+
 				if (!PreferencesManager.getInstance().containWorkspace())
 				{
 					WorkspaceFileChooser workspaceChooser = new WorkspaceFileChooser();
@@ -948,11 +952,33 @@ public class MainFrame extends JFrame implements Observer
 						File file = workspaceChooser.getSelectedFile();
 						System.out.println(file.getPath());
 
+						// on verifie que le workspace choisi existe
 						// mettre le path dans le fichier preferences a la cl?
 						// "workspace"
-						PreferencesManager.getInstance().setWorkspace(
-								file.getPath());
+						if (file.exists())
+						{
+							PreferencesManager.getInstance().setWorkspace(
+									file.getPath());
+							validWorkspace = true;
+						}
 					}
+				}
+				else
+				{
+					// le workspace existe deja
+					validWorkspace = true;
+				}
+				// si le workspace n'est pas choisi on affiche un message
+				// d'erreur
+				if (!validWorkspace)
+				{
+					// affichage d'un message d'erreur si le workspace n'est pas
+					// défini ou invalide
+					JOptionPane.showMessageDialog(this, LanguagesManager
+							.getInstance().getString("WorkspaceException"),
+							LanguagesManager.getInstance().getString(
+									"WorkspaceErrorTitle"),
+							JOptionPane.ERROR_MESSAGE);
 				}
 				this.reinitialize();
 
@@ -986,23 +1012,26 @@ public class MainFrame extends JFrame implements Observer
 						.getAction(Constants.ACTION_GOTOSTEP).setEnabled(false);
 				ActionManager.getInstance().getAction(
 						Constants.ACTION_TERMINATE).setEnabled(false);
-				
-				
+
 				// TODO fab pour tester le timeHandler
-				//TimeHandler th = new TimeHandler ();
-				//th.loadXML( ApplicationManager.getInstance().getCurrentProject().getName());
-				//th.affiche() ;
-				//th.fillModel(ApplicationManager.getInstance().getCurrentProcess() );
-				//th.loadModel(ApplicationManager.getInstance().getCurrentProcess() );
-				//System.err.println("fab");
-				//th.affiche(); 
-				//th.writeXML(ApplicationManager.getInstance().getCurrentProject().getName());
-				/*final Collection<Activity > cactivity = ApplicationManager.getInstance().getCurrentProcess().getAllActivities ();
-		        for (Activity acty : cactivity)
-		        {	
-		        	System.err.println(acty.getTime() );
-		        	
-		        }*/
+				// TimeHandler th = new TimeHandler ();
+				// th.loadXML(
+				// ApplicationManager.getInstance().getCurrentProject().getName());
+				// th.affiche() ;
+				// th.fillModel(ApplicationManager.getInstance().getCurrentProcess()
+				// );
+				// th.loadModel(ApplicationManager.getInstance().getCurrentProcess()
+				// );
+				// System.err.println("fab");
+				// th.affiche();
+				// th.writeXML(ApplicationManager.getInstance().getCurrentProject().getName());
+				/*
+				 * final Collection<Activity > cactivity =
+				 * ApplicationManager.getInstance().getCurrentProcess().getAllActivities
+				 * (); for (Activity acty : cactivity) {
+				 * System.err.println(acty.getTime() );
+				 *  }
+				 */
 			}
 			else if (obj instanceof ActivityLaunchedState)
 			{
