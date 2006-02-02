@@ -1,5 +1,5 @@
 /*
- * $Id: ModelResourcesManager.java,v 1.7 2006/01/28 22:09:21 cyberal82 Exp $
+ * $Id: ModelResourcesManager.java,v 1.8 2006/02/02 13:48:19 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -358,7 +358,7 @@ public class ModelResourcesManager
 				{
 					// sBody on construit sBody pour qu'il y ait la chaine
 					// suivante
-					// Le produit doit être sauvegarder dans le dossier
+					// Le produit doit ?tre sauvegarder dans le dossier
 					// /unChemin et doit avoir pour nom nomProduit.
 					String sBody = LanguagesManager.getInstance().getString(
 							"WarningSaveProductName1")
@@ -369,7 +369,7 @@ public class ModelResourcesManager
 									.getCurrentProject().getName()
 							+ File.separator
 							+ Project.DOCS_DIRECTORY
-							+ " "
+							+ " \n"
 							+ LanguagesManager.getInstance().getString(
 									"WarningSaveProductName2")
 							+ " \""
@@ -438,7 +438,7 @@ public class ModelResourcesManager
 
 	/* debut des modifications -> baloo */
 	/**
-	 * lance le produit à modifier dans l'outil associé
+	 * lance le produit ? modifier dans l'outil associ?
 	 * 
 	 * @param product
 	 *            produit pour lequel il faut lancer l'application
@@ -480,22 +480,22 @@ public class ModelResourcesManager
 					// recupere le workspace courant
 					String sPathProperties = PreferencesManager.getInstance()
 							.getWorkspace();
-					File fWorskpace = new File(sPathProperties);
+					
 					// recupere le chemin du .properties du projet courant
-					sPathProperties += fWorskpace.separator
+					sPathProperties += File.separator
 							+ ApplicationManager.getInstance()
 									.getCurrentProject().getName();
 					String sPathProduct = sPathProperties
-							+ fWorskpace.separator + "produits"
-							+ fWorskpace.separator;
-					sPathProperties += fWorskpace.separator
+							+ File.separator + "produits"
+							+ File.separator;
+					sPathProperties += File.separator
 							+ "documentation.properties";
 					// fichier .properties
 					File fileProperties = new File(sPathProperties);
 					File fileProduct = new File(sPathProduct);
 					// charge le fichier
 					pProduct.load(new FileInputStream(fileProperties));
-					// recupere le nom du produit associé
+					// recupere le nom du produit associ?
 					String sProduct = pProduct.getProperty(product.getId());
 					// recherche si un nom de produit correspond dans la liste
 					// des produits
@@ -516,7 +516,7 @@ public class ModelResourcesManager
 						}
 					}
 					// un produit correspond, on lance ce produit dans
-					// l'application qui lui est défini
+					// l'application qui lui est d?fini
 					if (bFind)
 					{
 						String[] cmdArray = new String[] { sPath, sPathProduct };
