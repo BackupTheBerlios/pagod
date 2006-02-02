@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimeCouple.java,v 1.1 2006/02/02 13:45:23 fabfoot Exp $
+ * $Id: TimeCouple.java,v 1.2 2006/02/02 19:23:49 psyko Exp $
  */
 package pagod.common.model;
 
@@ -14,7 +14,11 @@ public class TimeCouple
 	 private int iTimeElapsed;
 	 private int iTimeRemaining;
 
-	 TimeCouple(int elapsed, int remaining) {
+	 /**
+	 * @param elapsed
+	 * @param remaining
+	 */
+	public TimeCouple(int elapsed, int remaining) {
 		 this.iTimeElapsed  = elapsed ;
 		 this.iTimeRemaining  = remaining ;
 	 }

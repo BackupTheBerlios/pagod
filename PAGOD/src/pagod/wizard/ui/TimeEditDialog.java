@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimeEditDialog.java,v 1.1 2006/02/02 15:05:16 psyko Exp $
+ * $Id: TimeEditDialog.java,v 1.2 2006/02/02 19:23:49 psyko Exp $
  */
 
 package pagod.wizard.ui;
@@ -20,7 +20,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import pagod.common.model.Activity;
+import pagod.common.model.TimeCouple;
 import pagod.utils.LanguagesManager;
+import pagod.wizard.control.ApplicationManager;
 
 
 /**
@@ -78,9 +80,15 @@ public class TimeEditDialog extends JDialog implements ActionListener
 		this.pbCancel = new JButton(
 				LanguagesManager.getInstance().getString("CancelButtonLabel"));
 		
+		// Récuperation de l'ité courante 
+		int iCurrentIt = ApplicationManager.getInstance().getCurrentProject().getItCurrent();
+				
 		// creation de nos 2 JTextField
-		this.tfEstimatedTime = new JTextField("00:00:00");
-		this.tfPassedTime = new JTextField("00:00:00");
+		// initialisés avec les valeurs de la HMap de Activity
+		this.tfEstimatedTime = new JTextField(
+				""+this.activity.gethmTime(iCurrentIt).getTimeRemaining());
+		this.tfPassedTime = new JTextField(
+				""+this.activity.gethmTime(iCurrentIt).getTimeElapsed());
 		
 		// creation de nos 2 JLabel
 		this.lEstimatedTime = new JLabel(
@@ -121,11 +129,9 @@ public class TimeEditDialog extends JDialog implements ActionListener
             // on redefinit la methode windowsClosing heritee de WindowAdapter
             void windowsClosing(WindowEvent e)
             {
-                /*
-                 * on ferme la fenetre une inner class peut acceder aux
-                 * attributs de la classe qui la contient en donnant sont nom
-                 * suivit de .this puis le nom de l'attribut ou de la methode
-                 */
+                //on ferme la fenetre une inner class peut acceder aux
+                // attributs de la classe qui la contient en donnant sont nom
+                // suivit de .this puis le nom de l'attribut ou de la methode
                 TimeEditDialog.this.dispose();
 
             }
@@ -145,8 +151,16 @@ public class TimeEditDialog extends JDialog implements ActionListener
 	 */
 	public void validate()
 	{
-		// TODO : le corps de la méthode !! 
+		// TODO : le corps de la méthode !!
+		// 1°)récupérer les valeurs ds les champs texte
+		// 2°)faire conversion en int
+		int iTimeElapsed = 0;
+		int iTimeRemaining = 0;
+				
+		int iCurrentIt = 
+			ApplicationManager.getInstance().getCurrentProject().getItCurrent();
 		
+		this.activity.sethmTime(iCurrentIt, new TimeCouple(iTimeElapsed, iTimeRemaining));
 		
 	}
 	
@@ -177,6 +191,4 @@ public class TimeEditDialog extends JDialog implements ActionListener
 			TimeEditDialog.this.dispose();
 		}
 	}
-	
-
 }
