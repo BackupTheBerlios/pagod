@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimeActivityDialog.java,v 1.6 2006/01/22 08:23:23 biniou Exp $
+ * $Id: TimeActivityDialog.java,v 1.7 2006/02/02 19:41:17 biniou Exp $
  */
 package pagod.wizard.ui;
 
@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -20,6 +21,7 @@ import javax.swing.table.AbstractTableModel;
 
 import pagod.common.model.Activity;
 import pagod.utils.LanguagesManager;
+import pagod.utils.TimerManager;
 import pagod.wizard.control.ApplicationManager;
 
 /**
@@ -198,7 +200,8 @@ public class TimeActivityDialog extends JDialog implements ActionListener
 			}
 			else
 			{
-				cellValue = Integer.toString((this.alTime.get(rowIndex)));
+				// affichage du tps sous la forme h:m:s
+				cellValue = TimerManager.stringFromTime((this.alTime.get(rowIndex)));
 			}
 
 			return cellValue;
@@ -239,12 +242,28 @@ public class TimeActivityDialog extends JDialog implements ActionListener
 		 */
 		public void setValueAt (Object value, int rowIndex, int columnIndex)
 		{
-			// TODO ajouter un formatter pour n'accepter que les int
+			// verification que la chaine rentrée soit de la bonne forme
+			
+			boolean isValid = false;
+			String val = String.valueOf(value);
+			isValid = val.matches("[0-9]+:[0-5]?[0-9]:[0-5]?[0-9]");
 			
 			// sauver les modifs dans l'arraylist
-			int i = Integer.parseInt(String.valueOf(value));
-
-			this.alTime.set(rowIndex,i);
+			if (isValid)
+			{
+				int i = TimerManager.timeFromString(String.valueOf(value));
+			
+				this.alTime.set(rowIndex,i);
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(ApplicationManager.getInstance().getMfPagod(),
+						LanguagesManager.getInstance().getString(
+								"EditTimeException"),
+						LanguagesManager.getInstance().getString(
+								"EditTimeErrorTitle"),
+						JOptionPane.ERROR_MESSAGE);				
+			}
 		}
 		
 		/**
