@@ -1,5 +1,5 @@
 /*
- * $Id: Activity.java,v 1.3 2006/01/19 09:40:46 fabfoot Exp $
+ * $Id: Activity.java,v 1.4 2006/02/02 13:45:23 fabfoot Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -27,6 +27,7 @@ package pagod.common.model;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -65,7 +66,13 @@ public class Activity extends ProcessElement
      * Time qui permet de quver le temps
      **/
     private int time = 0;
+   
+    private HashMap<Integer, TimeCouple> hmTime = new HashMap<Integer, TimeCouple>() ;
     
+    /**
+     * activit? termin? ou pas
+     */
+    private boolean done = false;
     /**
      * Constructeur complet d'une activite
      * 
@@ -79,18 +86,22 @@ public class Activity extends ProcessElement
      * @param outputProducts
      * @param role
      */
-    public Activity(String id, String name, URL fileURL, URL iconURL,
+ 
+	public Activity(String id, String name, URL fileURL, URL iconURL,
                     List<Step> steps, WorkDefinition workDefinition,
                     List<Product> inputProducts,
                     List<Product> outputProducts, Role role)
     {
-        super(id, name, fileURL, iconURL);
-
+       
+    	super(id, name, fileURL, iconURL);
         this.setSteps(steps);
         this.setWorkDefinition(workDefinition);
         this.setInputProducts(inputProducts);
         this.setOutputProducts(outputProducts);
         this.setRole(role);
+        TimeCouple tcTime = new TimeCouple(0,0);
+        Integer it = new Integer (1);
+        this.hmTime.put(it,tcTime); 
     }
 
     /**
@@ -195,7 +206,41 @@ public class Activity extends ProcessElement
     {
         this.time = itime ;
     }
+    /**
+     * Retourne l'attribut done
+     * 
+     * @return done
+     */
+    public boolean getDone()
+    {
+        return this.done;
+    }
 
+    /**
+     * Initialise l'attribut done a true
+     */
+    public void setDone()
+    {
+        this.done = true ;
+    }
+    /**
+     * @param i
+     * @return l'attribut timeCouple de la hashmap
+     */
+    public TimeCouple gethmTime(int i)
+    {
+        return this.hmTime.get(new Integer( i));
+    }
+    /**
+     * @param i
+     * @param tc
+     */
+
+    public void sethmTime(int i ,TimeCouple tc)
+	{
+		this.hmTime.put(new Integer (i),tc); 
+	}
+   
     /**
      * Retourne l'attribut steps
      * 
@@ -204,6 +249,16 @@ public class Activity extends ProcessElement
     public List<Step> getSteps()
     {
         return this.steps;
+    }
+    
+    /**
+     * Retourne l'attribut hmTime
+     * 
+     * @return hmTime.
+     */
+    public HashMap  getHM()
+    {
+        return this.hmTime;
     }
 
     /**

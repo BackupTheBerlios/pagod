@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: Project.java,v 1.13 2006/01/28 16:34:02 cyberal82 Exp $
+ * $Id: Project.java,v 1.14 2006/02/02 13:45:23 fabfoot Exp $
  */
 package pagod.common.model;
 
@@ -52,6 +52,11 @@ public class Project
 	private Properties			docsProperties	= null;
 
 	/**
+	 * valeur de l'iteration courante
+	 */
+	private int itCurrent = 1;
+	
+	/**
 	 * Constructeur de la classe Project
 	 * 
 	 * @param name
@@ -62,6 +67,7 @@ public class Project
 		this.docsProperties = new Properties();
 	}
 
+	
 	/**
 	 * @param name
 	 *            est le nom que l'on veut donner au projet
@@ -275,7 +281,22 @@ public class Project
 	{
 		this.sName = name;
 	}
+	/**
+	 * @return Retourne l'attribut itCurrent
+	 */
+	public int getItCurrent ()
+	{
+		return this.itCurrent ;
+	}
 
+	
+	/**
+	 * @param itcurrent
+	 */
+	public void setItCurrent(int itcurrent)
+	{
+		this.itCurrent  = itcurrent ;
+	}
 	/**
 	 * @return Retourne l'attribut sNameDPC
 	 */

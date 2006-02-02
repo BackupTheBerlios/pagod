@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: NewProjectAction.java,v 1.4 2006/01/20 15:08:17 fabfoot Exp $
+ * $Id: NewProjectAction.java,v 1.5 2006/02/02 13:45:23 fabfoot Exp $
  */
 package pagod.wizard.control.actions;
 
@@ -59,7 +59,9 @@ public class NewProjectAction extends AbstractPagodAction
 				ApplicationManager.getInstance().manageRequest(
 						new Request(Request.RequestType.OPEN_PROCESS));
 			}
-			
+			TimeHandler th = new TimeHandler ();
+			System.out.println("chargement du fichier");
+			th.loadXML(ApplicationManager.getInstance().getCurrentProject().getName());
 		}
 	}
 

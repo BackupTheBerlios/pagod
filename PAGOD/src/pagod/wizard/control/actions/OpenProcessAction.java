@@ -1,5 +1,5 @@
 /*
- * $Id: OpenProcessAction.java,v 1.6 2006/01/25 09:51:34 fabfoot Exp $
+ * $Id: OpenProcessAction.java,v 1.7 2006/02/02 13:45:23 fabfoot Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
