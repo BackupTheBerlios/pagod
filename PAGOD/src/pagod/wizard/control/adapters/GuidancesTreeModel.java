@@ -1,5 +1,5 @@
 /*
- * $Id: GuidancesTreeModel.java,v 1.2 2005/11/30 09:38:07 cyberal82 Exp $
+ * $Id: GuidancesTreeModel.java,v 1.3 2006/02/02 13:49:43 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -24,6 +24,7 @@
 
 package pagod.wizard.control.adapters;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
 
@@ -83,7 +84,7 @@ public class GuidancesTreeModel extends DefaultTreeModel
 		this.root = new DefaultMutableTreeNode("racine");
 
 		// on recupere tous les guides disponibles pour ce produit
-		Collection<Guidance> arrGuidances = this.product.getGuidances();
+		Collection<Guidance> arrGuidances = new ArrayList<Guidance> (this.product.getGuidances());
 
 		// s'il l'activite possede des guides on les ajoute a la liste des
 		// guides a afficher
