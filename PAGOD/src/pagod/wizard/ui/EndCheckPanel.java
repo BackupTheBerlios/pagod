@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: EndCheckPanel.java,v 1.4 2006/02/03 15:10:24 cyberal82 Exp $
+ * $Id: EndCheckPanel.java,v 1.5 2006/02/03 15:53:09 themorpheus Exp $
  */
 package pagod.wizard.ui;
 
@@ -141,7 +141,7 @@ public class EndCheckPanel extends JScrollPane
                     FlowLayout.LEFT));
             JLabel lGuidancesTitleLabel = new JLabel("");
             lGuidancesTitleLabel = new JLabel(LanguagesManager.getInstance()
-                    .getString("CheckGuidancesLabel"), SwingConstants.LEFT);
+                    .getString("CheckListLabel"), SwingConstants.LEFT);
             lGuidancesTitleLabel.setBackground(Color.WHITE);
             pGuidanceTitlePanel.setBackground(Color.WHITE);
             pGuidanceTitlePanel.add(lGuidancesTitleLabel);
