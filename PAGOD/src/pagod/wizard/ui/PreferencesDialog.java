@@ -1,5 +1,5 @@
 /*
- * $Id: PreferencesDialog.java,v 1.3 2006/01/23 19:59:22 flotueur Exp $
+ * $Id: PreferencesDialog.java,v 1.4 2006/02/03 12:47:56 flotueur Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -141,19 +141,33 @@ public class PreferencesDialog extends JDialog implements ActionListener
             String sPrecLang = PreferencesManager.getInstance().getLanguage();
 
             PreferencesManager.getInstance().setLanguage(sLang);
-            /*Modif Coin coin*/
-            
-            // On instancie les fichiers
-    		File sourceWorkspace = new File(PreferencesManager.getInstance().getWorkspace());
-    		File targetWorkspace = new File(this.pLanguage.getWorkspace());
-    		
-    		// On copie le répertoire source dans le répertoire destination
-    		FilesManager.copyDirectory(sourceWorkspace,targetWorkspace);
-    		// On efface le répertoire source
-    		FilesManager.deleteDirectory(sourceWorkspace);
+            /*Modif Coin coin & flotueur*/
+	            
+            // On n'effectue la copie que si le chemin du workspace a ete modifie
+            if (PreferencesManager.getInstance().getWorkspace() != this.pLanguage.getWorkspace()){
+	            // On instancie les fichiers
+	    		File sourceWorkspace = new File(PreferencesManager.getInstance().getWorkspace());
+	    		File targetWorkspace = new File(this.pLanguage.getWorkspace());
+	    		
+	    		// Si le nouveau chemin est valide alors on copie les fichiers
+	    		if (targetWorkspace.exists()){
+		    		// On copie le r?pertoire source dans le r?pertoire destination
+		    		FilesManager.copyDirectory(sourceWorkspace,targetWorkspace);
+		    		// On efface le r?pertoire source
+		    		//FilesManager.deleteDirectory(sourceWorkspace);
+	    		} else {
+	    		// Sinon on ne copie pas et on affiche un message d'erreur
+	    			JOptionPane.showMessageDialog(this, LanguagesManager
+							.getInstance().getString("WorkspaceException"),
+							LanguagesManager.getInstance().getString(
+									"WorkspaceErrorTitle"),
+							JOptionPane.ERROR_MESSAGE);
+	    		}
+	    		
+            }
             
             PreferencesManager.getInstance().setWorkspace(this.pLanguage.getWorkspace());
-            /*Fin Modif Coin coin*/
+            /*Fin Modif Coin coin & flotueur*/
             PreferencesManager.getInstance().storePreferences();
             PreferencesManager.getInstance().setLanguage(sPrecLang);
 
