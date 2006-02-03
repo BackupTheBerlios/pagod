@@ -1,5 +1,5 @@
 /*
- * $Id: ListProductsPanel.java,v 1.4 2006/01/25 16:32:56 themorpheus Exp $
+ * $Id: ListProductsPanel.java,v 1.5 2006/02/03 15:18:38 themorpheus Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -205,23 +205,18 @@ public abstract class ListProductsPanel extends JPanel
                             .getSource()).getSelectedValue();
                     if (ListProductsPanel.this.theSelectedProduct.getEditor() != null)
                     {
-                        //teste si un document est deja cree pour le produit
+                    	//teste si un document est deja cree pour le produit
                         if (pProduct.getProperty(ListProductsPanel.this.theSelectedProduct.getId()) != null)
                         {
-                        	ListProductsPanel.this.bpLauncherProduct.setVisible(true);
+                        	ListProductsPanel.this.bpLauncherProduct.setVisible(false);
                             ListProductsPanel.this.bpUpdaterProduct.setVisible(true);
-                            ListProductsPanel.this.bpLauncherProduct.setEnabled(false);
-                            ListProductsPanel.this.bpUpdaterProduct.setEnabled(true);
-                            ListProductsPanel.this.message.setVisible(false);
                         }
                         else
                         {
                         	ListProductsPanel.this.bpLauncherProduct.setVisible(true);
-                            ListProductsPanel.this.bpUpdaterProduct.setVisible(true);
-                            ListProductsPanel.this.bpLauncherProduct.setEnabled(true);
-                            ListProductsPanel.this.bpUpdaterProduct.setEnabled(false);
-                            ListProductsPanel.this.message.setVisible(false);
+                            ListProductsPanel.this.bpUpdaterProduct.setVisible(false);
                         }
+                        ListProductsPanel.this.message.setVisible(false);
                     }
                     else
                     {

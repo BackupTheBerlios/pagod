@@ -1,5 +1,5 @@
 /*
- * $Id: ModelResourcesManager.java,v 1.8 2006/02/02 13:48:19 cyberal82 Exp $
+ * $Id: ModelResourcesManager.java,v 1.9 2006/02/03 15:18:38 themorpheus Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -401,10 +401,10 @@ public class ModelResourcesManager
 						String sPathProperties = PreferencesManager
 								.getInstance().getWorkspace();
 						// recupere le chemin du .properties du projet courant
-						sPathProperties += "/"
+						sPathProperties += File.separator
 								+ ApplicationManager.getInstance()
 										.getCurrentProject().getName();
-						sPathProperties += "/documentation.properties";
+						sPathProperties += File.separator + "documentation.properties";
 						File fileProperties = new File(sPathProperties);
 						// charge le fichier
 						pProduct.load(new FileInputStream(fileProperties));
