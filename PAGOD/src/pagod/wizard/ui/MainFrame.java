@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.35 2006/02/01 22:03:47 biniou Exp $
+ * $Id: MainFrame.java,v 1.36 2006/02/03 14:48:17 biniou Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -942,24 +942,44 @@ public class MainFrame extends JFrame implements Observer
 				// test si la valeur de la cl? workspace est d?finie ou pas
 
 				boolean validWorkspace = false;
+				boolean cancelChoice = false;
 
 				if (!PreferencesManager.getInstance().containWorkspace())
 				{
 					WorkspaceFileChooser workspaceChooser = new WorkspaceFileChooser();
 
-					if (workspaceChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
+					while (!validWorkspace && !cancelChoice)
 					{
-						File file = workspaceChooser.getSelectedFile();
-						System.out.println(file.getPath());
-
-						// on verifie que le workspace choisi existe
-						// mettre le path dans le fichier preferences a la cl?
-						// "workspace"
-						if (file.exists())
+						if (workspaceChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
 						{
-							PreferencesManager.getInstance().setWorkspace(
-									file.getPath());
-							validWorkspace = true;
+							File file = workspaceChooser.getSelectedFile();
+							System.out.println(file.getPath());
+
+							// on verifie que le workspace choisi existe
+							// mettre le path dans le fichier preferences a la
+							// cl?
+							// "workspace"
+							if (file.exists())
+							{
+								PreferencesManager.getInstance().setWorkspace(
+										file.getPath());
+								validWorkspace = true;
+							}
+							else
+							{
+								// affichage d'un message d'erreur si le
+								// workspace est invalide
+								JOptionPane
+										.showMessageDialog(
+												this,
+												LanguagesManager.getInstance().getString("WorkspaceException"),
+												LanguagesManager.getInstance()	.getString("WorkspaceErrorTitle"),
+												JOptionPane.ERROR_MESSAGE);
+							}
+						}
+						else
+						{
+							cancelChoice = true;
 						}
 					}
 				}
@@ -972,13 +992,32 @@ public class MainFrame extends JFrame implements Observer
 				// d'erreur
 				if (!validWorkspace)
 				{
+					ActionManager.getInstance().getAction(
+							Constants.ACTION_NEWPROJECT).setEnabled(false);
+					ActionManager.getInstance().getAction(
+							Constants.ACTION_OPENPROJECT).setEnabled(false);
+					ActionManager.getInstance().getAction(
+							Constants.ACTION_TIMEACTIVITY).setEnabled(false);
+					ActionManager.getInstance().getAction(
+							Constants.ACTION_PREFERENCES).setEnabled(false);
+
 					// affichage d'un message d'erreur si le workspace n'est pas
-					// défini ou invalide
+					// d?fini ou invalide
 					JOptionPane.showMessageDialog(this, LanguagesManager
 							.getInstance().getString("WorkspaceException"),
 							LanguagesManager.getInstance().getString(
 									"WorkspaceErrorTitle"),
 							JOptionPane.ERROR_MESSAGE);
+				}
+				// si le workspace est valide on degrise les actions
+				else
+				{
+					ActionManager.getInstance().getAction(
+							Constants.ACTION_NEWPROJECT).setEnabled(true);
+					ActionManager.getInstance().getAction(
+							Constants.ACTION_OPENPROJECT).setEnabled(true);
+					ActionManager.getInstance().getAction(
+							Constants.ACTION_TIMEACTIVITY).setEnabled(true);
 				}
 				this.reinitialize();
 
@@ -1029,8 +1068,7 @@ public class MainFrame extends JFrame implements Observer
 				 * final Collection<Activity > cactivity =
 				 * ApplicationManager.getInstance().getCurrentProcess().getAllActivities
 				 * (); for (Activity acty : cactivity) {
-				 * System.err.println(acty.getTime() );
-				 *  }
+				 * System.err.println(acty.getTime() ); }
 				 */
 			}
 			else if (obj instanceof ActivityLaunchedState)
