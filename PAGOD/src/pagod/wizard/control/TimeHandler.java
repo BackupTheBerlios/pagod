@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimeHandler.java,v 1.11 2006/02/02 13:45:23 fabfoot Exp $
+ * $Id: TimeHandler.java,v 1.12 2006/02/03 14:13:06 garwind111 Exp $
  */
 package pagod.wizard.control;
 
@@ -32,6 +32,9 @@ public class TimeHandler
 {
 	/** Processus lu par le parser */
 	private Document	doc;
+	
+	/** **/
+	private int iterationmax = 0;
 
 	/**
 	 * constucteur vide
@@ -90,7 +93,7 @@ public class TimeHandler
 
 	/**
 	 * Charge le model metier a partir du doc
-	 * 
+	 * @author garwind
 	 * @param process
 	 */
 	public void fillModel (Process process)
@@ -102,6 +105,19 @@ public class TimeHandler
 		Iterator nodeiterator = nodelist.iterator();
 		// Charge les activit?s dans une collection
 		Collection<Activity> cactivity = process.getAllActivities();
+		// Liste des nodes iterations
+		List iterationlist = null;
+		// Iterateur de la liste de nodes d'iterations
+		Iterator iterationlist_iterator = null;
+		// Elements necessaires parsing xml de l'ieration ...
+		Element iterationnode = null;
+		Attribute noiteration = null;
+		Element etimeelapsed =  null;
+		Element etimeremaining =  null;
+		int int_noiteration = 0;
+		int int_etimeelapsed = 0;
+		int int_etimeremaining = 0;
+		
 		// System.err.println("test");
 		while (nodeiterator.hasNext())
 		{
@@ -121,10 +137,38 @@ public class TimeHandler
 					// System.err.println(time.getText());
 					acty.setTime(new Integer(time.getText()).intValue());
 					// System.err.println(acty.getTime());
+					
+					// Recuperation de chaque node iteration
+					iterationlist = node.getChildren("iteration");
+					iterationlist_iterator = iterationlist.iterator();
+					// Boucle pour chaque node iteration
+					while(iterationlist_iterator.hasNext()) {
+						// node iteration recupere 
+						iterationnode = (Element) iterationlist_iterator.next();
+						noiteration = iterationnode.getAttribute("id_ite");
+						etimeelapsed =  iterationnode.getChild("timeElapsed");
+						etimeremaining =  iterationnode.getChild("timeRemaining");
+						int_noiteration = new Integer(noiteration.getValue()).intValue();
+						int_etimeelapsed = new Integer(etimeelapsed.getText()).intValue();
+						int_etimeremaining = new Integer(etimeremaining.getText()).intValue();
+						acty.sethmTime(int_noiteration, new TimeCouple(int_etimeelapsed,int_etimeremaining ));
+						
+						// detection derniere iteration
+						
+						if (this.iterationmax < int_noiteration) {
+							ApplicationManager.getInstance().getCurrentProject().setItCurrent(int_noiteration);
+							this.iterationmax = int_noiteration;
+						}
+					}
+						
+					// Element done
+					Element done = node.getChild("done");
+					acty.setDone(new Boolean(done.getText()));
 					break;
 				}
 			}
 		}
+		System.out.println(ApplicationManager.getInstance().getCurrentProject().getItCurrent());
 	}
 
 	/**
