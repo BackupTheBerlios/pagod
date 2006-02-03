@@ -1,5 +1,5 @@
 /*
- * $Id: CheckPane.java,v 1.2 2006/01/18 00:12:55 psyko Exp $
+ * $Id: CheckPane.java,v 1.3 2006/02/03 15:10:23 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -32,6 +32,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -58,6 +59,11 @@ import pagod.utils.LanguagesManager;
 public class CheckPane extends JScrollPane
 {
     private Activity activity;
+    
+    /**
+     * attribut contenant tous les guides associes a un role et/ou une activite qui ne sont pas de type "liste de controle"
+     */
+    private List<Guidance> lGuidance = new ArrayList<Guidance>();
 
     /**
      * Constructeur du paneau de controle d'entree en activite
@@ -204,7 +210,10 @@ public class CheckPane extends JScrollPane
         }
         pCenterPanel.add(Box.createVerticalStrut(10));
         // section guides
-        if (activity.getGuidances().size() != 0)
+        this.lGuidance.addAll(activity.getGuidanceWithoutType("Liste de controles"));
+        this.lGuidance.addAll(activity.getRole().getGuidanceWithoutType("Liste de controles"));
+        
+        if (this.lGuidance.size() != 0)
         {
             // mise en place de la phrase de titre
             JPanel pGuidanceTitlePanel = new JPanel(new FlowLayout(
@@ -221,10 +230,10 @@ public class CheckPane extends JScrollPane
                     toolTitleLabelSize.height));
             pCenterPanel.add(pGuidanceTitlePanel);
             pCenterPanel.add(Box.createVerticalStrut(10));
+            
             // mise en place des guides (1 ligne par produit)
-            for (Guidance guidance : this.activity.getGuidances())
+            for (Guidance guidance : this.lGuidance)
             {
-
                 JPanel pGuidance = new JPanel(new FlowLayout(FlowLayout.LEFT));
                 pGuidance.add(Box.createHorizontalStrut(15));
                 JLabel lGuidanceLabel;
@@ -258,14 +267,16 @@ public class CheckPane extends JScrollPane
                             if (e.getClickCount() == 2)
                             {
                                 JLabel jLabelSource = (JLabel) e.getSource();
-                                List<Guidance> lguidance = CheckPane.this.activity.getGuidances();
                                 Guidance guidance1;
-                                Iterator it  = lguidance.iterator();
-                                while (it.hasNext())
+                                Iterator it  = CheckPane.this.lGuidance.iterator();
+                                boolean trouve = false;
+                                while (it.hasNext() && !trouve)
                                 {    
                                     guidance1 = (Guidance)it.next();
                                     if (jLabelSource.getText() == guidance1.getName())
-                                    {    ModelResourcesManager
+                                    {    
+                                    	trouve = true;
+                                    	ModelResourcesManager
                                         .getInstance()
                                         .launchContentFile(guidance1);
                                     }
