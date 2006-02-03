@@ -1,5 +1,5 @@
 /*
- * $Id: Activity.java,v 1.4 2006/02/02 13:45:23 fabfoot Exp $
+ * $Id: Activity.java,v 1.5 2006/02/03 13:05:34 fabfoot Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -218,10 +218,11 @@ public class Activity extends ProcessElement
 
     /**
      * Initialise l'attribut done a true
+     * @param b 
      */
-    public void setDone()
+    public void setDone(boolean b)
     {
-        this.done = true ;
+        this.done = b ;
     }
     /**
      * @param i
