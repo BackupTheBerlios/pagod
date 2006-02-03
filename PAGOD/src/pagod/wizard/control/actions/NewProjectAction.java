@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: NewProjectAction.java,v 1.5 2006/02/02 13:45:23 fabfoot Exp $
+ * $Id: NewProjectAction.java,v 1.6 2006/02/03 13:02:54 fabfoot Exp $
  */
 package pagod.wizard.control.actions;
 
@@ -11,6 +11,7 @@ import java.io.IOException;
 
 import javax.swing.KeyStroke;
 
+import pagod.configurator.control.PreferencesManager;
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
 import pagod.wizard.control.ApplicationManager;
@@ -60,8 +61,11 @@ public class NewProjectAction extends AbstractPagodAction
 						new Request(Request.RequestType.OPEN_PROCESS));
 			}
 			TimeHandler th = new TimeHandler ();
-			System.out.println("chargement du fichier");
-			th.loadXML(ApplicationManager.getInstance().getCurrentProject().getName());
+			System.out.println("test fab chargement du fichier");
+			//th.loadXML(ApplicationManager.getInstance().getCurrentProject().getName());
+			th.loadModel( ApplicationManager.getInstance().getCurrentProcess());
+			th.affiche() ;
+			th.writeXML(ApplicationManager.getInstance().getCurrentProject().getName()  );
 		}
 	}
 
