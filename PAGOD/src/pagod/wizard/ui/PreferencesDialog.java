@@ -1,5 +1,5 @@
 /*
- * $Id: PreferencesDialog.java,v 1.4 2006/02/03 12:47:56 flotueur Exp $
+ * $Id: PreferencesDialog.java,v 1.5 2006/02/03 13:38:35 flotueur Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -144,7 +144,9 @@ public class PreferencesDialog extends JDialog implements ActionListener
             /*Modif Coin coin & flotueur*/
 	            
             // On n'effectue la copie que si le chemin du workspace a ete modifie
-            if (PreferencesManager.getInstance().getWorkspace() != this.pLanguage.getWorkspace()){
+            // et si le workspace existe deja
+            if (PreferencesManager.getInstance().getWorkspace() != this.pLanguage.getWorkspace()
+            	&& PreferencesManager.getInstance().getWorkspace()!=null ){
 	            // On instancie les fichiers
 	    		File sourceWorkspace = new File(PreferencesManager.getInstance().getWorkspace());
 	    		File targetWorkspace = new File(this.pLanguage.getWorkspace());
@@ -167,7 +169,8 @@ public class PreferencesDialog extends JDialog implements ActionListener
             }
             
             PreferencesManager.getInstance().setWorkspace(this.pLanguage.getWorkspace());
-            /*Fin Modif Coin coin & flotueur*/
+            
+            /*Fin Modif Coin coin & flotueur.0*/
             PreferencesManager.getInstance().storePreferences();
             PreferencesManager.getInstance().setLanguage(sPrecLang);
 
