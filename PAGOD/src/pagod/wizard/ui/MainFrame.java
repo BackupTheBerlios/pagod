@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.36 2006/02/03 14:48:17 biniou Exp $
+ * $Id: MainFrame.java,v 1.37 2006/02/04 16:30:28 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -25,6 +25,7 @@
 package pagod.wizard.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Button;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Frame;
@@ -80,6 +81,7 @@ import pagod.wizard.control.states.application.ActivityLaunchedState;
 import pagod.wizard.control.states.application.InitState;
 import pagod.wizard.control.states.application.ProcessOpenedState;
 import pagod.wizard.control.states.application.ProjectOpenedState;
+import pagod.wizard.ui.ButtonPanel.Buttons;
 
 /**
  * Fen?tre principale de l'application PAGOD
@@ -313,6 +315,9 @@ public class MainFrame extends JFrame implements Observer
 		((AbstractPagodAction) ActionManager.getInstance().getAction(
 				Constants.ACTION_TERMINATE)).configureRootPane(this
 				.getRootPane(), JComponent.WHEN_IN_FOCUSED_WINDOW);
+		((AbstractPagodAction) ActionManager.getInstance().getAction(
+				Constants.ACTION_SUSPEND)).configureRootPane(
+				this.getRootPane(), JComponent.WHEN_IN_FOCUSED_WINDOW);
 
 		// TODO il faudra fre cela qd le pb de la MainFrame sera regle
 		// on enregistre la MainFrame comme observer de l'ApplicationManager
@@ -404,7 +409,10 @@ public class MainFrame extends JFrame implements Observer
 				"activityCheckListMessage"));
 		// cr?er les panneaux
 		this.centerPanel.add(new CheckPane(activity));
-
+		// on masque le bouton terminate et on affiche les autres
+		this.buttonPanel.hideButtons(Buttons.PB_TERMINATE);
+		this.buttonPanel.showButtons(Buttons.PB_SUSPEND, Buttons.PB_PREVIOUS,
+				Buttons.PB_NEXT);
 		this.southPanel.add(this.buttonPanel);
 		this.setVisible(true);
 	}
@@ -424,6 +432,10 @@ public class MainFrame extends JFrame implements Observer
 				"activityEndCheckListMessage"));
 		// on cr?er les panneau
 		this.centerPanel.add(new EndCheckPanel(activity));
+		// on masque le bouton suspend et on affiche les autres
+		this.buttonPanel.hideButtons(Buttons.PB_SUSPEND);
+		this.buttonPanel.showButtons(Buttons.PB_TERMINATE, Buttons.PB_PREVIOUS,
+				Buttons.PB_NEXT);
 		this.southPanel.add(this.buttonPanel);
 		this.setVisible(true);
 
@@ -460,7 +472,11 @@ public class MainFrame extends JFrame implements Observer
 
 			this.setComponentInJSplitPane(new StepPanel(stepToPresent, rang,
 					total), stepToPresent);
+			// on masque le bouton terminate et on affiche les autres
 
+			this.buttonPanel.hideButtons(Buttons.PB_TERMINATE);
+			this.buttonPanel.showButtons(Buttons.PB_SUSPEND,
+					Buttons.PB_PREVIOUS, Buttons.PB_NEXT);
 			// this.dividerLocation = this.splitPane.getLastDividerLocation();
 			this.splitPane.setDividerLocation(this.dividerLocation);
 		}
@@ -468,10 +484,15 @@ public class MainFrame extends JFrame implements Observer
 		{
 			// on nettoye le panneaux
 			this.centerPanel.removeAll();
+			// on masque le bouton suspend et on affiche les autres
 
+			this.buttonPanel.hideButtons(Buttons.PB_SUSPEND);
+			this.buttonPanel.showButtons(Buttons.PB_TERMINATE,
+					Buttons.PB_PREVIOUS, Buttons.PB_NEXT);
 			// on affiche uniquement la presentation des activites
 			this.centerPanel.add(new StepPanel(stepToPresent, rang, total));
 		}
+
 		this.setVisible(true);
 	}
 
@@ -518,20 +539,33 @@ public class MainFrame extends JFrame implements Observer
 			// on affiche un jsplitPane qui affiche en haut la presentation de
 			// l'activite
 			// et en bas les produits en sorties
+//			 on masque le bouton terminate et on affiche les autres
+
+			this.buttonPanel.hideButtons(Buttons.PB_TERMINATE);
+			this.buttonPanel.showButtons(Buttons.PB_SUSPEND,
+					Buttons.PB_PREVIOUS, Buttons.PB_NEXT);
 			this.setComponentInJSplitPane(this.contentViewerPanel,
 					activityToPresent);
 		}
 		else
 		{
-			// TODO debug
-			System.out.println("pas de prod en sortie");
+			
+//			 on masque le bouton terminate et on affiche les autres
 
+			this.buttonPanel.hideButtons(Buttons.PB_SUSPEND);
+			this.buttonPanel.showButtons(Buttons.PB_TERMINATE,
+					Buttons.PB_PREVIOUS, Buttons.PB_NEXT);
 			// on nettoye le panneaux
 			this.centerPanel.removeAll();
 
 			// on affiche uniquement la presentation des activites
 			this.centerPanel.add(this.contentViewerPanel);
+			
 		}
+		// on masque le bouton terminate et on affiche les autres
+		this.buttonPanel.hideButtons(Buttons.PB_TERMINATE);
+		this.buttonPanel.showButtons(Buttons.PB_SUSPEND, Buttons.PB_PREVIOUS,
+				Buttons.PB_NEXT);
 		this.southPanel.add(this.buttonPanel);
 
 		this.setVisible(true);
@@ -877,6 +911,7 @@ public class MainFrame extends JFrame implements Observer
 				// PostConditionCheckerState
 				ActionManager.getInstance().getAction(Constants.ACTION_NEXT)
 						.setEnabled(false);
+
 			}
 			else
 			{

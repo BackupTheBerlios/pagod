@@ -1,5 +1,5 @@
 /*
- * $Id: Constants.java,v 1.11 2006/01/20 13:11:27 fabfoot Exp $
+ * $Id: Constants.java,v 1.12 2006/02/04 16:30:29 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -152,7 +152,10 @@ public interface Constants
      * <code>ACTION_TERMINATE</code>
      */
     public static final String ACTION_TERMINATE = "terminateAction";
-    
+    /**
+     * <code>ACTION_SUSPEND</code>
+     */
+    public static final String ACTION_SUSPEND = "supendAction";
     /**
      * <code>ACTION_GOTOSTEP</code>
      */

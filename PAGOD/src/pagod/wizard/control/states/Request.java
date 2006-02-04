@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: Request.java,v 1.7 2006/01/30 14:46:18 cyberal82 Exp $
+ * $Id: Request.java,v 1.8 2006/02/04 16:30:29 yak Exp $
  */
 package pagod.wizard.control.states;
 
@@ -74,6 +74,10 @@ public class Request
 		 * Terminer l'activit?
 		 */
 		TERMINATE_ACTIVITY,
+		/**
+		 * suspendre l'activité
+		 */
+		SUSPEND_ACTIVITY,
 		/**
 		 * aller ? une ?tape direct en utilisant la comboBox
 		 */

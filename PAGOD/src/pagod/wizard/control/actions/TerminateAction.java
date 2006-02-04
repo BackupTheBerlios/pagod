@@ -1,5 +1,5 @@
 /*
- * $Id: TerminateAction.java,v 1.5 2006/01/22 15:45:39 yak Exp $
+ * $Id: TerminateAction.java,v 1.6 2006/02/04 16:30:28 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -33,6 +33,7 @@ import javax.swing.KeyStroke;
 import com.sun.corba.se.impl.orbutil.closure.Constant;
 
 import pagod.common.model.Activity;
+import pagod.common.model.TimeCouple;
 import pagod.utils.ActionManager;
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
@@ -75,6 +76,10 @@ public class TerminateAction extends AbstractPagodAction
     		Activity aTemp = ApplicationManager.getInstance().getMfPagod().getActivity();
     		//on enregistre le temps
     		aTemp.setTime(TimerManager.getInstance().getValue());
+    		/*int iCurrentIt = 
+    			ApplicationManager.getInstance().getCurrentProject().getItCurrent();
+    		
+    		aTemp.sethmTime(iCurrentIt, new TimeCouple(TimerManager.getInstance().getValue(), iTimeRemaining));*/
     		ActionManager.getInstance().getAction(Constants.ACTION_RUN_ACTIVITY).setEnabled(true);
     	}
 	

@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ActivityLaunchedState.java,v 1.8 2006/01/25 13:51:40 cyberal82 Exp $
+ * $Id: ActivityLaunchedState.java,v 1.9 2006/02/04 16:30:29 yak Exp $
  */
 package pagod.wizard.control.states.application;
 
@@ -76,6 +76,11 @@ public class ActivityLaunchedState extends AbstractApplicationState
 
 				break;
 
+			case SUSPEND_ACTIVITY:
+				this.activityScheduler = null;
+				state = new ProcessOpenedState(this.applicationManager);
+
+				break;
 			// si la requet request est inconnue on la d?legue a l'activity
 			// scheduler qui saura peut etre la traiter
 			default:
