@@ -1,5 +1,5 @@
 /*
- * $Id: MainWizard.java,v 1.3 2006/01/21 17:11:16 cyberal82 Exp $
+ * $Id: MainWizard.java,v 1.4 2006/02/04 16:36:27 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -24,6 +24,8 @@
 
 package pagod.wizard;
 
+import javax.swing.JFileChooser;
+
 import pagod.wizard.control.ApplicationManager;
 import pagod.wizard.control.states.Request;
 import pagod.wizard.ui.MainFrame;
@@ -47,7 +49,7 @@ public class MainWizard
 		// lancement de l'application
 		ApplicationManager applicationManager = ApplicationManager
 				.getInstance();
-
+	
 		// creation de la fenetre principale
 		MainFrame mfPagod = new MainFrame();
 		

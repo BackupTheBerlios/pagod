@@ -1,5 +1,5 @@
 /*
- * $Id: ButtonPanel.java,v 1.9 2006/01/25 13:51:40 cyberal82 Exp $
+ * $Id: ButtonPanel.java,v 1.10 2006/02/04 16:36:27 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -28,7 +28,7 @@ import static pagod.wizard.control.Constants.ACTION_GOTOSTEP;
 import static pagod.wizard.control.Constants.ACTION_NEXT;
 import static pagod.wizard.control.Constants.ACTION_PREVIOUS;
 import static pagod.wizard.control.Constants.ACTION_TERMINATE;
-
+import static pagod.wizard.control.Constants.ACTION_SUSPEND;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.util.List;
@@ -61,6 +61,9 @@ public class ButtonPanel extends JPanel
 	/** Bouton "Terminer" */
 	private JButton		pbTerminate;
 
+	/** Bouton "Suspend" */
+	private JButton		pbSuspend;
+	
 	/** Combo box pour acces direct aux steps* */
 	private JComboBox	cbDirectAccess;
 
@@ -75,6 +78,8 @@ public class ButtonPanel extends JPanel
 		PB_PREVIOUS,
 		/** Bouton terminer */
 		PB_TERMINATE,
+		/**Bouton suspend*/
+		PB_SUSPEND,
 		/** Combo pour acces direct aux ?tapes */
 		CB_GOTOSTEP
 
@@ -96,7 +101,7 @@ public class ButtonPanel extends JPanel
 		this.pbNext.setHorizontalTextPosition(SwingConstants.LEADING);
 		this.pbPrevious = new JButton(am.getAction(ACTION_PREVIOUS));
 		this.pbTerminate = new JButton(am.getAction(ACTION_TERMINATE));
-
+		this.pbSuspend = new JButton(am.getAction(ACTION_SUSPEND));
 		this.cbDirectAccess = new JComboBox();
 		this.cbDirectAccess.addActionListener(am.getAction(ACTION_GOTOSTEP));
 
@@ -113,6 +118,7 @@ public class ButtonPanel extends JPanel
 
 		// Ajout des boutons aux panneaux
 		pnlGauche.add(this.pbPrevious);
+		pnlCentre.add(this.pbSuspend);
 		pnlCentre.add(this.pbTerminate);
 		pnlDroite.add(this.pbNext);
 		// TODO rajouter les entr?es de Aller ? : -> Go to
@@ -168,7 +174,7 @@ public class ButtonPanel extends JPanel
 	 * @param visible
 	 *            VRAI pour afficher les boutons, FAUX pour les masquer
 	 */
-	private void setButtonsVisible (Buttons[] buttons, boolean visible)
+	public void setButtonsVisible (Buttons[] buttons, boolean visible)
 	{
 		for (int i = 0; i < buttons.length; i++)
 		{
@@ -182,6 +188,9 @@ public class ButtonPanel extends JPanel
 					break;
 				case PB_TERMINATE:
 					this.pbTerminate.setVisible(visible);
+					break;
+				case PB_SUSPEND:
+					this.pbSuspend.setVisible(visible);
 					break;
 			}
 		}
@@ -198,6 +207,7 @@ public class ButtonPanel extends JPanel
 		this.pbNext.setVisible(visible);
 		this.pbPrevious.setVisible(visible);
 		this.pbTerminate.setVisible(visible);
+		this.pbSuspend.setVisible(visible);
 	}
 
 	/**
@@ -277,11 +287,12 @@ public class ButtonPanel extends JPanel
 			else
 				i++;
 		}
-		
+
 		// si on a trouve l'etat on positionne selectionne cet elt dans la combo
 		if (trouve)
 		{
-			this.cbDirectAccess.setSelectedIndex(i); // regarde setSelectedItem
+			this.cbDirectAccess.setSelectedIndex(i); // regarde
+														// setSelectedItem
 		}
 		// on reactive le listener sur le comboBox
 		this.cbDirectAccess.addActionListener(ActionManager.getInstance()
