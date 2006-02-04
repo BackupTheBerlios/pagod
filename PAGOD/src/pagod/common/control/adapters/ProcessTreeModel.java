@@ -1,5 +1,5 @@
 /* 
- * $Id: ProcessTreeModel.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: ProcessTreeModel.java,v 1.2 2006/02/04 22:42:06 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -87,11 +87,13 @@ public class ProcessTreeModel extends DefaultTreeModel
             {
                 DefaultMutableTreeNode workDefinitionNode = new DefaultMutableTreeNode(
                         wd);
+                
                 // ajouter sous la work definition les activités (vérifier
                 // qu'elles sont bien pour un role autorisés
                 for (Activity a : wd.getActivities())
                 {
-                    if (this.arrRoles.contains(a.getRole()))
+                    
+                	if (this.arrRoles.contains(a.getRole()))
                     {
                         workDefinitionNode.add(new DefaultMutableTreeNode(a));
                     }

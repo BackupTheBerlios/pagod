@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: SuspendAction.java,v 1.1 2006/02/04 16:30:28 yak Exp $
+ * $Id: SuspendAction.java,v 1.2 2006/02/04 22:42:05 yak Exp $
  */
 package pagod.wizard.control.actions;
 
@@ -12,6 +12,7 @@ import java.io.IOException;
 import javax.swing.KeyStroke;
 
 import pagod.common.model.Activity;
+import pagod.common.model.TimeCouple;
 import pagod.utils.ActionManager;
 import pagod.utils.TimerManager;
 import pagod.utils.LanguagesManager.NotInitializedException;
@@ -50,14 +51,25 @@ public class SuspendAction extends AbstractPagodAction
 	 */
     public void actionPerformed (ActionEvent actionEvent)
 	{
+    	TimerManager.getInstance().stop();
     	if ( ApplicationManager.getInstance().manageRequest(this.request))
     	{
     		//on stop le timer
-    		TimerManager.getInstance().stop();
+    		
     		Activity aTemp = ApplicationManager.getInstance().getMfPagod().getActivity();
     		//on enregistre le temps
-    		aTemp.setTime(TimerManager.getInstance().getValue());
+    		int iCurrentIt = 
+    			ApplicationManager.getInstance().getCurrentProject().getItCurrent();
+    		
+    		aTemp.sethmTime(iCurrentIt, new TimeCouple(TimerManager.getInstance().getValueElapsed(), TimerManager.getInstance().getValueRemaining()));
+
     		ActionManager.getInstance().getAction(Constants.ACTION_RUN_ACTIVITY).setEnabled(true);
+    	}
+    	else
+    	{
+    		// si ca n'a pas marcher on redemarre le timer
+    		TimerManager.getInstance().start();
+    	
     	}
 	
 	}

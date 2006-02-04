@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: PostConditionCheckerState.java,v 1.6 2006/01/18 13:36:39 cyberal82 Exp $
+ * $Id: PostConditionCheckerState.java,v 1.7 2006/02/04 22:42:06 yak Exp $
  */
 package pagod.wizard.control.states.activity;
 
@@ -34,7 +34,7 @@ public class PostConditionCheckerState extends AbstractActivityState
 	 */
 	public String toString ()
 	{
-//		TODO rajouter un message dans l'internationalisation
+		// TODO rajouter un message dans l'internationalisation
 		return(LanguagesManager.getInstance().getString("postConditions"));
 	}
 

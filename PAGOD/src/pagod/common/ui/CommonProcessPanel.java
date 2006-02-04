@@ -1,5 +1,5 @@
 /*
- * $Id: CommonProcessPanel.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: CommonProcessPanel.java,v 1.2 2006/02/04 22:42:06 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -25,11 +25,11 @@
 package pagod.common.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.lang.Object;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -47,6 +47,7 @@ import pagod.common.control.adapters.ProcessTreeModel;
 import pagod.common.model.Activity;
 import pagod.common.model.ProcessElement;
 import pagod.common.model.Role;
+import pagod.common.model.WorkDefinition;
 
 /**
  * Panneaux affichant le processus
@@ -55,241 +56,265 @@ import pagod.common.model.Role;
  */
 public abstract class CommonProcessPanel extends JSplitPane
 {
-    /**
-     * Arbre du processus
-     */
-    private JTree processTree;
+	/**
+	 * Arbre du processus
+	 */
+	private JTree				processTree;
 
-    /**
-     * Panneaux visualiseur de fichier de contenu
-     */
-    private ContentViewerPane viewPanel;
+	/**
+	 * Panneaux visualiseur de fichier de contenu
+	 */
+	private ContentViewerPane	viewPanel;
 
-    /**
-     * Constructeur du panneaux
-     * 
-     * @param processTreeModel
-     *            modele de l'arbre dans le panneaux
-     */
-    public CommonProcessPanel(ProcessTreeModel processTreeModel)
-    {
-        // creation du splitpane
-        super();
-        this.setOneTouchExpandable(true);
-        this.setOrientation(JSplitPane.VERTICAL_SPLIT);
-        // creation du l'arbre
-        this.processTree = new JTree(processTreeModel);
-        // ne pas afficher le noeud racine
-        this.processTree.setRootVisible(false);
-        // ajout de l'écouteur de sélection sur le JTree
-        this.processTree.addTreeSelectionListener(new TreeSelectionListener()
-        {
-            public void valueChanged(TreeSelectionEvent event)
-            {
-                // dans tous les cas : mettre à jour le fichier de contenu
-                // affiché dans le
-                // viewPanel
-                ProcessElement selectedElement = (ProcessElement) ((DefaultMutableTreeNode) event
-                        .getPath().getLastPathComponent()).getUserObject();
+	/**
+	 * Constructeur du panneaux
+	 * 
+	 * @param processTreeModel
+	 *            modele de l'arbre dans le panneaux
+	 */
+	public CommonProcessPanel (ProcessTreeModel processTreeModel)
+	{
+		// creation du splitpane
+		super();
+		this.setOneTouchExpandable(true);
+		this.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		// creation du l'arbre
+		this.processTree = new JTree(processTreeModel);
+		// ne pas afficher le noeud racine
+		this.processTree.setRootVisible(false);
+		// ajout de l'écouteur de sélection sur le JTree
+		this.processTree.addTreeSelectionListener(new TreeSelectionListener()
+		{
+			public void valueChanged (TreeSelectionEvent event)
+			{
+				// dans tous les cas : mettre à jour le fichier de contenu
+				// affiché dans le
+				// viewPanel
+				ProcessElement selectedElement = (ProcessElement) ((DefaultMutableTreeNode) event
+						.getPath().getLastPathComponent()).getUserObject();
 
-                CommonProcessPanel.this.viewPanel
-                        .setProcessElement(selectedElement);
-                // si le dernier noeud correspond à une activité
-                if (((DefaultMutableTreeNode) event.getPath()
-                        .getLastPathComponent()).getUserObject() instanceof Activity)
-                {
-                    // lancer la méthode associé a la selection d'une activité
-                    // try
-                    CommonProcessPanel.this.onActivitySelection();
-                }
-                else
-                {
-                    // lancer la méthode associé a la selection d'un élément
-                    // autre qu'une activité
-                    CommonProcessPanel.this.onNoActivitySelection();
-                }
-            }
-        });
-        // ajout de l'écouteur de double click sur le JTree
-        this.processTree.addMouseListener(new MouseAdapter()
-        {
-            public void mouseClicked(MouseEvent e)
-            {
-                // si c'est un double click
-                if (e.getClickCount() == 2)
-                {
-                    TreePath clickedElementpath = CommonProcessPanel.this.processTree
-                            .getPathForLocation(e.getX(), e.getY());
-                    // si on click sur une élement de l'arbre et que c'est une
-                    // activité
-                    if (clickedElementpath != null
-                            && ((DefaultMutableTreeNode) clickedElementpath
-                                    .getLastPathComponent()).getUserObject() instanceof Activity)
-                    {
+				CommonProcessPanel.this.viewPanel
+						.setProcessElement(selectedElement);
+				// si le dernier noeud correspond à une activité
+				if (((DefaultMutableTreeNode) event.getPath()
+						.getLastPathComponent()).getUserObject() instanceof Activity)
+				{
+					// lancer la méthode associé a la selection d'une activité
+					// try
+					CommonProcessPanel.this.onActivitySelection();
+				}
+				else
+				{
+					// lancer la méthode associé a la selection d'un élément
+					// autre qu'une activité
+					CommonProcessPanel.this.onNoActivitySelection();
+				}
+			}
+		});
+		// ajout de l'écouteur de double click sur le JTree
+		this.processTree.addMouseListener(new MouseAdapter()
+		{
+			public void mouseClicked (MouseEvent e)
+			{
+				// si c'est un double click
+				if (e.getClickCount() == 2)
+				{
+					TreePath clickedElementpath = CommonProcessPanel.this.processTree
+							.getPathForLocation(e.getX(), e.getY());
+					// si on click sur une élement de l'arbre et que c'est une
+					// activité
+					if (clickedElementpath != null
+							&& ((DefaultMutableTreeNode) clickedElementpath
+									.getLastPathComponent()).getUserObject() instanceof Activity)
+					{
 
-                        CommonProcessPanel.this.onActivityDoubleClick();
+						CommonProcessPanel.this.onActivityDoubleClick();
 
-                    }
-                }
-            }
-        });
-        // un seul noeud sélectionnable à la fois
-        this.processTree.getSelectionModel().setSelectionMode(
-                TreeSelectionModel.SINGLE_TREE_SELECTION);
-        // ajout du renderer qui affiche les icones ad hoc en face des label
-        this.processTree.setCellRenderer(new PAGODTreeCellRenderer());
-        // déplier tout l'arbre
-        this.expandAllNodes();
-        // On active les ToolTip
-        this.processTree.setToolTipText("");
+					}
+				}
+			}
+		});
+		// un seul noeud sélectionnable à la fois
+		this.processTree.getSelectionModel().setSelectionMode(
+				TreeSelectionModel.SINGLE_TREE_SELECTION);
+		// ajout du renderer qui affiche les icones ad hoc en face des label
+		this.processTree.setCellRenderer(new PAGODTreeCellRenderer());
+		// déplier tout l'arbre
+		this.expandAllNodes();
+		// On active les ToolTip
+		this.processTree.setToolTipText("");
 
-        // ************************************
-        // remplissage du panel (JSplitPane):
-        // ************************************
-        // en haut --> l'arbre des ProcessComponent/WorkDef/Activity
-        this.add(new JScrollPane(this.processTree), JSplitPane.TOP);
-        // en bas --> un panneau avec au centre le visualiseur de fichier HTML
-        // creation de panneaux de visualisation des fichiers de contenu
-        this.viewPanel = new ContentViewerPane();
+		// ************************************
+		// remplissage du panel (JSplitPane):
+		// ************************************
+		// en haut --> l'arbre des ProcessComponent/WorkDef/Activity
+		this.add(new JScrollPane(this.processTree), JSplitPane.TOP);
+		// en bas --> un panneau avec au centre le visualiseur de fichier HTML
+		// creation de panneaux de visualisation des fichiers de contenu
+		this.viewPanel = new ContentViewerPane();
 
-        JPanel pnlVisualiseur = new JPanel(new BorderLayout());
-        pnlVisualiseur.add(this.viewPanel, BorderLayout.CENTER);
-        this.add(pnlVisualiseur, JSplitPane.BOTTOM);
-    }
+		JPanel pnlVisualiseur = new JPanel(new BorderLayout());
+		pnlVisualiseur.add(this.viewPanel, BorderLayout.CENTER);
+		this.add(pnlVisualiseur, JSplitPane.BOTTOM);
+	}
 
-    /**
-     * Retourne l'activité selectionnée dans l'arbre ou null (si rien n'est
-     * selectionner ou si ce n'est pas une activité)
-     * 
-     * @return Activité selectioné.
-     */
-    public Activity getSelectedActivity()
-    {
-        if (this.processTree.getSelectionPath().getLastPathComponent() != null
-                && ((DefaultMutableTreeNode) this.processTree
-                        .getSelectionPath().getLastPathComponent())
-                        .getUserObject() instanceof Activity)
-        {
-            return (Activity) ((DefaultMutableTreeNode) this.processTree
-                    .getSelectionPath().getLastPathComponent()).getUserObject();
-        }
-        else
-        {
-            return null;
-        }
-    }
+	/**
+	 * Retourne l'activité selectionnée dans l'arbre ou null (si rien n'est
+	 * selectionner ou si ce n'est pas une activité)
+	 * 
+	 * @return Activité selectioné.
+	 */
+	public Activity getSelectedActivity ()
+	{
+		if (this.processTree.getSelectionPath().getLastPathComponent() != null
+				&& ((DefaultMutableTreeNode) this.processTree
+						.getSelectionPath().getLastPathComponent())
+						.getUserObject() instanceof Activity)
+		{
+			return (Activity) ((DefaultMutableTreeNode) this.processTree
+					.getSelectionPath().getLastPathComponent()).getUserObject();
+		}
+		else
+		{
+			return null;
+		}
+	}
 
-    private class PAGODTreeCellRenderer extends DefaultTreeCellRenderer
-    {
-        /**
-         * @see javax.swing.tree.DefaultTreeCellRenderer#getTreeCellRendererComponent(javax.swing.JTree,
-         *      java.lang.Object, boolean, boolean, boolean, int, boolean)
-         */
-        public Component getTreeCellRendererComponent(JTree tree, Object value,
-                                                      boolean sel,
-                                                      boolean expanded,
-                                                      boolean leaf, int row,
-                                                      boolean focus)
-        {
+	private class PAGODTreeCellRenderer extends DefaultTreeCellRenderer
+	{
+		/**
+		 * @see javax.swing.tree.DefaultTreeCellRenderer#getTreeCellRendererComponent(javax.swing.JTree,
+		 *      java.lang.Object, boolean, boolean, boolean, int, boolean)
+		 */
+		public Component getTreeCellRendererComponent (JTree tree,
+				Object value, boolean sel, boolean expanded, boolean leaf,
+				int row, boolean focus)
+		{
 
-            Component c = null;
+			Component c = null;
 
-            c = super.getTreeCellRendererComponent(tree, value, sel, expanded,
-                    leaf, row, focus);
-            if (value instanceof DefaultMutableTreeNode)
-            {
-                DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
-                /*
-                 * Color fc =
-                 * GraphConstants.getForeground(node.getAttributes()); Color bc =
-                 * GraphConstants.getBackground(node.getAttributes()); Font font =
-                 * GraphConstants.getFont(node.getAttributes());
-                 * setBackgroundNonSelectionColor(bc); setForeground(fc);
-                 */
-                if ((node.getUserObject() instanceof ProcessElement))
-                {
-                    this
-                            .setIcon(ModelResourcesManager.getInstance()
-                                    .getSmallIcon(
-                                            (ProcessElement) node
-                                                    .getUserObject()));
+			c = super.getTreeCellRendererComponent(tree, value, sel, expanded,
+					leaf, row, focus);
+			if (value instanceof DefaultMutableTreeNode)
+			{
+				DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
+				/*
+				 * Color fc =
+				 * GraphConstants.getForeground(node.getAttributes()); Color bc =
+				 * GraphConstants.getBackground(node.getAttributes()); Font font =
+				 * GraphConstants.getFont(node.getAttributes());
+				 * setBackgroundNonSelectionColor(bc); setForeground(fc);
+				 */
+				if ((node.getUserObject() instanceof ProcessElement))
+				{
+					this
+							.setIcon(ModelResourcesManager.getInstance()
+									.getSmallIcon(
+											(ProcessElement) node
+													.getUserObject()));
 
-                }
-                if ((node.getUserObject() instanceof Activity))
-                {
-                    // Affichage du role de l'activité en ToolTip
-                    Activity a = null;
-                    a = (Activity) node.getUserObject();
-                    Role r = null;
-                    r = a.getRole();
-                    this.setToolTipText(r.getName());
+				}
+				if ((node.getUserObject() instanceof Activity))
+				{
+					// Affichage du role de l'activité en ToolTip
+					Activity a = null;
+					a = (Activity) node.getUserObject();
+					//on recupere le role
+					Role r = null;
+					r = a.getRole();
+					this.setToolTipText(r.getName());
+					//si l'activité a ete faite on change
+					node.isLeaf();
 
-                }
-                if (this.selected && leaf)
-                {
-                    Font f = this.getFont();
-                    Font f2 = f.deriveFont(Font.ITALIC);
-                    this.setFont(f2);
+				}
+			
 
-                }
-                else
-                {
-                    Font f = this.getFont();
-                    Font f2 = f.deriveFont(Font.PLAIN);
-                    this.setFont(f2);
-                }
-            }
-            return c;
-        }
+				if (this.selected && leaf)
+				{
+					Font f = this.getFont();
+					Font f2 = f.deriveFont(Font.ITALIC);
+					this.setFont(f2);
 
-    }
+				}
+				else if (leaf)
+				{
+					Activity a = null;
+					a = (Activity) node.getUserObject();
+					if (a.getDone())
+					{
+						
+						Font f = this.getFont();
+						 Font f2 = f.deriveFont(Font.BOLD);
+						this.setFont(f2);
+					}
+					else
+					{
+						Font f = this.getFont();
+						Font f2 = f.deriveFont(Font.PLAIN);
+						this.setFont(f2);
+					}
+					
+				}
+				else
+				{
 
-    /**
-     * déplier tous les noeuds du processTree
-     */
-    private void expandAllNodes()
-    {
-        int row = 0;
-        while (row < this.processTree.getRowCount())
-        {
-            this.processTree.expandRow(row);
-            row++;
-        }
-    }
+					// si l'activité est faite alors on change l'icone
 
-    /**
-     * replier tous les noeuds du processTree
-     */
-    private void collapseAllNodes()
-    {
-        int row = this.processTree.getRowCount() - 1;
-        while (row >= 0)
-        {
-            this.processTree.collapseRow(row);
-            row--;
-        }
-    }
+					Font f = this.getFont();
+					Font f2 = f.deriveFont(Font.PLAIN);
+					this.setFont(f2);
+				}
+			}
+			return c;
+		}
+	}
 
-    /**
-     * Surcharge donne le focus a l'arbre
-     */
-    public void requestFocus()
-    {
-        this.processTree.requestFocus();
-    }
+	/**
+	 * déplier tous les noeuds du processTree
+	 */
+	private void expandAllNodes ()
+	{
+		int row = 0;
+		while (row < this.processTree.getRowCount())
+		{
+			this.processTree.expandRow(row);
+			row++;
+		}
+	}
 
-    /**
-     * 
-     */
-    protected abstract void onActivitySelection();
+	/**
+	 * replier tous les noeuds du processTree
+	 */
+	private void collapseAllNodes ()
+	{
+		int row = this.processTree.getRowCount() - 1;
+		while (row >= 0)
+		{
+			this.processTree.collapseRow(row);
+			row--;
+		}
+	}
 
-    /**
-     * 
-     */
-    protected abstract void onNoActivitySelection();
+	/**
+	 * Surcharge donne le focus a l'arbre
+	 */
+	public void requestFocus ()
+	{
+		this.processTree.requestFocus();
+	}
 
-    /**
-     * 
-     */
-    protected abstract void onActivityDoubleClick();
+	/**
+	 * 
+	 */
+	protected abstract void onActivitySelection ();
+
+	/**
+	 * 
+	 */
+	protected abstract void onNoActivitySelection ();
+
+	/**
+	 * 
+	 */
+	protected abstract void onActivityDoubleClick ();
 }

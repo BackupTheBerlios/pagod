@@ -1,5 +1,5 @@
 /*
- * $Id: MessagePanel.java,v 1.4 2006/01/31 21:35:20 yak Exp $
+ * $Id: MessagePanel.java,v 1.5 2006/02/04 22:42:06 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -41,6 +41,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.MatteBorder;
 
+import pagod.common.model.TimeCouple;
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
 import pagod.utils.TimerManager;
@@ -52,160 +53,182 @@ import pagod.utils.TimerManager;
  */
 public class MessagePanel extends JPanel implements Observer
 {
-    /**
-     * Message
-     */
-    private JEditorPane messageArea;
-
-    /**
-     * Avatar de PAGOD
-     */
-    private JLabel avatar;
-    /**
-     * le message courant
-     */
-	private String	message;
-
-   
-    /**
-     * Constructeur du Panneaux d'affichage de message
-     * 
-     */
-    public MessagePanel()
-    {
-        super();
-        this.setLayout(new BorderLayout());
-        this.setBackground(Color.WHITE);
-        // mise en forme du l'avatar
-        Icon avatarIcon = ImagesManager.getInstance().getIcon("avatar3.gif");
-        this.avatar = new JLabel("", avatarIcon, JLabel.LEFT);
-        JPanel iconPanel = new JPanel();
-        iconPanel.setLayout(new BorderLayout());
-        iconPanel.setOpaque(false);
-        iconPanel.add(this.avatar,BorderLayout.SOUTH);
-        this.add(iconPanel, BorderLayout.WEST);
-        // mise en forme du message
-        this.messageArea = new JEditorPane();
-        this.messageArea.setEditable(false);
-        this.messageArea.setOpaque(false);
-        this.messageArea.setContentType("text/html");
-        this.messageArea.setFocusable(false);
-        // panneaux utilisé pour 
-        JPanel messagePanel = new JPanel();
-        messagePanel.setLayout(new BorderLayout());
-        messagePanel.setOpaque(false);
-        messagePanel.setBorder(new BalloonBorder());
-        messagePanel.add(this.messageArea);
-        JPanel layoutPanel = new JPanel(new BorderLayout());
-        layoutPanel.setOpaque(false);
-        layoutPanel.add(messagePanel, BorderLayout.CENTER);
-      
-        layoutPanel.add(Box.createVerticalStrut(avatarIcon.getIconHeight()/4),BorderLayout.SOUTH);
-  
-        this.add(layoutPanel, BorderLayout.CENTER);
-        
-        //mise en page
-        int borderSize = 7;
-        // ajout d'une glue pour laisser aerer au dessus
-       this.add(Box.createVerticalStrut(borderSize), BorderLayout.NORTH);
-        // ajout d'une glue pour laisser aerer sur le coté
-        this.add(Box.createHorizontalStrut(borderSize), BorderLayout.EAST);
-        // ajout d'une glue pour laisser aerer en dessous
-        this.add(Box.createVerticalStrut(borderSize), BorderLayout.SOUTH);
-    }
-
-    /**
-     * Modifie le texte du message panel
-     * 
-     * @param message
-     */
-    public void setMessage(String message)
-    {
-    	this.message = message;
-    	//on met a jour le message
-    	this.messageArea.setText("<center>"+message+"</center>");
-    }
-
-    private class BalloonBorder extends MatteBorder
-    {
-         private final Color borderColor = Color.BLACK;
-         private final Color fillColor = new Color(180, 225,255); 
-         private final static int arrowHeight = 12 ;
-         private final static int arrowWidth = 12 ;
-         private final static int borderSize = 3;
-        
-         
-         /**
-         * Constructeur
-         */
-        public BalloonBorder()
-        {
-            super(borderSize, borderSize, borderSize+arrowHeight, borderSize, Color.BLACK);
-        }
-
-        /**
-         * @param c
-         * @param g
-         * @param x
-         * @param y
-         * @param width
-         * @param height
-         */
-        public void paintBorder(Component c, Graphics g, int x, int y,
-                                int width, int height)
-        {
-            Graphics2D g2 = (Graphics2D) g;
-
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                    RenderingHints.VALUE_ANTIALIAS_ON);
-            
-            int round = 20;
-            int arrowX = width/100+round/2;            
-            // dessin de la fleche
-            g2.setColor(this.borderColor);
-            Polygon arrow = new Polygon();
-            arrow.addPoint(arrowX,height-arrowHeight);
-            arrow.addPoint(arrowX,height);
-            arrow.addPoint(arrowX+arrowWidth,height-arrowHeight);
-            g2.drawPolygon(arrow);
-            
-            //dessin de la bulle
-            g2.setColor(this.borderColor);     
-            g2.drawRoundRect(x, y, width - 1, height - arrowHeight+1, round, round);
-            g2.setColor(this.fillColor);
-            g2.fillRoundRect(x+1, y+1, width - 2, height - arrowHeight, round, round);
-            
-            // colore la fleche
-            g2.setColor(this.fillColor);
-            arrow = new Polygon();
-            arrow.addPoint(arrowX+1,height-arrowHeight);
-            arrow.addPoint(arrowX+1,height-1);
-            arrow.addPoint(arrowX+arrowWidth,height-arrowHeight);
-            g2.fillPolygon(arrow);
-
-        }
-    }
-
 	/**
-	 * @return Retourne l'attribut labelTemps
+	 * Message
 	 */
-	public  JEditorPane getLabelTemps ()
-	{
-		return this.messageArea;
-	}
+	private JEditorPane	messageArea;
+
 	/**
-	 *  (non-Javadoc)
+	 * Avatar de PAGOD
+	 */
+	private JLabel		avatar;
+	/**
+	 * le message courant
+	 */
+	private String		message;
+
+	/**
+	 * Constructeur du Panneaux d'affichage de message
+	 * 
+	 */
+	public MessagePanel ()
+	{
+		super();
+		this.setLayout(new BorderLayout());
+		this.setBackground(Color.WHITE);
+		// mise en forme du l'avatar
+		Icon avatarIcon = ImagesManager.getInstance().getIcon("avatar3.gif");
+		this.avatar = new JLabel("", avatarIcon, JLabel.LEFT);
+		JPanel iconPanel = new JPanel();
+		iconPanel.setLayout(new BorderLayout());
+		iconPanel.setOpaque(false);
+		iconPanel.add(this.avatar, BorderLayout.SOUTH);
+		this.add(iconPanel, BorderLayout.WEST);
+		// mise en forme du message
+		this.messageArea = new JEditorPane();
+		this.messageArea.setEditable(false);
+		this.messageArea.setOpaque(false);
+		this.messageArea.setContentType("text/html");
+		this.messageArea.setFocusable(false);
+		// panneaux utilisé pour
+		JPanel messagePanel = new JPanel();
+		messagePanel.setLayout(new BorderLayout());
+		messagePanel.setOpaque(false);
+		messagePanel.setBorder(new BalloonBorder());
+		messagePanel.add(this.messageArea);
+		JPanel layoutPanel = new JPanel(new BorderLayout());
+		layoutPanel.setOpaque(false);
+		layoutPanel.add(messagePanel, BorderLayout.CENTER);
+
+		layoutPanel.add(
+				Box.createVerticalStrut(avatarIcon.getIconHeight() / 4),
+				BorderLayout.SOUTH);
+
+		this.add(layoutPanel, BorderLayout.CENTER);
+
+		// mise en page
+		int borderSize = 7;
+		// ajout d'une glue pour laisser aerer au dessus
+		this.add(Box.createVerticalStrut(borderSize), BorderLayout.NORTH);
+		// ajout d'une glue pour laisser aerer sur le coté
+		this.add(Box.createHorizontalStrut(borderSize), BorderLayout.EAST);
+		// ajout d'une glue pour laisser aerer en dessous
+		this.add(Box.createVerticalStrut(borderSize), BorderLayout.SOUTH);
+	}
+
+	/**
+	 * Modifie le texte du message panel
+	 * 
+	 * @param message
+	 */
+	public void setMessage (String message)
+	{
+		this.message = message;
+		// on met a jour le message
+		// si le timer est démarrer
+		if (TimerManager.getInstance().isStarted())
+		{
+		
+			System.out.println("messagePanel.setMessage : timerstarted???!");
+			String sMess = LanguagesManager.getInstance().getString(
+					"timeElapsedMessage")
+					+ TimerManager.stringFromTime(TimerManager.getInstance().getValueElapsed());
+			sMess += "<br>"
+					+ LanguagesManager.getInstance().getString(
+							"timeRemainingMessage")
+					+ TimerManager.stringFromTime(TimerManager.getInstance().getValueRemaining());
+			this.messageArea.setText(this.message + "<BR>" + sMess);
+		}
+		else
+		{
+			this.messageArea.setText("<center>" + message + "</center>");
+		}
+	}
+
+	private class BalloonBorder extends MatteBorder
+	{
+		private final Color			borderColor	= Color.BLACK;
+		private final Color			fillColor	= new Color(180, 225, 255);
+		private final static int	arrowHeight	= 12;
+		private final static int	arrowWidth	= 12;
+		private final static int	borderSize	= 3;
+
+		/**
+		 * Constructeur
+		 */
+		public BalloonBorder ()
+		{
+			super(borderSize, borderSize, borderSize + arrowHeight, borderSize,
+					Color.BLACK);
+		}
+
+		/**
+		 * @param c
+		 * @param g
+		 * @param x
+		 * @param y
+		 * @param width
+		 * @param height
+		 */
+		public void paintBorder (Component c, Graphics g, int x, int y,
+				int width, int height)
+		{
+			Graphics2D g2 = (Graphics2D) g;
+
+			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+					RenderingHints.VALUE_ANTIALIAS_ON);
+
+			int round = 20;
+			int arrowX = width / 100 + round / 2;
+			// dessin de la fleche
+			g2.setColor(this.borderColor);
+			Polygon arrow = new Polygon();
+			arrow.addPoint(arrowX, height - arrowHeight);
+			arrow.addPoint(arrowX, height);
+			arrow.addPoint(arrowX + arrowWidth, height - arrowHeight);
+			g2.drawPolygon(arrow);
+
+			// dessin de la bulle
+			g2.setColor(this.borderColor);
+			g2.drawRoundRect(x, y, width - 1, height - arrowHeight + 1, round,
+					round);
+			g2.setColor(this.fillColor);
+			g2.fillRoundRect(x + 1, y + 1, width - 2, height - arrowHeight,
+					round, round);
+
+			// colore la fleche
+			g2.setColor(this.fillColor);
+			arrow = new Polygon();
+			arrow.addPoint(arrowX + 1, height - arrowHeight);
+			arrow.addPoint(arrowX + 1, height - 1);
+			arrow.addPoint(arrowX + arrowWidth, height - arrowHeight);
+			g2.fillPolygon(arrow);
+
+		}
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
-	 * methode pour mettre a jour le message ;)
+	 *      methode pour mettre a jour le message ;)
 	 */
 	public void update (Observable sender, Object content)
 	{
 		if (sender instanceof TimerManager)
 		{
-			//on transforme la valeur
-			String sMess = LanguagesManager.getInstance().getString("timeElapsedMessage")+TimerManager.stringFromTime(((Integer)content).intValue());
-			this.messageArea.setText(this.message+"<BR>"+sMess);
+			// on recupere la valeur
+			TimeCouple tcTemp = ((TimeCouple) content);
+			// on transforme la valeur
+			String sMess = LanguagesManager.getInstance().getString(
+					"timeElapsedMessage")
+					+ TimerManager.stringFromTime(tcTemp.getTimeElapsed());
+			sMess += "<br>"
+					+ LanguagesManager.getInstance().getString(
+							"timeRemainingMessage")
+					+ TimerManager.stringFromTime(tcTemp.getTimeRemaining());
+			this.messageArea.setText(this.message + "<BR>" + sMess);
 		}
-		
+
 	}
 }

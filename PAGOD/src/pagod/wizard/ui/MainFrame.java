@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.37 2006/02/04 16:30:28 yak Exp $
+ * $Id: MainFrame.java,v 1.38 2006/02/04 22:42:06 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -513,6 +513,23 @@ public class MainFrame extends JFrame implements Observer
 				ProductsToPresent);
 		this.centerPanel.add(productsPanel);
 		this.setVisible(true);
+		if (activity.hasOutputProducts())
+		{
+			
+			//			 on masque le bouton suspend et on affiche les autres
+
+			this.buttonPanel.hideButtons(Buttons.PB_TERMINATE);
+			this.buttonPanel.showButtons(Buttons.PB_SUSPEND,
+					Buttons.PB_PREVIOUS, Buttons.PB_NEXT);
+		}
+		else
+		{
+//			 on masque le bouton suspend et on affiche les autres
+
+			this.buttonPanel.hideButtons(Buttons.PB_SUSPEND);
+			this.buttonPanel.showButtons(Buttons.PB_TERMINATE,
+					Buttons.PB_PREVIOUS, Buttons.PB_NEXT);
+		}
 		// demande le focus
 		productsPanel.requestFocus();
 	}

@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: OpenProjectAction.java,v 1.9 2006/02/03 13:04:54 fabfoot Exp $
+ * $Id: OpenProjectAction.java,v 1.10 2006/02/04 22:42:05 yak Exp $
  */
 package pagod.wizard.control.actions;
 
@@ -63,7 +63,7 @@ public class OpenProjectAction extends AbstractPagodAction
 				Activity aTemp = ApplicationManager.getInstance().getMfPagod()
 						.getActivity();
 				// on enregistre le temps pour l'activit?
-				aTemp.setTime(TimerManager.getInstance().getValue());
+				aTemp.setTime(TimerManager.getInstance().getValueElapsed());
 			}
 
 			boolean test = ApplicationManager.getInstance().manageRequest(this.request);

@@ -1,5 +1,5 @@
 /*
- * $Id: QuitAction.java,v 1.7 2006/01/25 09:21:23 fabfoot Exp $
+ * $Id: QuitAction.java,v 1.8 2006/02/04 22:42:05 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -31,6 +31,7 @@ import java.io.IOException;
 import javax.swing.KeyStroke;
 
 import pagod.common.model.Activity;
+import pagod.common.model.TimeCouple;
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
 import pagod.utils.TimerManager;
@@ -75,7 +76,11 @@ public class QuitAction extends AbstractPagodAction
 			TimerManager.getInstance().stop();
 			Activity aTemp = ApplicationManager.getInstance().getMfPagod().getActivity();
 			//on enregistre le temps pour l'activit?
-			aTemp.setTime(TimerManager.getInstance().getValue());
+			int iCurrentIt = 
+    			ApplicationManager.getInstance().getCurrentProject().getItCurrent();
+    		
+    		aTemp.sethmTime(iCurrentIt, new TimeCouple(TimerManager.getInstance().getValueElapsed(), TimerManager.getInstance().getValueRemaining()));
+    		
 		}
 		/*TODO test pour le xml*/
 		if (ApplicationManager.getInstance().getCurrentProcess() != null  )

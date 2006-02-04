@@ -1,5 +1,5 @@
 /*
- * $Id: TerminateAction.java,v 1.6 2006/02/04 16:30:28 yak Exp $
+ * $Id: TerminateAction.java,v 1.7 2006/02/04 22:42:05 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -29,8 +29,6 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 
 import javax.swing.KeyStroke;
-
-import com.sun.corba.se.impl.orbutil.closure.Constant;
 
 import pagod.common.model.Activity;
 import pagod.common.model.TimeCouple;
@@ -69,18 +67,25 @@ public class TerminateAction extends AbstractPagodAction
 	 */
     public void actionPerformed (ActionEvent actionEvent)
 	{
+//    	on stop le timer
+		TimerManager.getInstance().stop();
     	if ( ApplicationManager.getInstance().manageRequest(this.request))
     	{
-    		//on stop le timer
-    		TimerManager.getInstance().stop();
+    		
     		Activity aTemp = ApplicationManager.getInstance().getMfPagod().getActivity();
+    		aTemp.setDone(true);
     		//on enregistre le temps
-    		aTemp.setTime(TimerManager.getInstance().getValue());
-    		/*int iCurrentIt = 
+    		int iCurrentIt = 
     			ApplicationManager.getInstance().getCurrentProject().getItCurrent();
     		
-    		aTemp.sethmTime(iCurrentIt, new TimeCouple(TimerManager.getInstance().getValue(), iTimeRemaining));*/
+    		aTemp.sethmTime(iCurrentIt, new TimeCouple(TimerManager.getInstance().getValueElapsed(), TimerManager.getInstance().getValueRemaining()));
     		ActionManager.getInstance().getAction(Constants.ACTION_RUN_ACTIVITY).setEnabled(true);
+    	}
+    	else
+    	{
+    		
+    		//on redemarre le timer si il y a eu un pb
+    		TimerManager.getInstance().start();
     	}
 	
 	}
