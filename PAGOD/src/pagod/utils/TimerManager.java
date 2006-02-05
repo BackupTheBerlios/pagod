@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimerManager.java,v 1.6 2006/01/31 21:34:31 yak Exp $
+ * $Id: TimerManager.java,v 1.7 2006/02/05 17:16:08 yak Exp $
  */
 package pagod.utils;
 
@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 import java.util.Observable;
 
 import javax.swing.Timer;
+
+import pagod.common.model.TimeCouple;
 
 /**
  * @author yak
@@ -28,9 +30,13 @@ public class TimerManager extends Observable implements ActionListener
 	private static Timer		theSwingTimer	= null;
 
 	/**
-	 * la valeur du timer
+	 * la valeur du timer a incrementé
 	 */
-	private int					value;
+	private int					valueElapsed;
+	/**
+	 * la valeur du timer a decrementé
+	 */
+	private int					valueRemaining;
 
 	/**
 	 * Constructeur vide
@@ -59,37 +65,39 @@ public class TimerManager extends Observable implements ActionListener
 	public void start ()
 	{
 		// on initialise le timer a 0
-		this.value = 0;
+		this.valueElapsed = 0;
+		this.valueRemaining = 0;
 		theSwingTimer.start();
 		// on notify
 		this.setChanged();
-		this.notifyObservers(new Integer(this.value));
+		this.notifyObservers(new TimeCouple(this.valueElapsed,this.valueRemaining));
 	}
 
 	/**
-	 * @param initValue
+	 * @param initValueElapsed
+	 * @param initValueRemaining 
 	 */
-	public void start (int initValue)
+	public void start (int initValueElapsed,int initValueRemaining)
 	{
-		this.value = initValue;
+		//on initialise 
+		this.valueElapsed = initValueElapsed;
+		this.valueRemaining = initValueRemaining;
 		theSwingTimer.start();
 		// on notify
 		this.setChanged();
-		this.notifyObservers(new Integer(this.value));
+		this.notifyObservers(new TimeCouple(this.valueElapsed,this.valueRemaining));
 
 	}
 
 	/**
 	 * Arrete le timer en retournant la valeur
-	 * 
-	 * @return la valeur du timer
 	 */
-	public int stop ()
+	public void stop ()
 	{
+		System.out.println("timermanager.stop");
 		// on arrete le timer et on retourne la valeur
 		theSwingTimer.stop();
-
-		return this.value;
+		
 	}
 
 	/**
@@ -107,11 +115,19 @@ public class TimerManager extends Observable implements ActionListener
 	 * @return la valeur du timer
 	 * 
 	 */
-	public int getValue ()
+	public int getValueElapsed ()
 	{
-		return this.value;
+		return this.valueElapsed;
 	}
-
+	/**
+	 * 
+	 * @return la valeur du timer
+	 * 
+	 */
+	public int getValueRemaining ()
+	{
+		return this.valueRemaining;
+	}
 	/**
 	 * (non-Javadoc)
 	 * 
@@ -120,10 +136,14 @@ public class TimerManager extends Observable implements ActionListener
 	public void actionPerformed (ActionEvent arg0)
 	{
 		// on augmente la valeur
-		this.value++;
+		this.valueElapsed++;
+		if (this.valueRemaining != 0)
+		{
+			this.valueRemaining--;
+		}
 		// on notifie les observer
 		this.setChanged();
-		this.notifyObservers(new Integer(this.value));
+		this.notifyObservers(new TimeCouple(this.valueElapsed,this.valueRemaining));
 
 	}
 	/**
