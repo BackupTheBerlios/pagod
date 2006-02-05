@@ -1,5 +1,5 @@
 /*
- * $Id: ProductsPanel.java,v 1.4 2006/01/28 22:09:21 cyberal82 Exp $
+ * $Id: ProductsPanel.java,v 1.5 2006/02/05 17:02:09 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -32,7 +32,6 @@ import javax.swing.JSplitPane;
 
 import pagod.common.model.Activity;
 import pagod.common.model.Product;
-import pagod.common.model.Role;
 
 
 /**

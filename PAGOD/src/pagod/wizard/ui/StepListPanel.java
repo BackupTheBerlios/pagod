@@ -1,14 +1,17 @@
 /*
  * Projet PAGOD
  * 
- * $Id: StepListPanel.java,v 1.2 2006/02/03 14:41:02 coincoin Exp $
+ * $Id: StepListPanel.java,v 1.3 2006/02/05 17:02:09 psyko Exp $
  */
 package pagod.wizard.ui;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Vector;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
@@ -26,13 +29,15 @@ import pagod.wizard.control.states.activity.StepState;
 public class StepListPanel extends JPanel
 {
 	private JList lStepList;
-		
+	
 	/**
 	 * constructeur
 	 */
 	public StepListPanel()
 	{
-		super();
+		super(new BorderLayout());
+		
+		JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		
 		// on initialise notre JList
         this.lStepList = new JList();
@@ -40,7 +45,11 @@ public class StepListPanel extends JPanel
         // on vide notre JList (elements affich?s et Listeners)
         // juste pr etre bien sur que ?a soit propre  ... 
 		this.lStepList.removeAll();
-		this.add(this.lStepList);
+		
+		centerPanel.add(this.lStepList);
+		centerPanel.setBackground(Color.WHITE);
+		this.add(centerPanel, BorderLayout.CENTER);
+		
 	}
 	
 	/**
@@ -49,22 +58,21 @@ public class StepListPanel extends JPanel
 	 */
 	public void initJList(ActivityScheduler actSched)
 	{    
-		// on cr?e  le modele de la JList
-        DefaultListModel listModelJList = new DefaultListModel();
-		
+		Vector<Request> listData = new Vector<Request>();
+               
         // initialisation de la liste avec les noms des steps de l'activit? en cours
 		// maintenant, on remplit cette liste
 		for(AbstractActivityState abstrActState : actSched.getStateList())
 		{
 			if (abstrActState instanceof StepState)
 			{
-				listModelJList.addElement(				
-						new Request(Request.RequestType.GOTOSTEP, abstrActState));
+				listData.add(				
+						new Request(Request.RequestType.GOTOSTEP, abstrActState));				
 			}
 		}
-				
+		
 		// on initialise la JList ? l aide du modele
-		this.lStepList = new JList(listModelJList);
+		this.lStepList.setListData(listData);
 		
 		// on sp?cifie qu un seul ?l?ment sera clicable ? la fois
 		this.lStepList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -82,6 +90,9 @@ public class StepListPanel extends JPanel
             }
         });
         
+        this.setMaximumSize(this.lStepList.getSize());
+        this.setMinimumSize(this.lStepList.getSize());
+        this.setPreferredSize(this.lStepList.getSize());
 	}    
 		
 	//m?thode charg?e de l'acces direct 
@@ -90,7 +101,5 @@ public class StepListPanel extends JPanel
 	    // on effectue la requete GOTOSTEP !
 	    ApplicationManager.getInstance().manageRequest((Request)this.lStepList.getSelectedValue());
     }
-	    
-	
 }
 
