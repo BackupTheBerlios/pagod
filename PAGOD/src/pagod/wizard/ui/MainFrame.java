@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.39 2006/02/05 17:30:24 psyko Exp $
+ * $Id: MainFrame.java,v 1.40 2006/02/05 23:37:36 coincoin Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -358,8 +358,12 @@ public class MainFrame extends JFrame implements Observer
 	public void showProcess (ProcessTreeModel process, String fileName,
 			String processName)
 	{
+
+		// on recupere le nom du projet en cours 
+		String nameProject = ApplicationManager.getInstance().getCurrentProject().getName();
+		
 		// mettre le titre a jour
-		String title = Constants.APPLICATION_SHORT_NAME + " - " + fileName;
+		String title = Constants.APPLICATION_SHORT_NAME + " - " + nameProject + " - " + fileName;
 		if (processName != null) title += " (" + processName + ") ";
 		this.setTitle(title);
 		// creer le treePanel
@@ -600,6 +604,7 @@ public class MainFrame extends JFrame implements Observer
 			File choosenfile = fileChooser.getSelectedFile();
 
 			opened = this.openProcess(choosenfile);
+			
 		}
 		return opened;
 	}
@@ -630,8 +635,11 @@ public class MainFrame extends JFrame implements Observer
 				// creer le TreeModel n?cessaire au JTree de la fenetre
 				// presenter a l'utilisateur le processus
 				String fileName = processFile.getName();
+				
+				
 				this.showProcess(new ProcessTreeModel(aProcess, rolesChooser
 						.getChosenRoles()), fileName, aProcess.getName());
+				
 				// mettre a jour le processus en cours
 				ApplicationManager.getInstance().setCurrentProcess(aProcess);
 				ApplicationManager.getInstance().getCurrentProject()
@@ -760,6 +768,7 @@ public class MainFrame extends JFrame implements Observer
 			// Remplir le mod?le metier
 			File choosenFile = fileChooser.getSelectedFile();
 			this.openProcess(choosenFile);
+			
 			return ApplicationManager.getInstance().getCurrentProject()
 					.hasCurrentProcess();
 
