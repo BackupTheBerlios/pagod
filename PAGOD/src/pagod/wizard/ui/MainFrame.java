@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.38 2006/02/04 22:42:06 yak Exp $
+ * $Id: MainFrame.java,v 1.39 2006/02/05 17:30:24 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -136,6 +136,18 @@ public class MainFrame extends JFrame implements Observer
 	 * produits a cr?er durant cette ?tape ainsi que les plan type s'il y en a
 	 */
 	private JSplitPane			splitPane			= null;
+	
+	/**
+	 * StepListPanel, qui va contenir la liste de toutes les etapes
+	 */
+	private StepListPanel 		jListPanel 			= null;
+	
+	/**
+	 * panel qui va contenir:
+	 * le contenu de l'étape
+	 * et la liste des etapes
+	 */
+	private JSplitPane			stepPanel			= null;
 
 	private int					dividerLocation		= 300;
 
@@ -190,6 +202,8 @@ public class MainFrame extends JFrame implements Observer
 			this.centerPanel.add(this.splitPane);
 
 			this.splitPane.setOneTouchExpandable(true);
+			
+			this.splitPane.setLeftComponent(component);
 
 		}
 		else if (obj instanceof Step)
@@ -216,19 +230,22 @@ public class MainFrame extends JFrame implements Observer
 				this.centerPanel.add(this.splitPane);
 
 				this.splitPane.setOneTouchExpandable(false);
+				this.splitPane.setLeftComponent(component);
 			}
+			
+			this.stepPanel = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+			
+			this.stepPanel.setLeftComponent(component);
+			this.stepPanel.setRightComponent(this.jListPanel);
+			
+			this.stepPanel.setOneTouchExpandable(true);
+			this.stepPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
+	        this.stepPanel.setResizeWeight(0.8);
+			
+	        this.splitPane.setLeftComponent(this.stepPanel);
+
 		}
 
-		/*
-		 * Dimension dimension = this.centerPanel.getSize();
-		 * dimension.setSize(dimension.getWidth(), dimension.getHeight() / 2);
-		 * component.setMinimumSize(dimension);
-		 */
-
-		this.splitPane.setLeftComponent(component);
-
-		// this.splitPane.setDividerLocation(this.dividerLocation);
-		// this.splitPane.getRightComponent().setPreferredSize(this.dim);
 	}
 
 	/**
@@ -404,9 +421,7 @@ public class MainFrame extends JFrame implements Observer
 		// on netoye les panneaux
 		this.centerPanel.removeAll();
 		this.southPanel.removeAll();
-		// mettre a jour le message
-		this.messagePanel.setMessage(LanguagesManager.getInstance().getString(
-				"activityCheckListMessage"));
+
 		// cr?er les panneaux
 		this.centerPanel.add(new CheckPane(activity));
 		// on masque le bouton terminate et on affiche les autres
@@ -427,9 +442,6 @@ public class MainFrame extends JFrame implements Observer
 		// on netoye les panneaux
 		this.centerPanel.removeAll();
 		this.southPanel.removeAll();
-		// on met a jour le message
-		this.messagePanel.setMessage(LanguagesManager.getInstance().getString(
-				"activityEndCheckListMessage"));
 		// on cr?er les panneau
 		this.centerPanel.add(new EndCheckPanel(activity));
 		// on masque le bouton suspend et on affiche les autres
@@ -448,20 +460,6 @@ public class MainFrame extends JFrame implements Observer
 	 */
 	public void presentStep (Step stepToPresent, int rang, int total)
 	{
-
-		// mettre a jour le message
-		if (!stepToPresent.hasOutputProducts()) this.messagePanel
-				.setMessage(LanguagesManager.getInstance().getString(
-						"presentStepMessage"));
-		else
-			// on ajoute une phrase explicant qu'il faut cliquer sur suivant
-			// pour cr?er les produits de cette ?tape
-			this.messagePanel.setMessage(LanguagesManager.getInstance()
-					.getString("presentStepMessage")
-					+ " "
-					+ LanguagesManager.getInstance().getString(
-							"infoOutputProduct"));
-
 		// s'il y a des produits en sorties de l'activite lance
 		if (this.getActivity().hasOutputProducts())
 		{
@@ -478,7 +476,7 @@ public class MainFrame extends JFrame implements Observer
 			this.buttonPanel.showButtons(Buttons.PB_SUSPEND,
 					Buttons.PB_PREVIOUS, Buttons.PB_NEXT);
 			// this.dividerLocation = this.splitPane.getLastDividerLocation();
-			this.splitPane.setDividerLocation(this.dividerLocation);
+			this.splitPane.setDividerLocation(-1);
 		}
 		else
 		{
@@ -542,10 +540,6 @@ public class MainFrame extends JFrame implements Observer
 	{
 		// on netoye le panneau
 		this.southPanel.removeAll();
-
-		// mettre a jour le message
-		this.messagePanel.setMessage(LanguagesManager.getInstance().getString(
-				"activityPresentationMessage"));
 
 		// cr?er les panneaux
 		this.contentViewerPanel = new ContentViewerPane(activityToPresent);
@@ -818,6 +812,23 @@ public class MainFrame extends JFrame implements Observer
 	}
 
 	/**
+	 * 
+	 * @param state
+	 * methode qui va mettre à jour le message en fonction de l'
+	 * etape ds laquelle on se trouve
+	 */
+	protected void setMessagePanel(AbstractActivityState state)
+	{
+		String message;
+		
+		message = LanguagesManager.getInstance().getString("activityRole")+" : "+this.getActivity().getRole()+"<BR>"
+		+LanguagesManager.getInstance().getString("activityActivity")+" : "+this.getActivity()+"<BR>"
+		+state; 
+		
+		this.messagePanel.setMessage(message);
+	}
+	
+	/**
 	 * (non-Javadoc)
 	 * 
 	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
@@ -859,7 +870,7 @@ public class MainFrame extends JFrame implements Observer
 			{
 				// on rafraichit la MainFrame
 				this.resetSplitPane();
-				System.err.println("ICI : Presentation step");
+				System.err.println("MainFrame.update().state instanceof ActivityPresentationState");
 				this.presentActivity(state.getActivity());
 
 				// s'il y a des produits en entrees on active previous
@@ -887,7 +898,7 @@ public class MainFrame extends JFrame implements Observer
 			}
 			else if (state instanceof StepState)
 			{
-				System.err.println("ICI : " + state);
+				System.err.println("MainFrame.update().state instanceof StepState");
 
 				// on rafraichit la MainFrame
 				this.resetSplitPane();
@@ -940,6 +951,7 @@ public class MainFrame extends JFrame implements Observer
 
 			// on initialise la comboBox du ButtonPanel
 
+			this.setMessagePanel(state);
 			this.buttonPanel.setSelectedIndex(state);
 			return;
 		}
@@ -963,6 +975,9 @@ public class MainFrame extends JFrame implements Observer
 				this.buttonPanel = new ButtonPanel();
 				// on initialise la combo box
 				this.buttonPanel.initComboBox(activityScheduler.getStateList());
+				
+				this.jListPanel = new StepListPanel();
+				this.jListPanel.initJList(activityScheduler);
 
 			}
 			else if (obj instanceof InitState)
