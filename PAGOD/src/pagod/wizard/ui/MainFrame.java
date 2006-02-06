@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.40 2006/02/05 23:37:36 coincoin Exp $
+ * $Id: MainFrame.java,v 1.41 2006/02/06 16:19:12 biniou Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -1072,8 +1072,8 @@ public class MainFrame extends JFrame implements Observer
 							Constants.ACTION_NEWPROJECT).setEnabled(false);
 					ActionManager.getInstance().getAction(
 							Constants.ACTION_OPENPROJECT).setEnabled(false);
-					ActionManager.getInstance().getAction(
-							Constants.ACTION_TIMEACTIVITY).setEnabled(false);
+					/*ActionManager.getInstance().getAction(
+							Constants.ACTION_TIMEACTIVITY).setEnabled(false);*/
 					ActionManager.getInstance().getAction(
 							Constants.ACTION_PREFERENCES).setEnabled(false);
 
@@ -1092,8 +1092,8 @@ public class MainFrame extends JFrame implements Observer
 							Constants.ACTION_NEWPROJECT).setEnabled(true);
 					ActionManager.getInstance().getAction(
 							Constants.ACTION_OPENPROJECT).setEnabled(true);
-					ActionManager.getInstance().getAction(
-							Constants.ACTION_TIMEACTIVITY).setEnabled(true);
+					/*ActionManager.getInstance().getAction(
+							Constants.ACTION_TIMEACTIVITY).setEnabled(true);*/
 				}
 				this.reinitialize();
 

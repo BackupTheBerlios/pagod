@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimeActivityAction.java,v 1.3 2006/01/20 15:38:00 biniou Exp $
+ * $Id: TimeActivityAction.java,v 1.4 2006/02/06 16:19:12 biniou Exp $
  */
 package pagod.wizard.control.actions;
 
@@ -46,8 +46,6 @@ public class TimeActivityAction extends AbstractPagodAction
 	 */
 	public void actionPerformed (ActionEvent actionEvent)
 	{
-		// TODO enlever les commentaires quand on aura code
-		// la fenetre
 		TimeActivityDialog tad = new TimeActivityDialog(ApplicationManager.getInstance().getMfPagod());
 		tad.setVisible(true);
 	}

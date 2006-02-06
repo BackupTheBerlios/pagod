@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrameMenuBar.java,v 1.5 2006/01/13 14:28:42 biniou Exp $
+ * $Id: MainFrameMenuBar.java,v 1.6 2006/02/06 16:19:12 biniou Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -70,10 +70,10 @@ public class MainFrameMenuBar extends JMenuBar
                 .getAction(Constants.ACTION_TOOLSSETTINGS));
         mFile.add(miToolsSettings);
         // ajout menu pour les temps
-        mFile.addSeparator();
+        /*mFile.addSeparator();
         JMenuItem miTimeActivity = new JMenuItem(ActionManager.getInstance()
                 .getAction(Constants.ACTION_TIMEACTIVITY));
-        mFile.add(miTimeActivity);
+        mFile.add(miTimeActivity);*/
         
         mFile.addSeparator();
         JMenuItem miQuit = new JMenuItem(ActionManager.getInstance().getAction(
@@ -81,8 +81,29 @@ public class MainFrameMenuBar extends JMenuBar
         mFile.add(miQuit);
 
         this.add(mFile);
-
-        // Menu Activit?
+        
+        // Menu Itération
+        MnemonicMenu mIteration = new MnemonicMenu(LanguagesManager.getInstance().getString(
+        "iteration"));
+        
+        // passer a l'ité suivante
+        JMenuItem miNextIteration = new JMenuItem(ActionManager.getInstance().getAction(
+                Constants.ACTION_NEXT_ITERATION));
+        mIteration.add(miNextIteration);
+        
+        // consulter les temps de l'ité courante
+        JMenuItem miTimeCurrentIteration = new JMenuItem(ActionManager.getInstance().getAction(
+                Constants.ACTION_TIME_CURRENT_ITERATION));
+        mIteration.add(miTimeCurrentIteration);
+        
+        // consulter les temps pour toutes les ités
+        JMenuItem miTimeAllIterations = new JMenuItem(ActionManager.getInstance().getAction(
+                Constants.ACTION_TIME_ALL_ITERATIONS));
+        mIteration.add(miTimeAllIterations);
+        
+        this.add(mIteration);
+        
+        // Menu Activité
         MnemonicMenu mActivity = new MnemonicMenu(LanguagesManager.getInstance().getString(
                 "activity"));
 
@@ -103,6 +124,7 @@ public class MainFrameMenuBar extends JMenuBar
         mActivity.add(miTerminate);
 
         this.add(mActivity);
+        
 
         // Menu Aide
         MnemonicMenu mHelp = new MnemonicMenu(LanguagesManager.getInstance().getString("?"));
@@ -117,5 +139,6 @@ public class MainFrameMenuBar extends JMenuBar
         mHelp.add(miAbout);
 
         this.add(mHelp);
+        
     }
 }

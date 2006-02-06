@@ -1,5 +1,5 @@
 /*
- * $Id: ApplicationManager.java,v 1.25 2006/02/04 16:30:28 yak Exp $
+ * $Id: ApplicationManager.java,v 1.26 2006/02/06 16:19:12 biniou Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -59,6 +59,7 @@ import pagod.wizard.control.actions.CloseProjectAction;
 import pagod.wizard.control.actions.GotoAction;
 import pagod.wizard.control.actions.NewProjectAction;
 import pagod.wizard.control.actions.NextAction;
+import pagod.wizard.control.actions.NextIterationAction;
 import pagod.wizard.control.actions.OpenProcessAction;
 import pagod.wizard.control.actions.OpenProjectAction;
 import pagod.wizard.control.actions.PreferencesAction;
@@ -68,6 +69,7 @@ import pagod.wizard.control.actions.RunActivityAction;
 import pagod.wizard.control.actions.SuspendAction;
 import pagod.wizard.control.actions.TerminateAction;
 import pagod.wizard.control.actions.TimeActivityAction;
+import pagod.wizard.control.actions.TimeActivityAllIterationAction;
 import pagod.wizard.control.actions.ToolsSettingsAction;
 import pagod.wizard.control.states.Request;
 import pagod.wizard.control.states.application.AbstractApplicationState;
@@ -221,8 +223,19 @@ public class ApplicationManager extends Observable
 					new ToolsSettingsAction());
 
 			// ajout de l'action pour afficher le temps
-			am.registerAction(Constants.ACTION_TIMEACTIVITY,
+			/*am.registerAction(Constants.ACTION_TIMEACTIVITY,
+					new TimeActivityAction());*/
+			
+			/* ajout des actions pour le menu itération */
+			am.registerAction(Constants.ACTION_NEXT_ITERATION,
+					new NextIterationAction());
+			
+			am.registerAction(Constants.ACTION_TIME_CURRENT_ITERATION,
 					new TimeActivityAction());
+			
+			am.registerAction(Constants.ACTION_TIME_ALL_ITERATIONS,
+					new TimeActivityAllIterationAction());
+			
 
 			// TODO Alex deplacer pour qu'on puisse tester la machine a etat de
 			// l'application

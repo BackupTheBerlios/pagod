@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimeActivityDialog.java,v 1.7 2006/02/02 19:41:17 biniou Exp $
+ * $Id: TimeActivityDialog.java,v 1.8 2006/02/06 16:19:12 biniou Exp $
  */
 package pagod.wizard.ui;
 
@@ -25,7 +25,7 @@ import pagod.utils.TimerManager;
 import pagod.wizard.control.ApplicationManager;
 
 /**
- * @author pp et biniou
+ * @author ppmaxynoob et biniou
  */
 public class TimeActivityDialog extends JDialog implements ActionListener
 {
