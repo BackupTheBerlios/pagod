@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: SuspendAction.java,v 1.2 2006/02/04 22:42:05 yak Exp $
+ * $Id: SuspendAction.java,v 1.3 2006/02/07 12:15:30 yak Exp $
  */
 package pagod.wizard.control.actions;
 
@@ -19,28 +19,27 @@ import pagod.utils.LanguagesManager.NotInitializedException;
 import pagod.wizard.control.ApplicationManager;
 import pagod.wizard.control.Constants;
 import pagod.wizard.control.states.Request;
+import pagod.wizard.ui.TimeEditDialog;
 
 /**
  * @author yak
- *
+ * 
  */
 public class SuspendAction extends AbstractPagodAction
 {
-
 
 	/**
 	 * @throws NotInitializedException
 	 * @throws IOException
 	 * @throws NotInitializedException
-	 * @throws pagod.utils.ImagesManager.NotInitializedException 
+	 * @throws pagod.utils.ImagesManager.NotInitializedException
 	 */
-	public SuspendAction ()
-			throws NotInitializedException, IOException,
+	public SuspendAction () throws NotInitializedException, IOException,
 			pagod.utils.ImagesManager.NotInitializedException
 	{
-		 super("suspend", "TerminateIcon.gif",
-	        		new Request(Request.RequestType.SUSPEND_ACTIVITY), KeyStroke
-	                .getKeyStroke(KeyEvent.VK_ESCAPE, 0));
+		super("suspend", "TerminateIcon.gif", new Request(
+				Request.RequestType.SUSPEND_ACTIVITY), KeyStroke.getKeyStroke(
+				KeyEvent.VK_ESCAPE, 0));
 	}
 
 	/**
@@ -49,28 +48,39 @@ public class SuspendAction extends AbstractPagodAction
 	 * @param actionEvent
 	 *            Evenement survenue
 	 */
-    public void actionPerformed (ActionEvent actionEvent)
+	public void actionPerformed (ActionEvent actionEvent)
 	{
-    	TimerManager.getInstance().stop();
-    	if ( ApplicationManager.getInstance().manageRequest(this.request))
-    	{
-    		//on stop le timer
-    		
-    		Activity aTemp = ApplicationManager.getInstance().getMfPagod().getActivity();
-    		//on enregistre le temps
-    		int iCurrentIt = 
-    			ApplicationManager.getInstance().getCurrentProject().getItCurrent();
-    		
-    		aTemp.sethmTime(iCurrentIt, new TimeCouple(TimerManager.getInstance().getValueElapsed(), TimerManager.getInstance().getValueRemaining()));
+		TimerManager.getInstance().stop();
+		if (ApplicationManager.getInstance().manageRequest(this.request))
+		{
+			// on stop le timer
 
-    		ActionManager.getInstance().getAction(Constants.ACTION_RUN_ACTIVITY).setEnabled(true);
-    	}
-    	else
-    	{
-    		// si ca n'a pas marcher on redemarre le timer
-    		TimerManager.getInstance().start();
-    	
-    	}
-	
+			Activity aTemp = ApplicationManager.getInstance().getMfPagod()
+					.getActivity();
+			// Modif Flotueur : on appelle la bo?te de dialogue TimeEditDialog
+			// qui va servir ?
+			// connaitre et ? modifier le temps pass? sur une activit?
+			TimeEditDialog ted2 = new TimeEditDialog(ApplicationManager
+					.getInstance().getMfPagod(), aTemp);
+
+			// Fin modif Flotueur
+			// on enregistre le temps
+			int iCurrentIt = ApplicationManager.getInstance()
+					.getCurrentProject().getItCurrent();
+
+			aTemp.sethmTime(iCurrentIt, new TimeCouple(TimerManager
+					.getInstance().getValueElapsed(), TimerManager
+					.getInstance().getValueRemaining()));
+
+			ActionManager.getInstance()
+					.getAction(Constants.ACTION_RUN_ACTIVITY).setEnabled(true);
+		}
+		else
+		{
+			// si ca n'a pas marcher on redemarre le timer
+			TimerManager.getInstance().start();
+
+		}
+
 	}
 }

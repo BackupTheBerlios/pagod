@@ -1,5 +1,5 @@
 /*
- * $Id: RunActivityAction.java,v 1.6 2006/02/07 08:15:36 flotueur Exp $
+ * $Id: RunActivityAction.java,v 1.7 2006/02/07 12:15:30 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -40,7 +40,7 @@ import pagod.wizard.control.states.Request;
 import pagod.wizard.ui.TimeEditDialog;
 
 /**
- * Lance l'assitance d'une activité
+ * Lance l'assitance d'une activit?
  * 
  * @author MoOky
  */
@@ -63,25 +63,24 @@ public class RunActivityAction extends AbstractPagodAction
     }
     
     /**
-     * Methode appelée lorsque l'action est déclenché
+     * Methode appel?e lorsque l'action est d?clench?
      * 
      * @param actionEvent
      *            Evenement survenue
      */
     public void actionPerformed(ActionEvent actionEvent)
     {
-    	//si le project a pu etre ouvert alors on delegue la requete à l'application manager
+    	//si le project a pu etre ouvert alors on delegue la requete ? l'application manager
     	Activity aTemp = ApplicationManager.getInstance().getMfPagod().getActivity();
     	
-    	// Modif Flotueur : on appelle la boîte de dialogue TimeEditDialog qui va servir à
-    	// connaitre et à modifier le temps passé sur une activité
+    	// Modif Flotueur : on appelle la bo?te de dialogue TimeEditDialog qui va servir ?
+    	// connaitre et ? modifier le temps pass? sur une activit?
     	TimeEditDialog ted1 = new TimeEditDialog(ApplicationManager.getInstance().getMfPagod(),aTemp);
-    	ted1.pack();
-    	ted1.setVisible(true);
+    	
     	// Fin modif Flotueur
     	
     	this.request.setContent(aTemp);
-//    	on recupere le numéro de l'it
+//    	on recupere le num?ro de l'it
     	int iCurrentIt = 
 			ApplicationManager.getInstance().getCurrentProject().getItCurrent();
     	TimeCouple tcTemp = aTemp.gethmTime(iCurrentIt);
