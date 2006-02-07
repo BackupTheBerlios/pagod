@@ -1,5 +1,5 @@
 /*
- * $Id: TerminateAction.java,v 1.7 2006/02/04 22:42:05 yak Exp $
+ * $Id: TerminateAction.java,v 1.8 2006/02/07 08:15:36 flotueur Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -39,6 +39,7 @@ import pagod.utils.TimerManager;
 import pagod.wizard.control.ApplicationManager;
 import pagod.wizard.control.Constants;
 import pagod.wizard.control.states.Request;
+import pagod.wizard.ui.TimeEditDialog;
 
 /**
  * Termine l'activit?.
@@ -74,6 +75,14 @@ public class TerminateAction extends AbstractPagodAction
     		
     		Activity aTemp = ApplicationManager.getInstance().getMfPagod().getActivity();
     		aTemp.setDone(true);
+    		
+        	// Modif Flotueur : on appelle la boîte de dialogue TimeEditDialog qui va servir à
+        	// connaitre et à modifier le temps passé sur une activité
+        	TimeEditDialog ted2 = new TimeEditDialog(ApplicationManager.getInstance().getMfPagod(),aTemp);
+        	ted2.pack();
+        	ted2.setVisible(true);
+        	// Fin modif Flotueur
+        	
     		//on enregistre le temps
     		int iCurrentIt = 
     			ApplicationManager.getInstance().getCurrentProject().getItCurrent();

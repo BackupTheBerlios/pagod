@@ -1,5 +1,5 @@
 /*
- * $Id: RunActivityAction.java,v 1.5 2006/02/04 22:42:05 yak Exp $
+ * $Id: RunActivityAction.java,v 1.6 2006/02/07 08:15:36 flotueur Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -37,6 +37,7 @@ import pagod.utils.LanguagesManager;
 import pagod.utils.TimerManager;
 import pagod.wizard.control.ApplicationManager;
 import pagod.wizard.control.states.Request;
+import pagod.wizard.ui.TimeEditDialog;
 
 /**
  * Lance l'assitance d'une activité
@@ -62,7 +63,7 @@ public class RunActivityAction extends AbstractPagodAction
     }
     
     /**
-     * Methode appélée lorsque l'action est déclenché
+     * Methode appelée lorsque l'action est déclenché
      * 
      * @param actionEvent
      *            Evenement survenue
@@ -71,6 +72,14 @@ public class RunActivityAction extends AbstractPagodAction
     {
     	//si le project a pu etre ouvert alors on delegue la requete à l'application manager
     	Activity aTemp = ApplicationManager.getInstance().getMfPagod().getActivity();
+    	
+    	// Modif Flotueur : on appelle la boîte de dialogue TimeEditDialog qui va servir à
+    	// connaitre et à modifier le temps passé sur une activité
+    	TimeEditDialog ted1 = new TimeEditDialog(ApplicationManager.getInstance().getMfPagod(),aTemp);
+    	ted1.pack();
+    	ted1.setVisible(true);
+    	// Fin modif Flotueur
+    	
     	this.request.setContent(aTemp);
 //    	on recupere le numéro de l'it
     	int iCurrentIt = 
