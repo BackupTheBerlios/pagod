@@ -1,5 +1,5 @@
 /*
- * $Id: ProcessElementTest.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: ProcessElementTest.java,v 1.2 2006/02/07 16:49:05 themorpheus Exp $
  *
  * SPWIZ - Spem Wizard
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -27,10 +27,12 @@ package test.pagod.common.model;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
-import pagod.common.model.Guidance; 
-import pagod.common.model.ProcessElement;
 import junit.framework.TestCase;
+import pagod.common.model.Guidance;
+import pagod.common.model.ProcessElement;
 
 /**
  * Classe de test JUnit de ProcessElement
@@ -148,6 +150,66 @@ public class ProcessElementTest extends TestCase
         
         assertEquals(this.processElement.getGuidances(), array);
     }
+    
+    // debut modifications -> baloo
+    
+    /**
+     * Teste getGuidancesWithoutType de ProcessElement
+     * @see ProcessElement#getGuidanceWithoutType(String)()
+     */
+    public void testGetGuidancesWithoutType()
+    {
+        Guidance g1 = new Guidance("IdGuide1", "NomGuide1", null,
+                null, "typeGuide1");
+        Guidance g2 = new Guidance("IdGuide2", "NomGuide2", null,
+                null, "typeGuide2");
+        Guidance g3 = new Guidance("IdGuide3", "NomGuide3", null,
+                null, "typeGuide1");
+        Guidance g4 = new Guidance("IdGuide4", "NomGuide4", null,
+                null, "typeGuide2");
+        
+        List<Guidance> array = new ArrayList<Guidance>();
+        array.add(g1);
+        array.add(g2);
+        array.add(g3);
+        array.add(g4);
+        
+        this.processElement.setGuidances(array);
+        List<Guidance> temp = this.processElement.getGuidanceWithoutType("typeGuide2");
+        for(Iterator i = temp.iterator();i.hasNext();) {
+        	assertEquals(((Guidance)i.next()).getType(),"typeGuide1");
+        }
+    }
+    
+    /**
+     * Teste getGuidancesType de ProcessElement
+     * @see ProcessElement#getGuidanceType(String)()
+     */
+    public void testGetGuidancesType()
+    {
+        Guidance g1 = new Guidance("IdGuide1", "NomGuide1", null,
+                null, "typeGuide1");
+        Guidance g2 = new Guidance("IdGuide2", "NomGuide2", null,
+                null, "typeGuide2");
+        Guidance g3 = new Guidance("IdGuide3", "NomGuide3", null,
+                null, "typeGuide1");
+        Guidance g4 = new Guidance("IdGuide4", "NomGuide4", null,
+                null, "typeGuide2");
+        
+        List<Guidance> array = new ArrayList<Guidance>();
+        array.add(g1);
+        array.add(g2);
+        array.add(g3);
+        array.add(g4);
+        
+        this.processElement.setGuidances(array);
+        List<Guidance> temp = this.processElement.getGuidanceType("typeGuide2");
+        for(Iterator i = temp.iterator();i.hasNext();) {
+        	assertEquals(((Guidance)i.next()).getType(),"typeGuide2");
+        }
+    }
+    
+    // fin modifications -> baloo
 
     /**
      * Teste getIconPath de ProcessElement
