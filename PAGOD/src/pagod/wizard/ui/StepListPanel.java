@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: StepListPanel.java,v 1.3 2006/02/05 17:02:09 psyko Exp $
+ * $Id: StepListPanel.java,v 1.4 2006/02/07 23:50:22 psyko Exp $
  */
 package pagod.wizard.ui;
 
@@ -14,6 +14,7 @@ import java.util.Vector;
 
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
 import pagod.wizard.control.ActivityScheduler;
@@ -35,9 +36,7 @@ public class StepListPanel extends JPanel
 	 */
 	public StepListPanel()
 	{
-		super(new BorderLayout());
-		
-		JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		super(new FlowLayout(FlowLayout.CENTER));
 		
 		// on initialise notre JList
         this.lStepList = new JList();
@@ -46,9 +45,26 @@ public class StepListPanel extends JPanel
         // juste pr etre bien sur que ?a soit propre  ... 
 		this.lStepList.removeAll();
 		
-		centerPanel.add(this.lStepList);
+		this.displayJList();
+	}
+	
+	/**
+	 * affichage de la JList
+	 */
+	public void displayJList()
+	{
+
+		JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+
 		centerPanel.setBackground(Color.WHITE);
+		centerPanel.add(this.lStepList);
+		
 		this.add(centerPanel, BorderLayout.CENTER);
+		this.setBackground(Color.WHITE);
+		
+		this.setMaximumSize(this.lStepList.getSize());
+        this.setMinimumSize(this.lStepList.getSize());
+        this.setPreferredSize(this.lStepList.getSize());
 		
 	}
 	
@@ -59,8 +75,8 @@ public class StepListPanel extends JPanel
 	public void initJList(ActivityScheduler actSched)
 	{    
 		Vector<Request> listData = new Vector<Request>();
-               
-        // initialisation de la liste avec les noms des steps de l'activit? en cours
+
+		// initialisation de la liste avec les noms des steps de l'activit? en cours
 		// maintenant, on remplit cette liste
 		for(AbstractActivityState abstrActState : actSched.getStateList())
 		{
@@ -90,9 +106,7 @@ public class StepListPanel extends JPanel
             }
         });
         
-        this.setMaximumSize(this.lStepList.getSize());
-        this.setMinimumSize(this.lStepList.getSize());
-        this.setPreferredSize(this.lStepList.getSize());
+        this.displayJList();
 	}    
 		
 	//m?thode charg?e de l'acces direct 
