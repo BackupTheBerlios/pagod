@@ -1,5 +1,5 @@
 /*
- * $Id: ProcessElement.java,v 1.4 2006/02/08 12:12:52 cyberal82 Exp $
+ * $Id: ProcessElement.java,v 1.5 2006/02/08 16:48:21 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -115,6 +115,18 @@ public abstract class ProcessElement
 		{
 			this.guidances.add(g);
 		}
+	}
+	
+	/**
+	 * Supprime la premiere occurence du guide passe en parametre
+	 * 
+	 * @param g le guide que l'on veut supprimer
+	 * 
+	 * @return true si le guide a ete supprimer sinon faux
+	 */
+	public boolean removeGuidance (Guidance g)
+	{
+		return this.guidances.remove(g);
 	}
 
 	/**

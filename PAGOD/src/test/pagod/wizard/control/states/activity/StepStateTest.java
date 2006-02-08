@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: StepStateTest.java,v 1.2 2006/01/22 08:23:23 biniou Exp $
+ * $Id: StepStateTest.java,v 1.3 2006/02/08 16:48:21 cyberal82 Exp $
  */
 package test.pagod.wizard.control.states.activity;
 
@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pagod.common.model.Activity;
+import pagod.common.model.Guidance;
 import pagod.common.model.Product;
 import pagod.common.model.Role;
 import pagod.common.model.Step;
@@ -93,6 +94,44 @@ public class StepStateTest extends TestCase
 				"L'etat du scheduler devrait etre celui contenu dans this.state (le meme objet)",
 				this.activityScheduler.getActivityState() == this.state);
 
+		// l'activité n'as pas d'etape ni de produit en sortie mais elle a un
+		// guide de type "liste de controles" donc il doit y avoir de changement
+		// d'etat
+		Guidance g = new Guidance("IdGuide1", "NomGuide1", null, null,
+				"Liste de controles");
+		this.activity.addGuidance(g);
+
+		assertTrue(
+				"L'etat devrait changer car l'activite a un guide de type liste de controles",
+				this.state.manageRequest(requestNext));
+
+		assertTrue(
+				"L'etat du scheduler devrait etre de type PostConditionCheckerState",
+				this.activityScheduler.getActivityState() instanceof PostConditionCheckerState);
+
+		// on supprime le guide et on remet l'activityScheduler dans l'etat
+		// ActivityPresentationState
+		this.activity.removeGuidance(g);
+		this.activityScheduler.setActivityState(this.state);
+
+		// l'activité n'as pas d'etape ni de produit en sortie mais le role
+		// associe a un guide de type "liste de controles" donc il doit y avoir
+		// un changement d'etat
+		this.activity.getRole().addGuidance(g);
+
+		assertTrue(
+				"L'etat devrait changer car le role associe a l'activite a un guide de type \"liste de controles\"",
+				this.state.manageRequest(requestNext));
+
+		assertTrue(
+				"L'etat du scheduler devrait etre de type PostConditionCheckerState",
+				this.activityScheduler.getActivityState() instanceof PostConditionCheckerState);
+
+		// on supprime le guide et on remet l'activityScheduler dans l'etat
+		// ActivityPresentationState
+		this.activity.getRole().removeGuidance(g);
+		this.activityScheduler.setActivityState(this.state);
+
 		// on refait un next() qui doit renvoyer sur l'etat postconditions
 		// creation d'une liste de produit en sortie
 		List<Product> lProductOutput = new ArrayList<Product>();
@@ -119,7 +158,7 @@ public class StepStateTest extends TestCase
 				this.activityScheduler.getActivityState() instanceof StepState);
 		// verification de l'index
 		assertEquals(this.activityScheduler.getActivityState().getIndex(), 1);
-		
+
 		// on met l'etat a jour (pour l'index)
 		this.state = (StepState) this.activityScheduler.getActivityState();
 
@@ -130,32 +169,31 @@ public class StepStateTest extends TestCase
 		// l'etat ne doit pas changer mais l'index doit passer à 0
 		assertTrue("L'etat ne doit pas changer : il y a une étape avant",
 				this.state.manageRequest(requestPrevious));
-		
-//		 verification de l'index
+
+		// verification de l'index
 		assertEquals(this.activityScheduler.getActivityState().getIndex(), 0);
-		
+
 		assertTrue(
 				"L'etat du scheduler devrait etre de type StepState (il ne devrait pas avoir changé)",
 				this.activityScheduler.getActivityState() instanceof StepState);
-		
-		
-//		 on met l'etat a jour (pour l'index)
+
+		// on met l'etat a jour (pour l'index)
 		this.state = (StepState) this.activityScheduler.getActivityState();
-		
+
 		// encore un previous : on doit passer a la presentation de l'activité
-		assertTrue("L'etat doit changer : presentation",
-				this.state.manageRequest(requestPrevious));
-		
+		assertTrue("L'etat doit changer : presentation", this.state
+				.manageRequest(requestPrevious));
+
 		assertTrue(
 				"L'etat du scheduler devrait etre de type StepState (il ne devrait pas avoir changé)",
 				this.activityScheduler.getActivityState() instanceof ActivityPresentationState);
-		
+
 		/** ******* Test sur une requete GOTOSTEP ********** */
-//		 creation d'un ArrayList de step avec 2 etapes
+		// creation d'un ArrayList de step avec 2 etapes
 		ArrayList<Step> arrStep = new ArrayList<Step>();
 		arrStep.add(new Step("Etape 1", null, new ArrayList<Product>()));
 		arrStep.add(new Step("Etape 2", null, new ArrayList<Product>()));
-		
+
 		// création d'une activité vide pour les tests
 		this.activity = new Activity("", "", null, null, arrStep,
 				new WorkDefinition("", "", null, null,
@@ -180,8 +218,7 @@ public class StepStateTest extends TestCase
 		for (int i = 0; i < arrState.size(); i++)
 		{
 			// on se met dans le bon etat : 1ere etape de l'activite
-			this.state = new StepState(this.activityScheduler,
-					this.activity,0);
+			this.state = new StepState(this.activityScheduler, this.activity, 0);
 
 			// on met l'ActivityScheduler dans l'etat StepState
 			this.activityScheduler.setActivityState(this.state);
@@ -196,12 +233,11 @@ public class StepStateTest extends TestCase
 					this.activityScheduler.getActivityState() == arrState
 							.get(i));
 		}
-		
+
 		/** ****** Test sur une requete quelconque ******* */
 
 		// on se met dans le bon etat : 1ere etape de l'activite
-		this.state = new StepState(this.activityScheduler,
-				this.activity,0);
+		this.state = new StepState(this.activityScheduler, this.activity, 0);
 
 		// on met l'ActivityScheduler dans l'etat StepState
 		this.activityScheduler.setActivityState(this.state);
@@ -214,8 +250,7 @@ public class StepStateTest extends TestCase
 			// suivante car ces cas la on deja etaient teste
 			if (aRequest == Request.RequestType.PREVIOUS
 					|| aRequest == Request.RequestType.NEXT
-					|| aRequest == Request.RequestType.GOTOSTEP) 
-				continue;
+					|| aRequest == Request.RequestType.GOTOSTEP) continue;
 
 			Request request = new Request(aRequest);
 
@@ -235,7 +270,7 @@ public class StepStateTest extends TestCase
 					"L'etat du scheduler devrait etre celui contenu dans this.state (le meme objet)",
 					this.activityScheduler.getActivityState() == this.state);
 		}
-		
+
 	}
 
 }

@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: StepState.java,v 1.4 2006/01/27 17:26:59 psyko Exp $
+ * $Id: StepState.java,v 1.5 2006/02/08 16:48:21 cyberal82 Exp $
  */
 package pagod.wizard.control.states.activity;
 
@@ -31,18 +31,15 @@ public class StepState extends AbstractActivityState
 		this.step = this.stepList.get(this.index);
 	}
 
-	
-
 	/**
 	 * @return le nom du step sous forme de chaine
 	 * 
 	 */
 	public String toString ()
 	{
-		return ("- "+LanguagesManager.getInstance().getString("step") +" : "+this.getStepList().get(this.index).getName());
+		return ("- " + LanguagesManager.getInstance().getString("step") + " : " + this
+				.getStepList().get(this.index).getName());
 	}
-
-	
 
 	/**
 	 * (non-Javadoc)
@@ -62,8 +59,15 @@ public class StepState extends AbstractActivityState
 				// si on est sur la derni?re ?tape
 				if (this.index == this.stepList.size() - 1)
 				{
-					if (this.activity.hasOutputProducts()) state = new PostConditionCheckerState(
-							this.activityScheduler, this.activity);
+					if (this.activity.hasOutputProducts()
+							|| this.activity
+									.hasGuidanceType("Liste de controles")
+							|| this.activity.getRole().hasGuidanceType(
+									"Liste de controles"))
+					{
+						state = new PostConditionCheckerState(
+								this.activityScheduler, this.activity);
+					}
 					else
 						return false;
 				}

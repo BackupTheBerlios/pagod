@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ActivityPresentationState.java,v 1.5 2006/02/08 12:12:52 cyberal82 Exp $
+ * $Id: ActivityPresentationState.java,v 1.6 2006/02/08 16:48:21 cyberal82 Exp $
  */
 
 package pagod.wizard.control.states.activity;
@@ -10,7 +10,6 @@ import pagod.common.model.Activity;
 import pagod.utils.LanguagesManager;
 import pagod.wizard.control.ActivityScheduler;
 import pagod.wizard.control.states.Request;
-
 
 /**
  * @author Alexandre Bes
@@ -28,73 +27,85 @@ public class ActivityPresentationState extends AbstractActivityState
 	{
 		super(activityScheduler, activity);
 	}
-	
-	
-	/** (non-Javadoc)
-	 * @see pagod.wizard.control.states.activity.AbstractActivityState#toString()
+
+	/**
+	 * 
+	 * @return une chaine de caractere
 	 */
 	public String toString ()
 	{
-		return(LanguagesManager.getInstance().getString("activityPresentation"));	
+		return (LanguagesManager.getInstance()
+				.getString("activityPresentation"));
 	}
 
-	
-	/** 
+	/**
 	 * @see pagod.wizard.control.states.AbstractState#manageRequest(pagod.wizard.control.states.Request)
 	 */
-	
+
 	public boolean manageRequest (Request request)
 	{
-		//AbstractActivityState temporaire
+		// AbstractActivityState temporaire
 		AbstractActivityState state;
-		
-		//on regarde le type de requete que l'on recoit
+
+		// on regarde le type de requete que l'on recoit
 		switch (request.getCurrentRequest())
 		{
 			case NEXT:
 				if (this.activity.hasSteps())
 				{
-					state = new StepState(this.activityScheduler,this.activity,0);
+					state = new StepState(this.activityScheduler,
+							this.activity, 0);
 				}
-				else if (this.activity.hasOutputProducts())
+				else if (this.activity.hasOutputProducts()
+						|| this.activity.hasGuidanceType("Liste de controles")
+						|| this.activity.getRole().hasGuidanceType(
+								"Liste de controles"))
 				{
-					state = new PostConditionCheckerState (this.activityScheduler,this.activity);
-				}
-				else
-				{
-					return false;
-				}
-				break;	
-				
-			case PREVIOUS:
-				if (this.activity.hasInputProducts())
-				{
-					state = new PreConditionCheckerState (this.activityScheduler,this.activity);
+					state = new PostConditionCheckerState(
+							this.activityScheduler, this.activity);
 				}
 				else
 				{
 					return false;
 				}
 				break;
-				
+
+			case PREVIOUS:
+				// si l'activite a des produit en entree ou qu'elle a des guides
+				// qui ne sont pas de type "liste de controles"
+				// ou que le role associe a l'activite a des guides qui ne sont
+				// pas de type "liste de controles"
+				if (this.activity.hasInputProducts()
+						|| this.activity
+								.hasGuidanceWithoutType("Liste de controles")
+						|| this.activity.getRole().hasGuidanceWithoutType(
+								"Liste de controles"))
+				{
+					state = new PreConditionCheckerState(
+							this.activityScheduler, this.activity);
+				}
+				else
+				{
+					return false;
+				}
+				break;
+
 			case GOTOSTEP:
 				return super.manageRequest(request);
-				
+
 			default:
 				return false;
 		}
-		
-		if ( state == null )
+
+		if (state == null)
 		{
 			System.err.println("state a null dans le manage request");
 			return false;
 		}
-			
-		
-		this.activityScheduler.setState (state);
+
+		this.activityScheduler.setState(state);
 		return true;
-		
+
 	}
 
-	
 }

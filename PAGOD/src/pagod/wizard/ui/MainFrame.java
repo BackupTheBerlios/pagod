@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.41 2006/02/06 16:19:12 biniou Exp $
+ * $Id: MainFrame.java,v 1.42 2006/02/08 16:48:21 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -25,7 +25,6 @@
 package pagod.wizard.ui;
 
 import java.awt.BorderLayout;
-import java.awt.Button;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Frame;
@@ -136,16 +135,14 @@ public class MainFrame extends JFrame implements Observer
 	 * produits a cr?er durant cette ?tape ainsi que les plan type s'il y en a
 	 */
 	private JSplitPane			splitPane			= null;
-	
+
 	/**
 	 * StepListPanel, qui va contenir la liste de toutes les etapes
 	 */
-	private StepListPanel 		jListPanel 			= null;
-	
+	private StepListPanel		jListPanel			= null;
+
 	/**
-	 * panel qui va contenir:
-	 * le contenu de l'étape
-	 * et la liste des etapes
+	 * panel qui va contenir: le contenu de l'étape et la liste des etapes
 	 */
 	private JSplitPane			stepPanel			= null;
 
@@ -202,7 +199,7 @@ public class MainFrame extends JFrame implements Observer
 			this.centerPanel.add(this.splitPane);
 
 			this.splitPane.setOneTouchExpandable(true);
-			
+
 			this.splitPane.setLeftComponent(component);
 
 		}
@@ -232,17 +229,17 @@ public class MainFrame extends JFrame implements Observer
 				this.splitPane.setOneTouchExpandable(false);
 				this.splitPane.setLeftComponent(component);
 			}
-			
+
 			this.stepPanel = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-			
+
 			this.stepPanel.setLeftComponent(component);
 			this.stepPanel.setRightComponent(this.jListPanel);
-			
+
 			this.stepPanel.setOneTouchExpandable(true);
 			this.stepPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
-	        this.stepPanel.setResizeWeight(0.8);
-			
-	        this.splitPane.setLeftComponent(this.stepPanel);
+			this.stepPanel.setResizeWeight(0.8);
+
+			this.splitPane.setLeftComponent(this.stepPanel);
 
 		}
 
@@ -359,11 +356,13 @@ public class MainFrame extends JFrame implements Observer
 			String processName)
 	{
 
-		// on recupere le nom du projet en cours 
-		String nameProject = ApplicationManager.getInstance().getCurrentProject().getName();
-		
+		// on recupere le nom du projet en cours
+		String nameProject = ApplicationManager.getInstance()
+				.getCurrentProject().getName();
+
 		// mettre le titre a jour
-		String title = Constants.APPLICATION_SHORT_NAME + " - " + nameProject + " - " + fileName;
+		String title = Constants.APPLICATION_SHORT_NAME + " - " + nameProject
+				+ " - " + fileName;
 		if (processName != null) title += " (" + processName + ") ";
 		this.setTitle(title);
 		// creer le treePanel
@@ -517,8 +516,8 @@ public class MainFrame extends JFrame implements Observer
 		this.setVisible(true);
 		if (activity.hasOutputProducts())
 		{
-			
-			//			 on masque le bouton suspend et on affiche les autres
+
+			// on masque le bouton suspend et on affiche les autres
 
 			this.buttonPanel.hideButtons(Buttons.PB_TERMINATE);
 			this.buttonPanel.showButtons(Buttons.PB_SUSPEND,
@@ -526,7 +525,7 @@ public class MainFrame extends JFrame implements Observer
 		}
 		else
 		{
-//			 on masque le bouton suspend et on affiche les autres
+			// on masque le bouton suspend et on affiche les autres
 
 			this.buttonPanel.hideButtons(Buttons.PB_SUSPEND);
 			this.buttonPanel.showButtons(Buttons.PB_TERMINATE,
@@ -554,7 +553,7 @@ public class MainFrame extends JFrame implements Observer
 			// on affiche un jsplitPane qui affiche en haut la presentation de
 			// l'activite
 			// et en bas les produits en sorties
-//			 on masque le bouton terminate et on affiche les autres
+			// on masque le bouton terminate et on affiche les autres
 
 			this.buttonPanel.hideButtons(Buttons.PB_TERMINATE);
 			this.buttonPanel.showButtons(Buttons.PB_SUSPEND,
@@ -564,8 +563,8 @@ public class MainFrame extends JFrame implements Observer
 		}
 		else
 		{
-			
-//			 on masque le bouton terminate et on affiche les autres
+
+			// on masque le bouton terminate et on affiche les autres
 
 			this.buttonPanel.hideButtons(Buttons.PB_SUSPEND);
 			this.buttonPanel.showButtons(Buttons.PB_TERMINATE,
@@ -575,7 +574,7 @@ public class MainFrame extends JFrame implements Observer
 
 			// on affiche uniquement la presentation des activites
 			this.centerPanel.add(this.contentViewerPanel);
-			
+
 		}
 		// on masque le bouton terminate et on affiche les autres
 		this.buttonPanel.hideButtons(Buttons.PB_TERMINATE);
@@ -604,7 +603,7 @@ public class MainFrame extends JFrame implements Observer
 			File choosenfile = fileChooser.getSelectedFile();
 
 			opened = this.openProcess(choosenfile);
-			
+
 		}
 		return opened;
 	}
@@ -635,11 +634,10 @@ public class MainFrame extends JFrame implements Observer
 				// creer le TreeModel n?cessaire au JTree de la fenetre
 				// presenter a l'utilisateur le processus
 				String fileName = processFile.getName();
-				
-				
+
 				this.showProcess(new ProcessTreeModel(aProcess, rolesChooser
 						.getChosenRoles()), fileName, aProcess.getName());
-				
+
 				// mettre a jour le processus en cours
 				ApplicationManager.getInstance().setCurrentProcess(aProcess);
 				ApplicationManager.getInstance().getCurrentProject()
@@ -768,7 +766,7 @@ public class MainFrame extends JFrame implements Observer
 			// Remplir le mod?le metier
 			File choosenFile = fileChooser.getSelectedFile();
 			this.openProcess(choosenFile);
-			
+
 			return ApplicationManager.getInstance().getCurrentProject()
 					.hasCurrentProcess();
 
@@ -823,20 +821,21 @@ public class MainFrame extends JFrame implements Observer
 	/**
 	 * 
 	 * @param state
-	 * methode qui va mettre à jour le message en fonction de l'
-	 * etape ds laquelle on se trouve
+	 *            methode qui va mettre à jour le message en fonction de l'
+	 *            etape ds laquelle on se trouve
 	 */
-	protected void setMessagePanel(AbstractActivityState state)
+	protected void setMessagePanel (AbstractActivityState state)
 	{
 		String message;
-		
-		message = LanguagesManager.getInstance().getString("activityRole")+" : "+this.getActivity().getRole()+"<BR>"
-		+LanguagesManager.getInstance().getString("activityActivity")+" : "+this.getActivity()+"<BR>"
-		+state; 
-		
+
+		message = LanguagesManager.getInstance().getString("activityRole")
+				+ " : " + this.getActivity().getRole() + "<BR>"
+				+ LanguagesManager.getInstance().getString("activityActivity")
+				+ " : " + this.getActivity() + "<BR>" + state;
+
 		this.messagePanel.setMessage(message);
 	}
-	
+
 	/**
 	 * (non-Javadoc)
 	 * 
@@ -879,11 +878,18 @@ public class MainFrame extends JFrame implements Observer
 			{
 				// on rafraichit la MainFrame
 				this.resetSplitPane();
-				System.err.println("MainFrame.update().state instanceof ActivityPresentationState");
+				System.err
+						.println("MainFrame.update().state instanceof ActivityPresentationState");
 				this.presentActivity(state.getActivity());
 
-				// s'il y a des produits en entrees on active previous
-				if (state.getActivity().hasInputProducts())
+				// s'il y a des produits en entrees ou des guides d'un type
+				// autre que "liste de controles" associe a l'activite (ou au
+				// role de cette activite) on active previous
+				if (state.getActivity().hasInputProducts()
+						|| state.getActivity().hasGuidanceWithoutType(
+								"Liste de controles")
+						|| state.getActivity().getRole()
+								.hasGuidanceWithoutType("Liste de controles"))
 				{
 					ActionManager.getInstance().getAction(
 							Constants.ACTION_PREVIOUS).setEnabled(true);
@@ -895,7 +901,11 @@ public class MainFrame extends JFrame implements Observer
 				// s'il y a des etapes ou des produits en sorties on active le
 				// next
 				if (state.getActivity().hasSteps()
-						|| state.getActivity().hasOutputProducts())
+						|| state.getActivity().hasOutputProducts()
+						|| state.getActivity().hasGuidanceType(
+								"Liste de controles")
+						|| state.getActivity().getRole().hasGuidanceType(
+								"Liste de controles"))
 				{
 					ActionManager.getInstance()
 							.getAction(Constants.ACTION_NEXT).setEnabled(true);
@@ -907,7 +917,8 @@ public class MainFrame extends JFrame implements Observer
 			}
 			else if (state instanceof StepState)
 			{
-				System.err.println("MainFrame.update().state instanceof StepState");
+				System.err
+						.println("MainFrame.update().state instanceof StepState");
 
 				// on rafraichit la MainFrame
 				this.resetSplitPane();
@@ -920,10 +931,14 @@ public class MainFrame extends JFrame implements Observer
 						.getAction(Constants.ACTION_PREVIOUS).setEnabled(true);
 
 				// si on est sur la derniere etape et qu'il n'y a pas des
-				// produits en sortie
+				// produits en sortie ou des guides de type liste de controles
 				// on ne peut pas faire next
 				if (state.getIndex() == state.getStepList().size() - 1
-						&& !state.getActivity().hasOutputProducts())
+						&& (!state.getActivity().hasOutputProducts()
+								|| !state.getActivity().hasGuidanceType(
+										"Liste de controles") 
+								|| !state.getActivity().getRole().hasGuidanceType(
+										"Liste de controles")))
 				{
 					ActionManager.getInstance()
 							.getAction(Constants.ACTION_NEXT).setEnabled(false);
@@ -984,7 +999,7 @@ public class MainFrame extends JFrame implements Observer
 				this.buttonPanel = new ButtonPanel();
 				// on initialise la combo box
 				this.buttonPanel.initComboBox(activityScheduler.getStateList());
-				
+
 				this.jListPanel = new StepListPanel();
 				this.jListPanel.initJList(activityScheduler);
 
@@ -1048,8 +1063,14 @@ public class MainFrame extends JFrame implements Observer
 								JOptionPane
 										.showMessageDialog(
 												this,
-												LanguagesManager.getInstance().getString("WorkspaceException"),
-												LanguagesManager.getInstance()	.getString("WorkspaceErrorTitle"),
+												LanguagesManager
+														.getInstance()
+														.getString(
+																"WorkspaceException"),
+												LanguagesManager
+														.getInstance()
+														.getString(
+																"WorkspaceErrorTitle"),
 												JOptionPane.ERROR_MESSAGE);
 							}
 						}
@@ -1072,8 +1093,10 @@ public class MainFrame extends JFrame implements Observer
 							Constants.ACTION_NEWPROJECT).setEnabled(false);
 					ActionManager.getInstance().getAction(
 							Constants.ACTION_OPENPROJECT).setEnabled(false);
-					/*ActionManager.getInstance().getAction(
-							Constants.ACTION_TIMEACTIVITY).setEnabled(false);*/
+					/*
+					 * ActionManager.getInstance().getAction(
+					 * Constants.ACTION_TIMEACTIVITY).setEnabled(false);
+					 */
 					ActionManager.getInstance().getAction(
 							Constants.ACTION_PREFERENCES).setEnabled(false);
 
@@ -1092,8 +1115,10 @@ public class MainFrame extends JFrame implements Observer
 							Constants.ACTION_NEWPROJECT).setEnabled(true);
 					ActionManager.getInstance().getAction(
 							Constants.ACTION_OPENPROJECT).setEnabled(true);
-					/*ActionManager.getInstance().getAction(
-							Constants.ACTION_TIMEACTIVITY).setEnabled(true);*/
+					/*
+					 * ActionManager.getInstance().getAction(
+					 * Constants.ACTION_TIMEACTIVITY).setEnabled(true);
+					 */
 				}
 				this.reinitialize();
 
@@ -1141,7 +1166,7 @@ public class MainFrame extends JFrame implements Observer
 				// th.affiche();
 				// th.writeXML(ApplicationManager.getInstance().getCurrentProject().getName());
 				/*
-				 * final Collection<Activity > cactivity =
+				 * final Collection <Activity > cactivity =
 				 * ApplicationManager.getInstance().getCurrentProcess().getAllActivities
 				 * (); for (Activity acty : cactivity) {
 				 * System.err.println(acty.getTime() ); }

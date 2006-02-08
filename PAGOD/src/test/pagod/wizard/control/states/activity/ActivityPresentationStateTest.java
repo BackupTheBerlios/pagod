@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ActivityPresentationStateTest.java,v 1.4 2006/01/19 19:43:08 psyko Exp $
+ * $Id: ActivityPresentationStateTest.java,v 1.5 2006/02/08 16:48:21 cyberal82 Exp $
  */
 package test.pagod.wizard.control.states.activity;
 
@@ -10,6 +10,7 @@ import java.util.List;
 
 import junit.framework.TestCase;
 import pagod.common.model.Activity;
+import pagod.common.model.Guidance;
 import pagod.common.model.Product;
 import pagod.common.model.Role;
 import pagod.common.model.Step;
@@ -90,6 +91,46 @@ public class ActivityPresentationStateTest extends TestCase
 				"L'etat du scheduler devrait etre celui contenu dans this.state (le meme objet)",
 				this.activityScheduler.getActivityState() == this.state);
 
+		// l'activité n'as pas d'etape ni de produit en sortie mais elle a un
+		// guide de type "liste de controles" donc il doit y avoir de changement
+		// d'etat
+		Guidance g = new Guidance("IdGuide1", "NomGuide1", null, null,
+				"Liste de controles");
+		this.activity.addGuidance(g);
+
+		assertTrue(
+				"L'etat devrait changer car l'activite a un guide de type liste de controles",
+				this.state.manageRequest(requestNext));
+
+		assertTrue(
+				"L'etat du scheduler devrait etre de type PostConditionCheckerState",
+				this.activityScheduler.getActivityState() instanceof PostConditionCheckerState);
+
+		// on supprime le guide et on remet l'activityScheduler dans l'etat
+		// ActivityPresentationState
+		this.activity.removeGuidance(g);
+		this.activityScheduler.setActivityState(this.state);
+		
+
+		// l'activité n'as pas d'etape ni de produit en sortie mais le role
+		// associe a un guide de type "liste de controles" donc il doit y avoir
+		// un changement d'etat
+		this.activity.getRole().addGuidance(g);
+
+		assertTrue(
+				"L'etat devrait changer car le role associe a l'activite a un guide de type \"liste de controles\"",
+				this.state.manageRequest(requestNext));
+
+		assertTrue(
+				"L'etat du scheduler devrait etre de type PostConditionCheckerState",
+				this.activityScheduler.getActivityState() instanceof PostConditionCheckerState);
+
+		// on supprime le guide et on remet l'activityScheduler dans l'etat
+		// ActivityPresentationState
+		this.activity.getRole().removeGuidance(g);
+		this.activityScheduler.setActivityState(this.state);
+		
+
 		// creation d'une liste d'etape
 		List<Step> lStep = new ArrayList<Step>();
 		lStep.add(new Step("", "step1", "", null));
@@ -135,7 +176,7 @@ public class ActivityPresentationStateTest extends TestCase
 
 		/** ****** Test sur la requete PREVIOUS ******* */
 
-		// Creation d'une requete NEXT
+		// Creation d'une requete PREVIOUS
 		Request requestPrevious = new Request(Request.RequestType.PREVIOUS);
 
 		// on remet l'ActivityScheduler dans l'etat ActivityPresentationState
@@ -143,10 +184,11 @@ public class ActivityPresentationStateTest extends TestCase
 		this.activityScheduler.setActivityState(this.state);
 
 		assertTrue(
-				"L'etat de l'l'ActivityScheduler devrait etre de type",
+				"L'etat de l'ActivityScheduler devrait etre de type",
 				this.activityScheduler.getActivityState() instanceof ActivityPresentationState);
 
-		// l'activite n'a pas de produit en entree donc un manageRequest de
+		// l'activite n'a pas de produit en entree et pas de guide d'un type
+		// autre que "liste de controles" donc un manageRequest de
 		// PREVIOUS ne devrait pas changer d'etat
 		assertFalse(
 				"L'etat ne devrait pas changer car l'activite n'a pas de produit en entree",
@@ -160,8 +202,29 @@ public class ActivityPresentationStateTest extends TestCase
 				"L'etat du scheduler devrait etre celui contenu dans this.state (le meme objet)",
 				this.activityScheduler.getActivityState() == this.state);
 
+		// ajout d'un guide d'un type autre que liste de controle
+		Guidance aGuidance = new Guidance("IdGuide1", "NomGuide1", null, null,
+				"typeGuide1");
+		this.activity.addGuidance(aGuidance);
+
+		// l'activite n'a pas de produit en entree et un guide d'un type
+		// autre que "liste de controles" donc un manageRequest de
+		// PREVIOUS devrait changer d'etat
+		assertTrue(
+				"L'etat devrait changer car l'activite a un guide d'un type autre que liste de controle",
+				this.state.manageRequest(requestPrevious));
+
+		assertTrue(
+				"L'etat du scheduler devrait etre de type PreConditionCheckerState",
+				this.activityScheduler.getActivityState() instanceof PreConditionCheckerState);
+
+		// on supprime le guide et on remet l'activityScheduler dans l'etat
+		// ActivityPresentationState
+		this.activity.removeGuidance(aGuidance);
+		this.activityScheduler.setActivityState(this.state);
+
 		// creation d'une liste de produit
-		// creation d'une liste de produit en sortie
+		// creation d'une liste de produit en entree
 		List<Product> lProductInput = new ArrayList<Product>();
 		lProductInput.add(new Product("", "produit1", null, null, null));
 
@@ -241,8 +304,7 @@ public class ActivityPresentationStateTest extends TestCase
 			// suivante car ces cas la on deja etaient teste
 			if (aRequest == Request.RequestType.PREVIOUS
 					|| aRequest == Request.RequestType.NEXT
-					|| aRequest == Request.RequestType.GOTOSTEP) 
-				continue;
+					|| aRequest == Request.RequestType.GOTOSTEP) continue;
 
 			Request request = new Request(aRequest);
 

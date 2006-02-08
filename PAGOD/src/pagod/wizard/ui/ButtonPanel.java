@@ -1,5 +1,5 @@
 /*
- * $Id: ButtonPanel.java,v 1.10 2006/02/04 16:36:27 yak Exp $
+ * $Id: ButtonPanel.java,v 1.11 2006/02/08 16:48:21 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -219,7 +219,7 @@ public class ButtonPanel extends JPanel
 	}
 
 	/**
-	 * initialise la JComboBox avec les etapes r?cup?r?s en param?tre
+	 * initialise la JComboBox avec les etats r?cup?r?s en param?tre
 	 * 
 	 * @param stateList
 	 *            la liste des ?tats

@@ -1,5 +1,5 @@
 /*
- * $Id: ActivityScheduler.java,v 1.32 2006/01/25 13:54:28 cyberal82 Exp $
+ * $Id: ActivityScheduler.java,v 1.33 2006/02/08 16:48:21 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -69,12 +69,11 @@ public class ActivityScheduler extends Observable
 	 */
 	private Step						step;
 
-	
 	/**
 	 * 
 	 * Liste des ?tats possibles de l'activit?
 	 */
-	private List<AbstractActivityState>	stateList	= new ArrayList<AbstractActivityState>();
+	private List<AbstractActivityState>	stateList;
 
 	/**
 	 * Constructeur
@@ -89,7 +88,6 @@ public class ActivityScheduler extends Observable
 		this.stepList = this.activity.getSteps();
 		this.setStateList();
 	}
-
 
 	/**
 	 * D?finit l'?tat de la machine ? ?tat qui represente une activit? lanc?
@@ -146,20 +144,22 @@ public class ActivityScheduler extends Observable
 		return abstractActivityState;
 	}
 
-
 	/**
 	 * met a jour l'etat de l'ActivityScheduler
-	 * @param activityState l'etat de l'ActivityScheduler a mettre en place
+	 * 
+	 * @param activityState
+	 *            l'etat de l'ActivityScheduler a mettre en place
 	 */
 	public void setState (AbstractActivityState activityState)
 	{
 		this.activityState = activityState;
-		if ( this.activityState == null)
+		if (this.activityState == null)
 		{
-			System.err.println("ActivityState a null dans l'activity scheduler");
+			System.err
+					.println("ActivityState a null dans l'activity scheduler");
 			return;
 		}
-		
+
 		// on indique aux observers que l'etat a change
 		this.setChanged();
 		this.notifyObservers(this.activityState);
@@ -183,26 +183,43 @@ public class ActivityScheduler extends Observable
 
 	public void setStateList ()
 	{
-		if (this.activity.hasInputProducts()) this
-				.addState(new PreConditionCheckerState(this, this.activity));
+
+		// si l'activite a des produit en entree ou qu'elle a des guides
+		// qui ne sont pas de type "liste de controles"
+		// ou que le role associe a l'activite a des guides qui ne sont
+		// pas de type "liste de controles"
+		if (this.activity.hasInputProducts()
+				|| this.activity.hasGuidanceWithoutType("Liste de controles")
+				|| this.activity.getRole().hasGuidanceWithoutType(
+						"Liste de controles"))
+		{
+			this.addState(new PreConditionCheckerState(this, this.activity));
+		}
 
 		this.addState(new ActivityPresentationState(this, this.activity));
 
 		if (this.activity.hasSteps())
 		{
 
-			for (int i = 0 ; i < this.stepList.size() ; i++)
+			for (int i = 0; i < this.stepList.size(); i++)
 			{
 				this.stateList.add(new StepState(this, this.activity, i));
 			}
 
 		}
 
-		if (this.activity.hasOutputProducts()) this
-				.addState(new PostConditionCheckerState(this, this.activity));
-
+		// si l'activite a des produit en sortie ou qu'elle a des guides
+		// qui sont de type "liste de controles"
+		// ou que le role associe a l'activite a des guides qui sont
+		// de type "liste de controles"
+		if (this.activity.hasOutputProducts()
+				|| this.activity.hasGuidanceType("Liste de controles")
+				|| this.activity.getRole()
+						.hasGuidanceType("Liste de controles"))
+		{
+			this.addState(new PostConditionCheckerState(this, this.activity));
+		}
 	}
-
 
 	/**
 	 * @param request
