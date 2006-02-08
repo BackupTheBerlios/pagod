@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimeActivityDialog.java,v 1.8 2006/02/06 16:19:12 biniou Exp $
+ * $Id: TimeActivityDialog.java,v 1.9 2006/02/08 13:29:39 biniou Exp $
  */
 package pagod.wizard.ui;
 
@@ -9,6 +9,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -20,6 +21,7 @@ import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
 import pagod.common.model.Activity;
+import pagod.common.model.TimeCouple;
 import pagod.utils.LanguagesManager;
 import pagod.utils.TimerManager;
 import pagod.wizard.control.ApplicationManager;
@@ -44,7 +46,6 @@ public class TimeActivityDialog extends JDialog implements ActionListener
 
 	// Jtable
 	private JTable	table;
-	
 
 	/**
 	 * @param parentFrame
@@ -113,19 +114,27 @@ public class TimeActivityDialog extends JDialog implements ActionListener
 		// si on a cliqu? sur le bouton ok
 		if (b == TimeActivityDialog.this.pbOk)
 		{
-			// on a cliqu? sur ok			
-			// on recupere la liste de temps du tablemodel 
+			// on a cliqu? sur ok
+			// on recupere la liste de temps du tablemodel
 			// et on stocke tous les temps dans les activites
 			ArrayList<Activity> alAct = new ArrayList<Activity>();
-			alAct.addAll(ApplicationManager.getInstance().getCurrentProcess().getAllActivities());
-			ArrayList<Integer> alT = null;
-			alT = ((MaTableModel)TimeActivityDialog.this.table.getModel()).getAlTime();
-			int i = 0;
-			for (i =0; i<alT.size(); i++)
-			{
-				alAct.get(i).setTime(alT.get(i));				
-			}
+			alAct.addAll(ApplicationManager.getInstance().getCurrentProcess()
+					.getAllActivities());
+			ArrayList<HashMap<Integer,TimeCouple>> alH = null;
+			alH = ((MaTableModel) TimeActivityDialog.this.table.getModel())
+					.getAlTime();
 			
+			int iteration = ApplicationManager.getInstance().getCurrentProject().getItCurrent();
+			int i = 0;
+			for (i = 0; i < alH.size(); i++)
+			{
+				// recuperation du timecouple de la hm provisoire
+				TimeCouple tc = (alH.get(i)).get(iteration);			
+				alAct.get(i).sethmTime(iteration,tc);
+				
+				//alAct.get(i).setTime(alT.get(i));
+			}
+
 			// on ferme la fenetre
 			TimeActivityDialog.this.dispose();
 		}
@@ -142,23 +151,26 @@ public class TimeActivityDialog extends JDialog implements ActionListener
 	{
 		// arraylist contenant toutes les activites du modele
 		private ArrayList<Activity>	alActivities	= new ArrayList<Activity>();
-		
+
 		// arraylist contenant les temps associes aux activits
-		private ArrayList<Integer> alTime = new ArrayList<Integer>();
-		
+		private ArrayList<HashMap<Integer,TimeCouple>>	alTime	= new ArrayList<HashMap<Integer,TimeCouple>>();
+
 		MaTableModel ()
 		{
 			super();
-			int i =0;
+			int i = 0;
 			this.alActivities.addAll(ApplicationManager.getInstance()
 					.getCurrentProcess().getAllActivities());
-			
+
 			// initialisation de la liste des temps
 			for (Activity currentActivity : this.alActivities)
 			{
-				this.alTime.add(i,currentActivity.getTime());
+				// recuperation du temps de l'activité
+				HashMap<Integer,TimeCouple> hmTime = new HashMap<Integer,TimeCouple>();
+				hmTime = currentActivity.getHM();
+				this.alTime.add(i, hmTime);
 				i++;
-			}			
+			}
 		}
 
 		/**
@@ -181,7 +193,7 @@ public class TimeActivityDialog extends JDialog implements ActionListener
 		public int getColumnCount ()
 		{
 			// nombre de colonnes
-			return 2;
+			return 3;
 		}
 
 		/**
@@ -192,16 +204,37 @@ public class TimeActivityDialog extends JDialog implements ActionListener
 		public Object getValueAt (int rowIndex, int columnIndex)
 		{
 			String cellValue = null;
-			
+			// iteration courante
+			int it = ApplicationManager.getInstance().getCurrentProject()
+					.getItCurrent();
+
 			// on recupere les noms des activites et les temps associes
 			if (columnIndex == 0)
 			{
 				cellValue = (this.alActivities.get(rowIndex)).getName();
 			}
+			else if (columnIndex == 1)
+			{
+				// affichage du tps passé sous la forme h:m:s
+
+				// on recupere la hashmap de l'activité
+				HashMap hmTime = new HashMap();
+				hmTime = this.alTime.get(rowIndex);
+
+				// en fonction de l'ité courante, on recupere le temps passé
+				TimeCouple tc = (TimeCouple) hmTime.get(it);
+				cellValue = TimerManager.stringFromTime(tc.getTimeElapsed());
+			}
 			else
 			{
-				// affichage du tps sous la forme h:m:s
-				cellValue = TimerManager.stringFromTime((this.alTime.get(rowIndex)));
+				// affichage du tps prévu sous la forme h:m:s
+
+				// on recupere la hashmap de l'activité
+				HashMap hmTime = this.alTime.get(rowIndex);
+
+				// en fonction de l'ité courante, on recupere le temps passé
+				TimeCouple tc = (TimeCouple) hmTime.get(it);
+				cellValue = TimerManager.stringFromTime(tc.getTimeRemaining());
 			}
 
 			return cellValue;
@@ -215,11 +248,21 @@ public class TimeActivityDialog extends JDialog implements ActionListener
 		public String getColumnName (int iColumnIndex)
 		{
 			// nom des colonnes
-			if (iColumnIndex == 0) return LanguagesManager.getInstance().getString(
-			"TimeActivityColumnNameActivity");
-			else
+			if (iColumnIndex == 0)
+			{
 				return LanguagesManager.getInstance().getString(
-				"TimeActivityColumnNameTime");
+						"TimeActivityColumnNameActivity");
+			}
+			else if (iColumnIndex == 1)
+			{
+				return LanguagesManager.getInstance().getString(
+						"TimeActivityColumnNameTimeElapsed");
+			}
+			else
+			{
+				return LanguagesManager.getInstance().getString(
+				"TimeActivityColumnNameTimeRemaining");
+			}
 		}
 
 		/**
@@ -230,9 +273,14 @@ public class TimeActivityDialog extends JDialog implements ActionListener
 		public boolean isCellEditable (int row, int col)
 		{
 			// temps editables
-			if (col == 0) return false;
+			if (col == 0) 
+				{
+					return false;
+				}
 			else
+				{
 				return true;
+				}
 		}
 
 		/**
@@ -243,36 +291,70 @@ public class TimeActivityDialog extends JDialog implements ActionListener
 		public void setValueAt (Object value, int rowIndex, int columnIndex)
 		{
 			// verification que la chaine rentrée soit de la bonne forme
-			
+
 			boolean isValid = false;
 			String val = String.valueOf(value);
 			isValid = val.matches("[0-9]+:[0-5]?[0-9]:[0-5]?[0-9]");
-			
+
 			// sauver les modifs dans l'arraylist
 			if (isValid)
 			{
-				int i = TimerManager.timeFromString(String.valueOf(value));
-			
-				this.alTime.set(rowIndex,i);
+				int time = TimerManager.timeFromString(String.valueOf(value));
+				HashMap<Integer,TimeCouple> hm = new HashMap<Integer,TimeCouple>();
+				int it = ApplicationManager.getInstance().getCurrentProject()
+				.getItCurrent();
+				
+				if (columnIndex ==1)
+				{
+					// temps passé
+					// on recupere le tps prévu pour ne pas le changer
+					TimeCouple tc = (this.alTime.get(rowIndex)).get(it);
+					int remainingTime = tc.getTimeRemaining();
+					
+					System.out.println("Nouveau temps passé : "+time);
+					
+					// on crée un nouveau couple avec l'ancien temps restant et
+					// le nouveau temps passé
+					TimeCouple tcEdit = new TimeCouple(time, remainingTime);
+					hm.put(it,tcEdit);
+					this.alTime.set(rowIndex,hm);
+					
+				}
+				else
+				{
+					// temps prévu
+					// on recupere le tps passé pour ne pas le changer
+					TimeCouple tc = (this.alTime.get(rowIndex)).get(it);
+					int elapsedTime = tc.getTimeElapsed();
+					
+					System.out.println("Nouveau temps prévu : "+time);
+					
+					// on crée un nouveau couple avec l'ancien temps restant et
+					// le nouveau temps passé
+					TimeCouple tcEdit = new TimeCouple(elapsedTime, time);
+					hm.put(it,tcEdit);
+					this.alTime.set(rowIndex,hm);
+				}
+				
+				//this.alTime.set(rowIndex, i);
 			}
 			else
 			{
-				JOptionPane.showMessageDialog(ApplicationManager.getInstance().getMfPagod(),
-						LanguagesManager.getInstance().getString(
-								"EditTimeException"),
-						LanguagesManager.getInstance().getString(
-								"EditTimeErrorTitle"),
-						JOptionPane.ERROR_MESSAGE);				
+				JOptionPane.showMessageDialog(ApplicationManager.getInstance()
+						.getMfPagod(), LanguagesManager.getInstance()
+						.getString("EditTimeException"), LanguagesManager
+						.getInstance().getString("EditTimeErrorTitle"),
+						JOptionPane.ERROR_MESSAGE);
 			}
 		}
-		
+
 		/**
 		 * @return arraylist des temps
 		 */
-		public ArrayList<Integer> getAlTime()
+		public ArrayList<HashMap<Integer,TimeCouple>> getAlTime ()
 		{
 			// getteur
-			return(this.alTime);
+			return (this.alTime);
 		}
 
 	}
