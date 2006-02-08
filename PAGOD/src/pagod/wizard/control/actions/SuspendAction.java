@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: SuspendAction.java,v 1.4 2006/02/08 16:41:07 yak Exp $
+ * $Id: SuspendAction.java,v 1.5 2006/02/08 20:06:48 psyko Exp $
  */
 package pagod.wizard.control.actions;
 
@@ -62,7 +62,9 @@ public class SuspendAction extends AbstractPagodAction
 			// connaitre et ? modifier le temps pass? sur une activit?
 			TimeEditDialog ted2 = new TimeEditDialog(ApplicationManager
 					.getInstance().getMfPagod(), aTemp);
-			System.out.println(" pouet *-> "+TimerManager.getInstance().isStarted());
+			
+			
+			System.out.println(" TimerManager.getInstance().isStarted() -> "+TimerManager.getInstance().isStarted());
 			// Fin modif Flotueur
 			// on enregistre le temps
 			int iCurrentIt = ApplicationManager.getInstance()
