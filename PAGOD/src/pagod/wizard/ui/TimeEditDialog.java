@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimeEditDialog.java,v 1.2 2006/02/02 19:23:49 psyko Exp $
+ * $Id: TimeEditDialog.java,v 1.3 2006/02/08 15:57:59 yak Exp $
  */
 
 package pagod.wizard.ui;
@@ -35,7 +35,7 @@ import pagod.wizard.control.ApplicationManager;
  * Récupère les temps d'une HashMap d'Activity
  * => constructeur paramétré
  */
-public class TimeEditDialog extends JDialog implements ActionListener
+public class TimeEditDialog extends JDialog
 {
 	//attributs de la classe ... 
 	// deux boutons, (valider et annuler)
@@ -102,8 +102,8 @@ public class TimeEditDialog extends JDialog implements ActionListener
 		this.pButton.add(this.pbCancel);
 
 		// association des listeners aux boutons
-		this.pbValidate.addActionListener(this);
-		this.pbCancel.addActionListener(this);
+		this.pbValidate.addActionListener(new ListenerBoutons());
+		this.pbCancel.addActionListener(new ListenerBoutons());
 		
 		// création du panel contenant les JLabel
 		this.pWest = new JPanel();
@@ -142,14 +142,15 @@ public class TimeEditDialog extends JDialog implements ActionListener
 		// bo?te de dialogue centree par rapport a l'appelant
 		this.setLocationRelativeTo(dParent);
 		this.setVisible(true);
+		
 	}
-
+	
 	/** 
 	 * méthode de validation des temps
 	 * enregistre dans la HashMap de l'activité les temps
 	 * passé et à faire
 	 */
-	public void validate()
+	public void validateDialog()
 	{
 		// TODO : le corps de la méthode !!
 		// 1°)récupérer les valeurs ds les champs texte
@@ -163,7 +164,8 @@ public class TimeEditDialog extends JDialog implements ActionListener
 		this.activity.sethmTime(iCurrentIt, new TimeCouple(iTimeElapsed, iTimeRemaining));
 		
 	}
-	
+	  private class ListenerBoutons implements ActionListener
+	    {	
 	/** 
 	 * @param e : actionEvent 
 	 *  
@@ -178,7 +180,7 @@ public class TimeEditDialog extends JDialog implements ActionListener
 		if (pb == TimeEditDialog.this.pbValidate)
 		{
 			// on a cliqué sur ok			
-			this.validate();
+			TimeEditDialog.this.validateDialog();
 			
 			// on ferme la fenetre
 			TimeEditDialog.this.dispose();
@@ -191,4 +193,5 @@ public class TimeEditDialog extends JDialog implements ActionListener
 			TimeEditDialog.this.dispose();
 		}
 	}
+	    }
 }
