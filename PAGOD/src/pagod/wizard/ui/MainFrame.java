@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.42 2006/02/08 16:48:21 cyberal82 Exp $
+ * $Id: MainFrame.java,v 1.43 2006/02/08 17:38:14 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -428,9 +428,7 @@ public class MainFrame extends JFrame implements Observer
 		// cr?er les panneaux
 		this.centerPanel.add(new CheckPane(activity));
 		// on masque le bouton terminate et on affiche les autres
-		this.buttonPanel.hideButtons(Buttons.PB_TERMINATE);
-		this.buttonPanel.showButtons(Buttons.PB_SUSPEND, Buttons.PB_PREVIOUS,
-				Buttons.PB_NEXT);
+		this.activateSuspend();
 		this.southPanel.add(this.buttonPanel);
 		this.setVisible(true);
 	}
@@ -448,9 +446,7 @@ public class MainFrame extends JFrame implements Observer
 		// on cr?er les panneau
 		this.centerPanel.add(new EndCheckPanel(activity));
 		// on masque le bouton suspend et on affiche les autres
-		this.buttonPanel.hideButtons(Buttons.PB_SUSPEND);
-		this.buttonPanel.showButtons(Buttons.PB_TERMINATE, Buttons.PB_PREVIOUS,
-				Buttons.PB_NEXT);
+		this.activateTerminate();
 		this.southPanel.add(this.buttonPanel);
 		this.setVisible(true);
 
@@ -470,14 +466,11 @@ public class MainFrame extends JFrame implements Observer
 			// l'etape
 			// et en bas les produits en sorties
 			// cr?er les panneaux
-
+			this.activateSuspend();
 			this.setComponentInJSplitPane(new StepPanel(stepToPresent, rang,
 					total), stepToPresent);
 			// on masque le bouton terminate et on affiche les autres
-
-			this.buttonPanel.hideButtons(Buttons.PB_TERMINATE);
-			this.buttonPanel.showButtons(Buttons.PB_SUSPEND,
-					Buttons.PB_PREVIOUS, Buttons.PB_NEXT);
+			
 			// this.dividerLocation = this.splitPane.getLastDividerLocation();
 			this.splitPane.setDividerLocation(-1);
 		}
@@ -486,10 +479,7 @@ public class MainFrame extends JFrame implements Observer
 			// on nettoye le panneaux
 			this.centerPanel.removeAll();
 			// on masque le bouton suspend et on affiche les autres
-
-			this.buttonPanel.hideButtons(Buttons.PB_SUSPEND);
-			this.buttonPanel.showButtons(Buttons.PB_TERMINATE,
-					Buttons.PB_PREVIOUS, Buttons.PB_NEXT);
+			this.activateTerminate();
 			// on affiche uniquement la presentation des activites
 			this.centerPanel.add(new StepPanel(stepToPresent, rang, total));
 		}
@@ -517,19 +507,16 @@ public class MainFrame extends JFrame implements Observer
 		if (activity.hasOutputProducts())
 		{
 
-			// on masque le bouton suspend et on affiche les autres
 
-			this.buttonPanel.hideButtons(Buttons.PB_TERMINATE);
-			this.buttonPanel.showButtons(Buttons.PB_SUSPEND,
-					Buttons.PB_PREVIOUS, Buttons.PB_NEXT);
+			// on masque le bouton suspend et on affiche les autres
+			this.activateSuspend();
 		}
 		else
 		{
-			// on masque le bouton suspend et on affiche les autres
 
-			this.buttonPanel.hideButtons(Buttons.PB_SUSPEND);
-			this.buttonPanel.showButtons(Buttons.PB_TERMINATE,
-					Buttons.PB_PREVIOUS, Buttons.PB_NEXT);
+			// on masque le bouton suspend et on affiche les autres
+			this.activateTerminate();
+
 		}
 		// demande le focus
 		productsPanel.requestFocus();
@@ -553,22 +540,19 @@ public class MainFrame extends JFrame implements Observer
 			// on affiche un jsplitPane qui affiche en haut la presentation de
 			// l'activite
 			// et en bas les produits en sorties
-			// on masque le bouton terminate et on affiche les autres
 
-			this.buttonPanel.hideButtons(Buttons.PB_TERMINATE);
-			this.buttonPanel.showButtons(Buttons.PB_SUSPEND,
-					Buttons.PB_PREVIOUS, Buttons.PB_NEXT);
+			// on masque le bouton terminate et on affiche les autres
+			this.activateSuspend();
+
 			this.setComponentInJSplitPane(this.contentViewerPanel,
 					activityToPresent);
 		}
 		else
 		{
 
-			// on masque le bouton terminate et on affiche les autres
 
-			this.buttonPanel.hideButtons(Buttons.PB_SUSPEND);
-			this.buttonPanel.showButtons(Buttons.PB_TERMINATE,
-					Buttons.PB_PREVIOUS, Buttons.PB_NEXT);
+			// on masque le bouton terminate et on affiche les autres
+			this.activateTerminate();
 			// on nettoye le panneaux
 			this.centerPanel.removeAll();
 
@@ -576,10 +560,7 @@ public class MainFrame extends JFrame implements Observer
 			this.centerPanel.add(this.contentViewerPanel);
 
 		}
-		// on masque le bouton terminate et on affiche les autres
-		this.buttonPanel.hideButtons(Buttons.PB_TERMINATE);
-		this.buttonPanel.showButtons(Buttons.PB_SUSPEND, Buttons.PB_PREVIOUS,
-				Buttons.PB_NEXT);
+		
 		this.southPanel.add(this.buttonPanel);
 
 		this.setVisible(true);
@@ -819,6 +800,8 @@ public class MainFrame extends JFrame implements Observer
 	}
 
 	/**
+	 * TODO ptetre deplacer cette methode dans le mesasge panel pour eviter la
+	 * redondance
 	 * 
 	 * @param state
 	 *            methode qui va mettre à jour le message en fonction de l'
@@ -856,7 +839,7 @@ public class MainFrame extends JFrame implements Observer
 
 			// dans n'importe quel etat on peut toujours faire terminate et
 			// gotostep
-			ActionManager.getInstance().getAction(Constants.ACTION_TERMINATE)
+			ActionManager.getInstance().getAction(Constants.ACTION_SUSPEND)
 					.setEnabled(true);
 			ActionManager.getInstance().getAction(Constants.ACTION_GOTOSTEP)
 					.setEnabled(true);
@@ -878,8 +861,7 @@ public class MainFrame extends JFrame implements Observer
 			{
 				// on rafraichit la MainFrame
 				this.resetSplitPane();
-				System.err
-						.println("MainFrame.update().state instanceof ActivityPresentationState");
+
 				this.presentActivity(state.getActivity());
 
 				// s'il y a des produits en entrees ou des guides d'un type
@@ -1015,6 +997,8 @@ public class MainFrame extends JFrame implements Observer
 						.getAction(Constants.ACTION_PREVIOUS).setEnabled(false);
 				ActionManager.getInstance().getAction(
 						Constants.ACTION_TERMINATE).setEnabled(false);
+				ActionManager.getInstance().getAction(
+						Constants.ACTION_SUSPEND).setEnabled(false);
 				ActionManager.getInstance()
 						.getAction(Constants.ACTION_GOTOSTEP).setEnabled(false);
 				ActionManager.getInstance().getAction(
@@ -1179,5 +1163,30 @@ public class MainFrame extends JFrame implements Observer
 
 		}
 
+	}
+	/**
+	 * methode pour concentrer les desactvation de boutons
+	 */
+	private void activateSuspend ()
+	{
+		
+		ActionManager.getInstance().getAction(Constants.ACTION_TERMINATE)
+		.setEnabled(false);
+		ActionManager.getInstance().getAction(Constants.ACTION_SUSPEND)
+		.setEnabled(true);	
+		this.buttonPanel.hideButtons(Buttons.PB_TERMINATE);
+		this.buttonPanel.showButtons(Buttons.PB_SUSPEND,
+				Buttons.PB_PREVIOUS, Buttons.PB_NEXT);
+	}
+	private void activateTerminate ()
+	{
+		
+		ActionManager.getInstance().getAction(Constants.ACTION_TERMINATE)
+		.setEnabled(true);
+		ActionManager.getInstance().getAction(Constants.ACTION_SUSPEND)
+		.setEnabled(false);
+		this.buttonPanel.hideButtons(Buttons.PB_SUSPEND);
+		this.buttonPanel.showButtons(Buttons.PB_TERMINATE,
+				Buttons.PB_PREVIOUS, Buttons.PB_NEXT);
 	}
 }
