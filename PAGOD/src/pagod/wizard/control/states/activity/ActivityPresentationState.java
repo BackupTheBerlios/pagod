@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ActivityPresentationState.java,v 1.4 2006/01/18 13:36:39 cyberal82 Exp $
+ * $Id: ActivityPresentationState.java,v 1.5 2006/02/08 12:12:52 cyberal82 Exp $
  */
 
 package pagod.wizard.control.states.activity;
@@ -28,17 +28,6 @@ public class ActivityPresentationState extends AbstractActivityState
 	{
 		super(activityScheduler, activity);
 	}
-
-	
-	
-	/** (non-Javadoc)
-	 * @see pagod.wizard.control.states.activity.AbstractActivityState#terminate()
-	 */
-	public void terminate ()
-	{
-		// TODO Corps de m?thode g?n?r? automatiquement
-
-	}
 	
 	
 	/** (non-Javadoc)
@@ -50,19 +39,7 @@ public class ActivityPresentationState extends AbstractActivityState
 	}
 
 	
-	/** (non-Javadoc)
-	 * @see pagod.wizard.control.states.activity.AbstractActivityState#display()
-	 */
-	public void display ()
-	{
-		/*
-		this.activityScheduler.resetSplitPane();
-		// on affiche la presentation de l'activit?
-		this.activityScheduler.presentActivityAndProduct();
-		*/
-	}
-
-	/** (non-Javadoc)
+	/** 
 	 * @see pagod.wizard.control.states.AbstractState#manageRequest(pagod.wizard.control.states.Request)
 	 */
 	

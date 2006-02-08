@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: AbstractActivityState.java,v 1.4 2006/01/16 10:15:26 yak Exp $
+ * $Id: AbstractActivityState.java,v 1.5 2006/02/08 12:12:52 cyberal82 Exp $
  */
 package pagod.wizard.control.states.activity;
 
@@ -61,30 +61,13 @@ public abstract class AbstractActivityState extends AbstractState
 		this.step = null;
 
 	}
+	
 	/**
 	 * (non-Javadoc)
 	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	public abstract String toString ();
-
-	
-
-	/**
-	 * @param goToStepInd
-	 */
-	/*public void setGoToStepInd (int goToStepInd)
-	{
-		this.goToStepInd = goToStepInd;
-	}*/
-
-	/**
-	 * @return goToStepInd
-	 */
-	/*public int getGoToStepInd ()
-	{
-		return this.goToStepInd;
-	}*/
 
 	/**
 	 * @return liste

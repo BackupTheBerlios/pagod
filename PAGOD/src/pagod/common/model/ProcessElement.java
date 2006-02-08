@@ -1,5 +1,5 @@
 /*
- * $Id: ProcessElement.java,v 1.3 2006/02/03 15:10:24 cyberal82 Exp $
+ * $Id: ProcessElement.java,v 1.4 2006/02/08 12:12:52 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -197,15 +197,59 @@ public abstract class ProcessElement
 
 		for (Guidance g : this.guidances)
 		{
-			if (!g.getType().equalsIgnoreCase(sType)) lGuidance.add(g);
+			if (!g.getType().equalsIgnoreCase(sType)) 
+				lGuidance.add(g);
 		}
 
 		return lGuidance;
 	}
+	
+	/**
+	 * Retourne vrai s'il existe des guides qui ne sont pas du type specifie en
+	 * parametre
+	 * 
+	 * @param sType
+	 *            le type des guides qui ne doivent pas etre prit en compte
+	 * 
+	 * @return vrai s'il existe des guides qui ne sont pas du type specifie en
+	 *         parametre sinon faux
+	 */
+	public boolean hasGuidanceWithoutType (String sType)
+	{
+		for ( Guidance g : this.guidances)
+		{
+			if ( ! g.getType().equalsIgnoreCase(sType))
+				return true;
+		}
+		return false;
+	}
 
+	
+	/**
+	 * Retourne vrai s'il existe des guides qui sont du type specifie en
+	 * parametre
+	 * 
+	 * @param sType
+	 *            le type des guides qui doivent etre prit en compte
+	 * 
+	 * @return vrai s'il existe des guides qui sont du type specifie en
+	 *         parametre sinon faux
+	 */
+	public boolean hasGuidanceType (String sType)
+	{
+		for ( Guidance g : this.guidances)
+		{
+			if (g.getType().equalsIgnoreCase(sType))
+				return true;
+		}
+		return false;
+	}
+	
 	/**
 	 * Retourne tous les guides du type specifie en parametre
-	 * @param sType le type de guide  que l'on veut recuperer
+	 * 
+	 * @param sType
+	 *            le type de guide que l'on veut recuperer
 	 * 
 	 * @return tous les guides du type specifie en parametre
 	 */
