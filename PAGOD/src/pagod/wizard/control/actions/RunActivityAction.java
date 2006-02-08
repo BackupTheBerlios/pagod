@@ -1,5 +1,5 @@
 /*
- * $Id: RunActivityAction.java,v 1.7 2006/02/07 12:15:30 yak Exp $
+ * $Id: RunActivityAction.java,v 1.8 2006/02/08 16:41:07 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -46,48 +46,48 @@ import pagod.wizard.ui.TimeEditDialog;
  */
 public class RunActivityAction extends AbstractPagodAction
 {
-    /**
-     * Contructeur
-     * 
-     * @throws LanguagesManager.NotInitializedException
-     * @throws ImagesManager.NotInitializedException
-     * @throws IOException
-     */
-    public RunActivityAction() throws LanguagesManager.NotInitializedException,
-                              IOException,
-                              ImagesManager.NotInitializedException
-    {
-        super("runActivity", "LaunchActivity.gif",
-        		new Request(Request.RequestType.RUN_ACTIVITY), KeyStroke
-                        .getKeyStroke(KeyEvent.VK_ENTER, 0));
-    }
-    
-    /**
-     * Methode appel?e lorsque l'action est d?clench?
-     * 
-     * @param actionEvent
-     *            Evenement survenue
-     */
-    public void actionPerformed(ActionEvent actionEvent)
-    {
-    	//si le project a pu etre ouvert alors on delegue la requete ? l'application manager
-    	Activity aTemp = ApplicationManager.getInstance().getMfPagod().getActivity();
-    	
-    	// Modif Flotueur : on appelle la bo?te de dialogue TimeEditDialog qui va servir ?
-    	// connaitre et ? modifier le temps pass? sur une activit?
-    	TimeEditDialog ted1 = new TimeEditDialog(ApplicationManager.getInstance().getMfPagod(),aTemp);
-    	
-    	// Fin modif Flotueur
-    	
-    	this.request.setContent(aTemp);
-//    	on recupere le num?ro de l'it
-    	int iCurrentIt = 
-			ApplicationManager.getInstance().getCurrentProject().getItCurrent();
-    	TimeCouple tcTemp = aTemp.gethmTime(iCurrentIt);
-    	
-    	//on demarre le manager 
-    	TimerManager.getInstance().start(tcTemp.getTimeElapsed(),tcTemp.getTimeRemaining());
-    	
-    	ApplicationManager.getInstance().manageRequest(this.request);
-    }
+	/**
+	 * Contructeur
+	 * 
+	 * @throws LanguagesManager.NotInitializedException
+	 * @throws ImagesManager.NotInitializedException
+	 * @throws IOException
+	 */
+	public RunActivityAction ()
+			throws LanguagesManager.NotInitializedException, IOException,
+			ImagesManager.NotInitializedException
+	{
+		super("runActivity", "LaunchActivity.gif", new Request(
+				Request.RequestType.RUN_ACTIVITY), KeyStroke.getKeyStroke(
+				KeyEvent.VK_ENTER, 0));
+	}
+
+	/**
+	 * Methode appel?e lorsque l'action est d?clench?
+	 * 
+	 * @param actionEvent
+	 *            Evenement survenue
+	 */
+	public void actionPerformed (ActionEvent actionEvent)
+	{
+		
+		// si le project a pu etre ouvert alors on delegue la requete ?
+		// l'application manager
+		Activity aTemp = ApplicationManager.getInstance().getMfPagod()
+				.getActivity();
+		TimeEditDialog ted2 = new TimeEditDialog(ApplicationManager.getInstance().getMfPagod(),aTemp);
+		this.request.setContent(aTemp);
+		// on recupere le num?ro de l'it
+		int iCurrentIt = ApplicationManager.getInstance().getCurrentProject() 
+				.getItCurrent();
+		TimeCouple tcTemp = aTemp.gethmTime(iCurrentIt);
+		
+		
+	
+		// on demarre le manager
+		TimerManager.getInstance().start(tcTemp.getTimeElapsed(),tcTemp.getTimeRemaining());
+
+		ApplicationManager.getInstance().manageRequest(this.request);
+
+	}
 }

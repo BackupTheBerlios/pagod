@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimeEditDialog.java,v 1.3 2006/02/08 15:57:59 yak Exp $
+ * $Id: TimeEditDialog.java,v 1.4 2006/02/08 16:41:07 yak Exp $
  */
 
 package pagod.wizard.ui;
@@ -87,8 +87,10 @@ public class TimeEditDialog extends JDialog
 		// initialisés avec les valeurs de la HMap de Activity
 		this.tfEstimatedTime = new JTextField(
 				""+this.activity.gethmTime(iCurrentIt).getTimeRemaining());
+		
 		this.tfPassedTime = new JTextField(
 				""+this.activity.gethmTime(iCurrentIt).getTimeElapsed());
+
 		
 		// creation de nos 2 JLabel
 		this.lEstimatedTime = new JLabel(
@@ -155,9 +157,8 @@ public class TimeEditDialog extends JDialog
 		// TODO : le corps de la méthode !!
 		// 1°)récupérer les valeurs ds les champs texte
 		// 2°)faire conversion en int
-		int iTimeElapsed = 0;
-		int iTimeRemaining = 0;
-				
+		int iTimeElapsed = Integer.parseInt(this.tfPassedTime.getText());
+		int iTimeRemaining = Integer.parseInt(this.tfEstimatedTime.getText());
 		int iCurrentIt = 
 			ApplicationManager.getInstance().getCurrentProject().getItCurrent();
 		
