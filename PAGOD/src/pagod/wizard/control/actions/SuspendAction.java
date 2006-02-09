@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: SuspendAction.java,v 1.5 2006/02/08 20:06:48 psyko Exp $
+ * $Id: SuspendAction.java,v 1.6 2006/02/09 17:50:36 yak Exp $
  */
 package pagod.wizard.control.actions;
 
@@ -60,8 +60,7 @@ public class SuspendAction extends AbstractPagodAction
 			// Modif Flotueur : on appelle la bo?te de dialogue TimeEditDialog
 			// qui va servir ?
 			// connaitre et ? modifier le temps pass? sur une activit?
-			TimeEditDialog ted2 = new TimeEditDialog(ApplicationManager
-					.getInstance().getMfPagod(), aTemp);
+		
 			
 			
 			System.out.println(" TimerManager.getInstance().isStarted() -> "+TimerManager.getInstance().isStarted());
@@ -73,7 +72,8 @@ public class SuspendAction extends AbstractPagodAction
 			aTemp.sethmTime(iCurrentIt, new TimeCouple(TimerManager
 					.getInstance().getValueElapsed(), TimerManager
 					.getInstance().getValueRemaining()));
-
+			TimeEditDialog ted2 = new TimeEditDialog(ApplicationManager
+					.getInstance().getMfPagod(), aTemp);
 			ActionManager.getInstance()
 					.getAction(Constants.ACTION_RUN_ACTIVITY).setEnabled(true);
 		}
