@@ -1,11 +1,12 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ActivityLaunchedState.java,v 1.9 2006/02/04 16:30:29 yak Exp $
+ * $Id: ActivityLaunchedState.java,v 1.10 2006/02/09 19:58:34 yak Exp $
  */
 package pagod.wizard.control.states.application;
 
 import pagod.common.model.Activity;
+import pagod.utils.TimerManager;
 import pagod.wizard.control.ActivityScheduler;
 import pagod.wizard.control.ApplicationManager;
 import pagod.wizard.control.states.Request;
@@ -72,12 +73,16 @@ public class ActivityLaunchedState extends AbstractApplicationState
 
 			case TERMINATE_ACTIVITY:
 				this.activityScheduler = null;
+				// on stop le timer
+				TimerManager.getInstance().stop();
 				state = new ProcessOpenedState(this.applicationManager);
 
 				break;
 
 			case SUSPEND_ACTIVITY:
 				this.activityScheduler = null;
+				// on stop le timer
+				TimerManager.getInstance().stop();
 				state = new ProcessOpenedState(this.applicationManager);
 
 				break;

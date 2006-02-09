@@ -1,11 +1,13 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ProcessOpenedState.java,v 1.7 2006/01/25 13:51:40 cyberal82 Exp $
+ * $Id: ProcessOpenedState.java,v 1.8 2006/02/09 19:58:34 yak Exp $
  */
 package pagod.wizard.control.states.application;
 
 import pagod.common.model.Activity;
+import pagod.common.model.TimeCouple;
+import pagod.utils.TimerManager;
 import pagod.wizard.control.ApplicationManager;
 import pagod.wizard.control.states.Request;
 
@@ -56,11 +58,21 @@ public class ProcessOpenedState extends AbstractApplicationState
 				return false;
 
 			case RUN_ACTIVITY:
-				System.err.println("ici");
 				// on creer un nouvelle etat activit? en passant en parametre
 				// l'actvit? r?cup?r? a partir
 				// de la requete
 				// cf RunActivityAction.actionPerformed
+				//on lance le timer 
+//				 on recupere le num?ro de l'it
+				Activity aTemp = (Activity)request.getContent();
+				int iCurrentIt = ApplicationManager.getInstance().getCurrentProject() 
+						.getItCurrent();
+				TimeCouple tcTemp = aTemp.gethmTime(iCurrentIt);
+				
+				
+			
+				// on demarre le manager
+				TimerManager.getInstance().start(tcTemp.getTimeElapsed(),tcTemp.getTimeRemaining());
 				state = new ActivityLaunchedState(this.applicationManager,
 						(Activity) request.getContent());
 				break;

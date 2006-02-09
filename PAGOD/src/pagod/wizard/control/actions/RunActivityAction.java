@@ -1,5 +1,5 @@
 /*
- * $Id: RunActivityAction.java,v 1.8 2006/02/08 16:41:07 yak Exp $
+ * $Id: RunActivityAction.java,v 1.9 2006/02/09 19:58:34 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -75,17 +75,10 @@ public class RunActivityAction extends AbstractPagodAction
 		// l'application manager
 		Activity aTemp = ApplicationManager.getInstance().getMfPagod()
 				.getActivity();
-		TimeEditDialog ted2 = new TimeEditDialog(ApplicationManager.getInstance().getMfPagod(),aTemp);
+		//on lance la fenetre de changment de temps
+		new TimeEditDialog(ApplicationManager.getInstance().getMfPagod(),aTemp);
 		this.request.setContent(aTemp);
-		// on recupere le num?ro de l'it
-		int iCurrentIt = ApplicationManager.getInstance().getCurrentProject() 
-				.getItCurrent();
-		TimeCouple tcTemp = aTemp.gethmTime(iCurrentIt);
 		
-		
-	
-		// on demarre le manager
-		TimerManager.getInstance().start(tcTemp.getTimeElapsed(),tcTemp.getTimeRemaining());
 
 		ApplicationManager.getInstance().manageRequest(this.request);
 

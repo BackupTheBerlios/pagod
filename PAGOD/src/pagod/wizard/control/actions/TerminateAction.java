@@ -1,5 +1,5 @@
 /*
- * $Id: TerminateAction.java,v 1.10 2006/02/08 16:41:07 yak Exp $
+ * $Id: TerminateAction.java,v 1.11 2006/02/09 19:58:34 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -39,7 +39,6 @@ import pagod.utils.TimerManager;
 import pagod.wizard.control.ApplicationManager;
 import pagod.wizard.control.Constants;
 import pagod.wizard.control.states.Request;
-import pagod.wizard.ui.AddExtensionDialog;
 import pagod.wizard.ui.TimeEditDialog;
 
 /**
@@ -70,7 +69,7 @@ public class TerminateAction extends AbstractPagodAction
     public void actionPerformed (ActionEvent actionEvent)
 	{
 //    	on stop le timer
-		TimerManager.getInstance().stop();
+		
     	if ( ApplicationManager.getInstance().manageRequest(this.request))
     	{
     		
@@ -86,18 +85,13 @@ public class TerminateAction extends AbstractPagodAction
 
         	// Modif Flotueur : on appelle la bo?te de dialogue TimeEditDialog qui va servir ?
         	// connaitre et ? modifier le temps pass? sur une activit?
-        	TimeEditDialog ted2 = new TimeEditDialog(ApplicationManager.getInstance().getMfPagod(),aTemp);
+    		//on affiche la fenetre de changement des temps
+    		new TimeEditDialog(ApplicationManager.getInstance().getMfPagod(),aTemp);
 
         	// Fin modif Flotueur
     		ActionManager.getInstance().getAction(Constants.ACTION_RUN_ACTIVITY).setEnabled(true);
     	}
-    	else
-    	{
-    		
-    		//on redemarre le timer si il y a eu un pb
-    		TimerManager.getInstance().start();
-    	}
-	
+    	
 	}
     
     
