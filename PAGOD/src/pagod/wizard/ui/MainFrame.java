@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.43 2006/02/08 17:38:14 yak Exp $
+ * $Id: MainFrame.java,v 1.44 2006/02/09 19:59:24 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -427,8 +427,7 @@ public class MainFrame extends JFrame implements Observer
 
 		// cr?er les panneaux
 		this.centerPanel.add(new CheckPane(activity));
-		// on masque le bouton terminate et on affiche les autres
-		this.activateSuspend();
+
 		this.southPanel.add(this.buttonPanel);
 		this.setVisible(true);
 	}
@@ -445,8 +444,7 @@ public class MainFrame extends JFrame implements Observer
 		this.southPanel.removeAll();
 		// on cr?er les panneau
 		this.centerPanel.add(new EndCheckPanel(activity));
-		// on masque le bouton suspend et on affiche les autres
-		this.activateTerminate();
+
 		this.southPanel.add(this.buttonPanel);
 		this.setVisible(true);
 
@@ -466,11 +464,9 @@ public class MainFrame extends JFrame implements Observer
 			// l'etape
 			// et en bas les produits en sorties
 			// cr?er les panneaux
-			this.activateSuspend();
+
 			this.setComponentInJSplitPane(new StepPanel(stepToPresent, rang,
 					total), stepToPresent);
-			// on masque le bouton terminate et on affiche les autres
-			
 			// this.dividerLocation = this.splitPane.getLastDividerLocation();
 			this.splitPane.setDividerLocation(-1);
 		}
@@ -478,8 +474,7 @@ public class MainFrame extends JFrame implements Observer
 		{
 			// on nettoye le panneaux
 			this.centerPanel.removeAll();
-			// on masque le bouton suspend et on affiche les autres
-			this.activateTerminate();
+
 			// on affiche uniquement la presentation des activites
 			this.centerPanel.add(new StepPanel(stepToPresent, rang, total));
 		}
@@ -504,20 +499,7 @@ public class MainFrame extends JFrame implements Observer
 				ProductsToPresent);
 		this.centerPanel.add(productsPanel);
 		this.setVisible(true);
-		if (activity.hasOutputProducts())
-		{
 
-
-			// on masque le bouton suspend et on affiche les autres
-			this.activateSuspend();
-		}
-		else
-		{
-
-			// on masque le bouton suspend et on affiche les autres
-			this.activateTerminate();
-
-		}
 		// demande le focus
 		productsPanel.requestFocus();
 	}
@@ -541,18 +523,12 @@ public class MainFrame extends JFrame implements Observer
 			// l'activite
 			// et en bas les produits en sorties
 
-			// on masque le bouton terminate et on affiche les autres
-			this.activateSuspend();
-
 			this.setComponentInJSplitPane(this.contentViewerPanel,
 					activityToPresent);
 		}
 		else
 		{
 
-
-			// on masque le bouton terminate et on affiche les autres
-			this.activateTerminate();
 			// on nettoye le panneaux
 			this.centerPanel.removeAll();
 
@@ -560,7 +536,7 @@ public class MainFrame extends JFrame implements Observer
 			this.centerPanel.add(this.contentViewerPanel);
 
 		}
-		
+
 		this.southPanel.add(this.buttonPanel);
 
 		this.setVisible(true);
@@ -856,6 +832,17 @@ public class MainFrame extends JFrame implements Observer
 
 				ActionManager.getInstance().getAction(Constants.ACTION_NEXT)
 						.setEnabled(true);
+				if (state.getActivity().hasOutputProducts())
+				{
+
+					this.activateSuspend();
+				}
+				else
+				{
+					this.activateTerminate();
+
+				}
+
 			}
 			else if (state instanceof ActivityPresentationState)
 			{
@@ -895,6 +882,16 @@ public class MainFrame extends JFrame implements Observer
 				else
 					ActionManager.getInstance()
 							.getAction(Constants.ACTION_NEXT).setEnabled(false);
+				if (state.getActivity().hasOutputProducts())
+				{
+
+					this.activateSuspend();
+				}
+				else
+				{
+					this.activateTerminate();
+
+				}
 
 			}
 			else if (state instanceof StepState)
@@ -918,16 +915,29 @@ public class MainFrame extends JFrame implements Observer
 				if (state.getIndex() == state.getStepList().size() - 1
 						&& (!state.getActivity().hasOutputProducts()
 								|| !state.getActivity().hasGuidanceType(
-										"Liste de controles") 
-								|| !state.getActivity().getRole().hasGuidanceType(
+										"Liste de controles") || !state
+								.getActivity().getRole().hasGuidanceType(
 										"Liste de controles")))
 				{
 					ActionManager.getInstance()
 							.getAction(Constants.ACTION_NEXT).setEnabled(false);
 				}
+
 				else
+				{
 					ActionManager.getInstance()
 							.getAction(Constants.ACTION_NEXT).setEnabled(true);
+				}
+				if (state.getActivity().hasOutputProducts())
+				{
+
+					this.activateSuspend();
+				}
+				else
+				{
+					this.activateTerminate();
+
+				}
 
 			}
 			else if (state instanceof PostConditionCheckerState)
@@ -935,6 +945,7 @@ public class MainFrame extends JFrame implements Observer
 				// on rafraichit la MainFrame
 				this.resetSplitPane();
 				this.showEndCheckList(state.getActivity());
+				this.activateTerminate();
 
 				// on peut toujours faire previous car au minimum on reviendra
 				// en ActivityPresentation
@@ -997,8 +1008,8 @@ public class MainFrame extends JFrame implements Observer
 						.getAction(Constants.ACTION_PREVIOUS).setEnabled(false);
 				ActionManager.getInstance().getAction(
 						Constants.ACTION_TERMINATE).setEnabled(false);
-				ActionManager.getInstance().getAction(
-						Constants.ACTION_SUSPEND).setEnabled(false);
+				ActionManager.getInstance().getAction(Constants.ACTION_SUSPEND)
+						.setEnabled(false);
 				ActionManager.getInstance()
 						.getAction(Constants.ACTION_GOTOSTEP).setEnabled(false);
 				ActionManager.getInstance().getAction(
@@ -1164,29 +1175,31 @@ public class MainFrame extends JFrame implements Observer
 		}
 
 	}
+
 	/**
 	 * methode pour concentrer les desactvation de boutons
 	 */
 	private void activateSuspend ()
 	{
-		
+
 		ActionManager.getInstance().getAction(Constants.ACTION_TERMINATE)
-		.setEnabled(false);
+				.setEnabled(false);
 		ActionManager.getInstance().getAction(Constants.ACTION_SUSPEND)
-		.setEnabled(true);	
+				.setEnabled(true);
 		this.buttonPanel.hideButtons(Buttons.PB_TERMINATE);
-		this.buttonPanel.showButtons(Buttons.PB_SUSPEND,
-				Buttons.PB_PREVIOUS, Buttons.PB_NEXT);
+		this.buttonPanel.showButtons(Buttons.PB_SUSPEND, Buttons.PB_PREVIOUS,
+				Buttons.PB_NEXT);
 	}
+
 	private void activateTerminate ()
 	{
-		
+
 		ActionManager.getInstance().getAction(Constants.ACTION_TERMINATE)
-		.setEnabled(true);
+				.setEnabled(true);
 		ActionManager.getInstance().getAction(Constants.ACTION_SUSPEND)
-		.setEnabled(false);
+				.setEnabled(false);
 		this.buttonPanel.hideButtons(Buttons.PB_SUSPEND);
-		this.buttonPanel.showButtons(Buttons.PB_TERMINATE,
-				Buttons.PB_PREVIOUS, Buttons.PB_NEXT);
+		this.buttonPanel.showButtons(Buttons.PB_TERMINATE, Buttons.PB_PREVIOUS,
+				Buttons.PB_NEXT);
 	}
 }
