@@ -1,5 +1,5 @@
 /*
- * $Id: ApplicationManager.java,v 1.26 2006/02/06 16:19:12 biniou Exp $
+ * $Id: ApplicationManager.java,v 1.27 2006/02/09 19:06:22 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -213,8 +213,7 @@ public class ApplicationManager extends Observable
 			am
 					.registerAction(Constants.ACTION_TERMINATE,
 							new TerminateAction());
-			am.registerAction(Constants.ACTION_SUSPEND,
-					new SuspendAction());
+			am.registerAction(Constants.ACTION_SUSPEND, new SuspendAction());
 			am.registerAction(Constants.ACTION_GOTOSTEP, new GotoAction());
 
 			am.registerAction(Constants.ACTION_PREFERENCES,
@@ -223,19 +222,20 @@ public class ApplicationManager extends Observable
 					new ToolsSettingsAction());
 
 			// ajout de l'action pour afficher le temps
-			/*am.registerAction(Constants.ACTION_TIMEACTIVITY,
-					new TimeActivityAction());*/
-			
+			/*
+			 * am.registerAction(Constants.ACTION_TIMEACTIVITY, new
+			 * TimeActivityAction());
+			 */
+
 			/* ajout des actions pour le menu itération */
 			am.registerAction(Constants.ACTION_NEXT_ITERATION,
 					new NextIterationAction());
-			
+
 			am.registerAction(Constants.ACTION_TIME_CURRENT_ITERATION,
 					new TimeActivityAction());
-			
+
 			am.registerAction(Constants.ACTION_TIME_ALL_ITERATIONS,
 					new TimeActivityAllIterationAction());
-			
 
 			// TODO Alex deplacer pour qu'on puisse tester la machine a etat de
 			// l'application
@@ -318,30 +318,30 @@ public class ApplicationManager extends Observable
 				// mettre le path dans le fichier preferences a la cl?
 				// "workspace" s'il existe
 				if (file.exists())
-				{	
-					validWorkspace=true;
-					PreferencesManager.getInstance().setWorkspace(file.getPath());
+				{
+					validWorkspace = true;
+					PreferencesManager.getInstance().setWorkspace(
+							file.getPath());
 				}
 			}
 		}
 		else
 		{
 			// le workspace est deja defini
-			validWorkspace = true;		
+			validWorkspace = true;
 		}
 
 		// si le workspace n'est pas choisi on affiche un message d'erreur
 		if (!validWorkspace)
 		{
-//			 affichage d'un message d'erreur si le workspace n'est pas défini ou invalide
-			JOptionPane.showMessageDialog(this.mfPagod,
+			// affichage d'un message d'erreur si le workspace n'est pas défini
+			// ou invalide
+			JOptionPane.showMessageDialog(this.mfPagod, LanguagesManager
+					.getInstance().getString("WorkspaceException"),
 					LanguagesManager.getInstance().getString(
-							"WorkspaceException"),
-					LanguagesManager.getInstance().getString(
-							"WorkspaceErrorTitle"),
-					JOptionPane.ERROR_MESSAGE);
+							"WorkspaceErrorTitle"), JOptionPane.ERROR_MESSAGE);
 		}
-		
+
 		// fin de choix de workspace
 		// on enregistre la MainFrame comme observer de l'ApplicationManager
 		this.addObserver(this.mfPagod);
@@ -378,18 +378,19 @@ public class ApplicationManager extends Observable
 			if (workspaceChooser.showOpenDialog(this.mfPagod) == JFileChooser.APPROVE_OPTION)
 			{
 				File file = workspaceChooser.getSelectedFile();
-				//TODO a supprimer
+				// TODO a supprimer
 				System.out.println(file.getPath());
-				
+
 				// on verifie que le workspace choisi existe
 				// mettre le path dans le fichier preferences a la cl?
 				// "workspace"
 				if (file.exists())
 				{
-					PreferencesManager.getInstance().setWorkspace(file.getPath());
+					PreferencesManager.getInstance().setWorkspace(
+							file.getPath());
 					validWorkspace = true;
 				}
-			
+
 			}
 			// si l'utilisateur ne choisit pas, on ne cree rien
 			else
@@ -417,14 +418,13 @@ public class ApplicationManager extends Observable
 
 		}
 		else
-		{	
-		// affichage d'un message d'erreur si le workspace n'est pas défini ou invalide
-			JOptionPane.showMessageDialog(this.mfPagod,
+		{
+			// affichage d'un message d'erreur si le workspace n'est pas défini
+			// ou invalide
+			JOptionPane.showMessageDialog(this.mfPagod, LanguagesManager
+					.getInstance().getString("WorkspaceException"),
 					LanguagesManager.getInstance().getString(
-							"WorkspaceException"),
-					LanguagesManager.getInstance().getString(
-							"WorkspaceErrorTitle"),
-					JOptionPane.ERROR_MESSAGE);
+							"WorkspaceErrorTitle"), JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -690,5 +690,21 @@ public class ApplicationManager extends Observable
 		// notifie les observer (par ex la mainframe)
 		this.setChanged();
 		this.notifyObservers(activityScheduler);
+	}
+
+	/**
+	 * Sauvegarde les temps lié au processus du projet (fichier time.xml) si un
+	 * processus est ouvert sinon il ne se passe rien.
+	 * 
+	 */
+	public void saveTime ()
+	{
+		if (ApplicationManager.getInstance().getCurrentProcess() != null)
+		{
+			TimeHandler th = new TimeHandler();
+			th.loadModel(ApplicationManager.getInstance().getCurrentProcess());
+			th.writeXML(ApplicationManager.getInstance().getCurrentProject()
+					.getName());
+		}
 	}
 }

@@ -1,5 +1,5 @@
 /*
- * $Id: OpenProcessAction.java,v 1.8 2006/02/04 22:42:05 yak Exp $
+ * $Id: OpenProcessAction.java,v 1.9 2006/02/09 19:06:21 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -70,6 +70,9 @@ public class OpenProcessAction extends AbstractPagodAction
 	public void actionPerformed (ActionEvent actionEvent)
 	{
 
+		// sauvegarde des temps lies au processus
+		ApplicationManager.getInstance().saveTime();
+		
 		File processFile = new File(PreferencesManager.getInstance()
 				.getWorkspace()
 				+ File.separator
@@ -97,17 +100,19 @@ public class OpenProcessAction extends AbstractPagodAction
 					aTemp.setTime(TimerManager.getInstance().getValueElapsed());
 				}
 				ApplicationManager.getInstance().manageRequest(this.request);
-				 
-				//initialiser le document time 
-				TimeHandler th = new TimeHandler ();
-				th.loadXML( ApplicationManager.getInstance().getCurrentProject().getName());
-				//System.out.println("apres le load xml pasing");
-				//th.affiche(); 
-				th.fillModel(ApplicationManager.getInstance().getCurrentProcess() );
-				//System.out.println("apres la mont du model");
-				//th.affiche();
+
+				// initialiser le document time
+				TimeHandler th = new TimeHandler();
+				th.loadXML(ApplicationManager.getInstance().getCurrentProject()
+						.getName());
+				// System.out.println("apres le load xml pasing");
+				// th.affiche();
+				th.fillModel(ApplicationManager.getInstance()
+						.getCurrentProcess());
+				// System.out.println("apres la mont du model");
+				// th.affiche();
 			}
-			
+
 		}
 
 	}

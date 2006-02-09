@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: CloseProjectAction.java,v 1.4 2006/02/04 22:42:05 yak Exp $
+ * $Id: CloseProjectAction.java,v 1.5 2006/02/09 19:06:21 cyberal82 Exp $
  */
 package pagod.wizard.control.actions;
 
@@ -53,12 +53,9 @@ public class CloseProjectAction extends AbstractPagodAction
 			aTemp.setTime(TimerManager.getInstance().getValueElapsed());
 		
 		}
-		if (ApplicationManager.getInstance().getCurrentProcess() != null  )
-		{
-			TimeHandler th = new TimeHandler ();
-			th.loadModel(ApplicationManager.getInstance().getCurrentProcess() );
-			th.writeXML( ApplicationManager.getInstance().getCurrentProject().getName());
-		}
+		
+		// sauvegarde des temps lies au processus
+		ApplicationManager.getInstance().saveTime();
 		
 		ApplicationManager.getInstance().manageRequest(this.request);
 		
