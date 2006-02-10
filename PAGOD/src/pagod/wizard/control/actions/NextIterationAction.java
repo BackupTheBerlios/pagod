@@ -1,13 +1,14 @@
 /*
  * Projet PAGOD
  * 
- * $Id: NextIterationAction.java,v 1.2 2006/02/09 18:09:18 fabfoot Exp $
+ * $Id: NextIterationAction.java,v 1.3 2006/02/10 09:47:23 fabfoot Exp $
  */
 package pagod.wizard.control.actions;
 
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.util.Collection;
+
 
 import pagod.common.model.Activity;
 import pagod.common.model.TimeCouple;
@@ -36,15 +37,20 @@ public class NextIterationAction extends AbstractPagodAction
 	}
 	
 	/**
-	 * Methode appelée lorsque l'action est déclenchée
+	 * Methode appel?e lorsque l'action est d?clench?e
 	 * 
 	 * @param actionEvent
 	 *            Evenement survenue
 	 */
 	public void actionPerformed (ActionEvent actionEvent)
 	{
-		//System.out.println("On est sensé passer à l'itération suivante.");
 		int itcour = ApplicationManager.getInstance().getCurrentProject().getItCurrent() ;
+		//mise a zero de tous les temps remaining de chaque activite de l'etape termine
+			
+	
+		TimeCouple tc1 = null;
+			
+		
 		itcour ++;
 		TimeCouple tc = new TimeCouple (0,0);
 		ApplicationManager.getInstance().getCurrentProject().setItCurrent(itcour);   
@@ -52,6 +58,10 @@ public class NextIterationAction extends AbstractPagodAction
 		for (Activity a : cAc)
 		{
 			a.sethmTime(itcour, tc);
+			//pour chaque activit mettre a 0 le temps remainig
+			tc1 = a.gethmTime(itcour - 1);
+			tc1.setTimeRemaining(0);
+			
 		}
 	}
 }
