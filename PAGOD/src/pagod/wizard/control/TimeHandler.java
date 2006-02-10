@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimeHandler.java,v 1.12 2006/02/03 14:13:06 garwind111 Exp $
+ * $Id: TimeHandler.java,v 1.13 2006/02/10 09:54:07 fabfoot Exp $
  */
 package pagod.wizard.control;
 
@@ -180,39 +180,52 @@ public class TimeHandler
 	{
 		final Element racine = new Element("stats");
 		final Document document = new Document(racine);
+		Element activi = null;
+		Attribute id = null;
+		Element time = null;
+		HashMap hashmap = null;
+		Set s = null;
+		Iterator its = null;
+		Integer key = null;
+		Element iteration = null;
+		Attribute idit = null;
+		TimeCouple tc = null;
+		Element timeElapsed = null;
+		Element timeRemaining = null;
+		Element done = null;
 		// r?cup?ration des activit?s via le processus
 		final Collection<Activity> cactivity = process.getAllActivities();
 		for (Activity acty : cactivity)
 		{
-			Element activi = new Element("activity");
+			activi = new Element("activity");
 			racine.addContent(activi);
-			Attribute id = new Attribute("idref", acty.getId());
+			id = new Attribute("idref", acty.getId());
 			activi.setAttribute(id);
-			Element time = new Element("time");
+			time = new Element("time");
 			time.setText(Integer.toString(acty.getTime())); // Cast Int -
 															// Integer -> string
 			activi.addContent(time);
 			//System.out.println("test fab");
-			HashMap hashmap = acty.getHM();
-			Set s = hashmap.keySet();
-			Iterator its  = s.iterator(); 
+			hashmap = acty.getHM();
+			s = hashmap.keySet();
+			its  = s.iterator(); 
 			//System.out.println("test fab");
 			while(its.hasNext())
 			{
-				Integer key = (Integer) its.next(); 
-				Element iteration = new Element("iteration");
+				key = (Integer) its.next(); 
+				iteration = new Element("iteration");
 				activi.addContent(iteration);
-				Attribute idit = new Attribute("id_ite", key.toString() );
+				idit = new Attribute("id_ite", key.toString() );
 				iteration.setAttribute(idit);
-				TimeCouple tc = acty.gethmTime(key);
-				Element timeElapsed = new Element("timeElapsed");
+				tc = acty.gethmTime(key);
+				timeElapsed = new Element("timeElapsed");
 				timeElapsed.setText(Integer.toString(tc.getTimeElapsed())); 
 				iteration.addContent(timeElapsed);
-				Element timeRemaining = new Element("timeRemaining");
+				timeRemaining = new Element("timeRemaining");
 				timeRemaining.setText(Integer.toString(tc.getTimeRemaining ())); 
 				iteration.addContent(timeRemaining);
 			}
-			Element done = new Element("done");
+			done = new Element("done");
 			done.setText(Boolean.toString(acty.getDone()));
 			activi.addContent(done);
 		}
