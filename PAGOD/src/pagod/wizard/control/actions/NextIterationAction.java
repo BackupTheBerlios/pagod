@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: NextIterationAction.java,v 1.3 2006/02/10 09:47:23 fabfoot Exp $
+ * $Id: NextIterationAction.java,v 1.4 2006/02/10 15:04:44 fabfoot Exp $
  */
 package pagod.wizard.control.actions;
 
@@ -49,8 +49,6 @@ public class NextIterationAction extends AbstractPagodAction
 			
 	
 		TimeCouple tc1 = null;
-			
-		
 		itcour ++;
 		TimeCouple tc = new TimeCouple (0,0);
 		ApplicationManager.getInstance().getCurrentProject().setItCurrent(itcour);   
