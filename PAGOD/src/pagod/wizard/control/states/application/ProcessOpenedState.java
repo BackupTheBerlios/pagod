@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ProcessOpenedState.java,v 1.9 2006/02/09 20:26:24 yak Exp $
+ * $Id: ProcessOpenedState.java,v 1.10 2006/02/12 17:02:27 cyberal82 Exp $
  */
 package pagod.wizard.control.states.application;
 
@@ -58,20 +58,25 @@ public class ProcessOpenedState extends AbstractApplicationState
 				return false;
 
 			case RUN_ACTIVITY:
-				// on creer un nouvelle etat activit? en passant en parametre
-				// l'actvit? r?cup?r? a partir
-				// de la requete
-				// cf RunActivityAction.actionPerformed
-				// on lance le timer
-				// on recupere le num?ro de l'it
-				Activity aTemp = (Activity) request.getContent();
-				int iCurrentIt = ApplicationManager.getInstance()
-						.getCurrentProject().getItCurrent();
-				TimeCouple tcTemp = aTemp.gethmTime(iCurrentIt);
+				// s'il y a un processus
+				if (ApplicationManager.getInstance().getCurrentProject() != null)
+				{
+					// on creer un nouvelle etat activit? en passant en
+					// parametre
+					// l'actvit? r?cup?r? a partir
+					// de la requete
+					// cf RunActivityAction.actionPerformed
+					// on lance le timer
+					// on recupere le num?ro de l'it
+					Activity aTemp = (Activity) request.getContent();
+					int iCurrentIt = ApplicationManager.getInstance()
+							.getCurrentProject().getItCurrent();
+					TimeCouple tcTemp = aTemp.gethmTime(iCurrentIt);
 
-				// on demarre le manager
-				TimerManager.getInstance().start(tcTemp.getTimeElapsed(),
-						tcTemp.getTimeRemaining());
+					// on demarre le manager
+					TimerManager.getInstance().start(tcTemp.getTimeElapsed(),
+							tcTemp.getTimeRemaining());
+				}
 				state = new ActivityLaunchedState(this.applicationManager,
 						(Activity) request.getContent());
 				break;

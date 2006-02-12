@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: NewProjectAction.java,v 1.6 2006/02/03 13:02:54 fabfoot Exp $
+ * $Id: NewProjectAction.java,v 1.7 2006/02/12 17:02:27 cyberal82 Exp $
  */
 package pagod.wizard.control.actions;
 
@@ -47,6 +47,10 @@ public class NewProjectAction extends AbstractPagodAction
 	 */
 	public void actionPerformed (ActionEvent actionEvent)
 	{
+
+		// sauvegarde des temps lies au processus
+		ApplicationManager.getInstance().saveTime();
+
 		// si le project a pu etre ouvert alors on delegue la requete ?
 		// l'application manager
 		if (ApplicationManager.getInstance().getMfPagod().newProject())
@@ -55,17 +59,12 @@ public class NewProjectAction extends AbstractPagodAction
 
 			// si le processus a pu etre ouvert alors on delegue la requete
 			// ? l'application manager
-			if (ApplicationManager.getInstance().getMfPagod().associateDPCWithProject())
+			if (ApplicationManager.getInstance().getMfPagod()
+					.associateDPCWithProject())
 			{
 				ApplicationManager.getInstance().manageRequest(
 						new Request(Request.RequestType.OPEN_PROCESS));
 			}
-			TimeHandler th = new TimeHandler ();
-			System.out.println("test fab chargement du fichier");
-			//th.loadXML(ApplicationManager.getInstance().getCurrentProject().getName());
-			th.loadModel( ApplicationManager.getInstance().getCurrentProcess());
-			th.affiche() ;
-			th.writeXML(ApplicationManager.getInstance().getCurrentProject().getName()  );
 		}
 	}
 

@@ -1,5 +1,5 @@
 /*
- * $Id: Activity.java,v 1.5 2006/02/03 13:05:34 fabfoot Exp $
+ * $Id: Activity.java,v 1.6 2006/02/12 17:02:27 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -37,383 +37,423 @@ import java.util.List;
  */
 public class Activity extends ProcessElement
 {
-    /**
-     * Liste des ?tapes de l'activit?s
-     */
-    private List<Step> steps = new ArrayList<Step>();
+	/**
+	 * Liste des ?tapes de l'activit?s
+	 */
+	private List<Step>						steps			= new ArrayList<Step>();
 
-    /**
-     * D?finition de travail qui contient l'activit?
-     */
-    private WorkDefinition workDefinition = null;
+	/**
+	 * D?finition de travail qui contient l'activit?
+	 */
+	private WorkDefinition					workDefinition	= null;
 
-    /**
-     * Les produits en entr?e de l'activit?
-     */
-    private List<Product> inputProducts = new ArrayList<Product>();
+	/**
+	 * Les produits en entr?e de l'activit?
+	 */
+	private List<Product>					inputProducts	= new ArrayList<Product>();
 
-    /**
-     * Les produits en sortie de l'activit?
-     */
-    private List<Product> outputProducts = new ArrayList<Product>();
+	/**
+	 * Les produits en sortie de l'activit?
+	 */
+	private List<Product>					outputProducts	= new ArrayList<Product>();
 
-    /**
-     * Role qui doit r?aliser l'activit?
-     */
-    private Role role = null;
-    
-    /**
-     * Time qui permet de quver le temps
-     **/
-    private int time = 0;
-   
-    private HashMap<Integer, TimeCouple> hmTime = new HashMap<Integer, TimeCouple>() ;
-    
-    /**
-     * activit? termin? ou pas
-     */
-    private boolean done = false;
-    /**
-     * Constructeur complet d'une activite
-     * 
-     * @param id
-     * @param name
-     * @param fileURL
-     * @param iconURL
-     * @param steps
-     * @param workDefinition
-     * @param inputProducts
-     * @param outputProducts
-     * @param role
-     */
- 
-	public Activity(String id, String name, URL fileURL, URL iconURL,
-                    List<Step> steps, WorkDefinition workDefinition,
-                    List<Product> inputProducts,
-                    List<Product> outputProducts, Role role)
-    {
-       
-    	super(id, name, fileURL, iconURL);
-        this.setSteps(steps);
-        this.setWorkDefinition(workDefinition);
-        this.setInputProducts(inputProducts);
-        this.setOutputProducts(outputProducts);
-        this.setRole(role);
-        TimeCouple tcTime = new TimeCouple(0,0);
-        Integer it = new Integer (1);
-        this.hmTime.put(it,tcTime); 
-    }
+	/**
+	 * Role qui doit r?aliser l'activit?
+	 */
+	private Role							role			= null;
 
-    /**
-     * Retourne l'attribut inputProducts
-     * 
-     * @return inputProducts.
-     */
-    public List<Product> getInputProducts()
-    {
-        return this.inputProducts;
-    }
+	/**
+	 * Time qui permet de quver le temps
+	 */
+	private int								time			= 0;
 
-    /**
-     * Initialise l'attribut inputProducts
-     * 
-     * @param inputProducts
-     *            la valeur a attribuer.
-     */
-    public void setInputProducts(List<Product> inputProducts)
-    {
-        this.inputProducts = (inputProducts != null ? inputProducts
-                : new ArrayList<Product>());
-    }
+	private HashMap<Integer, TimeCouple>	hmTime			= new HashMap<Integer, TimeCouple>();
 
-    /**
-     * Retourne l'attribut outputProducts
-     * 
-     * @return outputProducts.
-     */
-    public List<Product> getOutputProducts()
-    {
-        return this.outputProducts;
-    }
+	/**
+	 * activit? termin? ou pas
+	 */
+	private boolean							done			= false;
 
-    /**
-     * Initialise l'attribut outputProducts
-     * 
-     * @param outputProducts
-     *            la valeur a attribuer.
-     */
-    public void setOutputProducts(List<Product> outputProducts)
-    {
-        this.outputProducts = (outputProducts != null ? outputProducts
-                : new ArrayList<Product>());
-    }
+	/**
+	 * Constructeur complet d'une activite
+	 * 
+	 * @param id
+	 * @param name
+	 * @param fileURL
+	 * @param iconURL
+	 * @param steps
+	 * @param workDefinition
+	 * @param inputProducts
+	 * @param outputProducts
+	 * @param role
+	 */
 
-    /**
-     * Retourne l'attribut role
-     * 
-     * @return role.
-     */
-    public Role getRole()
-    {
-        return this.role;
-    }
-
-    /**
-     * Initialise l'attribut role
-     * 
-     * @param role
-     *            la valeur a attribuer.
-     */
-    public void setRole(Role role)
-    {
-        if (this.role == role)
-            return;
-
-        final Role oldRole = this.role;
-
-        // blocage de la r?cursivit?
-        this.role = null;
-
-        // suppression de l'ancienne liaison si existante
-        if (oldRole != null)
-            oldRole.removeActivity(this);
-
-        // cr?ation de la nouvelle liaison
-        if (role != null)
-        {
-            this.role = role;
-            role.addActivity(this);
-        }
-    }
-    
-    /**
-     * Retourne l'attribut time
-     * 
-     * @return times
-     */
-    public int getTime()
-    {
-        return this.time;
-    }
-
-    /**
-     * Initialise l'attribut time
-     * 
-     * @param itime
-     *            la valeur a attribuer.
-     */
-    public void setTime(int itime)
-    {
-        this.time = itime ;
-    }
-    /**
-     * Retourne l'attribut done
-     * 
-     * @return done
-     */
-    public boolean getDone()
-    {
-        return this.done;
-    }
-
-    /**
-     * Initialise l'attribut done a true
-     * @param b 
-     */
-    public void setDone(boolean b)
-    {
-        this.done = b ;
-    }
-    /**
-     * @param i
-     * @return l'attribut timeCouple de la hashmap
-     */
-    public TimeCouple gethmTime(int i)
-    {
-        return this.hmTime.get(new Integer( i));
-    }
-    /**
-     * @param i
-     * @param tc
-     */
-
-    public void sethmTime(int i ,TimeCouple tc)
+	public Activity (String id, String name, URL fileURL, URL iconURL,
+			List<Step> steps, WorkDefinition workDefinition,
+			List<Product> inputProducts, List<Product> outputProducts, Role role)
 	{
-		this.hmTime.put(new Integer (i),tc); 
+
+		super(id, name, fileURL, iconURL);
+		this.setSteps(steps);
+		this.setWorkDefinition(workDefinition);
+		this.setInputProducts(inputProducts);
+		this.setOutputProducts(outputProducts);
+		this.setRole(role);
+		TimeCouple tcTime = new TimeCouple(0, 0);
+		Integer it = new Integer(1);
+		this.hmTime.put(it, tcTime);
 	}
-   
-    /**
-     * Retourne l'attribut steps
-     * 
-     * @return steps.
-     */
-    public List<Step> getSteps()
-    {
-        return this.steps;
-    }
-    
-    /**
-     * Retourne l'attribut hmTime
-     * 
-     * @return hmTime.
-     */
-    public HashMap  getHM()
-    {
-        return this.hmTime;
-    }
 
-    /**
-     * Initialise l'attribut steps
-     * 
-     * @param steps
-     *            la valeur a attribuer.
-     */
-    public void setSteps(List<Step> steps)
-    {
-        this.steps = (steps != null ? steps : new ArrayList<Step>());
-    }
+	/**
+	 * Retourne l'attribut inputProducts
+	 * 
+	 * @return inputProducts.
+	 */
+	public List<Product> getInputProducts ()
+	{
+		return this.inputProducts;
+	}
 
-    /**
-     * Retourne l'attribut workDefinition
-     * 
-     * @return workDefinition.
-     */
-    public WorkDefinition getWorkDefinition()
-    {
-        return this.workDefinition;
-    }
+	/**
+	 * Initialise l'attribut inputProducts
+	 * 
+	 * @param inputProducts
+	 *            la valeur a attribuer.
+	 */
+	public void setInputProducts (List<Product> inputProducts)
+	{
+		this.inputProducts = (inputProducts != null ? inputProducts
+				: new ArrayList<Product>());
+	}
 
-    /**
-     * Initialise l'attribut workDefinition
-     * 
-     * @param workDefinition
-     *            la valeur a attribuer.
-     */
-    public void setWorkDefinition(WorkDefinition workDefinition)
-    {
-        if (this.workDefinition == workDefinition)
-            return;
+	/**
+	 * Retourne l'attribut outputProducts
+	 * 
+	 * @return outputProducts.
+	 */
+	public List<Product> getOutputProducts ()
+	{
+		return this.outputProducts;
+	}
 
-        final WorkDefinition oldWorkDefinition = this.workDefinition;
+	/**
+	 * Initialise l'attribut outputProducts
+	 * 
+	 * @param outputProducts
+	 *            la valeur a attribuer.
+	 */
+	public void setOutputProducts (List<Product> outputProducts)
+	{
+		this.outputProducts = (outputProducts != null ? outputProducts
+				: new ArrayList<Product>());
+	}
 
-        // blocage de la r?cursivit?
-        this.workDefinition = null;
+	/**
+	 * Retourne l'attribut role
+	 * 
+	 * @return role.
+	 */
+	public Role getRole ()
+	{
+		return this.role;
+	}
 
-        // suppression de l'ancienne liaison si existante
-        if (oldWorkDefinition != null)
-            oldWorkDefinition.removeActivity(this);
+	/**
+	 * Initialise l'attribut role
+	 * 
+	 * @param role
+	 *            la valeur a attribuer.
+	 */
+	public void setRole (Role role)
+	{
+		if (this.role == role) return;
 
-        // cr?ation de la nouvelle liaison
-        if (workDefinition != null)
-        {
-            this.workDefinition = workDefinition;
-            workDefinition.addActivity(this);
-        }
-    }
+		final Role oldRole = this.role;
 
-    /**
-     * Pour savoir s'il y a des produits en entr?es
-     * 
-     * @return true si l'activit? a des produits en entr?e
-     */
-    public boolean hasInputProducts()
-    {
-        return (!this.inputProducts.isEmpty());
-    }
+		// blocage de la r?cursivit?
+		this.role = null;
 
-    /**
-     * Pour savoir s'il y a des produits en sortie
-     * 
-     * @return true si l'activit? a des produits en sortie
-     */
-    public boolean hasOutputProducts()
-    {
-        return (!this.outputProducts.isEmpty());
-    }
+		// suppression de l'ancienne liaison si existante
+		if (oldRole != null) oldRole.removeActivity(this);
 
-    /**
-     * Pour savoir si l'activit? a besoin d'outils ou pas
-     * 
-     * @return true si l'activit? n?cessite l'utilisation outil particulier
-     */
-    public boolean needsTools()
-    {
-        if (!this.hasOutputProducts())
-            return false;
-        else
-            for (Product t : this.outputProducts)
-            {
-                if (t.getEditor() != null)
-                    return true;
-            }
-        return false;
-    }
+		// cr?ation de la nouvelle liaison
+		if (role != null)
+		{
+			this.role = role;
+			role.addActivity(this);
+		}
+	}
 
-    /**
-     * Pour savoir si l'activit? est d?compos? en ?tapes ou pas
-     * 
-     * @return vrai si l'activit? a des ?tapes associ?es
-     */
-    public boolean hasSteps()
-    {
-        return (!this.steps.isEmpty());
-    }
+	/**
+	 * Retourne l'attribut time
+	 * 
+	 * @return times
+	 */
+	public int getTime ()
+	{
+		return this.time;
+	}
 
-    /**
-     * @param step
-     *            ?tape ? ajouter ? l'activit? (sans effet si cette ?tape est
-     *            d?j? une ?tape de l'activit?)
-     */
-    public void addStep(Step step)
-    {
-        if (!this.steps.contains(step))
-        {
-            this.steps.add(step);
-        }
-    }
-    
-    /**
-     * @param step
-     * @param index
-     */
-    public void addStep(Step step, int index)
-    {
-        if (!this.steps.contains(step))
-        {
-            this.steps.add(index,step) ;
-        }
-    }
-    /**
-     * @param step
-     *            ?tape ? supprimer de l'activit? (sans effet si step n'est pas
-     *            une ?tape de l'activit?)
-     */
-    public void removeStep(Step step)
-    {
-        if (this.steps.contains(step))
-        {
-            this.steps.remove(step);
-        }
-    }
+	/**
+	 * Initialise l'attribut time
+	 * 
+	 * @param itime
+	 *            la valeur a attribuer.
+	 */
+	public void setTime (int itime)
+	{
+		this.time = itime;
+	}
 
-    /**
-     * Permute l'ordre de step et step2
-     * 
-     * @param step
-     * @param step2
-     */
-    public void swapSteps(Step step, Step step2)
-    {
-        Collections.swap(this.steps, this.steps.lastIndexOf(step), this.steps
-                .lastIndexOf(step2));
-    }
+	/**
+	 * Retourne l'attribut done
+	 * 
+	 * @return done
+	 */
+	public boolean getDone ()
+	{
+		return this.done;
+	}
 
-    /**
-     * @param step 
-     *            ?tape ? ajouter ? l'activit? (sans effet si cette ?tape est
-     *            d?j? une ?tape de l'activit?)
-     * @param index
-     *          rang o? ajouter l'?tape 
-     */
+	/**
+	 * Initialise l'attribut done a true
+	 * 
+	 * @param b
+	 */
+	public void setDone (boolean b)
+	{
+		this.done = b;
+	}
 
+	/**
+	 * @param i
+	 * @return l'attribut timeCouple de la hashmap
+	 */
+	public TimeCouple gethmTime (int i)
+	{
+		return this.hmTime.get(new Integer(i));
+	}
+
+	/**
+	 * @param i
+	 * @param tc
+	 */
+
+	public void sethmTime (int i, TimeCouple tc)
+	{
+		this.hmTime.put(new Integer(i), tc);
+	}
+
+	/**
+	 * Retourne l'attribut steps
+	 * 
+	 * @return steps.
+	 */
+	public List<Step> getSteps ()
+	{
+		return this.steps;
+	}
+
+	/**
+	 * Retourne l'attribut hmTime
+	 * 
+	 * @return hmTime.
+	 */
+	public HashMap getHM ()
+	{
+		return this.hmTime;
+	}
+
+	/**
+	 * Initialise l'attribut steps
+	 * 
+	 * @param steps
+	 *            la valeur a attribuer.
+	 */
+	public void setSteps (List<Step> steps)
+	{
+		this.steps = (steps != null ? steps : new ArrayList<Step>());
+	}
+
+	/**
+	 * Retourne l'attribut workDefinition
+	 * 
+	 * @return workDefinition.
+	 */
+	public WorkDefinition getWorkDefinition ()
+	{
+		return this.workDefinition;
+	}
+
+	/**
+	 * Initialise l'attribut workDefinition
+	 * 
+	 * @param workDefinition
+	 *            la valeur a attribuer.
+	 */
+	public void setWorkDefinition (WorkDefinition workDefinition)
+	{
+		if (this.workDefinition == workDefinition) return;
+
+		final WorkDefinition oldWorkDefinition = this.workDefinition;
+
+		// blocage de la r?cursivit?
+		this.workDefinition = null;
+
+		// suppression de l'ancienne liaison si existante
+		if (oldWorkDefinition != null) oldWorkDefinition.removeActivity(this);
+
+		// cr?ation de la nouvelle liaison
+		if (workDefinition != null)
+		{
+			this.workDefinition = workDefinition;
+			workDefinition.addActivity(this);
+		}
+	}
+
+	/**
+	 * Pour savoir s'il y a des produits en entr?es
+	 * 
+	 * @return true si l'activit? a des produits en entr?e
+	 */
+	public boolean hasInputProducts ()
+	{
+		return (!this.inputProducts.isEmpty());
+	}
+
+	/**
+	 * Pour savoir s'il y a des produits en sortie
+	 * 
+	 * @return true si l'activit? a des produits en sortie
+	 */
+	public boolean hasOutputProducts ()
+	{
+		return (!this.outputProducts.isEmpty());
+	}
+
+	/**
+	 * Pour savoir si l'activit? a besoin d'outils ou pas
+	 * 
+	 * @return true si l'activit? n?cessite l'utilisation outil particulier
+	 */
+	public boolean needsTools ()
+	{
+		if (!this.hasOutputProducts()) return false;
+		else
+			for (Product t : this.outputProducts)
+			{
+				if (t.getEditor() != null) return true;
+			}
+		return false;
+	}
+
+	/**
+	 * Pour savoir si l'activit? est d?compos? en ?tapes ou pas
+	 * 
+	 * @return vrai si l'activit? a des ?tapes associ?es
+	 */
+	public boolean hasSteps ()
+	{
+		return (!this.steps.isEmpty());
+	}
+
+	/**
+	 * @param step
+	 *            ?tape ? ajouter ? l'activit? (sans effet si cette ?tape est
+	 *            d?j? une ?tape de l'activit?)
+	 */
+	public void addStep (Step step)
+	{
+		if (!this.steps.contains(step))
+		{
+			this.steps.add(step);
+		}
+	}
+
+	/**
+	 * @param step
+	 * @param index
+	 */
+	public void addStep (Step step, int index)
+	{
+		if (!this.steps.contains(step))
+		{
+			this.steps.add(index, step);
+		}
+	}
+
+	/**
+	 * @param step
+	 *            ?tape ? supprimer de l'activit? (sans effet si step n'est pas
+	 *            une ?tape de l'activit?)
+	 */
+	public void removeStep (Step step)
+	{
+		if (this.steps.contains(step))
+		{
+			this.steps.remove(step);
+		}
+	}
+
+	/**
+	 * Permute l'ordre de step et step2
+	 * 
+	 * @param step
+	 * @param step2
+	 */
+	public void swapSteps (Step step, Step step2)
+	{
+		Collections.swap(this.steps, this.steps.lastIndexOf(step), this.steps
+				.lastIndexOf(step2));
+	}
+
+	/**
+	 * Retourne vrai si un des produits en sortie de l'activite a un guide du
+	 * type passe en parametre sinon faux
+	 * 
+	 * @param sType
+	 *            le type de guide que l'on cherche
+	 * 
+	 * @return vrai si un des produits en sortie de l'activite a un guide du
+	 *         type passe en parametre sinon faux
+	 */
+	public boolean outputProductHasGuidanceType (String sType)
+	{
+		// pour tous les produits en sortie de l'activite
+		for (Product p : this.outputProducts)
+		{
+			// pour chacun des guides du produit en sortie
+			for (Guidance g : p.getGuidances())
+			{
+				// si le type du guide est le meme que celui passe en parametre
+				if (g.getType().equalsIgnoreCase(sType)) 
+					return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Retourne une liste contenant tous les guides des produits en sorties de
+	 * l'activité qui sont du type sType
+	 * 
+	 * @param sType
+	 *            le type de guide que l'on cherche
+	 * 
+	 * @return une liste contenant tous les guides des produits en sorties de
+	 *         l'activité qui sont du type sType
+	 */
+	public List<Guidance> getOutputProductGuidaceType (String sType)
+	{
+		List<Guidance> lGuidance = new ArrayList<Guidance> ();
+		
+		// pour chacun des produits en sorties de l'activite
+		for(Product p : this.outputProducts)
+		{
+			// on ajoute tous les guides du produit qui sont du type sType
+			lGuidance.addAll(p.getGuidanceType(sType));
+		}
+		
+		return lGuidance;
+	}
 }

@@ -1,5 +1,5 @@
 /*
- * $Id: ProcessElement.java,v 1.5 2006/02/08 16:48:21 cyberal82 Exp $
+ * $Id: ProcessElement.java,v 1.6 2006/02/12 17:02:27 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -271,7 +271,8 @@ public abstract class ProcessElement
 
 		for (Guidance g : this.guidances)
 		{
-			if (g.getType().equalsIgnoreCase(sType)) lGuidance.add(g);
+			if (g.getType().equalsIgnoreCase(sType)) 
+				lGuidance.add(g);
 		}
 
 		return lGuidance;

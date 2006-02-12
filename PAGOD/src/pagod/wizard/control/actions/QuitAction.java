@@ -1,5 +1,5 @@
 /*
- * $Id: QuitAction.java,v 1.9 2006/02/09 19:06:21 cyberal82 Exp $
+ * $Id: QuitAction.java,v 1.10 2006/02/12 17:02:27 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -82,8 +82,8 @@ public class QuitAction extends AbstractPagodAction
     		aTemp.sethmTime(iCurrentIt, new TimeCouple(TimerManager.getInstance().getValueElapsed(), TimerManager.getInstance().getValueRemaining()));
     		
 		}
-		/* TODO test pour le xml*/
-//		// sauvegarde des temps lies au processus
+		
+		// sauvegarde des temps lies au processus
 		ApplicationManager.getInstance().saveTime();
 		
 		

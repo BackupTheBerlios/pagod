@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.44 2006/02/09 19:59:24 yak Exp $
+ * $Id: MainFrame.java,v 1.45 2006/02/12 17:02:27 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -909,25 +909,27 @@ public class MainFrame extends JFrame implements Observer
 				ActionManager.getInstance()
 						.getAction(Constants.ACTION_PREVIOUS).setEnabled(true);
 
-				// si on est sur la derniere etape et qu'il n'y a pas des
-				// produits en sortie ou des guides de type liste de controles
+				
+				// si on est sur la derniere etape et qu'il n'y a pas : 
+				// - des produits en sortie
+				// - des guides de type liste de controles sur le role ou l'activite
 				// on ne peut pas faire next
 				if (state.getIndex() == state.getStepList().size() - 1
 						&& (!state.getActivity().hasOutputProducts()
-								|| !state.getActivity().hasGuidanceType(
-										"Liste de controles") || !state
-								.getActivity().getRole().hasGuidanceType(
+								&& !state.getActivity().hasGuidanceType(
+										"Liste de controles") 
+								&& !state.getActivity().getRole().hasGuidanceType(
 										"Liste de controles")))
 				{
 					ActionManager.getInstance()
 							.getAction(Constants.ACTION_NEXT).setEnabled(false);
 				}
-
 				else
 				{
 					ActionManager.getInstance()
 							.getAction(Constants.ACTION_NEXT).setEnabled(true);
 				}
+				
 				if (state.getActivity().hasOutputProducts())
 				{
 

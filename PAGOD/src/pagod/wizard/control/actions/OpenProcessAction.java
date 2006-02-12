@@ -1,5 +1,5 @@
 /*
- * $Id: OpenProcessAction.java,v 1.9 2006/02/09 19:06:21 cyberal82 Exp $
+ * $Id: OpenProcessAction.java,v 1.10 2006/02/12 17:02:27 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -69,10 +69,19 @@ public class OpenProcessAction extends AbstractPagodAction
 	 */
 	public void actionPerformed (ActionEvent actionEvent)
 	{
+		// on stop le timer
+		if (TimerManager.getInstance().isStarted())
+		{
+			TimerManager.getInstance().stop();
+			Activity aTemp = ApplicationManager.getInstance().getMfPagod()
+					.getActivity();
+			// on enregistre le temps pour l'activit?
+			aTemp.setTime(TimerManager.getInstance().getValueElapsed());
+		}
 
 		// sauvegarde des temps lies au processus
 		ApplicationManager.getInstance().saveTime();
-		
+
 		File processFile = new File(PreferencesManager.getInstance()
 				.getWorkspace()
 				+ File.separator
@@ -81,36 +90,25 @@ public class OpenProcessAction extends AbstractPagodAction
 				+ File.separator
 				+ ApplicationManager.getInstance().getCurrentProject()
 						.getNameDPC());
-		if (processFile.delete())
+
+		// si le processus a pu etre ouvert et associe
+		if (ApplicationManager.getInstance().getMfPagod()
+				.associateDPCWithProject())
 		{
-			// si le processus a pu etre ouvert alors on delegue la requete ?
-			// l'application manager
 			// on essaye d'effacer l'ancien dpc
 			// si le fichier a ete effacer ;) on l'associe au projet
-			if (ApplicationManager.getInstance().getMfPagod()
-					.associateDPCWithProject())
+			if (processFile.delete())
 			{
-				// on stop le timer
-				if (TimerManager.getInstance().isStarted())
-				{
-					TimerManager.getInstance().stop();
-					Activity aTemp = ApplicationManager.getInstance()
-							.getMfPagod().getActivity();
-					// on enregistre le temps pour l'activit?
-					aTemp.setTime(TimerManager.getInstance().getValueElapsed());
-				}
+
+				// on delegue la requete a l'ApplicatioManager
 				ApplicationManager.getInstance().manageRequest(this.request);
 
 				// initialiser le document time
 				TimeHandler th = new TimeHandler();
 				th.loadXML(ApplicationManager.getInstance().getCurrentProject()
 						.getName());
-				// System.out.println("apres le load xml pasing");
-				// th.affiche();
 				th.fillModel(ApplicationManager.getInstance()
 						.getCurrentProcess());
-				// System.out.println("apres la mont du model");
-				// th.affiche();
 			}
 
 		}

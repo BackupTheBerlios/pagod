@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: EndCheckPanel.java,v 1.5 2006/02/03 15:53:09 themorpheus Exp $
+ * $Id: EndCheckPanel.java,v 1.6 2006/02/12 17:02:27 cyberal82 Exp $
  */
 package pagod.wizard.ui;
 
@@ -128,11 +128,13 @@ public class EndCheckPanel extends JScrollPane
            
         }
         pCenterPanel.add(Box.createVerticalStrut(10));
-        //TODO debut ajout bob& baloo
-        pCenterPanel.add(Box.createVerticalStrut(10));
+
+        // pCenterPanel.add(Box.createVerticalStrut(10));
+        
         // section guides
         this.lGuidance.addAll(activity.getGuidanceType("Liste de controles"));
         this.lGuidance.addAll(activity.getRole().getGuidanceType("Liste de controles"));
+        this.lGuidance.addAll(activity.getOutputProductGuidaceType("Liste de controles"));
         
         if (this.lGuidance.size() != 0)
         {
@@ -224,9 +226,6 @@ public class EndCheckPanel extends JScrollPane
 
             }
         }
-        
-        //TODO fin modif bob&baloo
-        
         
         this.setBackground(Color.WHITE);
         pCenterPanel.setBackground(Color.WHITE);
