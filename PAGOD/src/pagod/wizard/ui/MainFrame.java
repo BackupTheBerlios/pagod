@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.45 2006/02/12 17:02:27 cyberal82 Exp $
+ * $Id: MainFrame.java,v 1.46 2006/02/13 19:34:49 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -1189,8 +1189,7 @@ public class MainFrame extends JFrame implements Observer
 		ActionManager.getInstance().getAction(Constants.ACTION_SUSPEND)
 				.setEnabled(true);
 		this.buttonPanel.hideButtons(Buttons.PB_TERMINATE);
-		this.buttonPanel.showButtons(Buttons.PB_SUSPEND, Buttons.PB_PREVIOUS,
-				Buttons.PB_NEXT);
+		this.buttonPanel.showButtons(Buttons.PB_SUSPEND);
 	}
 
 	private void activateTerminate ()
@@ -1201,7 +1200,6 @@ public class MainFrame extends JFrame implements Observer
 		ActionManager.getInstance().getAction(Constants.ACTION_SUSPEND)
 				.setEnabled(false);
 		this.buttonPanel.hideButtons(Buttons.PB_SUSPEND);
-		this.buttonPanel.showButtons(Buttons.PB_TERMINATE, Buttons.PB_PREVIOUS,
-				Buttons.PB_NEXT);
+		this.buttonPanel.showButtons(Buttons.PB_TERMINATE);
 	}
 }
