@@ -1,5 +1,5 @@
 /*
- * $Id: Activity.java,v 1.6 2006/02/12 17:02:27 cyberal82 Exp $
+ * $Id: Activity.java,v 1.7 2006/02/14 09:57:35 fabfoot Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -62,11 +62,7 @@ public class Activity extends ProcessElement
 	 */
 	private Role							role			= null;
 
-	/**
-	 * Time qui permet de quver le temps
-	 */
-	private int								time			= 0;
-
+	
 	private HashMap<Integer, TimeCouple>	hmTime			= new HashMap<Integer, TimeCouple>();
 
 	/**
@@ -184,26 +180,7 @@ public class Activity extends ProcessElement
 		}
 	}
 
-	/**
-	 * Retourne l'attribut time
-	 * 
-	 * @return times
-	 */
-	public int getTime ()
-	{
-		return this.time;
-	}
-
-	/**
-	 * Initialise l'attribut time
-	 * 
-	 * @param itime
-	 *            la valeur a attribuer.
-	 */
-	public void setTime (int itime)
-	{
-		this.time = itime;
-	}
+	
 
 	/**
 	 * Retourne l'attribut done
@@ -435,13 +412,13 @@ public class Activity extends ProcessElement
 
 	/**
 	 * Retourne une liste contenant tous les guides des produits en sorties de
-	 * l'activité qui sont du type sType
+	 * l'activit? qui sont du type sType
 	 * 
 	 * @param sType
 	 *            le type de guide que l'on cherche
 	 * 
 	 * @return une liste contenant tous les guides des produits en sorties de
-	 *         l'activité qui sont du type sType
+	 *         l'activit? qui sont du type sType
 	 */
 	public List<Guidance> getOutputProductGuidaceType (String sType)
 	{
