@@ -1,5 +1,5 @@
 /*
- * $Id: ApplicationManager.java,v 1.27 2006/02/09 19:06:22 cyberal82 Exp $
+ * $Id: ApplicationManager.java,v 1.28 2006/02/14 09:42:45 fabfoot Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -41,6 +41,7 @@ import javax.swing.JOptionPane;
 
 import pagod.common.control.InterfaceManager;
 import pagod.common.control.adapters.ProcessTreeModel;
+import pagod.common.model.Activity;
 import pagod.common.model.Process;
 import pagod.common.model.Project;
 import pagod.common.ui.AboutDialog;
@@ -52,6 +53,7 @@ import pagod.utils.ExceptionManager;
 import pagod.utils.FilesManager;
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
+import pagod.utils.TimerManager;
 import pagod.wizard.control.PreferencesManager.FileNotExecuteException;
 import pagod.wizard.control.PreferencesManager.InvalidExtensionException;
 import pagod.wizard.control.actions.AboutAction;
@@ -227,7 +229,7 @@ public class ApplicationManager extends Observable
 			 * TimeActivityAction());
 			 */
 
-			/* ajout des actions pour le menu itération */
+			/* ajout des actions pour le menu it?ration */
 			am.registerAction(Constants.ACTION_NEXT_ITERATION,
 					new NextIterationAction());
 
@@ -334,7 +336,7 @@ public class ApplicationManager extends Observable
 		// si le workspace n'est pas choisi on affiche un message d'erreur
 		if (!validWorkspace)
 		{
-			// affichage d'un message d'erreur si le workspace n'est pas défini
+			// affichage d'un message d'erreur si le workspace n'est pas d?fini
 			// ou invalide
 			JOptionPane.showMessageDialog(this.mfPagod, LanguagesManager
 					.getInstance().getString("WorkspaceException"),
@@ -419,7 +421,7 @@ public class ApplicationManager extends Observable
 		}
 		else
 		{
-			// affichage d'un message d'erreur si le workspace n'est pas défini
+			// affichage d'un message d'erreur si le workspace n'est pas d?fini
 			// ou invalide
 			JOptionPane.showMessageDialog(this.mfPagod, LanguagesManager
 					.getInstance().getString("WorkspaceException"),
@@ -693,12 +695,22 @@ public class ApplicationManager extends Observable
 	}
 
 	/**
-	 * Sauvegarde les temps lié au processus du projet (fichier time.xml) si un
+	 * Sauvegarde les temps li? au processus du projet (fichier time.xml) si un
 	 * processus est ouvert sinon il ne se passe rien.
 	 * 
 	 */
 	public void saveTime ()
 	{
+		// on stop le timer
+		if (TimerManager.getInstance().isStarted())
+		{
+			TimerManager.getInstance().stop();
+			Activity aTemp = ApplicationManager.getInstance().getMfPagod()
+					.getActivity();
+			// on enregistre le temps pour l'activit?
+			aTemp.setTime(TimerManager.getInstance().getValueElapsed());
+		}
+		//on ecrit le fichier
 		if (ApplicationManager.getInstance().getCurrentProcess() != null)
 		{
 			TimeHandler th = new TimeHandler();
