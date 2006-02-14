@@ -1,5 +1,5 @@
 /*
- * $Id: OpenProcessAction.java,v 1.10 2006/02/12 17:02:27 cyberal82 Exp $
+ * $Id: OpenProcessAction.java,v 1.11 2006/02/14 09:41:57 fabfoot Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -69,16 +69,7 @@ public class OpenProcessAction extends AbstractPagodAction
 	 */
 	public void actionPerformed (ActionEvent actionEvent)
 	{
-		// on stop le timer
-		if (TimerManager.getInstance().isStarted())
-		{
-			TimerManager.getInstance().stop();
-			Activity aTemp = ApplicationManager.getInstance().getMfPagod()
-					.getActivity();
-			// on enregistre le temps pour l'activit?
-			aTemp.setTime(TimerManager.getInstance().getValueElapsed());
-		}
-
+		
 		// sauvegarde des temps lies au processus
 		ApplicationManager.getInstance().saveTime();
 

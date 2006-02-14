@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: OpenProjectAction.java,v 1.10 2006/02/04 22:42:05 yak Exp $
+ * $Id: OpenProjectAction.java,v 1.11 2006/02/14 09:41:57 fabfoot Exp $
  */
 package pagod.wizard.control.actions;
 
@@ -51,23 +51,17 @@ public class OpenProjectAction extends AbstractPagodAction
 	 */
 	public void actionPerformed (ActionEvent actionEvent)
 	{
+		
+		ApplicationManager.getInstance().saveTime();
+
 		// si le project a pu etre ouvert alors on delegue la requete ?
 		// l'application manager
 		if (ApplicationManager.getInstance().getMfPagod().openProject())
 		{
 
-			// on stop le timer
-			if (TimerManager.getInstance().isStarted())
-			{
-				TimerManager.getInstance().stop();
-				Activity aTemp = ApplicationManager.getInstance().getMfPagod()
-						.getActivity();
-				// on enregistre le temps pour l'activit?
-				aTemp.setTime(TimerManager.getInstance().getValueElapsed());
-			}
+			boolean test = ApplicationManager.getInstance().manageRequest(
+					this.request);
 
-			boolean test = ApplicationManager.getInstance().manageRequest(this.request);
-			
 			System.err.println("OpenProjectAction test alex : " + test);
 
 			if (!ApplicationManager.getInstance().getCurrentProject()
@@ -80,10 +74,12 @@ public class OpenProjectAction extends AbstractPagodAction
 				{
 					ApplicationManager.getInstance().manageRequest(
 							new Request(Request.RequestType.OPEN_PROCESS));
-					TimeHandler th = new TimeHandler ();
-					//System.out.println("fabfabafabbba");
-					th.loadXML(ApplicationManager.getInstance().getCurrentProject().getName());
-					th.fillModel(ApplicationManager.getInstance().getCurrentProcess() );
+					TimeHandler th = new TimeHandler();
+					// System.out.println("fabfabafabbba");
+					th.loadXML(ApplicationManager.getInstance()
+							.getCurrentProject().getName());
+					th.fillModel(ApplicationManager.getInstance()
+							.getCurrentProcess());
 				}
 			}
 			else
@@ -104,9 +100,11 @@ public class OpenProjectAction extends AbstractPagodAction
 				{
 					ApplicationManager.getInstance().manageRequest(
 							new Request(Request.RequestType.OPEN_PROCESS));
-					TimeHandler th = new TimeHandler ();
-					th.loadXML(ApplicationManager.getInstance().getCurrentProject().getName());
-					th.fillModel(ApplicationManager.getInstance().getCurrentProcess() );
+					TimeHandler th = new TimeHandler();
+					th.loadXML(ApplicationManager.getInstance()
+							.getCurrentProject().getName());
+					th.fillModel(ApplicationManager.getInstance()
+							.getCurrentProcess());
 					ApplicationManager.getInstance().getMfPagod().showProcess();
 				}
 
