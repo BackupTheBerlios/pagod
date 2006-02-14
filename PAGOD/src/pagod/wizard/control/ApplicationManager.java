@@ -1,5 +1,5 @@
 /*
- * $Id: ApplicationManager.java,v 1.28 2006/02/14 09:42:45 fabfoot Exp $
+ * $Id: ApplicationManager.java,v 1.29 2006/02/14 09:56:22 fabfoot Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -705,10 +705,7 @@ public class ApplicationManager extends Observable
 		if (TimerManager.getInstance().isStarted())
 		{
 			TimerManager.getInstance().stop();
-			Activity aTemp = ApplicationManager.getInstance().getMfPagod()
-					.getActivity();
-			// on enregistre le temps pour l'activit?
-			aTemp.setTime(TimerManager.getInstance().getValueElapsed());
+			
 		}
 		//on ecrit le fichier
 		if (ApplicationManager.getInstance().getCurrentProcess() != null)

@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimeHandler.java,v 1.13 2006/02/10 09:54:07 fabfoot Exp $
+ * $Id: TimeHandler.java,v 1.14 2006/02/14 09:56:22 fabfoot Exp $
  */
 package pagod.wizard.control;
 
@@ -132,12 +132,6 @@ public class TimeHandler
 				// System.err.println("test de l'activit et de lid");
 				if (activity_id.equals(idnode.getValue()))
 				{
-					Element time = node.getChild("time");
-					// System.err.println("id trouv");
-					// System.err.println(time.getText());
-					acty.setTime(new Integer(time.getText()).intValue());
-					// System.err.println(acty.getTime());
-					
 					// Recuperation de chaque node iteration
 					iterationlist = node.getChildren("iteration");
 					iterationlist_iterator = iterationlist.iterator();
@@ -182,7 +176,6 @@ public class TimeHandler
 		final Document document = new Document(racine);
 		Element activi = null;
 		Attribute id = null;
-		Element time = null;
 		HashMap hashmap = null;
 		Set s = null;
 		Iterator its = null;
@@ -201,11 +194,6 @@ public class TimeHandler
 			racine.addContent(activi);
 			id = new Attribute("idref", acty.getId());
 			activi.setAttribute(id);
-			time = new Element("time");
-			time.setText(Integer.toString(acty.getTime())); // Cast Int -
-															// Integer -> string
-			activi.addContent(time);
-			//System.out.println("test fab");
 			hashmap = acty.getHM();
 			s = hashmap.keySet();
 			its  = s.iterator(); 
