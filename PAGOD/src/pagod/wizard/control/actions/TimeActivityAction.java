@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimeActivityAction.java,v 1.4 2006/02/06 16:19:12 biniou Exp $
+ * $Id: TimeActivityAction.java,v 1.5 2006/02/15 15:50:49 biniou Exp $
  */
 package pagod.wizard.control.actions;
 
@@ -11,8 +11,6 @@ import java.io.IOException;
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
 import pagod.wizard.control.ApplicationManager;
-import pagod.wizard.control.Constants;
-import pagod.wizard.control.states.Request;
 import pagod.wizard.ui.TimeActivityDialog;
 
 /**

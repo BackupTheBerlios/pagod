@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.47 2006/02/15 14:34:29 psyko Exp $
+ * $Id: MainFrame.java,v 1.48 2006/02/15 15:50:49 biniou Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -916,16 +916,16 @@ public class MainFrame extends JFrame implements Observer
 				ActionManager.getInstance()
 						.getAction(Constants.ACTION_PREVIOUS).setEnabled(true);
 
-				
-				// si on est sur la derniere etape et qu'il n'y a pas : 
+				// si on est sur la derniere etape et qu'il n'y a pas :
 				// - des produits en sortie
-				// - des guides de type liste de controles sur le role ou l'activite
+				// - des guides de type liste de controles sur le role ou
+				// l'activite
 				// on ne peut pas faire next
 				if (state.getIndex() == state.getStepList().size() - 1
 						&& (!state.getActivity().hasOutputProducts()
 								&& !state.getActivity().hasGuidanceType(
-										"Liste de controles") 
-								&& !state.getActivity().getRole().hasGuidanceType(
+										"Liste de controles") && !state
+								.getActivity().getRole().hasGuidanceType(
 										"Liste de controles")))
 				{
 					ActionManager.getInstance()
@@ -936,7 +936,7 @@ public class MainFrame extends JFrame implements Observer
 					ActionManager.getInstance()
 							.getAction(Constants.ACTION_NEXT).setEnabled(true);
 				}
-				
+
 				if (state.getActivity().hasOutputProducts())
 				{
 
@@ -1027,6 +1027,13 @@ public class MainFrame extends JFrame implements Observer
 						Constants.ACTION_OPENPROCESS).setEnabled(false);
 				ActionManager.getInstance().getAction(
 						Constants.ACTION_CLOSEPROJECT).setEnabled(false);
+				ActionManager.getInstance().getAction(
+						Constants.ACTION_NEXT_ITERATION).setEnabled(false);
+				ActionManager.getInstance().getAction(
+						Constants.ACTION_TIME_ALL_ITERATIONS).setEnabled(false);
+				ActionManager.getInstance().getAction(
+						Constants.ACTION_TIME_CURRENT_ITERATION).setEnabled(
+						false);
 
 				// on affiche la fen?tre
 				this.setVisible(true);
@@ -1138,6 +1145,8 @@ public class MainFrame extends JFrame implements Observer
 						Constants.ACTION_OPENPROCESS).setEnabled(true);
 				ActionManager.getInstance().getAction(
 						Constants.ACTION_CLOSEPROJECT).setEnabled(true);
+				
+				
 
 			}
 			else if (obj instanceof ProcessOpenedState)
@@ -1156,6 +1165,14 @@ public class MainFrame extends JFrame implements Observer
 						.getAction(Constants.ACTION_GOTOSTEP).setEnabled(false);
 				ActionManager.getInstance().getAction(
 						Constants.ACTION_TERMINATE).setEnabled(false);
+				// on degrise les menus d'iteration
+				ActionManager.getInstance().getAction(
+						Constants.ACTION_NEXT_ITERATION).setEnabled(true);
+				ActionManager.getInstance().getAction(
+						Constants.ACTION_TIME_ALL_ITERATIONS).setEnabled(true);
+				ActionManager.getInstance().getAction(
+						Constants.ACTION_TIME_CURRENT_ITERATION).setEnabled(
+						true);
 
 				// TODO fab pour tester le timeHandler
 				// TimeHandler th = new TimeHandler ();

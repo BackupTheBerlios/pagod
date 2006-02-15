@@ -1,5 +1,5 @@
 /*
- * $Id: Activity.java,v 1.7 2006/02/14 09:57:35 fabfoot Exp $
+ * $Id: Activity.java,v 1.8 2006/02/15 15:50:49 biniou Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -236,9 +236,17 @@ public class Activity extends ProcessElement
 	 * 
 	 * @return hmTime.
 	 */
-	public HashMap getHM ()
+	public HashMap<Integer,TimeCouple> getHM ()
 	{
 		return this.hmTime;
+	}
+	
+	/**
+	 * @param hashmap : nouvelle hashmap qu'on veut associer a l'activité
+	 */
+	public void setHM(HashMap<Integer,TimeCouple> hashmap)
+	{
+		this.hmTime = hashmap;		
 	}
 
 	/**

@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimeActivityDialog.java,v 1.10 2006/02/15 15:50:49 biniou Exp $
+ * $Id: TimeActivityAllIterationsDialog.java,v 1.1 2006/02/15 15:50:49 biniou Exp $
  */
 package pagod.wizard.ui;
 
@@ -27,11 +27,12 @@ import pagod.utils.TimerManager;
 import pagod.wizard.control.ApplicationManager;
 
 /**
- * @author ppmaxynoob et biniou
+ * @author biniou
+ * 
  */
-public class TimeActivityDialog extends JDialog implements ActionListener
+public class TimeActivityAllIterationsDialog extends JDialog implements
+		ActionListener
 {
-
 	// panel contenant la JTable
 	private JPanel	pCentral	= null;
 
@@ -50,7 +51,7 @@ public class TimeActivityDialog extends JDialog implements ActionListener
 	/**
 	 * @param parentFrame
 	 */
-	public TimeActivityDialog (JFrame parentFrame)
+	public TimeActivityAllIterationsDialog (JFrame parentFrame)
 	{
 		super(parentFrame);
 
@@ -59,19 +60,19 @@ public class TimeActivityDialog extends JDialog implements ActionListener
 
 		// titre
 		this.setTitle(LanguagesManager.getInstance().getString(
-				"TimeActivityDialogTitle"));
+				"TimeActivityAllIterationsDialogTitle"));
 
 		// creation de la JTable
 
 		MaTableModel tm = new MaTableModel();
-		this.table = new JTable(tm);
+		this.table = new JTable();
+		this.table.setModel(tm);
 
 		// panel qui va contenir la JTable
 		this.pCentral = new JPanel();
-		// jspTable.add(this.table);
+
 		JScrollPane jspTable = new JScrollPane(this.table);
 		this.pCentral.add(jspTable, BorderLayout.CENTER);
-		// on ajoute la grille
 
 		// panel contenant les boutons
 		this.pButton = new JPanel();
@@ -112,7 +113,7 @@ public class TimeActivityDialog extends JDialog implements ActionListener
 		JButton b = (JButton) e.getSource();
 
 		// si on a cliqu? sur le bouton ok
-		if (b == TimeActivityDialog.this.pbOk)
+		if (b == TimeActivityAllIterationsDialog.this.pbOk)
 		{
 			// on a cliqu? sur ok
 			// on recupere la liste de temps du tablemodel
@@ -120,29 +121,27 @@ public class TimeActivityDialog extends JDialog implements ActionListener
 			ArrayList<Activity> alAct = new ArrayList<Activity>();
 			alAct.addAll(ApplicationManager.getInstance().getCurrentProcess()
 					.getAllActivities());
-			ArrayList<HashMap<Integer,TimeCouple>> alH = null;
-			alH = ((MaTableModel) TimeActivityDialog.this.table.getModel())
-					.getAlTime();
-			
-			int iteration = ApplicationManager.getInstance().getCurrentProject().getItCurrent();
+			ArrayList<HashMap<Integer, TimeCouple>> alTime = null;
+			alTime = ((MaTableModel) TimeActivityAllIterationsDialog.this.table
+					.getModel()).getAlTime();
+
 			int i = 0;
-			for (i = 0; i < alH.size(); i++)
+			for (i = 0; i < alTime.size(); i++)
 			{
 				// recuperation du timecouple de la hm provisoire
-				TimeCouple tc = (alH.get(i)).get(iteration);			
-				alAct.get(i).sethmTime(iteration,tc);
-				
-				//alAct.get(i).setTime(alT.get(i));
+				alAct.get(i).setHM(alTime.get(i));
+
+				// alAct.get(i).setTime(alT.get(i));
 			}
 
 			// on ferme la fenetre
-			TimeActivityDialog.this.dispose();
+			TimeActivityAllIterationsDialog.this.dispose();
 		}
 		else
 		{
 			// bouton annuler
 			// on ne prend aucun changement en compte
-			TimeActivityDialog.this.dispose();
+			TimeActivityAllIterationsDialog.this.dispose();
 		}
 
 	}
@@ -150,10 +149,10 @@ public class TimeActivityDialog extends JDialog implements ActionListener
 	private class MaTableModel extends AbstractTableModel
 	{
 		// arraylist contenant toutes les activites du modele
-		private ArrayList<Activity>	alActivities	= new ArrayList<Activity>();
+		private ArrayList<Activity>						alActivities	= new ArrayList<Activity>();
 
 		// arraylist contenant les temps associes aux activits
-		private ArrayList<HashMap<Integer,TimeCouple>>	alTime	= new ArrayList<HashMap<Integer,TimeCouple>>();
+		private ArrayList<HashMap<Integer, TimeCouple>>	alTime			= new ArrayList<HashMap<Integer, TimeCouple>>();
 
 		MaTableModel ()
 		{
@@ -166,7 +165,7 @@ public class TimeActivityDialog extends JDialog implements ActionListener
 			for (Activity currentActivity : this.alActivities)
 			{
 				// recuperation du temps de l'activité
-				HashMap<Integer,TimeCouple> hmTime = new HashMap<Integer,TimeCouple>();
+				HashMap<Integer, TimeCouple> hmTime = new HashMap<Integer, TimeCouple>();
 				hmTime = currentActivity.getHM();
 				this.alTime.add(i, hmTime);
 				i++;
@@ -174,7 +173,6 @@ public class TimeActivityDialog extends JDialog implements ActionListener
 		}
 
 		/**
-		 * (non-Javadoc)
 		 * 
 		 * @see javax.swing.table.TableModel#getRowCount()
 		 */
@@ -186,62 +184,47 @@ public class TimeActivityDialog extends JDialog implements ActionListener
 		}
 
 		/**
-		 * (non-Javadoc)
 		 * 
 		 * @see javax.swing.table.TableModel#getColumnCount()
 		 */
 		public int getColumnCount ()
 		{
-			// nombre de colonnes
-			return 3;
+			// nombre de colonnes egal au nombre d'itérations +1
+			return (ApplicationManager.getInstance().getCurrentProject()
+					.getItCurrent() + 1);
 		}
 
 		/**
-		 * (non-Javadoc)
 		 * 
 		 * @see javax.swing.table.TableModel#getValueAt(int, int)
 		 */
 		public Object getValueAt (int rowIndex, int columnIndex)
 		{
 			String cellValue = null;
-			// iteration courante
-			int it = ApplicationManager.getInstance().getCurrentProject()
-					.getItCurrent();
 
 			// on recupere les noms des activites et les temps associes
 			if (columnIndex == 0)
 			{
 				cellValue = (this.alActivities.get(rowIndex)).getName();
 			}
-			else if (columnIndex == 1)
+			else
 			{
 				// affichage du tps passé sous la forme h:m:s
-
 				// on recupere la hashmap de l'activité
 				HashMap hmTime = new HashMap();
 				hmTime = this.alTime.get(rowIndex);
 
-				// en fonction de l'ité courante, on recupere le temps passé
-				TimeCouple tc = (TimeCouple) hmTime.get(it);
+				// en fonction de la colonne, on recupere le temps
+				// passé
+				TimeCouple tc = (TimeCouple) hmTime.get(columnIndex);
 				cellValue = TimerManager.stringFromTime(tc.getTimeElapsed());
-			}
-			else
-			{
-				// affichage du tps prévu sous la forme h:m:s
 
-				// on recupere la hashmap de l'activité
-				HashMap hmTime = this.alTime.get(rowIndex);
-
-				// en fonction de l'ité courante, on recupere le temps passé
-				TimeCouple tc = (TimeCouple) hmTime.get(it);
-				cellValue = TimerManager.stringFromTime(tc.getTimeRemaining());
 			}
 
 			return cellValue;
 		}
 
 		/**
-		 * (non-Javadoc)
 		 * 
 		 * @see javax.swing.table.AbstractTableModel#getColumnName(int)
 		 */
@@ -253,34 +236,28 @@ public class TimeActivityDialog extends JDialog implements ActionListener
 				return LanguagesManager.getInstance().getString(
 						"TimeActivityColumnNameActivity");
 			}
-			else if (iColumnIndex == 1)
-			{
-				return LanguagesManager.getInstance().getString(
-						"TimeActivityColumnNameTimeElapsed");
-			}
 			else
 			{
-				return LanguagesManager.getInstance().getString(
-				"TimeActivityColumnNameTimeRemaining");
+				return (LanguagesManager.getInstance().getString(
+						"TimeActivityColumnNameTimeElapsedIterations") + iColumnIndex);
 			}
 		}
 
 		/**
-		 * (non-Javadoc)
 		 * 
 		 * @see javax.swing.table.AbstractTableModel#isCellEditable(int, int)
 		 */
 		public boolean isCellEditable (int row, int col)
 		{
 			// temps editables
-			if (col == 0) 
-				{
-					return false;
-				}
+			if (col == 0)
+			{
+				return false;
+			}
 			else
-				{
+			{
 				return true;
-				}
+			}
 		}
 
 		/**
@@ -300,39 +277,32 @@ public class TimeActivityDialog extends JDialog implements ActionListener
 			if (isValid)
 			{
 				int time = TimerManager.timeFromString(String.valueOf(value));
-				HashMap<Integer,TimeCouple> hm = new HashMap<Integer,TimeCouple>();
+				HashMap<Integer, TimeCouple> hm = this.alTime.get(rowIndex);
 				int it = ApplicationManager.getInstance().getCurrentProject()
-				.getItCurrent();
-				
-				if (columnIndex ==1)
+						.getItCurrent();
+
+				if (columnIndex == it)
 				{
 					// temps passé
 					// on recupere le tps prévu pour ne pas le changer
+					// puisqu'on est dans l'itération courante
 					TimeCouple tc = (this.alTime.get(rowIndex)).get(it);
 					int remainingTime = tc.getTimeRemaining();
-					
+
 					// on crée un nouveau couple avec l'ancien temps restant et
 					// le nouveau temps passé
 					TimeCouple tcEdit = new TimeCouple(time, remainingTime);
-					hm.put(it,tcEdit);
-					this.alTime.set(rowIndex,hm);
-					
+					hm.put(columnIndex, tcEdit);
+					this.alTime.set(rowIndex, hm);
 				}
 				else
 				{
-					// temps prévu
-					// on recupere le tps passé pour ne pas le changer
-					TimeCouple tc = (this.alTime.get(rowIndex)).get(it);
-					int elapsedTime = tc.getTimeElapsed();
-					
-					// on crée un nouveau couple avec l'ancien temps restant et
+					// on crée un nouveau couple avec 0 en temps restant et
 					// le nouveau temps passé
-					TimeCouple tcEdit = new TimeCouple(elapsedTime, time);
-					hm.put(it,tcEdit);
-					this.alTime.set(rowIndex,hm);
+					TimeCouple tcEdit = new TimeCouple(time, 0);
+					hm.put(columnIndex, tcEdit);
+					this.alTime.set(rowIndex, hm);
 				}
-				
-				//this.alTime.set(rowIndex, i);
 			}
 			else
 			{
@@ -347,7 +317,7 @@ public class TimeActivityDialog extends JDialog implements ActionListener
 		/**
 		 * @return arraylist des temps
 		 */
-		public ArrayList<HashMap<Integer,TimeCouple>> getAlTime ()
+		public ArrayList<HashMap<Integer, TimeCouple>> getAlTime ()
 		{
 			// getteur
 			return (this.alTime);

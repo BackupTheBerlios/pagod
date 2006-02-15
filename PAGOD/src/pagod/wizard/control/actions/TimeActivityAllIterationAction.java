@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimeActivityAllIterationAction.java,v 1.1 2006/02/06 16:19:12 biniou Exp $
+ * $Id: TimeActivityAllIterationAction.java,v 1.2 2006/02/15 15:50:49 biniou Exp $
  */
 package pagod.wizard.control.actions;
 
@@ -10,6 +10,8 @@ import java.io.IOException;
 
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
+import pagod.wizard.control.ApplicationManager;
+import pagod.wizard.ui.TimeActivityAllIterationsDialog;
 
 /**
  * @author biniou
@@ -39,6 +41,7 @@ public class TimeActivityAllIterationAction extends AbstractPagodAction
 	 */
 	public void actionPerformed (ActionEvent actionEvent)
 	{
-		System.out.println("On est sensé afficher les temps depuis le début.");
+		TimeActivityAllIterationsDialog tad = new TimeActivityAllIterationsDialog(ApplicationManager.getInstance().getMfPagod());
+		tad.setVisible(true);
 	}
 }
