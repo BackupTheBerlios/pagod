@@ -1,5 +1,5 @@
 /*
- * $Id: CommonProcessPanel.java,v 1.2 2006/02/04 22:42:06 yak Exp $
+ * $Id: CommonProcessPanel.java,v 1.3 2006/02/15 18:14:04 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -47,7 +47,6 @@ import pagod.common.control.adapters.ProcessTreeModel;
 import pagod.common.model.Activity;
 import pagod.common.model.ProcessElement;
 import pagod.common.model.Role;
-import pagod.common.model.WorkDefinition;
 
 /**
  * Panneaux affichant le processus
@@ -111,6 +110,7 @@ public abstract class CommonProcessPanel extends JSplitPane
 				}
 			}
 		});
+		
 		// ajout de l'écouteur de double click sur le JTree
 		this.processTree.addMouseListener(new MouseAdapter()
 		{
@@ -138,6 +138,7 @@ public abstract class CommonProcessPanel extends JSplitPane
 		this.processTree.getSelectionModel().setSelectionMode(
 				TreeSelectionModel.SINGLE_TREE_SELECTION);
 		// ajout du renderer qui affiche les icones ad hoc en face des label
+		this.processTree.setLargeModel(true);
 		this.processTree.setCellRenderer(new PAGODTreeCellRenderer());
 		// déplier tout l'arbre
 		this.expandAllNodes();
@@ -242,16 +243,12 @@ public abstract class CommonProcessPanel extends JSplitPane
 					a = (Activity) node.getUserObject();
 					if (a.getDone())
 					{
-						
-						Font f = this.getFont();
-						 Font f2 = f.deriveFont(Font.BOLD);
-						this.setFont(f2);
+						this.setForeground(Color.LIGHT_GRAY);
+					
 					}
 					else
 					{
-						Font f = this.getFont();
-						Font f2 = f.deriveFont(Font.PLAIN);
-						this.setFont(f2);
+						this.setForeground(Color.BLACK);
 					}
 					
 				}
@@ -262,9 +259,11 @@ public abstract class CommonProcessPanel extends JSplitPane
 
 					Font f = this.getFont();
 					Font f2 = f.deriveFont(Font.PLAIN);
+					
 					this.setFont(f2);
 				}
 			}
+			
 			return c;
 		}
 	}
