@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.46 2006/02/13 19:34:49 yak Exp $
+ * $Id: MainFrame.java,v 1.47 2006/02/15 14:34:29 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -791,6 +791,13 @@ public class MainFrame extends JFrame implements Observer
 				+ " : " + this.getActivity().getRole() + "<BR>"
 				+ LanguagesManager.getInstance().getString("activityActivity")
 				+ " : " + this.getActivity() + "<BR>" + state;
+		
+		if (ApplicationManager.getInstance().getCurrentProject() != null)
+		{
+			message = message + "<BR>" + 
+			LanguagesManager.getInstance().getString("activityIteration")
+			+ " : " + ApplicationManager.getInstance().getCurrentProject().getItCurrent();
+		}
 
 		this.messagePanel.setMessage(message);
 	}
