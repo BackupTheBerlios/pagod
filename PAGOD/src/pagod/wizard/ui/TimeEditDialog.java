@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimeEditDialog.java,v 1.5 2006/02/09 17:52:17 biniou Exp $
+ * $Id: TimeEditDialog.java,v 1.6 2006/02/15 11:57:18 psyko Exp $
  */
 
 package pagod.wizard.ui;
@@ -66,7 +66,7 @@ public class TimeEditDialog extends JDialog
 	{
 		super(dParent, LanguagesManager.getInstance().getString(
 				"TimeEditDialogTitle")
-				+ activity.getName(), true);
+				+ " : "+activity.getName(), true);
 
 		// initialisation de notre attribut activity
 		this.activity = activity;
