@@ -1,5 +1,5 @@
 /*
- * $Id: CheckPane.java,v 1.3 2006/02/03 15:10:23 cyberal82 Exp $
+ * $Id: CheckPane.java,v 1.4 2006/02/15 18:18:54 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -111,9 +111,17 @@ public class CheckPane extends JScrollPane
             // mise en place de la phrase de titre
             JPanel pProductTitlePanel = new JPanel(new FlowLayout(
                     FlowLayout.LEFT));
-            JLabel lProductsTitleLabel = new JLabel("");
-            lProductsTitleLabel = new JLabel(LanguagesManager.getInstance()
-                    .getString("CheckProductsLabel"), SwingConstants.LEFT);
+            
+            // pour que le label soit au singulier ou au pluriel selon les cas
+            String sProductTitleLabel = "";
+            if (this.activity.getInputProducts().size() == 1)
+            	sProductTitleLabel = LanguagesManager.getInstance()
+                .getString("CheckProductLabel");
+            else
+            	sProductTitleLabel = LanguagesManager.getInstance()
+                .getString("CheckProductsLabel");
+            
+            JLabel lProductsTitleLabel = new JLabel(sProductTitleLabel, SwingConstants.LEFT);
             lProductsTitleLabel.setBackground(Color.WHITE);
             pProductTitlePanel.setBackground(Color.WHITE);
             pProductTitlePanel.add(lProductsTitleLabel);
@@ -151,8 +159,7 @@ public class CheckPane extends JScrollPane
                 // mise en place de la phrase de titre
                 JPanel pToolTitlePanel = new JPanel(new FlowLayout(
                         FlowLayout.LEFT));
-                JLabel lToolsTitleLabel = new JLabel("");
-                lToolsTitleLabel = new JLabel(LanguagesManager.getInstance()
+                JLabel lToolsTitleLabel = new JLabel(LanguagesManager.getInstance()
                         .getString("CheckToolsLabel"), SwingConstants.LEFT);
                 lToolsTitleLabel.setBackground(Color.WHITE);
                 pToolTitlePanel.setBackground(Color.WHITE);
@@ -206,6 +213,15 @@ public class CheckPane extends JScrollPane
                     }
 
                 }
+                
+                // mise en place du label pour les tools en fonction du nb de tool
+                // pour respecter le pluriel ou le singulier
+                if (hashSetOutilsDejaAjoutes.size() == 1)
+                	lToolsTitleLabel.setText(LanguagesManager.getInstance()
+                    .getString("CheckToolLabel"));
+                else
+                	lToolsTitleLabel.setText(LanguagesManager.getInstance()
+                            .getString("CheckToolsLabel"));
             }
         }
         pCenterPanel.add(Box.createVerticalStrut(10));
@@ -218,9 +234,17 @@ public class CheckPane extends JScrollPane
             // mise en place de la phrase de titre
             JPanel pGuidanceTitlePanel = new JPanel(new FlowLayout(
                     FlowLayout.LEFT));
-            JLabel lGuidancesTitleLabel = new JLabel("");
-            lGuidancesTitleLabel = new JLabel(LanguagesManager.getInstance()
-                    .getString("CheckGuidancesLabel"), SwingConstants.LEFT);
+            
+            // pour que le label soit au singulier ou au pluriel selon les cas
+            String sGuidancesTitleLabel;
+            if (this.lGuidance.size() == 1)
+            	sGuidancesTitleLabel = LanguagesManager.getInstance()
+                .getString("CheckGuidanceLabel");
+            else
+            	sGuidancesTitleLabel = LanguagesManager.getInstance()
+                .getString("CheckGuidancesLabel");
+            
+            JLabel lGuidancesTitleLabel = new JLabel(sGuidancesTitleLabel, SwingConstants.LEFT);
             lGuidancesTitleLabel.setBackground(Color.WHITE);
             pGuidanceTitlePanel.setBackground(Color.WHITE);
             pGuidanceTitlePanel.add(lGuidancesTitleLabel);

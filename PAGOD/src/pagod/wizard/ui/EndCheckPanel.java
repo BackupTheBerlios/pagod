@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: EndCheckPanel.java,v 1.6 2006/02/12 17:02:27 cyberal82 Exp $
+ * $Id: EndCheckPanel.java,v 1.7 2006/02/15 18:18:54 cyberal82 Exp $
  */
 package pagod.wizard.ui;
 
@@ -90,10 +90,18 @@ public class EndCheckPanel extends JScrollPane
             // mise en place de la phrase de titre
             JPanel pProductTitlePanel = new JPanel(new FlowLayout(
                     FlowLayout.LEFT));
-            JLabel lProductsTitleLabel = new JLabel("");
-            //TODO changer le label
-            lProductsTitleLabel = new JLabel(LanguagesManager.getInstance()
-                    .getString("CheckOutputProductsLabel"), SwingConstants.LEFT);
+            
+            // pour que le label soit au singulier ou au pluriel selon les cas
+            String sProductTitleLabel = "";
+            if (this.activity.getOutputProducts().size() == 1)
+            	sProductTitleLabel = LanguagesManager.getInstance()
+                .getString("CheckOutputProductLabel");
+            else
+            	sProductTitleLabel = LanguagesManager.getInstance()
+                .getString("CheckOutputProductsLabel");
+            
+            
+            JLabel lProductsTitleLabel = new JLabel(sProductTitleLabel, SwingConstants.LEFT);
             lProductsTitleLabel.setBackground(Color.WHITE);
             pProductTitlePanel.setBackground(Color.WHITE);
             pProductTitlePanel.add(lProductsTitleLabel);
@@ -141,9 +149,17 @@ public class EndCheckPanel extends JScrollPane
             // mise en place de la phrase de titre
             JPanel pGuidanceTitlePanel = new JPanel(new FlowLayout(
                     FlowLayout.LEFT));
-            JLabel lGuidancesTitleLabel = new JLabel("");
-            lGuidancesTitleLabel = new JLabel(LanguagesManager.getInstance()
-                    .getString("CheckListLabel"), SwingConstants.LEFT);
+            
+            // pour que le label soit au singulier ou au pluriel selon les cas
+            String sGuidancesTitleLabel;
+            if (this.lGuidance.size() == 1)
+            	sGuidancesTitleLabel = LanguagesManager.getInstance()
+                .getString("CheckListLabel");
+            else
+            	sGuidancesTitleLabel = LanguagesManager.getInstance()
+                .getString("CheckListsLabel");
+            
+            JLabel lGuidancesTitleLabel = new JLabel(sGuidancesTitleLabel, SwingConstants.LEFT);
             lGuidancesTitleLabel.setBackground(Color.WHITE);
             pGuidanceTitlePanel.setBackground(Color.WHITE);
             pGuidanceTitlePanel.add(lGuidancesTitleLabel);
