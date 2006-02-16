@@ -1,5 +1,5 @@
 /*
- * $Id: PreferencesDialog.java,v 1.5 2006/02/03 13:38:35 flotueur Exp $
+ * $Id: PreferencesDialog.java,v 1.6 2006/02/16 17:01:45 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -145,7 +145,7 @@ public class PreferencesDialog extends JDialog implements ActionListener
 	            
             // On n'effectue la copie que si le chemin du workspace a ete modifie
             // et si le workspace existe deja
-            if (PreferencesManager.getInstance().getWorkspace() != this.pLanguage.getWorkspace()
+            if (!PreferencesManager.getInstance().getWorkspace().equals( this.pLanguage.getWorkspace())
             	&& PreferencesManager.getInstance().getWorkspace()!=null ){
 	            // On instancie les fichiers
 	    		File sourceWorkspace = new File(PreferencesManager.getInstance().getWorkspace());
