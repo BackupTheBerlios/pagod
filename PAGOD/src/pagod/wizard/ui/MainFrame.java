@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.49 2006/02/16 15:41:48 biniou Exp $
+ * $Id: MainFrame.java,v 1.50 2006/02/16 15:59:16 biniou Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -1150,6 +1150,15 @@ public class MainFrame extends JFrame implements Observer
 						Constants.ACTION_OPENPROCESS).setEnabled(true);
 				ActionManager.getInstance().getAction(
 						Constants.ACTION_CLOSEPROJECT).setEnabled(true);
+				
+				// on change le titre de l'appli pour afficher le nom du projet
+//				 on recupere le nom du projet en cours
+				String nameProject = ApplicationManager.getInstance()
+						.getCurrentProject().getName();
+
+				// mettre le titre a jour
+				String title = Constants.APPLICATION_SHORT_NAME + " - " + nameProject;
+				this.setTitle(title);
 
 			}
 			else if (obj instanceof ProcessOpenedState)
