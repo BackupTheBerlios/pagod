@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.48 2006/02/15 15:50:49 biniou Exp $
+ * $Id: MainFrame.java,v 1.49 2006/02/16 15:41:48 biniou Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -382,7 +382,12 @@ public class MainFrame extends JFrame implements Observer
 		this.northPanel.removeAll();
 		// mettre a jour le message
 		this.messagePanel.setMessage(LanguagesManager.getInstance().getString(
-				"openedProcessMessage"));
+				"openedProcessMessage")+"<BR>" + 
+				LanguagesManager.getInstance().getString("activityIteration")
+				+ " : " + ApplicationManager.getInstance().getCurrentProject().getItCurrent());
+		
+		
+		
 		// on remplie les panneaux
 		// au nord
 		this.northPanel.setVisible(false);
@@ -1145,8 +1150,6 @@ public class MainFrame extends JFrame implements Observer
 						Constants.ACTION_OPENPROCESS).setEnabled(true);
 				ActionManager.getInstance().getAction(
 						Constants.ACTION_CLOSEPROJECT).setEnabled(true);
-				
-				
 
 			}
 			else if (obj instanceof ProcessOpenedState)
@@ -1195,7 +1198,14 @@ public class MainFrame extends JFrame implements Observer
 			}
 			else if (obj instanceof ActivityLaunchedState)
 			{
-
+				//				 on grise les menus d'iteration
+				ActionManager.getInstance().getAction(
+						Constants.ACTION_NEXT_ITERATION).setEnabled(false);
+				ActionManager.getInstance().getAction(
+						Constants.ACTION_TIME_ALL_ITERATIONS).setEnabled(false);
+				ActionManager.getInstance().getAction(
+						Constants.ACTION_TIME_CURRENT_ITERATION).setEnabled(
+						false);
 			}
 
 		}

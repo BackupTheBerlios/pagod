@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimeActivityAllIterationsDialog.java,v 1.1 2006/02/15 15:50:49 biniou Exp $
+ * $Id: TimeActivityAllIterationsDialog.java,v 1.2 2006/02/16 15:41:48 biniou Exp $
  */
 package pagod.wizard.ui;
 
@@ -165,8 +165,8 @@ public class TimeActivityAllIterationsDialog extends JDialog implements
 			for (Activity currentActivity : this.alActivities)
 			{
 				// recuperation du temps de l'activité
-				HashMap<Integer, TimeCouple> hmTime = new HashMap<Integer, TimeCouple>();
-				hmTime = currentActivity.getHM();
+				HashMap<Integer, TimeCouple> hmTime = (HashMap<Integer, TimeCouple>)currentActivity.getHM().clone();
+				
 				this.alTime.add(i, hmTime);
 				i++;
 			}

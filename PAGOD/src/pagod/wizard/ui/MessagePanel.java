@@ -1,5 +1,5 @@
 /*
- * $Id: MessagePanel.java,v 1.5 2006/02/04 22:42:06 yak Exp $
+ * $Id: MessagePanel.java,v 1.6 2006/02/16 15:41:48 biniou Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -129,7 +129,7 @@ public class MessagePanel extends JPanel implements Observer
 		if (TimerManager.getInstance().isStarted())
 		{
 		
-			System.out.println("messagePanel.setMessage : timerstarted???!");
+			//System.out.println("messagePanel.setMessage : timerstarted???!");
 			String sMess = LanguagesManager.getInstance().getString(
 					"timeElapsedMessage")
 					+ TimerManager.stringFromTime(TimerManager.getInstance().getValueElapsed());
