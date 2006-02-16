@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: NextIterationAction.java,v 1.6 2006/02/16 17:07:32 cyberal82 Exp $
+ * $Id: NextIterationAction.java,v 1.7 2006/02/16 17:43:55 biniou Exp $
  */
 package pagod.wizard.control.actions;
 
@@ -13,7 +13,6 @@ import javax.swing.JOptionPane;
 
 import pagod.common.model.Activity;
 import pagod.common.model.TimeCouple;
-import pagod.configurator.ui.PreferencesDialog;
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
 import pagod.wizard.control.ApplicationManager;
@@ -67,6 +66,12 @@ public class NextIterationAction extends AbstractPagodAction
 			tc1.setTimeRemaining(0);
 
 		}
+		
+		ApplicationManager.getInstance().getMfPagod().setMessagePanel(LanguagesManager.getInstance().getString(
+		"openedProcessMessage")+"<BR>" + 
+		LanguagesManager.getInstance().getString("activityIteration")
+		+ " : " + ApplicationManager.getInstance().getCurrentProject().getItCurrent());
+		
 		// on affiche un message comme quoi l'iteration a changé
 		JOptionPane.showMessageDialog(ApplicationManager.getInstance()
 				.getMfPagod(), LanguagesManager.getInstance().getString(

@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.50 2006/02/16 15:59:16 biniou Exp $
+ * $Id: MainFrame.java,v 1.51 2006/02/16 17:43:55 biniou Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -805,6 +805,17 @@ public class MainFrame extends JFrame implements Observer
 		}
 
 		this.messagePanel.setMessage(message);
+	}
+	
+	/**
+	 * @param message 
+	 */
+	//TODO
+	public void setMessagePanel (String message)
+	{
+//		 mettre a jour le message
+		this.messagePanel.setMessage(message);
+		
 	}
 
 	/**
