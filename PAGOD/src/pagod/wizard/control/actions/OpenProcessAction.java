@@ -1,5 +1,5 @@
 /*
- * $Id: OpenProcessAction.java,v 1.11 2006/02/14 09:41:57 fabfoot Exp $
+ * $Id: OpenProcessAction.java,v 1.12 2006/02/16 17:07:32 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -29,12 +29,11 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 
-import pagod.common.model.Activity;
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
-import pagod.utils.TimerManager;
 import pagod.wizard.control.ApplicationManager;
 import pagod.wizard.control.PreferencesManager;
 import pagod.wizard.control.TimeHandler;
@@ -69,31 +68,56 @@ public class OpenProcessAction extends AbstractPagodAction
 	 */
 	public void actionPerformed (ActionEvent actionEvent)
 	{
-		
+
+		// on recupere le nom du dpc(processus) qui sera a supprimer si
+		// l'association du
+		// nouveau processus ce passe bien
+		String sNameDPC = ApplicationManager.getInstance().getCurrentProject()
+				.getNameDPC();
+
 		// sauvegarde des temps lies au processus
 		ApplicationManager.getInstance().saveTime();
-
-		File processFile = new File(PreferencesManager.getInstance()
-				.getWorkspace()
-				+ File.separator
-				+ ApplicationManager.getInstance().getCurrentProject()
-						.getName()
-				+ File.separator
-				+ ApplicationManager.getInstance().getCurrentProject()
-						.getNameDPC());
 
 		// si le processus a pu etre ouvert et associe
 		if (ApplicationManager.getInstance().getMfPagod()
 				.associateDPCWithProject())
 		{
-			// on essaye d'effacer l'ancien dpc
-			// si le fichier a ete effacer ;) on l'associe au projet
-			if (processFile.delete())
+
+			// s'il y avait un dpc affecter precedemment
+			if (sNameDPC != null)
 			{
+				File processFile = new File(PreferencesManager.getInstance()
+						.getWorkspace()
+						+ File.separator
+						+ ApplicationManager.getInstance().getCurrentProject()
+								.getName() + File.separator + sNameDPC);
 
-				// on delegue la requete a l'ApplicatioManager
-				ApplicationManager.getInstance().manageRequest(this.request);
+				// si on a pas reussit a supprimer l'ancien dpc on affiche un
+				// message a l'utilisateur
+				if (!processFile.delete())
+				{
 
+					JOptionPane.showMessageDialog(ApplicationManager
+							.getInstance().getMfPagod(), LanguagesManager
+							.getInstance().getString(
+									"openProcessActionMsgErreurBody1")
+							+ " \""
+							+ processFile.getAbsolutePath()
+							+ "\" \n"
+							+ LanguagesManager.getInstance().getString(
+									"openProcessActionMsgErreurBody2"),
+							LanguagesManager.getInstance().getString(
+									"openProcessActionMsgErreurTitle"),
+							JOptionPane.ERROR_MESSAGE);
+				}
+			}
+
+			// on delegue la requete a l'ApplicatioManager
+			ApplicationManager.getInstance().manageRequest(this.request);
+			
+			// s'il y avait un dpc affecter precedemment on charge le fichier tps
+			if (sNameDPC != null)
+			{
 				// initialiser le document time
 				TimeHandler th = new TimeHandler();
 				th.loadXML(ApplicationManager.getInstance().getCurrentProject()
@@ -101,7 +125,6 @@ public class OpenProcessAction extends AbstractPagodAction
 				th.fillModel(ApplicationManager.getInstance()
 						.getCurrentProcess());
 			}
-
 		}
 
 	}
