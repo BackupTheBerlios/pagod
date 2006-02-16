@@ -1,5 +1,5 @@
 /*
- * $Id: Constants.java,v 1.13 2006/02/06 16:19:12 biniou Exp $
+ * $Id: Constants.java,v 1.14 2006/02/16 17:04:41 biniou Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -186,5 +186,10 @@ public interface Constants
      * <code>NAME_FILE_TIME</code>
      */
     public static final String NAME_FILE_TIME = "time.xml";
+    
+    /**
+	 * <code>DOCS_DIRECTORY</code>
+	 */
+	public static final String	DOCS_DIRECTORY	= "produits" + File.separator;
     
 }

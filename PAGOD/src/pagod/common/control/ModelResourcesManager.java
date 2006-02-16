@@ -1,5 +1,5 @@
 /*
- * $Id: ModelResourcesManager.java,v 1.9 2006/02/03 15:18:38 themorpheus Exp $
+ * $Id: ModelResourcesManager.java,v 1.10 2006/02/16 17:04:41 biniou Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -57,6 +57,7 @@ import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
 import pagod.utils.ImagesManager.NotInitializedException;
 import pagod.wizard.control.ApplicationManager;
+import pagod.wizard.control.Constants;
 import pagod.wizard.control.PreferencesManager;
 import pagod.wizard.control.PreferencesManager.InvalidExtensionException;
 import pagod.wizard.ui.AddExtensionDialog;
@@ -368,7 +369,7 @@ public class ModelResourcesManager
 							+ ApplicationManager.getInstance()
 									.getCurrentProject().getName()
 							+ File.separator
-							+ Project.DOCS_DIRECTORY
+							+ Constants.DOCS_DIRECTORY
 							+ " \n"
 							+ LanguagesManager.getInstance().getString(
 									"WarningSaveProductName2")

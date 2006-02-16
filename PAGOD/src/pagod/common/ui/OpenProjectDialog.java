@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: OpenProjectDialog.java,v 1.2 2005/12/04 17:54:15 yak Exp $
+ * $Id: OpenProjectDialog.java,v 1.3 2006/02/16 17:04:41 biniou Exp $
  */
 package pagod.common.ui;
 
@@ -23,6 +23,7 @@ import javax.swing.JPanel;
 
 import pagod.common.model.Project;
 import pagod.utils.LanguagesManager;
+import pagod.wizard.control.Constants;
 import pagod.wizard.control.PreferencesManager;
 
 /**
@@ -145,7 +146,7 @@ public class OpenProjectDialog extends JDialog
 						.getAbsolutePath()
 						+ File.separator + "documentation.properties");
 				File tempDocsFile = new File(currentFile.getAbsolutePath()
-						+ File.separator + Project.DOCS_DIRECTORY);
+						+ File.separator + Constants.DOCS_DIRECTORY);
 
 				if (tempPropertiesFile.exists() && tempDocsFile.exists())
 				{

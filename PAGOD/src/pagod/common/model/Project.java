@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: Project.java,v 1.14 2006/02/02 13:45:23 fabfoot Exp $
+ * $Id: Project.java,v 1.15 2006/02/16 17:04:41 biniou Exp $
  */
 package pagod.common.model;
 
@@ -23,11 +23,7 @@ import pagod.wizard.control.PreferencesManager;
 public class Project
 {
 	
-	/**
-	 * Chemin du r?pertoire ou vont etre stockees les documents produits
-	 */
-	// TODO rajouter dans le bundle pour avoir products ?
-	public static final String	DOCS_DIRECTORY	= "produits" + File.separator;
+	
 
 	/**
 	 * sName est le nom (identifiant) du projet
@@ -94,7 +90,7 @@ public class Project
 
 		// creation du repertoire doc dans le repertoire projet
 		File docDirectory = new File(projectDirectory.getAbsolutePath()
-				+ File.separator + DOCS_DIRECTORY);
+				+ File.separator + Constants.DOCS_DIRECTORY);
 
 		if (docDirectory.mkdir())
 		{
@@ -151,7 +147,7 @@ public class Project
 				+ File.separator
 				+ this.sName
 				+ File.separator
-				+ DOCS_DIRECTORY
+				+ Constants.DOCS_DIRECTORY
 				+ name);
 
 		if (documentationFile.createNewFile())

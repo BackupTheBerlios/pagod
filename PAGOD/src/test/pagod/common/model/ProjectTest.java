@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ProjectTest.java,v 1.2 2006/01/28 16:34:02 cyberal82 Exp $
+ * $Id: ProjectTest.java,v 1.3 2006/02/16 17:04:41 biniou Exp $
  */
 package test.pagod.common.model;
 
@@ -78,7 +78,7 @@ public class ProjectTest extends TestCase
 
 		// repertoire docs
 		File docDirectory = new File(projectDirectory.getAbsolutePath()
-				+ File.separator + Project.DOCS_DIRECTORY);
+				+ File.separator + Constants.DOCS_DIRECTORY);
 
 		// documentation.properties
 		File documentationPreferenceFile = new File(projectDirectory
@@ -140,7 +140,7 @@ public class ProjectTest extends TestCase
 
 		// repertoire docs
 		File docDirectory = new File(projectDirectory.getAbsolutePath()
-				+ File.separator + Project.DOCS_DIRECTORY);
+				+ File.separator + Constants.DOCS_DIRECTORY);
 		assertTrue("le repertoire doc existe bien", docDirectory.exists());
 
 		// documentation.properties
@@ -176,7 +176,7 @@ public class ProjectTest extends TestCase
 				+ File.separator
 				+ this.project.getName()
 				+ File.separator
-				+ Project.DOCS_DIRECTORY + docName);
+				+ Constants.DOCS_DIRECTORY + docName);
 
 		try
 		{
@@ -448,7 +448,7 @@ public class ProjectTest extends TestCase
 				+ File.separator
 				+ this.project.getName()
 				+ File.separator
-				+ Project.DOCS_DIRECTORY + doc);
+				+ Constants.DOCS_DIRECTORY + doc);
 
 		try
 		{
