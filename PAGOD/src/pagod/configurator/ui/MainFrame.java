@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: MainFrame.java,v 1.2 2006/02/16 22:22:22 themorpheus Exp $
  *
  * SPWIZ - Spem Wizard
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -57,6 +57,11 @@ public class MainFrame extends JFrame
      */
     private ToolsAssociationPanel toolsAssociationPanel;
 
+    /**
+     * Panneau d'activation/désactivation de rôles
+     */
+    private RolesPanel rolesPanel;
+    
     /**
      * Les onglets
      */
@@ -134,11 +139,14 @@ public class MainFrame extends JFrame
         // creer les panneaux
         this.stepsPanel = new StepsPanel(process);
         this.toolsAssociationPanel = new ToolsAssociationPanel(process);
+        this.rolesPanel = new RolesPanel(process);
         this.tabs = new JTabbedPane();
         this.tabs.addTab(LanguagesManager.getInstance().getString("stepsTab"),
                 this.stepsPanel);
         this.tabs.addTab(LanguagesManager.getInstance().getString("toolsTab"),
                 this.toolsAssociationPanel);
+        this.tabs.addTab(LanguagesManager.getInstance().getString("rolesTab"),
+                this.rolesPanel);
         this.getContentPane().removeAll();
         this.getContentPane().add(this.tabs);
         this.setVisible(true);
