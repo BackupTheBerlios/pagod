@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.2 2006/02/16 22:22:22 themorpheus Exp $
+ * $Id: MainFrame.java,v 1.3 2006/02/17 14:14:51 cyberal82 Exp $
  *
  * SPWIZ - Spem Wizard
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -41,14 +41,14 @@ import pagod.configurator.control.Constants;
 import pagod.common.model.Process;
 
 /**
- * Fenêtre principale de l'application PAGOD configurator
+ * Fen?tre principale de l'application PAGOD configurator
  * 
  * @author MoOky
  */
 public class MainFrame extends JFrame
 {
     /**
-     * Panneaux de création des étapes
+     * Panneaux de cr?ation des ?tapes
      */
     private StepsPanel stepsPanel; 
 
@@ -58,7 +58,7 @@ public class MainFrame extends JFrame
     private ToolsAssociationPanel toolsAssociationPanel;
 
     /**
-     * Panneau d'activation/désactivation de rôles
+     * Panneau d'activation/d?sactivation de r?les
      */
     private RolesPanel rolesPanel;
     
@@ -68,16 +68,16 @@ public class MainFrame extends JFrame
     private JTabbedPane tabs;
 
     /**
-     * Construit la Fenêtre principale de PAGOD configurator initialement
+     * Construit la Fen?tre principale de PAGOD configurator initialement
      * invisible
      * 
      * @throws LanguagesManager.NotInitializedException
-     *             Si le LanguagesManager n'a pas été initialisé.
+     *             Si le LanguagesManager n'a pas ?t? initialis?.
      * @throws KeyNotFoundException
-     *             Si il n'y a pas de chain correspondante à la clé donné au
+     *             Si il n'y a pas de chain correspondante ? la cl? donn? au
      *             LanguagesManager.
      * @throws ImagesManager.NotInitializedException
-     *             Si l'iconManager n'a pas été initialisé.
+     *             Si l'iconManager n'a pas ?t? initialis?.
      * @see java.awt.GraphicsEnvironment#isHeadless()
      * @see java.awt.Component#setVisible(boolean)
      * @see pagod.utils.LanguagesManager#setResourceFile(String, Locale)
@@ -86,9 +86,9 @@ public class MainFrame extends JFrame
     public MainFrame() 
     {
         super();
-        // Definir le titre de la fenêtre
+        // Definir le titre de la fen?tre
         this.setTitle(Constants.APPLICATION_SHORT_NAME);
-        // Définir l'icône de la fenêtre
+        // D?finir l'ic?ne de la fen?tre
         this.setIconImage(ImagesManager.getInstance().getImageResource(
                 "iconConfigurator.png"));
         // Faire un traitement particulier lors de la fermeture de l'application
@@ -122,7 +122,7 @@ public class MainFrame extends JFrame
     }
 
     /**
-     * Presente le processus à utilisateur
+     * Presente le processus ? utilisateur
      * 
      * @param process
      *            processus passer en parametre
@@ -145,8 +145,8 @@ public class MainFrame extends JFrame
                 this.stepsPanel);
         this.tabs.addTab(LanguagesManager.getInstance().getString("toolsTab"),
                 this.toolsAssociationPanel);
-        this.tabs.addTab(LanguagesManager.getInstance().getString("rolesTab"),
-                this.rolesPanel);
+        /*this.tabs.addTab(LanguagesManager.getInstance().getString("rolesTab"),
+                this.rolesPanel);*/
         this.getContentPane().removeAll();
         this.getContentPane().add(this.tabs);
         this.setVisible(true);
