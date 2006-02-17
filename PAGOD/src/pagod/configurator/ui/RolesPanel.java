@@ -1,5 +1,5 @@
 /* 
- * $Id: RolesPanel.java,v 1.1 2006/02/16 22:22:22 themorpheus Exp $
+ * $Id: RolesPanel.java,v 1.2 2006/02/17 15:11:02 themorpheus Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -26,21 +26,26 @@ package pagod.configurator.ui;
 
 import java.awt.BorderLayout;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.table.AbstractTableModel;
 
 import pagod.common.model.Process;
 import pagod.common.model.Role;
+import pagod.common.model.Step;
+import pagod.common.model.TimeCouple;
+import pagod.utils.TimerManager;
 import pagod.wizard.control.ApplicationManager;
 
 /**
  * Panneau de configuration des roles
+ * 
  * @author baloo
- *
+ * 
  */
 public class RolesPanel extends JPanel
 {
@@ -48,46 +53,107 @@ public class RolesPanel extends JPanel
 	private JPanel	pCentral;
 
 	// Jtable
-	private JTable tableRoles;
-	
+	private JTable	tableRoles;
+
 	/**
-     * Constructeur du panneaux de configuration des roles
-     * 
-     * @param process
-     *            Processus pour lequel il faut créer des étapes.
-     */
-    public RolesPanel(Process process)
-    {
-    	super();
-    	
-    	// création de la JTable
-    	RolesTableModel tm = new RolesTableModel();
+	 * Constructeur du panneaux de configuration des roles
+	 * 
+	 * @param process
+	 *            Processus pour lequel il faut cr?er des ?tapes.
+	 */
+	public RolesPanel (Process process)
+	{
+		super();
+
+		// cr?ation de la JTable
+		RolesTableModel tm = new RolesTableModel(process);
 		this.tableRoles = new JTable(tm);
 
 		// panel contenant la JTable
 		this.pCentral = new JPanel();
 		// JScrollPane contenant la JTable
 		JScrollPane jspTableRoles = new JScrollPane(this.tableRoles);
-		this.pCentral.add(jspTableRoles,BorderLayout.CENTER);
+		this.pCentral.add(jspTableRoles, BorderLayout.CENTER);
 
 		// positionnement des panels
 		BorderLayout border = new BorderLayout();
 		this.setLayout(border);
-		this.add(this.pCentral,BorderLayout.CENTER);
-		
-    }
-    
-    private class RolesTableModel extends DefaultTableModel
+		this.add(this.pCentral, BorderLayout.CENTER);
+
+	}
+
+	private class RolesTableModel extends AbstractTableModel
 	{
 		// arraylist contenant toutes les roles du modele
-		private List<Role> lRoles = new ArrayList<Role>();
+		private List<Role>	lRoles	= new ArrayList<Role>();
+		
+		/**
+	     * classe des colonnes (plus facile ? maintenir en passant par un tableau de
+	     * la sorte)
+	     */
+	    private Class[] columnClasses = { String.class, Boolean.class };
 
-		RolesTableModel()
+		RolesTableModel (Process process)
 		{
 			super();
-			
-			/*this.lRoles.addAll(ApplicationManager.getInstance()
-					.getCurrentProcess().getRoles());	*/		
+
+			this.lRoles.addAll(process.getRoles());
+		}
+
+		public int getRowCount ()
+		{
+			return this.lRoles.size();
+		}
+
+		public int getColumnCount ()
+		{
+			return 2;
+		}
+
+		public Object getValueAt (int rowIndex, int columnIndex)
+		{
+
+			if (columnIndex == 0)
+			{
+				return this.lRoles.get(rowIndex).getName();
+			}
+			else
+			{
+				return (new Boolean(this.lRoles.get(rowIndex).isActivate()));
+			}
+		}
+		
+		public void setValueAt (Object aValue, int rowIndex, int columnIndex)
+		{
+
+			if (columnIndex == 1)
+			{
+				Boolean bActivate = (Boolean)aValue;
+				this.lRoles.get(rowIndex).setActivate(bActivate.booleanValue());
+			}
+		}
+
+		/**
+		 * (non-Javadoc)
+		 * 
+		 * @see javax.swing.table.AbstractTableModel#isCellEditable(int, int)
+		 */
+		public boolean isCellEditable (int row, int col)
+		{
+			// temps editables
+			if (col == 1)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		public Class getColumnClass (int columnIndex)
+		{
+			return this.columnClasses[columnIndex];
 		}
 	}
 }
