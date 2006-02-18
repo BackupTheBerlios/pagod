@@ -1,5 +1,5 @@
 /*
- * $Id: ActivityScheduler.java,v 1.33 2006/02/08 16:48:21 cyberal82 Exp $
+ * $Id: ActivityScheduler.java,v 1.34 2006/02/18 16:35:54 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -183,7 +183,8 @@ public class ActivityScheduler extends Observable
 
 	public void setStateList ()
 	{
-
+		this.addState(new ActivityPresentationState(this, this.activity));
+		
 		// si l'activite a des produit en entree ou qu'elle a des guides
 		// qui ne sont pas de type "liste de controles"
 		// ou que le role associe a l'activite a des guides qui ne sont
@@ -195,8 +196,6 @@ public class ActivityScheduler extends Observable
 		{
 			this.addState(new PreConditionCheckerState(this, this.activity));
 		}
-
-		this.addState(new ActivityPresentationState(this, this.activity));
 
 		if (this.activity.hasSteps())
 		{

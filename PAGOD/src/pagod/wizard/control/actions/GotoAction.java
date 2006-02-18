@@ -1,5 +1,5 @@
 /*
- * $Id: GotoAction.java,v 1.2 2005/11/30 08:57:47 yak Exp $
+ * $Id: GotoAction.java,v 1.3 2006/02/18 16:35:53 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -60,6 +60,7 @@ public class GotoAction extends AbstractPagodAction
      */
     public void actionPerformed(ActionEvent actionEvent)
     {
+    	System.out.println("GOTOACTION.actionPreformed");
     	// TODO a suppr
     	if (actionEvent.getSource() instanceof JComboBox)
     	{

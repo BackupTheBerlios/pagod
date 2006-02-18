@@ -1,5 +1,5 @@
  /*
- * $Id: LanguageChooserPanel.java,v 1.3 2006/02/01 17:00:39 psyko Exp $
+ * $Id: LanguageChooserPanel.java,v 1.4 2006/02/18 16:35:53 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -163,7 +163,6 @@ public class LanguageChooserPanel extends JPanel
     		if (workspaceChooser.showOpenDialog(ApplicationManager.getInstance().getMfPagod()) == JFileChooser.APPROVE_OPTION)
     		{
     			File file = workspaceChooser.getSelectedFile();
-    			System.out.println(file.getPath());
     			LanguageChooserPanel.this.tfChangeWorkspace.setText(file.getPath());
     			
     			// mettre le path dans le fichier preferences a la cl?

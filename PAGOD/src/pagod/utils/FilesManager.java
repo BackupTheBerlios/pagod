@@ -1,5 +1,5 @@
 /*
- * $Id: FilesManager.java,v 1.4 2006/01/25 13:51:40 cyberal82 Exp $
+ * $Id: FilesManager.java,v 1.5 2006/02/18 16:35:53 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -34,8 +34,6 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
-
-import pagod.wizard.control.PreferencesManager;
 
 
 /**

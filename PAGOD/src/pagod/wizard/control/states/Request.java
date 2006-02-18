@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: Request.java,v 1.8 2006/02/04 16:30:29 yak Exp $
+ * $Id: Request.java,v 1.9 2006/02/18 16:35:54 cyberal82 Exp $
  */
 package pagod.wizard.control.states;
 
@@ -170,12 +170,6 @@ public class Request
 		if (this.content != null)
 		{
 			String sTemp = this.content.toString();
-
-			// TODO alex a suppr
-			if (sTemp.contains("grandes lignes"))
-			{
-				System.err.println("Request.toString() ");
-			}
 
 			// on remplace les &eacute; par le caractere unicode correspondant
 			// je met pas le caractere directement car le serveur marine ne les

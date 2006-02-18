@@ -1,5 +1,5 @@
 /*
- * $Id: ApplicationManager.java,v 1.29 2006/02/14 09:56:22 fabfoot Exp $
+ * $Id: ApplicationManager.java,v 1.30 2006/02/18 16:35:54 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -41,7 +41,6 @@ import javax.swing.JOptionPane;
 
 import pagod.common.control.InterfaceManager;
 import pagod.common.control.adapters.ProcessTreeModel;
-import pagod.common.model.Activity;
 import pagod.common.model.Process;
 import pagod.common.model.Project;
 import pagod.common.ui.AboutDialog;
@@ -238,15 +237,6 @@ public class ApplicationManager extends Observable
 
 			am.registerAction(Constants.ACTION_TIME_ALL_ITERATIONS,
 					new TimeActivityAllIterationAction());
-
-			// TODO Alex deplacer pour qu'on puisse tester la machine a etat de
-			// l'application
-			/*
-			 * // creation de la fenetre principale this.mfPagod = new
-			 * MainFrame(); // on met la main frame sur ecoute de l'application
-			 * manager et de ces etats this.addObserver(this.mfPagod); //on
-			 * passe dans l'?tat init this.setState(new InitState(this));
-			 */
 		}
 		catch (Exception ex)
 		{
@@ -380,8 +370,6 @@ public class ApplicationManager extends Observable
 			if (workspaceChooser.showOpenDialog(this.mfPagod) == JFileChooser.APPROVE_OPTION)
 			{
 				File file = workspaceChooser.getSelectedFile();
-				// TODO a supprimer
-				System.out.println(file.getPath());
 
 				// on verifie que le workspace choisi existe
 				// mettre le path dans le fichier preferences a la cl?
@@ -566,22 +554,6 @@ public class ApplicationManager extends Observable
 		ad.setVisible(true);
 
 	}
-
-	/**
-	 * Lance une activit? TODO a suppr d?plac?e dans activity launched
-	 */
-	/*
-	 * private void runActivity () { Activity activity =
-	 * this.mfPagod.getActivity(); this.activityScheduler = new
-	 * ActivityScheduler(activity); // TODO A SUPPR //
-	 * this.activityScheduler.initActivityScheduler(); this.state2 =
-	 * State.ACTIVITY_LAUNCHED; // on notifie la MainFrame qu'on a lanc? une
-	 * activit? this.setChanged(); // on passe a la MainFrame
-	 * l'ActivityScheduler pour qu'elle // puisse s'enregistrer comme observer
-	 * de l'ActivityScheduler this.notifyObservers(this.activityScheduler); //
-	 * TODO solution temporaire
-	 * this.activityScheduler.setState(this.activityScheduler.getState(0)); }
-	 */
 
 	/**
 	 * lance la fenetre de configuration des preferences

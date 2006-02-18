@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimeHandler.java,v 1.14 2006/02/14 09:56:22 fabfoot Exp $
+ * $Id: TimeHandler.java,v 1.15 2006/02/18 16:35:54 cyberal82 Exp $
  */
 package pagod.wizard.control;
 
@@ -118,18 +118,15 @@ public class TimeHandler
 		int int_etimeelapsed = 0;
 		int int_etimeremaining = 0;
 		
-		// System.err.println("test");
 		while (nodeiterator.hasNext())
 		{
 			Element node = (Element) nodeiterator.next();
 			Attribute idnode = node.getAttribute("idref");
-			// System.err.println("test1");
 			// Recherche l'activit? dans les process
 			for (Activity acty : cactivity)
 			{
 				String activity_id = acty.getId();
 				// Si id activit? trouv?
-				// System.err.println("test de l'activit et de lid");
 				if (activity_id.equals(idnode.getValue()))
 				{
 					// Recuperation de chaque node iteration
@@ -162,7 +159,6 @@ public class TimeHandler
 				}
 			}
 		}
-		System.out.println(ApplicationManager.getInstance().getCurrentProject().getItCurrent());
 	}
 
 	/**
@@ -197,7 +193,6 @@ public class TimeHandler
 			hashmap = acty.getHM();
 			s = hashmap.keySet();
 			its  = s.iterator(); 
-			//System.out.println("test fab");
 			while(its.hasNext())
 			{
 				key = (Integer) its.next(); 

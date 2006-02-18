@@ -1,5 +1,5 @@
 /*
- * $Id: PreferencesManagerTest.java,v 1.6 2006/01/25 13:51:40 cyberal82 Exp $
+ * $Id: PreferencesManagerTest.java,v 1.7 2006/02/18 16:35:54 cyberal82 Exp $
  *
  * SPWIZ - Spem Wizard
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -175,7 +175,6 @@ public class PreferencesManagerTest extends TestCase
 
 		// on cree un fichier temp pour etre sur de son existence
 		File f = createTempFile();
-		System.out.println(f.getAbsolutePath());
 
 		// on met le workspace "tt"
 		PreferencesManager.getInstance().setWorkspace("tt");
@@ -698,7 +697,7 @@ public class PreferencesManagerTest extends TestCase
 		}
 		catch (Exception e)
 		{
-			System.out.println("Ne devrait pas arriver");
+			fail("Ne devrait pas arriver");
 			e.printStackTrace();
 		}
 	}
@@ -726,8 +725,7 @@ public class PreferencesManagerTest extends TestCase
 		}
 		catch (Exception e)
 		{
-			System.out.println("Ne devrait pas arriver");
-			//TODO assertTrue(false)???
+			fail("Ne devrait pas arriver");
 			e.printStackTrace();
 		}
 	}

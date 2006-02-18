@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: PostConditionCheckerState.java,v 1.7 2006/02/04 22:42:06 yak Exp $
+ * $Id: PostConditionCheckerState.java,v 1.8 2006/02/18 16:35:53 cyberal82 Exp $
  */
 package pagod.wizard.control.states.activity;
 
@@ -57,6 +57,18 @@ public class PostConditionCheckerState extends AbstractActivityState
 				{
 					// on se positionne sur la derni?re ?tape
 					state = new StepState(this.activityScheduler,this.activity,this.stepList.size()-1);
+				}
+				// si l'activite a des produits en entree ou qu'il y a des guides 
+				// (associe au role ou a l'activite) d'un type autre 
+				// que liste de controle on va dans l'etat PreConditionCheckerState
+				else if (this.activity.hasInputProducts()
+							|| this.activity.hasGuidanceWithoutType(
+									"Liste de controles")
+							|| this.activity.getRole()
+									.hasGuidanceWithoutType("Liste de controles"))
+				{
+					state = new PreConditionCheckerState(
+								this.activityScheduler, this.activity);
 				}
 				else
 				{

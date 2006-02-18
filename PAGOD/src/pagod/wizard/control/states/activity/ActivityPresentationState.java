@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ActivityPresentationState.java,v 1.6 2006/02/08 16:48:21 cyberal82 Exp $
+ * $Id: ActivityPresentationState.java,v 1.7 2006/02/18 16:35:53 cyberal82 Exp $
  */
 
 package pagod.wizard.control.states.activity;
@@ -51,7 +51,19 @@ public class ActivityPresentationState extends AbstractActivityState
 		switch (request.getCurrentRequest())
 		{
 			case NEXT:
-				if (this.activity.hasSteps())
+				// s'il y a des produits en entrees ou des guides d'un type
+				// autre que "liste de controles" associe a l'activite (ou au
+				// role de cette activite) on passe dans l'etat PreConditionCheckerState
+				if (this.activity.hasInputProducts()
+						|| this.activity.hasGuidanceWithoutType(
+								"Liste de controles")
+						|| this.activity.getRole()
+								.hasGuidanceWithoutType("Liste de controles"))
+				{
+					state = new PreConditionCheckerState(
+							this.activityScheduler, this.activity);
+				}
+				else if (this.activity.hasSteps())
 				{
 					state = new StepState(this.activityScheduler,
 							this.activity, 0);
@@ -62,26 +74,6 @@ public class ActivityPresentationState extends AbstractActivityState
 								"Liste de controles"))
 				{
 					state = new PostConditionCheckerState(
-							this.activityScheduler, this.activity);
-				}
-				else
-				{
-					return false;
-				}
-				break;
-
-			case PREVIOUS:
-				// si l'activite a des produit en entree ou qu'elle a des guides
-				// qui ne sont pas de type "liste de controles"
-				// ou que le role associe a l'activite a des guides qui ne sont
-				// pas de type "liste de controles"
-				if (this.activity.hasInputProducts()
-						|| this.activity
-								.hasGuidanceWithoutType("Liste de controles")
-						|| this.activity.getRole().hasGuidanceWithoutType(
-								"Liste de controles"))
-				{
-					state = new PreConditionCheckerState(
 							this.activityScheduler, this.activity);
 				}
 				else

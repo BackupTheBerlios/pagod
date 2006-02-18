@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: StepState.java,v 1.5 2006/02/08 16:48:21 cyberal82 Exp $
+ * $Id: StepState.java,v 1.6 2006/02/18 16:35:53 cyberal82 Exp $
  */
 package pagod.wizard.control.states.activity;
 
@@ -80,12 +80,27 @@ public class StepState extends AbstractActivityState
 				break;
 
 			case PREVIOUS:
-				// si on est sur la premi?re ?tape on revient sur
-				// l'activityPresentation
+				// si on est sur la premi?re ?tape
 				if (this.index == 0)
 				{
-					state = new ActivityPresentationState(
+					// si l'activite a des produits en entree ou qu'il y a des guides 
+					// (associe au role ou a l'activite) d'un type autre 
+					// que liste de controle on va dans l'etat PreConditionCheckerState
+					if (this.activity.hasInputProducts()
+							|| this.activity.hasGuidanceWithoutType(
+									"Liste de controles")
+							|| this.activity.getRole()
+									.hasGuidanceWithoutType("Liste de controles"))
+					{
+						state = new PreConditionCheckerState(
+								this.activityScheduler, this.activity);
+					}
+					else
+					{
+						// on va dans l'etat ActivityPresentationState
+						state = new ActivityPresentationState(
 							this.activityScheduler, this.activity);
+					}
 				}
 				else
 				{

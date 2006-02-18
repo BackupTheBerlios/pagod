@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimerManager.java,v 1.7 2006/02/05 17:16:08 yak Exp $
+ * $Id: TimerManager.java,v 1.8 2006/02/18 16:35:53 cyberal82 Exp $
  */
 package pagod.utils;
 
@@ -94,10 +94,8 @@ public class TimerManager extends Observable implements ActionListener
 	 */
 	public void stop ()
 	{
-		System.out.println("timermanager.stop");
 		// on arrete le timer et on retourne la valeur
 		theSwingTimer.stop();
-		
 	}
 
 	/**

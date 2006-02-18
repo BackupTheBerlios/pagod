@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.51 2006/02/16 17:43:55 biniou Exp $
+ * $Id: MainFrame.java,v 1.52 2006/02/18 16:35:53 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -382,12 +382,13 @@ public class MainFrame extends JFrame implements Observer
 		this.northPanel.removeAll();
 		// mettre a jour le message
 		this.messagePanel.setMessage(LanguagesManager.getInstance().getString(
-				"openedProcessMessage")+"<BR>" + 
-				LanguagesManager.getInstance().getString("activityIteration")
-				+ " : " + ApplicationManager.getInstance().getCurrentProject().getItCurrent());
-		
-		
-		
+				"openedProcessMessage")
+				+ "<BR>"
+				+ LanguagesManager.getInstance().getString("activityIteration")
+				+ " : "
+				+ ApplicationManager.getInstance().getCurrentProject()
+						.getItCurrent());
+
 		// on remplie les panneaux
 		// au nord
 		this.northPanel.setVisible(false);
@@ -644,8 +645,6 @@ public class MainFrame extends JFrame implements Observer
 
 		if (ApplicationManager.getInstance().getCurrentProject() != null)
 		{
-
-			System.out.println("On a a un project et on essaye de l'ouvrir");
 			File validTab[];
 			File dpc = null;
 			File directory = new File(PreferencesManager.getInstance()
@@ -662,14 +661,12 @@ public class MainFrame extends JFrame implements Observer
 						|| currentFile.getName().endsWith(".pagod"))
 				{
 					dpc = currentFile;
-					System.out.println(currentFile.getName());
 				}
 			}
 			if (dpc != null)
 			{
 				ApplicationManager.getInstance().getCurrentProject()
 						.setNameDPC(dpc.getName());
-				System.out.println(dpc.getName());
 				opened = true;
 			}
 			else
@@ -796,26 +793,30 @@ public class MainFrame extends JFrame implements Observer
 				+ " : " + this.getActivity().getRole() + "<BR>"
 				+ LanguagesManager.getInstance().getString("activityActivity")
 				+ " : " + this.getActivity() + "<BR>" + state;
-		
+
 		if (ApplicationManager.getInstance().getCurrentProject() != null)
 		{
-			message = message + "<BR>" + 
-			LanguagesManager.getInstance().getString("activityIteration")
-			+ " : " + ApplicationManager.getInstance().getCurrentProject().getItCurrent();
+			message = message
+					+ "<BR>"
+					+ LanguagesManager.getInstance().getString(
+							"activityIteration")
+					+ " : "
+					+ ApplicationManager.getInstance().getCurrentProject()
+							.getItCurrent();
 		}
 
 		this.messagePanel.setMessage(message);
 	}
-	
+
 	/**
-	 * @param message 
+	 * @param message
 	 */
-	//TODO
+	// TODO il faut voir si on peut pas fre autrement qu'en utilisant cette methode idem pour l'autre methode setMessage
 	public void setMessagePanel (String message)
 	{
-//		 mettre a jour le message
+		// mettre a jour le message
 		this.messagePanel.setMessage(message);
-		
+
 	}
 
 	/**
@@ -831,7 +832,6 @@ public class MainFrame extends JFrame implements Observer
 		{
 			ActionManager.getInstance()
 					.getAction(Constants.ACTION_RUN_ACTIVITY).setEnabled(false);
-			System.err.println("notification actictivity sched");
 
 			// on recupere l'etat de l'application
 			AbstractActivityState state = (AbstractActivityState) obj;
@@ -850,11 +850,32 @@ public class MainFrame extends JFrame implements Observer
 				this.showCheckList(state.getActivity());
 
 				// on active et desactive les actions
+				// on active PREVIOUS car il y a tjs le panneau de presentation
+				// de l'activite
 				ActionManager.getInstance()
-						.getAction(Constants.ACTION_PREVIOUS).setEnabled(false);
+						.getAction(Constants.ACTION_PREVIOUS).setEnabled(true);
 
-				ActionManager.getInstance().getAction(Constants.ACTION_NEXT)
-						.setEnabled(true);
+				// on active le NEXT s'il y a des etapes ou qu'il y a des
+				// produits en sortie de l'activite
+				// ou ou que l'activite a des guides de type "Liste de
+				// controles"
+				// ou que le role a des guides de type "Liste de controles"
+				if (state.getActivity().hasSteps()
+						|| state.getActivity().hasOutputProducts()
+						|| state.getActivity().hasGuidanceType(
+								"Liste de controles")
+						|| state.getActivity().getRole().hasGuidanceType(
+								"Liste de controles"))
+				{
+					ActionManager.getInstance()
+							.getAction(Constants.ACTION_NEXT).setEnabled(true);
+				}
+				else
+				{
+					ActionManager.getInstance()
+							.getAction(Constants.ACTION_NEXT).setEnabled(false);
+				}
+
 				if (state.getActivity().hasOutputProducts())
 				{
 
@@ -874,25 +895,26 @@ public class MainFrame extends JFrame implements Observer
 
 				this.presentActivity(state.getActivity());
 
-				// s'il y a des produits en entrees ou des guides d'un type
-				// autre que "liste de controles" associe a l'activite (ou au
-				// role de cette activite) on active previous
-				if (state.getActivity().hasInputProducts()
+				// on ne peut pas faire PREVIOUS
+				ActionManager.getInstance()
+						.getAction(Constants.ACTION_PREVIOUS).setEnabled(false);
+
+				// si on peut ce mettre dans l'etat PreconditionCheckerState
+				// ou StepState ou PostConditionCheckerState
+				if ( // pour savoir si on peut ce mettre dans l'etat
+						// PreconditionCheckerState
+				state.getActivity().hasInputProducts()
 						|| state.getActivity().hasGuidanceWithoutType(
 								"Liste de controles")
 						|| state.getActivity().getRole()
-								.hasGuidanceWithoutType("Liste de controles"))
-				{
-					ActionManager.getInstance().getAction(
-							Constants.ACTION_PREVIOUS).setEnabled(true);
-				}
-				else
-					ActionManager.getInstance().getAction(
-							Constants.ACTION_PREVIOUS).setEnabled(false);
+								.hasGuidanceWithoutType("Liste de controles")
 
-				// s'il y a des etapes ou des produits en sorties on active le
-				// next
-				if (state.getActivity().hasSteps()
+						// pour savoir si on peut ce mettre dans l'etat
+						// StepState
+						|| state.getActivity().hasSteps()
+
+						// pour savoir si on peut ce mettre dans l'etat
+						// PostConditionCheckerState
 						|| state.getActivity().hasOutputProducts()
 						|| state.getActivity().hasGuidanceType(
 								"Liste de controles")
@@ -905,6 +927,7 @@ public class MainFrame extends JFrame implements Observer
 				else
 					ActionManager.getInstance()
 							.getAction(Constants.ACTION_NEXT).setEnabled(false);
+				
 				if (state.getActivity().hasOutputProducts())
 				{
 
@@ -919,9 +942,6 @@ public class MainFrame extends JFrame implements Observer
 			}
 			else if (state instanceof StepState)
 			{
-				System.err
-						.println("MainFrame.update().state instanceof StepState");
-
 				// on rafraichit la MainFrame
 				this.resetSplitPane();
 				this.presentStep(state.getStep(), state.getIndex() + 1, state
@@ -1071,7 +1091,6 @@ public class MainFrame extends JFrame implements Observer
 						if (workspaceChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
 						{
 							File file = workspaceChooser.getSelectedFile();
-							System.out.println(file.getPath());
 
 							// on verifie que le workspace choisi existe
 							// mettre le path dans le fichier preferences a la
@@ -1161,14 +1180,15 @@ public class MainFrame extends JFrame implements Observer
 						Constants.ACTION_OPENPROCESS).setEnabled(true);
 				ActionManager.getInstance().getAction(
 						Constants.ACTION_CLOSEPROJECT).setEnabled(true);
-				
+
 				// on change le titre de l'appli pour afficher le nom du projet
-//				 on recupere le nom du projet en cours
+				// on recupere le nom du projet en cours
 				String nameProject = ApplicationManager.getInstance()
 						.getCurrentProject().getName();
 
 				// mettre le titre a jour
-				String title = Constants.APPLICATION_SHORT_NAME + " - " + nameProject;
+				String title = Constants.APPLICATION_SHORT_NAME + " - "
+						+ nameProject;
 				this.setTitle(title);
 
 			}
@@ -1196,29 +1216,10 @@ public class MainFrame extends JFrame implements Observer
 				ActionManager.getInstance().getAction(
 						Constants.ACTION_TIME_CURRENT_ITERATION).setEnabled(
 						true);
-
-				// TODO fab pour tester le timeHandler
-				// TimeHandler th = new TimeHandler ();
-				// th.loadXML(
-				// ApplicationManager.getInstance().getCurrentProject().getName());
-				// th.affiche() ;
-				// th.fillModel(ApplicationManager.getInstance().getCurrentProcess()
-				// );
-				// th.loadModel(ApplicationManager.getInstance().getCurrentProcess()
-				// );
-				// System.err.println("fab");
-				// th.affiche();
-				// th.writeXML(ApplicationManager.getInstance().getCurrentProject().getName());
-				/*
-				 * final Collection <Activity > cactivity =
-				 * ApplicationManager.getInstance().getCurrentProcess().getAllActivities
-				 * (); for (Activity acty : cactivity) {
-				 * System.err.println(acty.getTime() ); }
-				 */
 			}
 			else if (obj instanceof ActivityLaunchedState)
 			{
-				//				 on grise les menus d'iteration
+				// on grise les menus d'iteration
 				ActionManager.getInstance().getAction(
 						Constants.ACTION_NEXT_ITERATION).setEnabled(false);
 				ActionManager.getInstance().getAction(

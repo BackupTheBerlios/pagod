@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ActivityLaunchedState.java,v 1.10 2006/02/09 19:58:34 yak Exp $
+ * $Id: ActivityLaunchedState.java,v 1.11 2006/02/18 16:35:54 cyberal82 Exp $
  */
 package pagod.wizard.control.states.application;
 
@@ -51,8 +51,6 @@ public class ActivityLaunchedState extends AbstractApplicationState
 	 */
 	public boolean manageRequest (Request request)
 	{
-
-		System.out.println("ActivityLaunchedState.manageRequest :" + request);
 		AbstractApplicationState state;
 		// on regarde le type de requete que l'on recoit
 		switch (request.getCurrentRequest())

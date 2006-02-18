@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ProcessOpenedState.java,v 1.10 2006/02/12 17:02:27 cyberal82 Exp $
+ * $Id: ProcessOpenedState.java,v 1.11 2006/02/18 16:35:54 cyberal82 Exp $
  */
 package pagod.wizard.control.states.application;
 
@@ -38,7 +38,7 @@ public class ProcessOpenedState extends AbstractApplicationState
 	{
 
 		AbstractApplicationState state;
-		System.err.println("ProcessOpened.manageRequest :" + request);
+		
 		// on regarde le type de requete que l'on recoit
 		switch (request.getCurrentRequest())
 		{

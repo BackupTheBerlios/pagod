@@ -1,5 +1,5 @@
 /*
- * $Id: TransferableStep.java,v 1.2 2006/01/25 13:51:40 cyberal82 Exp $
+ * $Id: TransferableStep.java,v 1.3 2006/02/18 16:35:53 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -30,6 +30,7 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 
 import pagod.common.model.Step;
+import pagod.utils.ExceptionManager;
 
 /**
  * Classe TransferableStep : permet d'encapsuler une step pour la transf?rer
@@ -52,8 +53,7 @@ public class TransferableStep implements Transferable
         }
         catch (Exception e)
         {
-            //TODO UTILISER LE MANAGER!
-        	System.err.println(e);
+        	ExceptionManager.getInstance().manage(e);
         }
     }
 
