@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ActivityState.java,v 1.1 2006/01/15 15:38:40 cyberal82 Exp $
+ * $Id: ActivityState.java,v 1.2 2006/02/19 15:36:43 yak Exp $
  */
 package test.pagod.wizard.control.states.activity;
 
@@ -26,34 +26,18 @@ public class ActivityState extends AbstractActivityState
 	public ActivityState (ActivityScheduler activityScheduler, Activity activity)
 	{
 		super(activityScheduler, activity);
-		// TODO Corps de constructeur généré automatiquement
+		
 	}
 
-	/* (non-Javadoc)
-	 * @see pagod.wizard.control.states.activity.AbstractActivityState#terminate()
-	 */
-	public void terminate ()
-	{
-		// TODO Corps de méthode généré automatiquement
 
-	}
-
-	/* (non-Javadoc)
+	/** (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString ()
 	{
-		// TODO Corps de méthode généré automatiquement
+		
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see pagod.wizard.control.states.activity.AbstractActivityState#display()
-	 */
-	public void display ()
-	{
-		// TODO Corps de méthode généré automatiquement
-
-	}
 
 }

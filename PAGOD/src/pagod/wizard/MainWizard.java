@@ -1,5 +1,5 @@
 /*
- * $Id: MainWizard.java,v 1.4 2006/02/04 16:36:27 yak Exp $
+ * $Id: MainWizard.java,v 1.5 2006/02/19 15:36:43 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -23,8 +23,6 @@
  */
 
 package pagod.wizard;
-
-import javax.swing.JFileChooser;
 
 import pagod.wizard.control.ApplicationManager;
 import pagod.wizard.control.states.Request;

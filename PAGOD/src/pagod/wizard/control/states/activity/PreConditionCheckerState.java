@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: PreConditionCheckerState.java,v 1.6 2006/02/18 16:35:53 cyberal82 Exp $
+ * $Id: PreConditionCheckerState.java,v 1.7 2006/02/19 15:36:43 yak Exp $
  */
 package pagod.wizard.control.states.activity;
 
@@ -9,9 +9,6 @@ import pagod.common.model.Activity;
 import pagod.utils.LanguagesManager;
 import pagod.wizard.control.ActivityScheduler;
 import pagod.wizard.control.states.Request;
-import static pagod.wizard.control.states.Request.RequestType.GOTOSTEP;
-import static pagod.wizard.control.states.Request.RequestType.NEXT;
-import static pagod.wizard.control.states.Request.RequestType.PREVIOUS;
 
 /**
  * @author fabfoot
