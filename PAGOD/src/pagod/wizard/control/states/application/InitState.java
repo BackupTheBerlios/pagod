@@ -1,13 +1,11 @@
 /*
  * Projet PAGOD
  * 
- * $Id: InitState.java,v 1.5 2005/11/30 12:21:17 cyberal82 Exp $
+ * $Id: InitState.java,v 1.6 2006/02/19 13:11:05 yak Exp $
  */
 package pagod.wizard.control.states.application;
 
-import pagod.utils.ActionManager;
 import pagod.wizard.control.ApplicationManager;
-import pagod.wizard.control.Constants;
 import pagod.wizard.control.states.Request;
 
 /**
