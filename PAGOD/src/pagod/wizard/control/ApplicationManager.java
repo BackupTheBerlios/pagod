@@ -1,5 +1,5 @@
 /*
- * $Id: ApplicationManager.java,v 1.30 2006/02/18 16:35:54 cyberal82 Exp $
+ * $Id: ApplicationManager.java,v 1.31 2006/02/19 12:10:11 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -91,33 +91,6 @@ public class ApplicationManager extends Observable
 	 */
 	private static ApplicationManager	amInstance	= null;
 
-	/**
-	 * Etat possible de l'application
-	 */
-	private enum State
-	{
-		/**
-		 * Application est charger
-		 */
-		LOADED,
-		/**
-		 * Etat initiale de l'application
-		 */
-		INIT,
-		/**
-		 * Etat Processus ouvert : choix de l'activit? ? lancer
-		 */
-		PROCESS_OPENED,
-		/**
-		 * Activit? en cours de d?roulement
-		 */
-		ACTIVITY_LAUNCHED
-	}
-
-	/**
-	 * Etat de l'application
-	 */
-	// private State state2;
 	/**
 	 * Etat de l'application
 	 */
