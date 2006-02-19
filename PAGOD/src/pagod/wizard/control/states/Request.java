@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: Request.java,v 1.9 2006/02/18 16:35:54 cyberal82 Exp $
+ * $Id: Request.java,v 1.10 2006/02/19 15:53:40 yak Exp $
  */
 package pagod.wizard.control.states;
 
@@ -18,14 +18,7 @@ public class Request
 	 */
 	public enum RequestType
 	{
-		/**
-		 * Lancer l'application
-		 */
-		RUN_APPLICATION,
-		/**
-		 * Quitter l'application
-		 */
-		QUIT_APPLICATION,
+		
 		/**
 		 * Ouvrir un processus
 		 */
@@ -43,17 +36,9 @@ public class Request
 		 */
 		CLOSE_PROJECT,
 		/**
-		 * Afficher le a propos
-		 */
-		SHOW_ABOUT,
-		/**
 		 * Afficher la Jtable des temps passes
 		 */
 		TIME_ACTIVITY,
-		/**
-		 * Afficher la fenetre de configuration des preferences
-		 */
-		PREFERENCES,
 		/**
 		 * Afficher la fenetre de configuration des outils
 		 */
