@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.52 2006/02/18 16:35:53 cyberal82 Exp $
+ * $Id: MainFrame.java,v 1.53 2006/02/19 16:22:38 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -928,7 +928,10 @@ public class MainFrame extends JFrame implements Observer
 					ActionManager.getInstance()
 							.getAction(Constants.ACTION_NEXT).setEnabled(false);
 				
-				if (state.getActivity().hasOutputProducts())
+				if (state.getActivity().hasOutputProducts()||state.getActivity()
+						.hasGuidanceType("Liste de controles")
+						|| state.getActivity().getRole().hasGuidanceType(
+								"Liste de controles"))
 				{
 
 					this.activateSuspend();
@@ -973,7 +976,10 @@ public class MainFrame extends JFrame implements Observer
 							.getAction(Constants.ACTION_NEXT).setEnabled(true);
 				}
 
-				if (state.getActivity().hasOutputProducts())
+				if (state.getActivity().hasOutputProducts()||state.getActivity()
+						.hasGuidanceType("Liste de controles")
+						|| state.getActivity().getRole().hasGuidanceType(
+								"Liste de controles"))
 				{
 
 					this.activateSuspend();
