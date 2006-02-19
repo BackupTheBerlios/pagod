@@ -1,5 +1,5 @@
 /*
- * $Id: HtmlStepsAutodetector.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: HtmlStepsAutodetector.java,v 1.2 2006/02/19 09:34:09 garwind111 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -41,7 +41,7 @@ import pagod.common.model.Step;
  */
 public class HtmlStepsAutodetector
 {
-    private static Vector<String> getStepsNames(URL url)
+	private static Vector<String> getStepsNames(URL url)
     {
         Parser parser;
         Vector<String> vector = null;
@@ -98,7 +98,7 @@ public class HtmlStepsAutodetector
         }
         return (vector);
     }
-
+    
     /**
      * remplissage automatique des étapes de l'activité activity. Affiche une
      * boîte de dialogue de choix des classes balises d'autodétection
@@ -106,12 +106,13 @@ public class HtmlStepsAutodetector
      * @param activity
      *            l'activité dont on veut remplir automatiquement les étapes
      * @return vrai si au moins une étape a été autodétectée
+     * 
      */
     public static boolean FillSteps(Activity activity)
     {
         return HtmlStepsAutodetector.FillSteps(activity, true);
     }
-
+    
     /**
      * @param activity
      *            l'activité dont on veut remplir automatiquement les étapes
@@ -135,11 +136,13 @@ public class HtmlStepsAutodetector
             Vector<String> vectContenusEtapes = HtmlStepsAutodetector
                     .getStepsContents(urlFichierContenuActivite);
             int i = 0;
+            
             // si pas d'étapes autodétectées, renvoyer faux !
             if (vectNomEtapes.size() == 0)
             {
                 return false;
             }
+            
             // si + de noms d'étapes détectées que de contenu,
             // compléter le vector des contenus d'étapes avec des chaînes
             // vides
@@ -151,21 +154,36 @@ public class HtmlStepsAutodetector
                     vectContenusEtapes.add("");
                 }
             }
-            for (String s : vectNomEtapes)
-            {
-                activity.addStep(new Step(null, s, vectContenusEtapes.get(i++),
-                        null));
+            // Indique le flag parsé
+            if (!activity.getIsParsed())
+            	activity.setIsparsed(true);
+            // Ajout de steps conditionnel
+            if (activity.getIsParsed())
+			{
+				activity.removeAllSteps();
+            	for (String s : vectNomEtapes)
+				{
+					activity.addStep(new Step(null, s, vectContenusEtapes
+							.get(i++), null));
+				}
+			}
+            else {
+            	for (String s : vectNomEtapes)
+				{
+					activity.addStep(new Step(null, s, vectContenusEtapes
+							.get(i++), null));
+				}
             }
-        }
-        return true;
+		}
+		return true;
 
     }
 
     /**
-     * @param process
-     *            processus pour lequel on veut faire une détection de toutes
-     *            les étapes de toutes les activités !
-     */
+	 * @param process
+	 *            processus pour lequel on veut faire une détection de toutes
+	 *            les étapes de toutes les activités !
+	 */
     public static void FillSteps(Process process)
     {
         boolean premierPassage = true;

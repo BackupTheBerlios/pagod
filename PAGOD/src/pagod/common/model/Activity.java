@@ -1,5 +1,5 @@
 /*
- * $Id: Activity.java,v 1.8 2006/02/15 15:50:49 biniou Exp $
+ * $Id: Activity.java,v 1.9 2006/02/19 09:34:09 garwind111 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -41,6 +41,11 @@ public class Activity extends ProcessElement
 	 * Liste des ?tapes de l'activit?s
 	 */
 	private List<Step>						steps			= new ArrayList<Step>();
+	
+	/**
+	 * Flag indiquant si l'activité a été parsée par le configurateur
+	 */
+	private boolean 						isparsed			= false;
 
 	/**
 	 * D?finition de travail qui contient l'activit?
@@ -440,5 +445,33 @@ public class Activity extends ProcessElement
 		}
 		
 		return lGuidance;
+	}
+	
+	// Ajout par rapport à la correction de HtmlStepsAutodetector
+	
+	/**
+	 * defini si l'activité a été parsée
+	 * @param parsed
+	 */
+	public void setIsparsed(boolean parsed){
+		this.isparsed = parsed;
+	}
+	
+	/**
+	 * Indique si l'activité a été parsée
+	 * @return boolean
+	 */
+	public boolean getIsParsed(){
+		return this.isparsed;
+	}
+	
+	/**
+	 * Enleve les steps de la liste
+	 *
+	 */
+	public void removeAllSteps ()
+	{
+		if (this.isparsed) 
+			this.steps.removeAll(this.steps);
 	}
 }
