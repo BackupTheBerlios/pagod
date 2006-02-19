@@ -1,5 +1,5 @@
 /*
- * $Id: RunActivityAction.java,v 1.9 2006/02/09 19:58:34 yak Exp $
+ * $Id: RunActivityAction.java,v 1.10 2006/02/19 14:20:04 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -31,10 +31,8 @@ import java.io.IOException;
 import javax.swing.KeyStroke;
 
 import pagod.common.model.Activity;
-import pagod.common.model.TimeCouple;
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
-import pagod.utils.TimerManager;
 import pagod.wizard.control.ApplicationManager;
 import pagod.wizard.control.states.Request;
 import pagod.wizard.ui.TimeEditDialog;

@@ -1,5 +1,5 @@
 /*
- * $Id: ToolsSettingsAction.java,v 1.3 2006/01/20 13:49:21 yak Exp $
+ * $Id: ToolsSettingsAction.java,v 1.4 2006/02/19 14:20:34 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -53,6 +53,9 @@ public class ToolsSettingsAction extends CustomAction
         super("toolsSettings", "ToolsSettingsIcon.gif");
     }
 
+	/** (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	public void actionPerformed (ActionEvent e)
 	{
 		ToolsSettingsDialog tsd = new ToolsSettingsDialog(ApplicationManager.getInstance().getMfPagod(),

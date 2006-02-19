@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: NewProjectAction.java,v 1.7 2006/02/12 17:02:27 cyberal82 Exp $
+ * $Id: NewProjectAction.java,v 1.8 2006/02/19 14:20:04 yak Exp $
  */
 package pagod.wizard.control.actions;
 
@@ -11,11 +11,9 @@ import java.io.IOException;
 
 import javax.swing.KeyStroke;
 
-import pagod.configurator.control.PreferencesManager;
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
 import pagod.wizard.control.ApplicationManager;
-import pagod.wizard.control.TimeHandler;
 import pagod.wizard.control.states.Request;
 
 /**

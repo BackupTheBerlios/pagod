@@ -1,5 +1,5 @@
 /*
- * $Id: QuitAction.java,v 1.10 2006/02/12 17:02:27 cyberal82 Exp $
+ * $Id: QuitAction.java,v 1.11 2006/02/19 14:20:04 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -37,7 +37,6 @@ import pagod.utils.LanguagesManager;
 import pagod.utils.TimerManager;
 import pagod.wizard.control.ApplicationManager;
 import pagod.wizard.control.PreferencesManager;
-import pagod.wizard.control.TimeHandler;
 
 /**
  * Action pour quitter l'application
