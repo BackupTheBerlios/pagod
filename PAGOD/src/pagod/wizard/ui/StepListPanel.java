@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: StepListPanel.java,v 1.4 2006/02/07 23:50:22 psyko Exp $
+ * $Id: StepListPanel.java,v 1.5 2006/02/19 15:38:13 yak Exp $
  */
 package pagod.wizard.ui;
 
@@ -14,7 +14,6 @@ import java.util.Vector;
 
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
 import pagod.wizard.control.ActivityScheduler;
