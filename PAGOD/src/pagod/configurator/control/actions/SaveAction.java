@@ -1,5 +1,5 @@
 /*
- * $Id: SaveAction.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: SaveAction.java,v 1.2 2006/02/19 15:36:04 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -24,31 +24,45 @@
 
 package pagod.configurator.control.actions;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 
 import javax.swing.KeyStroke;
 
+import pagod.common.control.actions.CustomAction;
+import pagod.configurator.control.ApplicationManager;
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
-import pagod.configurator.control.ApplicationManager;
 
 /**
  * Action pour sauvegarder un processus
  * 
  * @author MoOky
  */
-public class SaveAction extends AbstractPagodAction
+public class SaveAction extends CustomAction
 {
-    /**
-     * @throws LanguagesManager.NotInitializedException
-     * @throws IOException
-     * @throws ImagesManager.NotInitializedException
-     */
-    public SaveAction() throws LanguagesManager.NotInitializedException,
-                       IOException, ImagesManager.NotInitializedException
-    {
-        super("save", "SaveIcon.gif", ApplicationManager.Request.SAVE_PROCESS,
-                KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_MASK));
-    }
+	/**
+	 * @throws LanguagesManager.NotInitializedException
+	 * @throws IOException
+	 * @throws ImagesManager.NotInitializedException
+	 */
+	public SaveAction () throws LanguagesManager.NotInitializedException,
+			IOException, ImagesManager.NotInitializedException
+	{
+		super("save", "SaveIcon.gif", KeyStroke.getKeyStroke(KeyEvent.VK_S,
+				KeyEvent.CTRL_MASK));
+	}
+
+	/**
+	 * Methode app?l?e lorsque l'action est d?clench?
+	 * 
+	 * @param actionEvent
+	 *            Evenement survenue
+	 */
+	public void actionPerformed (ActionEvent actionEvent)
+	{
+		ApplicationManager.getInstance().getMfPagod().saveProcess();
+
+	}
 }

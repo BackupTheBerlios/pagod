@@ -1,5 +1,5 @@
 /*
- * $Id: Constants.java,v 1.3 2006/01/23 17:43:55 yak Exp $
+ * $Id: Constants.java,v 1.4 2006/02/19 15:36:04 yak Exp $
  *
  * PAGOD - Spem Wizard
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -98,7 +98,7 @@ public interface Constants
     /**
      * <code>ACTION_QUIT</code>
      */
-    public static final String ACTION_QUIT = "quitAction";
+    public static final String ACTION_QUIT = "quitConfigAction";
 
     /**
      * <code>ACTION_OPENPROCESS</code>
@@ -118,11 +118,11 @@ public interface Constants
     /**
      * <code>ACTION_ABOUT</code>
      */
-    public static final String ACTION_ABOUT = "aboutAction";
+    public static final String ACTION_ABOUT = "aboutConfigAction";
 
     /**
      * <code>ACTION_PREFERENCES</code>
      */
-    public static final String ACTION_PREFERENCES = "preferencesAction";
+    public static final String ACTION_PREFERENCES = "preferencesConfigAction";
 
 }

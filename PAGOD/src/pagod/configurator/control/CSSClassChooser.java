@@ -1,5 +1,5 @@
 /*
- * $Id: CSSClassChooser.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: CSSClassChooser.java,v 1.2 2006/02/19 15:36:04 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -165,7 +165,7 @@ public class CSSClassChooser
         public CSSClassChooserDialog(Object[] values, String currentTitle,
                                      String currentBody)
         {
-            super(ApplicationManager.getInstance().getMainFrame(),
+            super(ApplicationManager.getInstance().getMfPagod(),
                     LanguagesManager.getInstance().getString(
                             "CSSClassChooser_dialogTitle"), true);
 

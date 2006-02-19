@@ -1,5 +1,5 @@
 /*
- * $Id: OpenAction.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: OpenAction.java,v 1.2 2006/02/19 15:36:04 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -24,14 +24,18 @@
 
 package pagod.configurator.control.actions;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 
 import javax.swing.KeyStroke;
 
+import pagod.configurator.control.ApplicationManager;
+import pagod.configurator.control.states.InitState;
+import pagod.configurator.control.states.Request;
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
-import pagod.configurator.control.ApplicationManager;
+
 
 /**
  * Action pour offrir un processus
@@ -48,7 +52,21 @@ public class OpenAction extends AbstractPagodAction
     public OpenAction() throws LanguagesManager.NotInitializedException,
                        IOException, ImagesManager.NotInitializedException
     {
-        super("open", "OpenIcon.gif", ApplicationManager.Request.OPEN_PROCESS,
+        super("open", "OpenIcon.gif", new Request(Request.RequestType.OPEN_PROCESS),
                 KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_MASK));
     }
+    /**
+	 * Methode app?l?e lorsque l'action est d?clench?
+	 * 
+	 * @param actionEvent
+	 *            Evenement survenue
+	 */
+	public void actionPerformed (ActionEvent actionEvent)
+	{
+		//TODO verfier si le message est a afficher ou pas (param booleen de open process
+		if (ApplicationManager.getInstance().getMfPagod().openProcess(!(ApplicationManager.getInstance().getState() instanceof InitState)))
+		{
+			ApplicationManager.getInstance().manageRequest(this.request);
+		}
+	}
 }

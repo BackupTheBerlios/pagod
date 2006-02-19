@@ -1,5 +1,5 @@
 /*
- * $Id: SaveAsAction.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: SaveAsAction.java,v 1.2 2006/02/19 15:36:04 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -24,28 +24,41 @@
 
 package pagod.configurator.control.actions;
 
+import java.awt.event.ActionEvent;
 import java.io.IOException;
 
-
+import pagod.common.control.actions.CustomAction;
+import pagod.configurator.control.ApplicationManager;
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
-import pagod.configurator.control.ApplicationManager;
 
 /**
  * Action pour sauvegarder un processus
  * 
  * @author MoOky
  */
-public class SaveAsAction extends AbstractPagodAction
+public class SaveAsAction extends CustomAction
 {
-    /**
-     * @throws LanguagesManager.NotInitializedException
-     * @throws IOException
-     * @throws ImagesManager.NotInitializedException
-     */
-    public SaveAsAction() throws LanguagesManager.NotInitializedException,
-                       IOException, ImagesManager.NotInitializedException
-    {
-        super("saveAs", "SaveAsIcon.gif", ApplicationManager.Request.SAVE_AS_PROCESS);
-    }
+	/**
+	 * @throws LanguagesManager.NotInitializedException
+	 * @throws IOException
+	 * @throws ImagesManager.NotInitializedException
+	 */
+	public SaveAsAction () throws LanguagesManager.NotInitializedException,
+			IOException, ImagesManager.NotInitializedException
+	{
+		super("saveAs", "SaveAsIcon.gif");
+	}
+
+	/**
+	 * Methode app?l?e lorsque l'action est d?clench?
+	 * 
+	 * @param actionEvent
+	 *            Evenement survenue
+	 */
+	public void actionPerformed (ActionEvent actionEvent)
+	{
+		ApplicationManager.getInstance().getMfPagod().saveAsProcess();
+
+	}
 }

@@ -1,5 +1,5 @@
 /*
- * $Id: AboutAction.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: AboutAction.java,v 1.2 2006/02/19 15:36:04 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -24,18 +24,22 @@
 
 package pagod.configurator.control.actions;
 
+import java.awt.event.ActionEvent;
 import java.io.IOException;
 
+import pagod.common.control.actions.CustomAction;
+import pagod.common.ui.AboutDialog;
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
-import pagod.configurator.control.ApplicationManager;
+import pagod.wizard.control.ApplicationManager;
+import pagod.wizard.control.Constants;
 
 /**
  * Action pour offrir un processus
  * 
  * @author MoOky
  */
-public class AboutAction extends AbstractPagodAction
+public class AboutAction extends CustomAction
 {
     /**
      * @throws ImagesManager.NotInitializedException
@@ -45,6 +49,21 @@ public class AboutAction extends AbstractPagodAction
     public AboutAction() throws LanguagesManager.NotInitializedException,
                         IOException, ImagesManager.NotInitializedException
     {
-        super("about", "AboutIcon.gif", ApplicationManager.Request.SHOW_ABOUT);
+        super("about", "AboutIcon.gif");
     }
+    
+
+	/**
+	 * Methode app?l?e lorsque l'action est d?clench?
+	 * 
+	 * @param actionEvent
+	 *            Evenement survenue
+	 */
+	public void actionPerformed (ActionEvent actionEvent)
+	{
+		AboutDialog ad = new AboutDialog(ApplicationManager.getInstance().getMfPagod(),
+				Constants.APPLICATION_SHORT_NAME + " "
+						+ Constants.APPLICATION_VERSION);
+		ad.setVisible(true);
+	}
 }

@@ -1,5 +1,5 @@
 /*
- * $Id: MainConfigurator.java,v 1.1 2005/10/30 10:45:00 yak Exp $
+ * $Id: MainConfigurator.java,v 1.2 2006/02/19 15:36:04 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -23,8 +23,10 @@
  */
 
 package pagod.configurator;
- 
+
 import pagod.configurator.control.ApplicationManager;
+import pagod.configurator.control.states.InitState;
+import pagod.configurator.ui.MainFrame;
 
 /**
  * Classe principale de PAGOD configurator.
@@ -33,19 +35,26 @@ import pagod.configurator.control.ApplicationManager;
  */
 public class MainConfigurator
 {
-    /**
-     * Méthode Principale de PAGOD configurator
-     * 
-     * @param args
-     *            PAGOD configurator n'utilise pas les paramètres passés en ligne de
-     *            commande.
-     */
-    public static void main(String[] args)
-    {
-        // lancement de l'application
-        ApplicationManager applicationManager = ApplicationManager
-                .getInstance();
-        applicationManager
-                .manageRequest(ApplicationManager.Request.RUN_APPLICATION);
-    }
+	/**
+	 * Méthode Principale de PAGOD configurator
+	 * 
+	 * @param args
+	 *            PAGOD configurator n'utilise pas les paramètres passés en
+	 *            ligne de commande.
+	 */
+	public static void main (String[] args)
+	{
+		// lancement de l'application
+		ApplicationManager applicationManager = ApplicationManager
+				.getInstance();
+		// creation de la fenetre principale
+
+		MainFrame mfPagod = new MainFrame();
+
+		applicationManager.setMfPagod(mfPagod);
+
+		// on passe dans l'?tat init
+		applicationManager.setState(new InitState(applicationManager));
+		
+	}
 }

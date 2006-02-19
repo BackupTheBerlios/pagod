@@ -1,5 +1,5 @@
 /*
- * $Id: ModelResourcesManager.java,v 1.10 2006/02/16 17:04:41 biniou Exp $
+ * $Id: ModelResourcesManager.java,v 1.11 2006/02/19 15:36:04 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -47,7 +47,6 @@ import pagod.common.model.Guidance;
 import pagod.common.model.ProcessComponent;
 import pagod.common.model.ProcessElement;
 import pagod.common.model.Product;
-import pagod.common.model.Project;
 import pagod.common.model.Role;
 import pagod.common.model.Tool;
 import pagod.common.model.WorkDefinition;

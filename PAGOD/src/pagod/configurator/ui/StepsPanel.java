@@ -1,5 +1,5 @@
 /*
- * $Id: StepsPanel.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: StepsPanel.java,v 1.2 2006/02/19 15:36:04 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -88,12 +88,12 @@ public class StepsPanel extends JPanel
          */
         public void actionPerformed(ActionEvent e)
         {
-            ApplicationManager.getInstance().getMainFrame().setCursor(
+            ApplicationManager.getInstance().getMfPagod().setCursor(
                     new Cursor(Cursor.WAIT_CURSOR));
             HtmlStepsAutodetector.FillSteps(this.process);
             ((AbstractTableModel) StepsPanel.this.pStepsConfigurationPanel.tEtapes
                     .getModel()).fireTableDataChanged();
-            ApplicationManager.getInstance().getMainFrame().setCursor(
+            ApplicationManager.getInstance().getMfPagod().setCursor(
                     new Cursor(Cursor.DEFAULT_CURSOR));
         }
     }
@@ -443,7 +443,7 @@ public class StepsPanel extends JPanel
                         // export vers "savePath" OK , afficher boite de
                         // dialogue correspondante
                         JOptionPane.showMessageDialog(ApplicationManager
-                                .getInstance().getMainFrame(), String.format(
+                                .getInstance().getMfPagod(), String.format(
                                 LanguagesManager.getInstance().getString(
                                         "StepsPanelExportStepsOkMessage"),
                                 savePath), LanguagesManager.getInstance()
@@ -454,7 +454,7 @@ public class StepsPanel extends JPanel
                     { // export vers "savePath" KO , afficher boite de
                         // dialogue correspondante
                         JOptionPane.showMessageDialog(ApplicationManager
-                                .getInstance().getMainFrame(), String.format(
+                                .getInstance().getMfPagod(), String.format(
                                 LanguagesManager.getInstance().getString(
                                         "StepsPanelExportStepsFailureMessage"),
                                 savePath), LanguagesManager.getInstance()

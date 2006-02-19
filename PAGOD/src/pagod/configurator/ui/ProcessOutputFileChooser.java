@@ -1,5 +1,5 @@
 /*
- * $Id: ProcessOutputFileChooser.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: ProcessOutputFileChooser.java,v 1.2 2006/02/19 15:36:04 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -45,7 +45,7 @@ public class ProcessOutputFileChooser extends SaveFileChooser
     public ProcessOutputFileChooser()
     {
         super("spwiz",LanguagesManager.getInstance().getString(
-        "processFileChooserFilterSPWIZ"));
+        "processFileChooserFilterPAGOD"));
         // initialisation du titre
         this.setDialogTitle(LanguagesManager.getInstance().getString(
                 "processOutputFileChooserTitle"));

@@ -1,5 +1,5 @@
 /*
- * $Id: PreferencesAction.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: PreferencesAction.java,v 1.2 2006/02/19 15:36:04 yak Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -24,18 +24,21 @@
 
 package pagod.configurator.control.actions;
 
+import java.awt.event.ActionEvent;
 import java.io.IOException;
 
+import pagod.common.control.actions.CustomAction;
+import pagod.configurator.control.ApplicationManager;
+import pagod.configurator.ui.PreferencesDialog;
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
-import pagod.configurator.control.ApplicationManager;
 
 /**
  * Action de configuration des preferences
  * 
  * @author MoOky
  */
-public class PreferencesAction extends AbstractPagodAction
+public class PreferencesAction extends CustomAction
 {
     /**
      * @throws LanguagesManager.NotInitializedException
@@ -46,7 +49,20 @@ public class PreferencesAction extends AbstractPagodAction
                               IOException,
                               ImagesManager.NotInitializedException
     {
-        super("preferences", "PreferencesIcon.gif",
-                ApplicationManager.Request.PREFERENCES);
+        super("preferences", "PreferencesIcon.gif");
+    }
+    
+    /**
+     * Methode app?l?e lorsque l'action est d?clench?
+     * 
+     * @param actionEvent
+     *            Evenement survenue
+     */
+    
+    public void actionPerformed(ActionEvent actionEvent)
+    {
+    	//on ouvre un nouvelle fenetre
+    	PreferencesDialog pd = new PreferencesDialog(ApplicationManager.getInstance().getMfPagod());
+		pd.setVisible(true);
     }
 }
