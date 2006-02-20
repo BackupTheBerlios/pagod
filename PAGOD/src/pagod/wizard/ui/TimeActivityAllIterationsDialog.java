@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimeActivityAllIterationsDialog.java,v 1.2 2006/02/16 15:41:48 biniou Exp $
+ * $Id: TimeActivityAllIterationsDialog.java,v 1.3 2006/02/20 09:04:44 yak Exp $
  */
 package pagod.wizard.ui;
 
@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.table.AbstractTableModel;
 
 import pagod.common.model.Activity;
@@ -34,7 +35,7 @@ public class TimeActivityAllIterationsDialog extends JDialog implements
 		ActionListener
 {
 	// panel contenant la JTable
-	private JPanel	pCentral	= null;
+	private JScrollPane	pCentral	= null;
 
 	// panel qui contiendra les boutons du bas
 	private JPanel	pButton		= null;
@@ -69,10 +70,12 @@ public class TimeActivityAllIterationsDialog extends JDialog implements
 		this.table.setModel(tm);
 
 		// panel qui va contenir la JTable
-		this.pCentral = new JPanel();
+	
 
-		JScrollPane jspTable = new JScrollPane(this.table);
-		this.pCentral.add(jspTable, BorderLayout.CENTER);
+		this.pCentral  = new JScrollPane(this.table);
+		this.pCentral.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		this.pCentral.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		//this.pCentral.add(jspTable, BorderLayout.CENTER);
 
 		// panel contenant les boutons
 		this.pButton = new JPanel();
@@ -93,7 +96,7 @@ public class TimeActivityAllIterationsDialog extends JDialog implements
 
 		// positionnement des panel dans la JDialog
 		this.setLayout(new BorderLayout());
-		this.getContentPane().add(this.pCentral, BorderLayout.CENTER);
+		this.getContentPane().add(this.pCentral , BorderLayout.CENTER);
 		this.getContentPane().add(this.pButton, BorderLayout.SOUTH);
 
 		this.pack();
@@ -154,7 +157,7 @@ public class TimeActivityAllIterationsDialog extends JDialog implements
 		// arraylist contenant les temps associes aux activits
 		private ArrayList<HashMap<Integer, TimeCouple>>	alTime			= new ArrayList<HashMap<Integer, TimeCouple>>();
 
-		MaTableModel ()
+		@SuppressWarnings("unchecked") MaTableModel ()
 		{
 			super();
 			int i = 0;
@@ -164,8 +167,8 @@ public class TimeActivityAllIterationsDialog extends JDialog implements
 			// initialisation de la liste des temps
 			for (Activity currentActivity : this.alActivities)
 			{
-				// recuperation du temps de l'activité
-				HashMap<Integer, TimeCouple> hmTime = (HashMap<Integer, TimeCouple>)currentActivity.getHM().clone();
+				// recuperation du temps de l'activit?
+				HashMap<Integer, TimeCouple> hmTime = (HashMap<Integer, TimeCouple>)(currentActivity.getHM().clone());
 				
 				this.alTime.add(i, hmTime);
 				i++;
@@ -189,7 +192,7 @@ public class TimeActivityAllIterationsDialog extends JDialog implements
 		 */
 		public int getColumnCount ()
 		{
-			// nombre de colonnes egal au nombre d'itérations +1
+			// nombre de colonnes egal au nombre d'it?rations +1
 			return (ApplicationManager.getInstance().getCurrentProject()
 					.getItCurrent() + 1);
 		}
@@ -209,13 +212,13 @@ public class TimeActivityAllIterationsDialog extends JDialog implements
 			}
 			else
 			{
-				// affichage du tps passé sous la forme h:m:s
-				// on recupere la hashmap de l'activité
+				// affichage du tps pass? sous la forme h:m:s
+				// on recupere la hashmap de l'activit?
 				HashMap hmTime = new HashMap();
 				hmTime = this.alTime.get(rowIndex);
 
 				// en fonction de la colonne, on recupere le temps
-				// passé
+				// pass?
 				TimeCouple tc = (TimeCouple) hmTime.get(columnIndex);
 				cellValue = TimerManager.stringFromTime(tc.getTimeElapsed());
 
@@ -267,7 +270,7 @@ public class TimeActivityAllIterationsDialog extends JDialog implements
 		 */
 		public void setValueAt (Object value, int rowIndex, int columnIndex)
 		{
-			// verification que la chaine rentrée soit de la bonne forme
+			// verification que la chaine rentr?e soit de la bonne forme
 
 			boolean isValid = false;
 			String val = String.valueOf(value);
@@ -283,22 +286,22 @@ public class TimeActivityAllIterationsDialog extends JDialog implements
 
 				if (columnIndex == it)
 				{
-					// temps passé
-					// on recupere le tps prévu pour ne pas le changer
-					// puisqu'on est dans l'itération courante
+					// temps pass?
+					// on recupere le tps pr?vu pour ne pas le changer
+					// puisqu'on est dans l'it?ration courante
 					TimeCouple tc = (this.alTime.get(rowIndex)).get(it);
 					int remainingTime = tc.getTimeRemaining();
 
-					// on crée un nouveau couple avec l'ancien temps restant et
-					// le nouveau temps passé
+					// on cr?e un nouveau couple avec l'ancien temps restant et
+					// le nouveau temps pass?
 					TimeCouple tcEdit = new TimeCouple(time, remainingTime);
 					hm.put(columnIndex, tcEdit);
 					this.alTime.set(rowIndex, hm);
 				}
 				else
 				{
-					// on crée un nouveau couple avec 0 en temps restant et
-					// le nouveau temps passé
+					// on cr?e un nouveau couple avec 0 en temps restant et
+					// le nouveau temps pass?
 					TimeCouple tcEdit = new TimeCouple(time, 0);
 					hm.put(columnIndex, tcEdit);
 					this.alTime.set(rowIndex, hm);
