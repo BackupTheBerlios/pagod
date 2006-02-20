@@ -1,5 +1,5 @@
 /*
- * $Id: DPCHandler.java,v 1.2 2006/02/08 19:14:32 cyberal82 Exp $
+ * $Id: DPCHandler.java,v 1.3 2006/02/20 19:12:34 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -455,6 +455,9 @@ public class DPCHandler
 		}
 
 		// création des rôles
+		// psyko le 20/02/2006
+		// TODO, c ici qu'on modifie le role ... , on rajoute la description
+		// pour pouvoir l'utiliser dans la tooltip 
 		elements = this.getElementsNS(root, "role");
 		for (final Element currentElement : elements)
 		{
@@ -483,6 +486,8 @@ public class DPCHandler
 		}
 
 		// création des produits
+		// TODO, c ici qu'on modifie le produit ... , on rajoute la description
+		// pour pouvoir l'utiliser dans la tooltip 
 		elements = this.getElementsNS(root, "produit");
 		for (final Element currentElement : elements)
 		{
