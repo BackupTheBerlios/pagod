@@ -1,5 +1,5 @@
 /*
- * $Id: OpenProcessAction.java,v 1.12 2006/02/16 17:07:32 cyberal82 Exp $
+ * $Id: OpenProcessAction.java,v 1.13 2006/02/20 09:01:57 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -94,9 +94,9 @@ public class OpenProcessAction extends AbstractPagodAction
 
 				// si on a pas reussit a supprimer l'ancien dpc on affiche un
 				// message a l'utilisateur
-				if (!processFile.delete())
+				if (processFile.exists() && !processFile.delete())
 				{
-
+					
 					JOptionPane.showMessageDialog(ApplicationManager
 							.getInstance().getMfPagod(), LanguagesManager
 							.getInstance().getString(

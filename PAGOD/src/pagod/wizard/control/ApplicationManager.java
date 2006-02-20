@@ -1,5 +1,5 @@
 /*
- * $Id: ApplicationManager.java,v 1.32 2006/02/19 15:39:05 yak Exp $
+ * $Id: ApplicationManager.java,v 1.33 2006/02/20 09:01:57 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -396,9 +396,6 @@ public class ApplicationManager extends Observable
 		// on met la main frame sur ecoute de l'application manager et de ces
 		// etats
 		this.addObserver(this.mfPagod);
-
-		// on passe dans l'?tat init
-		this.setState(new InitState(this));
 	}
 
 	/**

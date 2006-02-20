@@ -1,5 +1,5 @@
 /*
- * $Id: MainWizard.java,v 1.6 2006/02/19 15:53:40 yak Exp $
+ * $Id: MainWizard.java,v 1.7 2006/02/20 09:01:57 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -25,6 +25,7 @@
 package pagod.wizard;
 
 import pagod.wizard.control.ApplicationManager;
+import pagod.wizard.control.states.application.InitState;
 import pagod.wizard.ui.MainFrame;
 
 /**
@@ -35,10 +36,10 @@ import pagod.wizard.ui.MainFrame;
 public class MainWizard
 {
 	/**
-	 * Méthode Principale de pagod
+	 * M?thode Principale de pagod
 	 * 
 	 * @param args
-	 *            PAGOD n'utilise pas les paramètres passés en ligne de
+	 *            PAGOD n'utilise pas les param?tres pass?s en ligne de
 	 *            commande.
 	 */
 	public static void main (String[] args)
@@ -52,5 +53,7 @@ public class MainWizard
 		
 		applicationManager.setMfPagod(mfPagod);
 
+		// on initialise la machine a etat de l'application
+		applicationManager.setState(new InitState(applicationManager));
 	}
 }
