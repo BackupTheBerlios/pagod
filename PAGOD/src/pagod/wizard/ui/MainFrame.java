@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.53 2006/02/19 16:22:38 yak Exp $
+ * $Id: MainFrame.java,v 1.54 2006/02/20 08:59:48 fabfoot Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -34,6 +34,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.MissingResourceException;
 import java.util.Observable;
@@ -53,6 +54,7 @@ import pagod.common.model.Activity;
 import pagod.common.model.Process;
 import pagod.common.model.Product;
 import pagod.common.model.Project;
+import pagod.common.model.Role;
 import pagod.common.model.Step;
 import pagod.common.ui.ContentViewerPane;
 import pagod.common.ui.NewProjectDialog;
@@ -142,7 +144,7 @@ public class MainFrame extends JFrame implements Observer
 	private StepListPanel		jListPanel			= null;
 
 	/**
-	 * panel qui va contenir: le contenu de l'étape et la liste des etapes
+	 * panel qui va contenir: le contenu de l'?tape et la liste des etapes
 	 */
 	private JSplitPane			stepPanel			= null;
 
@@ -588,7 +590,22 @@ public class MainFrame extends JFrame implements Observer
 		{
 			if (ApplicationManager.getInstance().getCurrentProcess() != null) ApplicationManager
 					.getInstance().closeProcess();
+
+			Collection<Role> Crole = aProcess.getRoles();
+			Collection<Role> Cresrole = new ArrayList<Role>();
+			for (Role rol : Crole)
+			{
+				if (rol.isActivate())
+				{
+					Cresrole.add(rol);
+					//System.err.println("mainFRAME openProcess " + rol.getName()  );
+				}
+
+			}
+			
 			// Afficher la fenetre de choix des roles
+			
+			/*
 			RolesChooserDialog rolesChooser = new RolesChooserDialog(this,
 					aProcess.getRoles());
 			if (rolesChooser.showDialog() == RolesChooserDialog.APPROVE_OPTION)
@@ -614,7 +631,26 @@ public class MainFrame extends JFrame implements Observer
 			else
 			{
 				opened = false;
-			}
+			}*/
+			
+			
+				// recuperer les Roles choisis
+				// creer le TreeModel n?cessaire au JTree de la fenetre
+				// presenter a l'utilisateur le processus
+				String fileName = processFile.getName();
+
+				this.showProcess(new ProcessTreeModel(aProcess, Cresrole ), fileName, aProcess.getName());
+
+				// mettre a jour le processus en cours
+				ApplicationManager.getInstance().setCurrentProcess(aProcess);
+				ApplicationManager.getInstance().getCurrentProject()
+						.setCurrentProcess(aProcess);
+				// on ouvre les fichiers d'outils
+				ToolsManager.getInstance().initialise(
+						ApplicationManager.getInstance().getCurrentProcess());
+				ToolsManager.getInstance().loadToolsAssociation();
+				opened = true;
+			
 		}
 		return opened;
 	}
@@ -782,7 +818,7 @@ public class MainFrame extends JFrame implements Observer
 	 * redondance
 	 * 
 	 * @param state
-	 *            methode qui va mettre à jour le message en fonction de l'
+	 *            methode qui va mettre ? jour le message en fonction de l'
 	 *            etape ds laquelle on se trouve
 	 */
 	protected void setMessagePanel (AbstractActivityState state)
@@ -811,7 +847,8 @@ public class MainFrame extends JFrame implements Observer
 	/**
 	 * @param message
 	 */
-	// TODO il faut voir si on peut pas fre autrement qu'en utilisant cette methode idem pour l'autre methode setMessage
+	// TODO il faut voir si on peut pas fre autrement qu'en utilisant cette
+	// methode idem pour l'autre methode setMessage
 	public void setMessagePanel (String message)
 	{
 		// mettre a jour le message
@@ -902,7 +939,7 @@ public class MainFrame extends JFrame implements Observer
 				// si on peut ce mettre dans l'etat PreconditionCheckerState
 				// ou StepState ou PostConditionCheckerState
 				if ( // pour savoir si on peut ce mettre dans l'etat
-						// PreconditionCheckerState
+				// PreconditionCheckerState
 				state.getActivity().hasInputProducts()
 						|| state.getActivity().hasGuidanceWithoutType(
 								"Liste de controles")
@@ -927,9 +964,10 @@ public class MainFrame extends JFrame implements Observer
 				else
 					ActionManager.getInstance()
 							.getAction(Constants.ACTION_NEXT).setEnabled(false);
-				
-				if (state.getActivity().hasOutputProducts()||state.getActivity()
-						.hasGuidanceType("Liste de controles")
+
+				if (state.getActivity().hasOutputProducts()
+						|| state.getActivity().hasGuidanceType(
+								"Liste de controles")
 						|| state.getActivity().getRole().hasGuidanceType(
 								"Liste de controles"))
 				{
@@ -976,8 +1014,9 @@ public class MainFrame extends JFrame implements Observer
 							.getAction(Constants.ACTION_NEXT).setEnabled(true);
 				}
 
-				if (state.getActivity().hasOutputProducts()||state.getActivity()
-						.hasGuidanceType("Liste de controles")
+				if (state.getActivity().hasOutputProducts()
+						|| state.getActivity().hasGuidanceType(
+								"Liste de controles")
 						|| state.getActivity().getRole().hasGuidanceType(
 								"Liste de controles"))
 				{
