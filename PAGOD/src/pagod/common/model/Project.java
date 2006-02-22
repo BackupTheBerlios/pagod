@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: Project.java,v 1.15 2006/02/16 17:04:41 biniou Exp $
+ * $Id: Project.java,v 1.16 2006/02/22 16:32:10 cyberal82 Exp $
  */
 package pagod.common.model;
 
@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Observable;
 import java.util.Properties;
 
 import pagod.utils.FilesManager;
@@ -20,7 +21,7 @@ import pagod.wizard.control.PreferencesManager;
  * 
  */
 
-public class Project
+public class Project extends Observable
 {
 	
 	
@@ -292,6 +293,14 @@ public class Project
 	public void setItCurrent(int itcurrent)
 	{
 		this.itCurrent  = itcurrent ;
+		
+		// on indique que l'objet Project a changé
+		this.setChanged();
+		
+		// on notify tous les observers que l'iteration a changé
+		// et on passe en parametre le numero de la nouvelle iteration
+		// rq la MainFrame est observer du Project
+		this.notifyObservers(new Integer(this.itCurrent));
 	}
 	/**
 	 * @return Retourne l'attribut sNameDPC

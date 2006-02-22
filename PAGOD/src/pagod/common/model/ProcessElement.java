@@ -1,5 +1,5 @@
 /*
- * $Id: ProcessElement.java,v 1.6 2006/02/12 17:02:27 cyberal82 Exp $
+ * $Id: ProcessElement.java,v 1.7 2006/02/22 16:32:10 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -28,11 +28,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Observable;
 
 /**
  * @author Benjamin
  */
-public abstract class ProcessElement
+public abstract class ProcessElement extends Observable
 {
 	/**
 	 * Identifiant de l'?l?ment de processus
