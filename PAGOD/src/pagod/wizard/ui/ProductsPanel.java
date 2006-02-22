@@ -1,5 +1,5 @@
 /*
- * $Id: ProductsPanel.java,v 1.5 2006/02/05 17:02:09 psyko Exp $
+ * $Id: ProductsPanel.java,v 1.6 2006/02/22 20:43:18 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -22,7 +22,7 @@
  *
  */
 
-package pagod.wizard.ui; 
+package pagod.wizard.ui;
 
 import java.awt.Dimension;
 import java.util.Collection;
@@ -33,76 +33,79 @@ import javax.swing.JSplitPane;
 import pagod.common.model.Activity;
 import pagod.common.model.Product;
 
-
 /**
- * Panneaux pr?sentant une liste de produit et proposant des actions li? ? ces produits
- * (voir guides, cr?e produit)
+ * Panneaux pr?sentant une liste de produit et proposant des actions li? ? ces
+ * produits (voir guides, cr?e produit)
+ * 
  * @author MoOky
- *
+ * 
  */
 public class ProductsPanel extends JSplitPane
-{	
+{
 	/**
-     * Panneau de la liste des produits
-     */
-    private ListProductsPanel listProductsPanel;
-    
-    /**
-     * Panneau des actions a effectu? sur les produits
-     */
-    private ActionsPanel actionsPanel;
-    
-    /**
-     * Constructeur
-     * @param activity l'activite dont on veut presenter les produits passes en parametre
-     * @param productsToPresent liste de produit ? pr?sent?e
-     */
-    public ProductsPanel(Activity activity, Collection<Product> productsToPresent)
-    {
-        // creation du splitpane
-        super();
-        this.setOneTouchExpandable(true);
-        this.setOrientation(JSplitPane.VERTICAL_SPLIT);
-        this.setResizeWeight(1.0);
-        
-        // creation du panneaux des actions positionner sur le premier produit
-        // l'AtioPannel affiche les guides disponibles pour l'activite, le role qui realise cette activite
-        // ainsi que ceux sur les produits
-        this.actionsPanel = new ActionsPanel(activity);
-        
-        // creation du panneaux listant les produits
-        this.listProductsPanel = new ListProductsPanel(productsToPresent){
+	 * Panneau de la liste des produits
+	 */
+	private ListProductsPanel	listProductsPanel;
 
-            public void onSelection(Product selectedProduct)
-            {
-                ProductsPanel.this.actionsPanel.setProduct(selectedProduct);
-            }};
-            
-        // remplissage
-        // en haut --> le Panneaux listant les produits
-        JScrollPane scrollPane = new JScrollPane(this.listProductsPanel);
-        this.add(scrollPane, JSplitPane.TOP);
-        this.add(this.actionsPanel, JSplitPane.BOTTOM);
-        
-        // on considere qu'un elt de la jlist fait 25 de hauteur et que le bouton pour lancer un produit fait 26
-        // plus un peu d'espace 
-        int iHeight = productsToPresent.size() * 26 + 26 + 7 ;
-        Dimension dim = new Dimension(this.listProductsPanel.getWidth(), iHeight);
-        
-        // definition des taille preferer et minimum du listProductPanel et du scrollPane
-        // pour que le JSplitPane (this) qui les contients s'affiche propremment
-        this.listProductsPanel.setPreferredSize(dim);
-        this.listProductsPanel.setMinimumSize(dim);
-        scrollPane.setPreferredSize(dim);
-        scrollPane.setMinimumSize(dim);
-    }
-    
-    
-    /** 
-     * Surcharge : donne le focus a la liste
-     */
-    public void requestFocus()
-    {
-        this.listProductsPanel.requestFocus();
-    }
+	/**
+	 * Panneau des actions a effectu? sur les produits
+	 */
+	private ActionsPanel		actionsPanel;
+
+	/**
+	 * Constructeur
+	 * 
+	 * @param activity
+	 *            l'activite dont on veut presenter les produits passes en
+	 *            parametre
+	 * @param productsToPresent
+	 *            liste de produit ? pr?sent?e
+	 */
+	public ProductsPanel (Activity activity,
+			Collection<Product> productsToPresent)
+	{
+		// creation du splitpane
+		super();
+		this.setOneTouchExpandable(true);
+		this.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		this.setResizeWeight(1.0);
+
+		// creation du panneaux des actions positionner sur le premier produit
+		// l'AtioPannel affiche les guides disponibles pour l'activite, le role
+		// qui realise cette activite
+		// ainsi que ceux sur les produits
+		this.actionsPanel = new ActionsPanel(activity);
+
+		// creation du panneaux listant les produits
+		this.listProductsPanel = new ListProductsPanel(productsToPresent)
+		{
+
+			public void onSelection (Product selectedProduct)
+			{
+				ProductsPanel.this.actionsPanel.setProduct(selectedProduct);
+			}
+		};
+
+		// remplissage
+		// en haut --> le Panneaux listant les produits
+		JScrollPane scrollPane = new JScrollPane(this.listProductsPanel);
+		this.add(scrollPane, JSplitPane.TOP);
+		this.add(this.actionsPanel, JSplitPane.BOTTOM);
+		
+		// pour definir la taille prefere et minimal du scrollPane
+		Dimension dim = new Dimension((int) this.listProductsPanel
+				.getMinimumSize().getWidth(), ((int) this.listProductsPanel
+				.getMinimumSize().getHeight()) + 7);
+		
+		scrollPane.setMinimumSize(dim);
+		scrollPane.setPreferredSize(dim);
+	}
+
+	/**
+	 * Surcharge : donne le focus a la liste
+	 */
+	public void requestFocus ()
+	{
+		this.listProductsPanel.requestFocus();
+	}
 }
