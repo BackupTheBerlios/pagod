@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.54 2006/02/20 08:59:48 fabfoot Exp $
+ * $Id: MainFrame.java,v 1.55 2006/02/22 16:16:40 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -598,59 +598,52 @@ public class MainFrame extends JFrame implements Observer
 				if (rol.isActivate())
 				{
 					Cresrole.add(rol);
-					//System.err.println("mainFRAME openProcess " + rol.getName()  );
+					// System.err.println("mainFRAME openProcess " +
+					// rol.getName() );
 				}
 
 			}
-			
+
 			// Afficher la fenetre de choix des roles
-			
+
 			/*
-			RolesChooserDialog rolesChooser = new RolesChooserDialog(this,
-					aProcess.getRoles());
-			if (rolesChooser.showDialog() == RolesChooserDialog.APPROVE_OPTION)
-			{
-				// recuperer les Roles choisis
-				// creer le TreeModel n?cessaire au JTree de la fenetre
-				// presenter a l'utilisateur le processus
-				String fileName = processFile.getName();
+			 * RolesChooserDialog rolesChooser = new RolesChooserDialog(this,
+			 * aProcess.getRoles()); if (rolesChooser.showDialog() ==
+			 * RolesChooserDialog.APPROVE_OPTION) { // recuperer les Roles
+			 * choisis // creer le TreeModel n?cessaire au JTree de la fenetre //
+			 * presenter a l'utilisateur le processus String fileName =
+			 * processFile.getName();
+			 * 
+			 * this.showProcess(new ProcessTreeModel(aProcess, rolesChooser
+			 * .getChosenRoles()), fileName, aProcess.getName()); // mettre a
+			 * jour le processus en cours
+			 * ApplicationManager.getInstance().setCurrentProcess(aProcess);
+			 * ApplicationManager.getInstance().getCurrentProject()
+			 * .setCurrentProcess(aProcess); // on ouvre les fichiers d'outils
+			 * ToolsManager.getInstance().initialise(
+			 * ApplicationManager.getInstance().getCurrentProcess());
+			 * ToolsManager.getInstance().loadToolsAssociation(); opened = true; }
+			 * else { opened = false; }
+			 */
 
-				this.showProcess(new ProcessTreeModel(aProcess, rolesChooser
-						.getChosenRoles()), fileName, aProcess.getName());
+			// recuperer les Roles choisis
+			// creer le TreeModel n?cessaire au JTree de la fenetre
+			// presenter a l'utilisateur le processus
+			String fileName = processFile.getName();
 
-				// mettre a jour le processus en cours
-				ApplicationManager.getInstance().setCurrentProcess(aProcess);
-				ApplicationManager.getInstance().getCurrentProject()
-						.setCurrentProcess(aProcess);
-				// on ouvre les fichiers d'outils
-				ToolsManager.getInstance().initialise(
-						ApplicationManager.getInstance().getCurrentProcess());
-				ToolsManager.getInstance().loadToolsAssociation();
-				opened = true;
-			}
-			else
-			{
-				opened = false;
-			}*/
-			
-			
-				// recuperer les Roles choisis
-				// creer le TreeModel n?cessaire au JTree de la fenetre
-				// presenter a l'utilisateur le processus
-				String fileName = processFile.getName();
+			this.showProcess(new ProcessTreeModel(aProcess, Cresrole),
+					fileName, aProcess.getName());
 
-				this.showProcess(new ProcessTreeModel(aProcess, Cresrole ), fileName, aProcess.getName());
+			// mettre a jour le processus en cours
+			ApplicationManager.getInstance().setCurrentProcess(aProcess);
+			ApplicationManager.getInstance().getCurrentProject()
+					.setCurrentProcess(aProcess);
+			// on ouvre les fichiers d'outils
+			ToolsManager.getInstance().initialise(
+					ApplicationManager.getInstance().getCurrentProcess());
+			ToolsManager.getInstance().loadToolsAssociation();
+			opened = true;
 
-				// mettre a jour le processus en cours
-				ApplicationManager.getInstance().setCurrentProcess(aProcess);
-				ApplicationManager.getInstance().getCurrentProject()
-						.setCurrentProcess(aProcess);
-				// on ouvre les fichiers d'outils
-				ToolsManager.getInstance().initialise(
-						ApplicationManager.getInstance().getCurrentProcess());
-				ToolsManager.getInstance().loadToolsAssociation();
-				opened = true;
-			
 		}
 		return opened;
 	}
@@ -811,49 +804,6 @@ public class MainFrame extends JFrame implements Observer
 	public void InitButtonPanel ()
 	{
 		this.buttonPanel = new ButtonPanel();
-	}
-
-	/**
-	 * TODO ptetre deplacer cette methode dans le mesasge panel pour eviter la
-	 * redondance
-	 * 
-	 * @param state
-	 *            methode qui va mettre ? jour le message en fonction de l'
-	 *            etape ds laquelle on se trouve
-	 */
-	protected void setMessagePanel (AbstractActivityState state)
-	{
-		String message;
-
-		message = LanguagesManager.getInstance().getString("activityRole")
-				+ " : " + this.getActivity().getRole() + "<BR>"
-				+ LanguagesManager.getInstance().getString("activityActivity")
-				+ " : " + this.getActivity() + "<BR>" + state;
-
-		if (ApplicationManager.getInstance().getCurrentProject() != null)
-		{
-			message = message
-					+ "<BR>"
-					+ LanguagesManager.getInstance().getString(
-							"activityIteration")
-					+ " : "
-					+ ApplicationManager.getInstance().getCurrentProject()
-							.getItCurrent();
-		}
-
-		this.messagePanel.setMessage(message);
-	}
-
-	/**
-	 * @param message
-	 */
-	// TODO il faut voir si on peut pas fre autrement qu'en utilisant cette
-	// methode idem pour l'autre methode setMessage
-	public void setMessagePanel (String message)
-	{
-		// mettre a jour le message
-		this.messagePanel.setMessage(message);
-
 	}
 
 	/**
@@ -1054,12 +1004,12 @@ public class MainFrame extends JFrame implements Observer
 						.println("ActivityScheduler est dans un etat inconnu !!!");
 			}
 
+			
+			this.messagePanel.setMessage(state);
+
 			// on position la combo sur le bon item
-
-			// on initialise la comboBox du ButtonPanel
-
-			this.setMessagePanel(state);
 			this.buttonPanel.setSelectedIndex(state);
+			
 			return;
 		}
 
@@ -1276,6 +1226,26 @@ public class MainFrame extends JFrame implements Observer
 
 		}
 
+		// s'il y a eu un changement dans projet
+		// c'est a dire que le numero de l'iteration courante a change
+		if (obs instanceof Project)
+		{
+
+			// si obj est de type Integer c'est que le numero de l'iteration a
+			// changé
+			if (obj instanceof Integer)
+			{
+				int numIteration = ((Integer) obj).intValue();
+				String msg = LanguagesManager.getInstance().getString(
+						"openedProcessMessage")
+						+ "<BR>"
+						+ LanguagesManager.getInstance().getString(
+								"activityIteration") + " : " + numIteration;
+
+				// on met a jour le message panel
+				this.messagePanel.setMessage(msg);
+			}
+		}
 	}
 
 	/**

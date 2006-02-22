@@ -1,5 +1,5 @@
 /*
- * $Id: ApplicationManager.java,v 1.33 2006/02/20 09:01:57 cyberal82 Exp $
+ * $Id: ApplicationManager.java,v 1.34 2006/02/22 16:16:40 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -68,7 +68,6 @@ import pagod.wizard.control.actions.TimeActivityAllIterationAction;
 import pagod.wizard.control.actions.ToolsSettingsAction;
 import pagod.wizard.control.states.Request;
 import pagod.wizard.control.states.application.AbstractApplicationState;
-import pagod.wizard.control.states.application.InitState;
 import pagod.wizard.ui.MainFrame;
 
 /**
@@ -82,7 +81,7 @@ public class ApplicationManager extends Observable
 	/**
 	 * Instance du gestionnaire d'application
 	 */
-	private static ApplicationManager	amInstance	= null;
+	private static ApplicationManager	amInstance		= null;
 
 	/**
 	 * Etat de l'application
@@ -318,7 +317,6 @@ public class ApplicationManager extends Observable
 		System.exit(0);
 	}
 
-
 	/**
 	 * Ferme le processus en cours
 	 */
@@ -342,6 +340,11 @@ public class ApplicationManager extends Observable
 	public void setCurrentProject (Project currentProject)
 	{
 		this.currentProject = currentProject;
+
+		// on enregistre la MainFrame comme observer du projet
+		// pour pouvoir mettre a jour dans la bulle d'aide le numero
+		// de l'iteration courante lorsqu'il change
+		this.currentProject.addObserver(this.mfPagod);
 	}
 
 	/**
@@ -430,9 +433,9 @@ public class ApplicationManager extends Observable
 		if (TimerManager.getInstance().isStarted())
 		{
 			TimerManager.getInstance().stop();
-			
+
 		}
-		//on ecrit le fichier
+		// on ecrit le fichier
 		if (ApplicationManager.getInstance().getCurrentProcess() != null)
 		{
 			TimeHandler th = new TimeHandler();
@@ -441,5 +444,5 @@ public class ApplicationManager extends Observable
 					.getName());
 		}
 	}
-	
+
 }

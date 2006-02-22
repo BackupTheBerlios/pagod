@@ -1,5 +1,5 @@
 /*
- * $Id: MessagePanel.java,v 1.7 2006/02/18 16:35:53 cyberal82 Exp $
+ * $Id: MessagePanel.java,v 1.8 2006/02/22 16:16:40 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -45,6 +45,8 @@ import pagod.common.model.TimeCouple;
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
 import pagod.utils.TimerManager;
+import pagod.wizard.control.ApplicationManager;
+import pagod.wizard.control.states.activity.AbstractActivityState;
 
 /**
  * Panneaux d'affichage de message
@@ -141,6 +143,34 @@ public class MessagePanel extends JPanel implements Observer
 		{
 			this.messageArea.setText("<center>" + message + "</center>");
 		}
+	}
+	
+	/**
+	 * Modifie le texte du message panel en fonction de l'etat passe en parametre
+	 * 
+	 * @param state
+	 *            l'etat qu'on veut afficher dans le message panel
+	 */
+	public void setMessage (AbstractActivityState state)
+	{
+		String msg;
+
+		msg = LanguagesManager.getInstance().getString("activityRole")
+				+ " : " + state.getActivity().getRole() + "<BR>"
+				+ LanguagesManager.getInstance().getString("activityActivity")
+				+ " : " + state.getActivity() + "<BR>" + state;
+
+		if (ApplicationManager.getInstance().getCurrentProject() != null)
+		{
+			msg +=  "<BR>"
+					+ LanguagesManager.getInstance().getString(
+							"activityIteration")
+					+ " : "
+					+ ApplicationManager.getInstance().getCurrentProject()
+							.getItCurrent();
+		}
+
+		this.setMessage(msg);
 	}
 
 	private class BalloonBorder extends MatteBorder

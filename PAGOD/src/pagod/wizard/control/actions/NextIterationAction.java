@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: NextIterationAction.java,v 1.7 2006/02/16 17:43:55 biniou Exp $
+ * $Id: NextIterationAction.java,v 1.8 2006/02/22 16:16:40 cyberal82 Exp $
  */
 package pagod.wizard.control.actions;
 
@@ -67,10 +67,6 @@ public class NextIterationAction extends AbstractPagodAction
 
 		}
 		
-		ApplicationManager.getInstance().getMfPagod().setMessagePanel(LanguagesManager.getInstance().getString(
-		"openedProcessMessage")+"<BR>" + 
-		LanguagesManager.getInstance().getString("activityIteration")
-		+ " : " + ApplicationManager.getInstance().getCurrentProject().getItCurrent());
 		
 		// on affiche un message comme quoi l'iteration a changé
 		JOptionPane.showMessageDialog(ApplicationManager.getInstance()
