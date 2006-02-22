@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ProjectTest.java,v 1.3 2006/02/16 17:04:41 biniou Exp $
+ * $Id: ProjectTest.java,v 1.4 2006/02/22 17:15:03 biniou Exp $
  */
 package test.pagod.common.model;
 
@@ -42,13 +42,13 @@ public class ProjectTest extends TestCase
 	{
 		super.setUp();
 
-		// on verifi que l'utilisateur a defini un espace de travail
-		if (PreferencesManager.getInstance().getWorkspace() == null)
+		// on verifie que l'utilisateur a defini un espace de travail
+		if (!PreferencesManager.getInstance().containWorkspace())
 		{
 			String sTmpDir = System.getProperty("java.io.tmpdir");
 			if (sTmpDir == null) fail("Impossible de recuperer un repertoire temporaire pour en faire l'espace de travail durant le test");
 
-			// on defini le repertoire temporaire comme espace de travail pour
+			// on definit le repertoire temporaire comme espace de travail pour
 			// le test
 			PreferencesManager.getInstance().setWorkspace(sTmpDir);
 			this.bWorkspaceIsTmpDir = true;
@@ -94,9 +94,9 @@ public class ProjectTest extends TestCase
 		timeFile.delete();
 		projectDirectory.delete();
 
-		// si le workspace utiliser pour le test est le repertoire
+		// si le workspace utilisé pour le test est le repertoire
 		// temporaire de la machine on supprime l'espace de travail
-		if (!this.bWorkspaceIsTmpDir) 
+		if (this.bWorkspaceIsTmpDir) 
 			PreferencesManager.getInstance()
 				.removeWorkspace();
 
