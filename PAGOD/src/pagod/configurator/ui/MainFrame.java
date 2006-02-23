@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.4 2006/02/19 15:36:04 yak Exp $
+ * $Id: MainFrame.java,v 1.5 2006/02/23 18:44:46 themorpheus Exp $
  *
  * SPWIZ - Spem Wizard
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -173,10 +173,8 @@ public class MainFrame extends JFrame implements Observer
 				this.stepsPanel);
 		this.tabs.addTab(LanguagesManager.getInstance().getString("toolsTab"),
 				this.toolsAssociationPanel);
-		/*
-		 * this.tabs.addTab(LanguagesManager.getInstance().getString("rolesTab"),
-		 * this.rolesPanel);
-		 */
+		this.tabs.addTab(LanguagesManager.getInstance().getString("rolesTab"),
+				this.rolesPanel);
 		this.getContentPane().removeAll();
 		this.getContentPane().add(this.tabs);
 		this.setVisible(true);
