@@ -1,5 +1,5 @@
 /*
- * $Id: Role.java,v 1.2 2006/02/08 19:14:32 cyberal82 Exp $
+ * $Id: Role.java,v 1.3 2006/02/23 01:43:15 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -45,6 +45,8 @@ public class Role extends ProcessElement
 	 * dans le configurateur)
 	 */
 	private boolean			isActivate	= true;
+	
+	private String			description = "";
 
 	/**
 	 * Constructeur complet d'un role
@@ -53,12 +55,14 @@ public class Role extends ProcessElement
 	 * @param name
 	 * @param fileURL
 	 * @param iconURL
+	 * @param description 
 	 * @param activities
 	 */
-	public Role (String id, String name, URL fileURL, URL iconURL,
+	public Role (String id, String name, URL fileURL, URL iconURL, String description,
 			List<Activity> activities)
 	{
 		super(id, name, fileURL, iconURL);
+		this.description = description;
 
 		this.setActivities(activities);
 	}

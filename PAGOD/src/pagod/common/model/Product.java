@@ -1,5 +1,5 @@
 /*
- * $Id: Product.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: Product.java,v 1.2 2006/02/23 01:43:15 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -36,7 +36,9 @@ public class Product extends ProcessElement
     /**
      * Outil utilisé pour éditer le produit
      */
-    private Tool editor = null;
+    private Tool 		editor = null;
+    
+    private String 		description = "";
 
     /**
      * Constructeur complet d'un produit
@@ -45,11 +47,13 @@ public class Product extends ProcessElement
      * @param name
      * @param fileURL
      * @param iconURL
+     * @param description 
      * @param editor
      */
-    public Product(String id, String name, URL fileURL, URL iconURL, Tool editor)
+    public Product(String id, String name, URL fileURL, URL iconURL, String description, Tool editor)
     {
         super(id, name, fileURL, iconURL);
+        this.description = description;
         this.setEditor(editor);
     }
 

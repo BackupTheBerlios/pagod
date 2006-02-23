@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: PreCondictionCheckerStateTest.java,v 1.4 2006/02/18 16:35:54 cyberal82 Exp $
+ * $Id: PreCondictionCheckerStateTest.java,v 1.5 2006/02/23 01:43:15 psyko Exp $
  */
 package test.pagod.wizard.control.states.activity;
 
@@ -40,7 +40,7 @@ public class PreCondictionCheckerStateTest extends TestCase
 		this.activity = new Activity("", "", null, null, new ArrayList<Step>(),
 				new WorkDefinition("", "", null, null,
 						new ArrayList<Activity>()), new ArrayList<Product>(),
-				new ArrayList<Product>(), new Role("", "", null, null,
+				new ArrayList<Product>(), new Role("", "", null, null, "descr role",
 						new ArrayList<Activity>()));
 
 		// creation d'un ActivityScheduler
@@ -68,7 +68,7 @@ public class PreCondictionCheckerStateTest extends TestCase
 	{
 		// creation d'une liste de produits en entrée
 		List<Product> lInputProduct = new ArrayList<Product>();
-		lInputProduct.add(new Product("", "produit1", null, null, null));
+		lInputProduct.add(new Product("", "produit1", null, null, "descr prod1", null));
 
 		// creation des requetes
 		Request reqNext = new Request(Request.RequestType.NEXT);
@@ -102,7 +102,7 @@ public class PreCondictionCheckerStateTest extends TestCase
 
 		// on ajoute un produits en sortie de l'activite
 		List<Product> lOutputProduct = new ArrayList<Product> ();
-		lOutputProduct.add(new Product("", "outputProduct", null, null, null));
+		lOutputProduct.add(new Product("", "outputProduct", null, null, "descr prod", null));
 		this.activity.setOutputProducts(lOutputProduct);
 		
 		// on envoi la requete NEXT qui doit nous mettre dans l'etat PostConditionCheckerState
@@ -158,7 +158,7 @@ public class PreCondictionCheckerStateTest extends TestCase
 		this.activity = new Activity("", "", null, null, arrStep,
 				new WorkDefinition("", "", null, null,
 						new ArrayList<Activity>()), new ArrayList<Product>(),
-				new ArrayList<Product>(), new Role("", "", null, null,
+				new ArrayList<Product>(), new Role("", "", null, null, "descr role",
 						new ArrayList<Activity>()));
 
 		// creation d'un ActivityScheduler

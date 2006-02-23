@@ -1,5 +1,5 @@
 /*
- * $Id: ProductTest.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: ProductTest.java,v 1.2 2006/02/23 01:43:15 psyko Exp $
  *
  * SPWIZ - Spem Wizard
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -49,7 +49,7 @@ public class ProductTest extends ProcessElementTest
         super.setUp();
 
         // création d'un produit vide pour les tests
-        this.product = new Product("", "", null, null, new Tool("", "", "",
+        this.product = new Product("", "", null, null, "descr r1", new Tool("", "", "",
                 new ArrayList<Product>()));
 
         // teste ce produit en tant que ProcessElement
@@ -77,7 +77,7 @@ public class ProductTest extends ProcessElementTest
 
         Tool t = new Tool("id2", "name2", "path2", new ArrayList<Product>());
 
-        Product p = new Product(ID, NAME, FILE_PATH, ICON_PATH, t);
+        Product p = new Product(ID, NAME, FILE_PATH, ICON_PATH, "descr p", t);
 
         assertEquals(p.getId(), ID);
         assertEquals(p.getName(), NAME);

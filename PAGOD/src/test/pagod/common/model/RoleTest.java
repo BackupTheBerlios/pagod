@@ -1,5 +1,5 @@
 /*
- * $Id: RoleTest.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: RoleTest.java,v 1.2 2006/02/23 01:43:15 psyko Exp $
  *
  * SPWIZ - Spem Wizard
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -48,7 +48,7 @@ public class RoleTest extends ProcessElementTest
         super.setUp();
 
         // création d'un produit vide pour les tests
-        this.role = new Role("", "", null, null, null);
+        this.role = new Role("", "", null, null, "descr role", null);
 
         // teste ce produit en tant que ProcessElement
         this.processElement = this.role;
@@ -77,7 +77,7 @@ public class RoleTest extends ProcessElementTest
         ArrayList<Activity> l =new ArrayList<Activity>();
         l.add(a);
 
-        Role r = new Role(ID, NAME, FILE_PATH, ICON_PATH,l);
+        Role r = new Role(ID, NAME, FILE_PATH, ICON_PATH, "descr role",l);
 
         assertEquals(r.getId(), ID);
         assertEquals(r.getName(), NAME);

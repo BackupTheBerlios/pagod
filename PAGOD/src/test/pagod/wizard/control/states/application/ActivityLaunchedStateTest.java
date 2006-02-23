@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ActivityLaunchedStateTest.java,v 1.2 2006/01/28 16:34:02 cyberal82 Exp $
+ * $Id: ActivityLaunchedStateTest.java,v 1.3 2006/02/23 01:43:15 psyko Exp $
  */
 package test.pagod.wizard.control.states.application;
 
@@ -44,7 +44,7 @@ public class ActivityLaunchedStateTest extends TestCase
 		this.activity = new Activity("", "", null, null, new ArrayList<Step>(),
 				new WorkDefinition("", "", null, null,
 						new ArrayList<Activity>()), new ArrayList<Product>(),
-				new ArrayList<Product>(), new Role("", "", null, null,
+				new ArrayList<Product>(), new Role("", "", null, null, "descr role",
 						new ArrayList<Activity>()));
 		this.activityLaunchedState = new ActivityLaunchedState (ApplicationManager.getInstance(),this.activity);
 	}

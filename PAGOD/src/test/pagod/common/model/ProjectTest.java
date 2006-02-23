@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ProjectTest.java,v 1.4 2006/02/22 17:15:03 biniou Exp $
+ * $Id: ProjectTest.java,v 1.5 2006/02/23 01:43:15 psyko Exp $
  */
 package test.pagod.common.model;
 
@@ -166,7 +166,7 @@ public class ProjectTest extends TestCase
 	public void testCreateDocument ()
 	{
 		// creation d'un produit
-		Product prod = new Product("id", "name", null, null, null);
+		Product prod = new Product("id", "name", null, null, "descr prod", null);
 
 		// nom du document
 		String docName = "nomDuDocument";
@@ -440,7 +440,7 @@ public class ProjectTest extends TestCase
 	 */
 	public void testGetDocumentName ()
 	{
-		Product prod = new Product("id", "nom", null, null, null);
+		Product prod = new Product("id", "nom", null, null, "descr prod", null);
 		String doc = "nomDoc";
 
 		File documentationFile = new File(PreferencesManager.getInstance()

@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: PostConditionCheckerStateTest.java,v 1.5 2006/01/23 20:55:38 yak Exp $
+ * $Id: PostConditionCheckerStateTest.java,v 1.6 2006/02/23 01:43:15 psyko Exp $
  */
 package test.pagod.wizard.control.states.activity;
 
@@ -42,7 +42,7 @@ public class PostConditionCheckerStateTest extends TestCase
 		this.activity = new Activity("", "", null, null, new ArrayList<Step>(),
 				new WorkDefinition("", "", null, null,
 						new ArrayList<Activity>()), new ArrayList<Product>(),
-				new ArrayList<Product>(), new Role("", "", null, null,
+				new ArrayList<Product>(), new Role("", "", null, null, "descr role",
 						new ArrayList<Activity>()));
 
 		// creation d'un ActivityScheduler
@@ -78,12 +78,12 @@ public class PostConditionCheckerStateTest extends TestCase
 		this.activity = new Activity("", "", null, null, new ArrayList<Step>(),
 				new WorkDefinition("", "", null, null,
 						new ArrayList<Activity>()), new ArrayList<Product>(),
-				new ArrayList<Product>(), new Role("", "", null, null,
+				new ArrayList<Product>(), new Role("", "", null, null, "descr role",
 						new ArrayList<Activity>()));
 		
 		// creation d'une liste de produit en sortie
 		List<Product> lProductOutput = new ArrayList<Product>();
-		lProductOutput.add(new Product("", "produit1", null, null, null));
+		lProductOutput.add(new Product("", "produit1", null, null, "descr prod", null));
 		// ajout de produit en sortie de l'activité
 		this.activity.setOutputProducts(lProductOutput);
 		
@@ -140,7 +140,7 @@ public class PostConditionCheckerStateTest extends TestCase
 		this.activity = new Activity("", "", null, null, arrStep,
 				new WorkDefinition("", "", null, null,
 						new ArrayList<Activity>()), new ArrayList<Product>(),
-				new ArrayList<Product>(), new Role("", "", null, null,
+				new ArrayList<Product>(), new Role("", "", null, null, "descr role",
 						new ArrayList<Activity>()));
 
 		// creation d'un ActivityScheduler

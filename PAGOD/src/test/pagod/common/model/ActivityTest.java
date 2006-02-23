@@ -1,5 +1,5 @@
 /*
- * $Id: ActivityTest.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: ActivityTest.java,v 1.2 2006/02/23 01:43:15 psyko Exp $
  *
  * SPWIZ - Spem Wizard
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -59,7 +59,7 @@ public class ActivityTest extends ProcessElementTest
                 new ArrayList<Step>(), new WorkDefinition("", "", null, null, 
                         new ArrayList<Activity>()), 
                 new ArrayList<Product>(), new ArrayList<Product>(),
-                new Role("", "", null, null, new ArrayList<Activity>()));
+                new Role("", "", null, null, "", new ArrayList<Activity>()));
         
         // teste cette activité en tant que ProcessElement
         this.processElement = this.activity;
@@ -93,17 +93,17 @@ public class ActivityTest extends ProcessElementTest
         
         ArrayList<Product> pIn = new ArrayList<Product>();
         pIn.add(new Product("Id1 Product", "Nom1 Product", null,
-                null, new Tool("Id1 Tool", "Nom1 Tool", "Chemin1 Tool", null)));
+                null, "", new Tool("Id1 Tool", "Nom1 Tool", "Chemin1 Tool", null)));
         pIn.add(new Product("Id2 Product", "Nom2 Product", null,
-                null, new Tool("Id2 Tool", "Nom2 Tool", "Chemin2 Tool", null)));
+                null, "", new Tool("Id2 Tool", "Nom2 Tool", "Chemin2 Tool", null)));
         
         ArrayList<Product> pOut = new ArrayList<Product>();
         pOut.add(new Product("Id3 Product", "Nom3 Product", null,
-                null, new Tool("Id3 Tool", "Nom3 Tool", "Chemin3 Tool", null)));
+                null, "descr prod3", new Tool("Id3 Tool", "Nom3 Tool", "Chemin3 Tool", null)));
         pOut.add(new Product("Id4 Product", "Nom4 Product", null,
-                null, new Tool("Id4 Tool", "Nom4 Tool", "Chemin4 Tool", null)));
+                null, "descr prod4", new Tool("Id4 Tool", "Nom4 Tool", "Chemin4 Tool", null)));
         
-        Role r = new Role("Id Role", "Nom Role", null, null, new ArrayList<Activity>());
+        Role r = new Role("Id Role", "Nom Role", null, null, "descr role", new ArrayList<Activity>());
         
         Activity a = new Activity(ID, NAME, FILE_PATH, ICON_PATH, steps, wd, 
                 pIn, pOut, r);
@@ -128,9 +128,9 @@ public class ActivityTest extends ProcessElementTest
     {
         ArrayList<Product> pIn = new ArrayList<Product>();
         pIn.add(new Product("Id1 Product", "Nom1 Product", null,
-                null, new Tool("Id1 Tool", "Nom1 Tool", "Chemin1 Tool", null)));
+                null, "descr prod1", new Tool("Id1 Tool", "Nom1 Tool", "Chemin1 Tool", null)));
         pIn.add(new Product("Id2 Product", "Nom2 Product", null,
-                null, new Tool("Id2 Tool", "Nom2 Tool", "Chemin2 Tool", null)));
+                null, "descr prod2", new Tool("Id2 Tool", "Nom2 Tool", "Chemin2 Tool", null)));
         
         this.activity.setInputProducts(pIn);
         assertEquals(this.activity.getInputProducts(), pIn);
@@ -144,9 +144,9 @@ public class ActivityTest extends ProcessElementTest
         ArrayList<Product> pIn1 = new ArrayList<Product>();
         ArrayList<Product> pIn2 = new ArrayList<Product>();
         pIn2.add(new Product("Id1 Product", "Nom1 Product", null,
-                null, new Tool("Id1 Tool", "Nom1 Tool", "Chemin1 Tool", null)));
+                null, "descr prod1", new Tool("Id1 Tool", "Nom1 Tool", "Chemin1 Tool", null)));
         pIn2.add(new Product("Id2 Product", "Nom2 Product", null,
-                null, new Tool("Id2 Tool", "Nom2 Tool", "Chemin2 Tool", null)));
+                null, "descr prod2", new Tool("Id2 Tool", "Nom2 Tool", "Chemin2 Tool", null)));
         
         this.activity.setInputProducts(pIn1);
         assertEquals(this.activity.getInputProducts(), pIn1);
@@ -163,9 +163,9 @@ public class ActivityTest extends ProcessElementTest
     {
         ArrayList<Product> pOut = new ArrayList<Product>();
         pOut.add(new Product("Id3 Product", "Nom3 Product", null,
-                null, new Tool("Id3 Tool", "Nom3 Tool", "Chemin3 Tool", null)));
+                null, "descr prod3", new Tool("Id3 Tool", "Nom3 Tool", "Chemin3 Tool", null)));
         pOut.add(new Product("Id4 Product", "Nom4 Product", null,
-                null, new Tool("Id4 Tool", "Nom4 Tool", "Chemin4 Tool", null)));
+                null, "descr prod4", new Tool("Id4 Tool", "Nom4 Tool", "Chemin4 Tool", null)));
         
         this.activity.setOutputProducts(pOut);
         assertEquals(this.activity.getOutputProducts(), pOut);
@@ -179,9 +179,9 @@ public class ActivityTest extends ProcessElementTest
         ArrayList<Product> pOut1 = new ArrayList<Product>();
         ArrayList<Product> pOut2 = new ArrayList<Product>();
         pOut2.add(new Product("Id3 Product", "Nom3 Product", null,
-                null, new Tool("Id3 Tool", "Nom3 Tool", "Chemin3 Tool", null)));
+                null, "descr prod3", new Tool("Id3 Tool", "Nom3 Tool", "Chemin3 Tool", null)));
         pOut2.add(new Product("Id4 Product", "Nom4 Product", null,
-                null, new Tool("Id4 Tool", "Nom4 Tool", "Chemin4 Tool", null)));
+                null, "descr prod4", new Tool("Id4 Tool", "Nom4 Tool", "Chemin4 Tool", null)));
         
         this.activity.setOutputProducts(pOut1);
         assertEquals(this.activity.getOutputProducts(), pOut1);
@@ -197,7 +197,7 @@ public class ActivityTest extends ProcessElementTest
     public void testGetRole()
     {
         Role r = new Role("Id Role", "Nom Role", null, 
-                null, new ArrayList<Activity>());
+                null, "descr role", new ArrayList<Activity>());
         
         this.activity.setRole(r);
         assertSame(this.activity.getRole(), r);
@@ -209,9 +209,9 @@ public class ActivityTest extends ProcessElementTest
      */
     public void testSetRole()
     {
-        Role r1 = new Role("", "", null, null, new ArrayList<Activity>());
+        Role r1 = new Role("", "", null, null, "descr role1", new ArrayList<Activity>());
         Role r2 = new Role("Id Role", "Nom Role", null, 
-                null, new ArrayList<Activity>());
+                null, "descr role2", new ArrayList<Activity>());
         
         this.activity.setRole(r1);
         assertSame(this.activity.getRole(), r1);
@@ -293,9 +293,9 @@ public class ActivityTest extends ProcessElementTest
         ArrayList<Product> pIn1 = new ArrayList<Product>();
         ArrayList<Product> pIn2 = new ArrayList<Product>();
         pIn2.add(new Product("Id1 Product", "Nom1 Product", null,
-                null, new Tool("Id1 Tool", "Nom1 Tool", "Chemin1 Tool", null)));
+                null, "descr prod1", new Tool("Id1 Tool", "Nom1 Tool", "Chemin1 Tool", null)));
         pIn2.add(new Product("Id2 Product", "Nom2 Product", null,
-                null, new Tool("Id2 Tool", "Nom2 Tool", "Chemin2 Tool", null)));
+                null, "descr prod2", new Tool("Id2 Tool", "Nom2 Tool", "Chemin2 Tool", null)));
         
         this.activity.setInputProducts(pIn1);
         assertFalse(this.activity.hasInputProducts());
@@ -313,9 +313,9 @@ public class ActivityTest extends ProcessElementTest
         ArrayList<Product> pOut1 = new ArrayList<Product>();
         ArrayList<Product> pOut2 = new ArrayList<Product>();
         pOut2.add(new Product("Id3 Product", "Nom3 Product", null,
-                null, new Tool("Id3 Tool", "Nom3 Tool", "Chemin3 Tool", null)));
+                null, "descr prod3", new Tool("Id3 Tool", "Nom3 Tool", "Chemin3 Tool", null)));
         pOut2.add(new Product("Id4 Product", "Nom4 Product", null,
-                null, new Tool("Id4 Tool", "Nom4 Tool", "Chemin4 Tool", null)));
+                null, "descr prod4", new Tool("Id4 Tool", "Nom4 Tool", "Chemin4 Tool", null)));
         
         this.activity.setOutputProducts(pOut1);
         assertFalse(this.activity.hasOutputProducts());
@@ -333,10 +333,10 @@ public class ActivityTest extends ProcessElementTest
         ArrayList<Product> pOut1 = new ArrayList<Product>();
         ArrayList<Product> pOut2 = new ArrayList<Product>();
         pOut2.add(new Product("Id3 Product", "Nom3 Product", null,
-                null, null));
+                null, "descr prod3", null));
         ArrayList<Product> pOut3 = new ArrayList<Product>();
         pOut3.add(new Product("Id4 Product", "Nom4 Product", null,
-                null, new Tool("Id Tool", "Nom Tool", "Chemin Tool", null)));
+                null, "descr prod4", new Tool("Id Tool", "Nom Tool", "Chemin Tool", null)));
         
         this.activity.setOutputProducts(pOut1);
         assertFalse(this.activity.needsTools());

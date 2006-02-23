@@ -1,5 +1,5 @@
 /*
- * $Id: ProcessTest.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: ProcessTest.java,v 1.2 2006/02/23 01:43:15 psyko Exp $
  *
  * SPWIZ - Spem Wizard
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -97,7 +97,7 @@ public class ProcessTest extends ProcessElementTest
     public void testGetRoles()
     {
         // Creation de la liste de Role
-        Role r = new Role("id", "nom", null, null, null);
+        Role r = new Role("id", "nom", null, null, "descr r", null);
         ArrayList<Role> list = new ArrayList<Role>();
         list.add(r);
 
@@ -113,7 +113,7 @@ public class ProcessTest extends ProcessElementTest
     public void testSetRoles()
     {
         // Creation de la liste de Role
-        Role r1 = new Role("id", "nom", null, null, null);
+        Role r1 = new Role("id", "nom", null, null, "descr r1", null);
         ArrayList<Role> list = new ArrayList<Role>();
         list.add(r1);
 
@@ -134,7 +134,7 @@ public class ProcessTest extends ProcessElementTest
      */
     public void testAddRole()
     {
-        Role r1 = new Role("id", "nom", null, null, null);
+        Role r1 = new Role("id", "nom", null, null, "descr r1", null);
 
         // test si on ajoute une fois r1
         this.proc.addRole(r1);
@@ -167,8 +167,8 @@ public class ProcessTest extends ProcessElementTest
         ArrayList<Activity> act1 = new ArrayList<Activity>();
         act1.add(a1);
 
-        Role r1 = new Role("id", "nom", null, null, null);
-        Role r3 = new Role("id2", "nom2", null, null, null);
+        Role r1 = new Role("id", "nom", null, null, "descr r1", null);
+        Role r3 = new Role("id2", "nom2", null, null, "descr r3", null);
 
         ArrayList<Role> list_para = new ArrayList<Role>();
         list_para.add(r3);
@@ -192,7 +192,7 @@ public class ProcessTest extends ProcessElementTest
                         .size() == 1));
 
         // Test quand on a plusieurs fois le meme composant à afficher
-        Role r2 = new Role("id", "nom", null, null, act2);
+        Role r2 = new Role("id", "nom", null, null, "descr r2", act2);
         ArrayList<Role> list2 = new ArrayList<Role>();
         list2.add(r2);
         this.proc.setRoles(list2);
@@ -217,8 +217,8 @@ public class ProcessTest extends ProcessElementTest
      */
     public void testGetAllProducts()
     {
-        Product prod1 = new Product("id1", "nom1", null, null, null);
-        Product prod2 = new Product("id2", "nom2", null, null, null);
+        Product prod1 = new Product("id1", "nom1", null, null, "descr prod1", null);
+        Product prod2 = new Product("id2", "nom2", null, null, "descr prod2", null);
 
         ArrayList<Product> prod_in = new ArrayList<Product>();
         prod_in.add(prod1);
@@ -232,7 +232,7 @@ public class ProcessTest extends ProcessElementTest
         ArrayList<Activity> act1 = new ArrayList<Activity>();
         act1.add(a1);
 
-        Role r1 = new Role("id", "nom", null, null, act1);
+        Role r1 = new Role("id", "nom", null, null, "descr r1", act1);
         ArrayList<Role> list = new ArrayList<Role>();
         list.add(r1);
         this.proc.setRoles(list);
@@ -249,7 +249,7 @@ public class ProcessTest extends ProcessElementTest
         ArrayList<Activity> act2 = new ArrayList<Activity>();
         act2.add(a2);
 
-        Role r2 = new Role("id", "nom", null, null, act2);
+        Role r2 = new Role("id", "nom", null, null, "descr r2", act2);
         ArrayList<Role> list2 = new ArrayList<Role>();
         list2.add(r2);
         this.proc.setRoles(list2);
@@ -267,12 +267,12 @@ public class ProcessTest extends ProcessElementTest
     public void testGetUsedTools()
     {
         // initialisations
-        Product prod1 = new Product("id1", "nom1", null, null, null);
+        Product prod1 = new Product("id1", "nom1", null, null, "descr prod1", null);
         ArrayList<Product> prod_in = new ArrayList<Product>();
         prod_in.add(prod1);
 
         Tool tool1 = new Tool("name", "path", null);
-        Product prod2 = new Product("id2", "nom2", null, null, tool1);
+        Product prod2 = new Product("id2", "nom2", null, null, "descr prod2", tool1);
         ArrayList<Product> prod_out = new ArrayList<Product>();
         prod_out.add(prod2);
 
@@ -282,7 +282,7 @@ public class ProcessTest extends ProcessElementTest
         ArrayList<Activity> act1 = new ArrayList<Activity>();
         act1.add(a1);
 
-        Role r1 = new Role("id", "nom", null, null, act1);
+        Role r1 = new Role("id", "nom", null, null, "descr r1", act1);
         ArrayList<Role> liste = new ArrayList<Role>();
         liste.add(r1);
         this.proc.setRoles(liste);
@@ -295,7 +295,7 @@ public class ProcessTest extends ProcessElementTest
         ArrayList<Activity> act2 = new ArrayList<Activity>();
         act2.add(a2);
 
-        Role r2 = new Role("id", "nom", null, null, act2);
+        Role r2 = new Role("id", "nom", null, null, "descr r2", act2);
         ArrayList<Role> list2 = new ArrayList<Role>();
         list2.add(r2);
         this.proc.setRoles(list2);
@@ -311,7 +311,7 @@ public class ProcessTest extends ProcessElementTest
         ArrayList<Activity> act3 = new ArrayList<Activity>();
         act3.add(a3);
 
-        Role r3 = new Role("id", "nom", null, null, act3);
+        Role r3 = new Role("id", "nom", null, null, "descr r3", act3);
         ArrayList<Role> list3 = new ArrayList<Role>();
         list3.add(r3);
         this.proc.setRoles(list3);

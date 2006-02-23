@@ -1,5 +1,5 @@
 /*
- * $Id: ToolTest.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: ToolTest.java,v 1.2 2006/02/23 01:43:15 psyko Exp $
  *
  * SPWIZ - Spem Wizard
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -63,7 +63,7 @@ public class ToolTest extends TestCase
        
        ArrayList<Product> p1 = new ArrayList<Product>();
        p1.add(new Product("Id1 Product", "Nom1 Product", null,
-               null, new Tool("Id1 Tool", "Nom1 Tool", "Chemin1 Tool", null)));
+               null, "descr prod1", new Tool("Id1 Tool", "Nom1 Tool", "Chemin1 Tool", null)));
        
        Tool t1 = new Tool(id1,name1,path1,p1) ;
         
@@ -159,9 +159,9 @@ public class ToolTest extends TestCase
          */
         ArrayList<Product> p1 = new ArrayList<Product>();
         p1.add(new Product("Id1 Product", "Nom1 Product", null,
-                null, new Tool("Id1 Tool", "Nom1 Tool", "Chemin1 Tool", null)));
+                null, "descr prod1", new Tool("Id1 Tool", "Nom1 Tool", "Chemin1 Tool", null)));
         p1.add(new Product("Id2 Product", "Nom2 Product", null,
-                null, new Tool("Id2 Tool", "Nom2 Tool", "Chemin2 Tool", null)));
+                null, "descr prod2", new Tool("Id2 Tool", "Nom2 Tool", "Chemin2 Tool", null)));
 
         this.tool.setProducts(p1);
         assertSame(this.tool.getProducts(),p1) ;
@@ -175,9 +175,9 @@ public class ToolTest extends TestCase
     {
         ArrayList<Product> p1 = new ArrayList<Product>();
         p1.add(new Product("Id1 Product", "Nom1 Product", null,
-                null, new Tool("Id1 Tool", "Nom1 Tool", "Chemin1 Tool", null)));
+                null, "descr prod1", new Tool("Id1 Tool", "Nom1 Tool", "Chemin1 Tool", null)));
         p1.add(new Product("Id2 Product", "Nom2 Product", null,
-                null, new Tool("Id2 Tool", "Nom2 Tool", "Chemin2 Tool", null)));
+                null, "descr prod2", new Tool("Id2 Tool", "Nom2 Tool", "Chemin2 Tool", null)));
         
         /**
          * test de l'ajout d'une liste de produit a partir d'un tool possedant une 
@@ -205,7 +205,7 @@ public class ToolTest extends TestCase
         
         // produit qu'on va rajouter a la liste
         Product prod = new Product("Id1 Product", "Nom1 Product", null,
-                null, new Tool("Id1 Tool", "Nom1 Tool", "Chemin1 Tool", null));
+                null, "descr prod1", new Tool("Id1 Tool", "Nom1 Tool", "Chemin1 Tool", null));
         
         
         
@@ -235,7 +235,7 @@ public class ToolTest extends TestCase
         // tout en gardant le product seul pour pouvoir se servir de remove
         ArrayList<Product> p1 = new ArrayList<Product>();
         Product prod = new Product("Id1 Product", "Nom1 Product", null,
-                null, new Tool("Id1 Tool", "Nom1 Tool", "Chemin1 Tool", null));
+                null, "descr prod1", new Tool("Id1 Tool", "Nom1 Tool", "Chemin1 Tool", null));
         p1.add(prod);
         
         // on ajoute un product

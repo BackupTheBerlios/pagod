@@ -1,5 +1,5 @@
 /*
- * $Id: DPCHandler.java,v 1.3 2006/02/20 19:12:34 psyko Exp $
+ * $Id: DPCHandler.java,v 1.4 2006/02/23 01:43:14 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -110,6 +110,8 @@ public class DPCHandler
 	private final HashMap<String, URL>				presentationContentsMap		= new HashMap<String, URL>();
 
 	private final HashMap<String, URL>				presentationIconsMap		= new HashMap<String, URL>();
+	
+	private final HashMap<String, String>			presentationDescriptionMap	= new HashMap<String, String>();
 
 	private final HashMap<String, List<Guidance>>	presentationGuidancesMap	= new HashMap<String, List<Guidance>>();
 
@@ -391,6 +393,12 @@ public class DPCHandler
 				}
 			}
 
+			final String sDescription = currentElement.getAttribute("description");
+			if (sDescription.length() > 0)
+			{
+				this.presentationDescriptionMap.put(sId, sDescription);
+			}
+			
 			// note l'association id guide -> id élement présentation
 			final List<Element> guidancesElements = this.getElementsNS(
 					currentElement, "guideId");
@@ -455,9 +463,6 @@ public class DPCHandler
 		}
 
 		// création des rôles
-		// psyko le 20/02/2006
-		// TODO, c ici qu'on modifie le role ... , on rajoute la description
-		// pour pouvoir l'utiliser dans la tooltip 
 		elements = this.getElementsNS(root, "role");
 		for (final Element currentElement : elements)
 		{
@@ -468,10 +473,12 @@ public class DPCHandler
 			// création du rôle
 			final String roleId = this.getIdNS(currentElement);
 			if (roleId.length() == 0) throw new InvalidFileException();
-			final Role role = new Role(roleId, currentElement
-					.getAttribute("nom"), this.presentationContentsMap
-					.get(presentationElementId), this.presentationIconsMap
-					.get(presentationElementId), null);
+			final Role role = new Role(roleId, 
+					currentElement.getAttribute("nom"), 
+					this.presentationContentsMap.get(presentationElementId), 
+					this.presentationIconsMap.get(presentationElementId),
+					this.presentationDescriptionMap.get(presentationElementId),
+					null);
 
 			// association avec les guides si nécessaire
 			final List<Guidance> guidances = this.presentationGuidancesMap
@@ -486,8 +493,6 @@ public class DPCHandler
 		}
 
 		// création des produits
-		// TODO, c ici qu'on modifie le produit ... , on rajoute la description
-		// pour pouvoir l'utiliser dans la tooltip 
 		elements = this.getElementsNS(root, "produit");
 		for (final Element currentElement : elements)
 		{
@@ -498,11 +503,13 @@ public class DPCHandler
 			// création du produit
 			final String productId = this.getIdNS(currentElement);
 			if (productId.length() == 0) throw new InvalidFileException();
-			final Product product = new Product(productId, currentElement
-					.getAttribute("nom"), this.presentationContentsMap
-					.get(presentationElementId), this.presentationIconsMap
-					.get(presentationElementId), null);
-
+			final Product product = new Product(productId, 			
+					currentElement.getAttribute("nom"), 
+					this.presentationContentsMap.get(presentationElementId), 
+					this.presentationIconsMap.get(presentationElementId),
+					this.presentationDescriptionMap.get(presentationElementId),
+					null);
+			 
 			// association avec les guides si nécessaire
 			final List<Guidance> guidances = this.presentationGuidancesMap
 					.get(presentationElementId);

@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: StepStateTest.java,v 1.3 2006/02/08 16:48:21 cyberal82 Exp $
+ * $Id: StepStateTest.java,v 1.4 2006/02/23 01:43:15 psyko Exp $
  */
 package test.pagod.wizard.control.states.activity;
 
@@ -51,7 +51,7 @@ public class StepStateTest extends TestCase
 		this.activity = new Activity("", "", null, null, lStep,
 				new WorkDefinition("", "", null, null,
 						new ArrayList<Activity>()), new ArrayList<Product>(),
-				new ArrayList<Product>(), new Role("", "", null, null,
+				new ArrayList<Product>(), new Role("", "", null, null, "descr role",
 						new ArrayList<Activity>()));
 
 		// creation d'un ActivityScheduler
@@ -135,7 +135,7 @@ public class StepStateTest extends TestCase
 		// on refait un next() qui doit renvoyer sur l'etat postconditions
 		// creation d'une liste de produit en sortie
 		List<Product> lProductOutput = new ArrayList<Product>();
-		lProductOutput.add(new Product("", "produit1", null, null, null));
+		lProductOutput.add(new Product("", "produit1", null, null, "descr prod1", null));
 
 		// ajout de produit en sortie de l'activité
 		this.activity.setOutputProducts(lProductOutput);
@@ -198,7 +198,7 @@ public class StepStateTest extends TestCase
 		this.activity = new Activity("", "", null, null, arrStep,
 				new WorkDefinition("", "", null, null,
 						new ArrayList<Activity>()), new ArrayList<Product>(),
-				new ArrayList<Product>(), new Role("", "", null, null,
+				new ArrayList<Product>(), new Role("", "", null, null, "descr role",
 						new ArrayList<Activity>()));
 
 		// creation d'un ActivityScheduler

@@ -1,5 +1,5 @@
 /*
- * $Id: StepTest.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: StepTest.java,v 1.2 2006/02/23 01:43:15 psyko Exp $
  *
  * SPWIZ - Spem Wizard
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -58,7 +58,7 @@ public class StepTest extends TestCase
         final String NAME = "Nom du Step";
         final String COMMENT = "Commentaires";
 
-        Product p = new Product("id", "nom", null, null, null);
+        Product p = new Product("id", "nom", null, null, "descr p", null);
         ArrayList<Product> list = new ArrayList<Product>();
         list.add(p);
 
@@ -81,7 +81,7 @@ public class StepTest extends TestCase
         final String NAME = "Nom du Step";
         final String COMMENT = "Commentaires";
 
-        Product p = new Product("id", "nom", null, null, null);
+        Product p = new Product("id", "nom", null, null, "descr p", null);
         ArrayList<Product> list = new ArrayList<Product>();
         list.add(p);
 
@@ -105,7 +105,7 @@ public class StepTest extends TestCase
         assertTrue((this.step.getOutputProducts()).isEmpty());
 
         // test quand la collection contient un product
-        Product p = new Product("id", "nom", null, null, null);
+        Product p = new Product("id", "nom", null, null, "descr p", null);
         ArrayList<Product> list = new ArrayList<Product>();
         list.add(p);
         this.step.setOutputProducts(list);
@@ -124,7 +124,7 @@ public class StepTest extends TestCase
         assertTrue((this.step.getOutputProducts()).size() == 0);
 
         // test quand la collection contient un product
-        Product p = new Product("id", "nom", null, null, null);
+        Product p = new Product("id", "nom", null, null, "descr p", null);
         ArrayList<Product> list = new ArrayList<Product>();
         list.add(p);
         this.step.setOutputProducts(list);
@@ -192,8 +192,8 @@ public class StepTest extends TestCase
      */
     public void testRemoveOutputProduct()
     {
-        Product p1 = new Product("id1", "nom1", null, null, null);
-        Product p2 = new Product("id2", "nom2", null, null, null);
+        Product p1 = new Product("id1", "nom1", null, null, "descr prod1", null);
+        Product p2 = new Product("id2", "nom2", null, null, "descr prod2", null);
         ArrayList<Product> list = new ArrayList<Product>();
         list.add(p1);
 
@@ -222,9 +222,9 @@ public class StepTest extends TestCase
      */
     public void testAddOutputProduct()
     {
-        Product p1 = new Product("id1", "nom1", null, null, null);
-        Product p2 = new Product("id2", "nom2", null, null, null);
-        Product p3 = new Product("id3", "nom3", null, null, null);
+        Product p1 = new Product("id1", "nom1", null, null, "descr prod1", null);
+        Product p2 = new Product("id2", "nom2", null, null, "descr prod2", null);
+        Product p3 = new Product("id3", "nom3", null, null, "descr prod3", null);
         ArrayList<Product> list = new ArrayList<Product>();
         list.add(p1);
 
@@ -274,7 +274,7 @@ public class StepTest extends TestCase
     */
     public void testSetOutputProducts()
     {
-        Product p = new Product("id", "nom", null, null, null);
+        Product p = new Product("id", "nom", null, null, "descr p", null);
         ArrayList<Product> list = new ArrayList<Product>();
         list.add(p);
         this.step.setOutputProducts(list);

@@ -1,5 +1,5 @@
 /* 
- * $Id: RolesPanel.java,v 1.2 2006/02/17 15:11:02 themorpheus Exp $
+ * $Id: RolesPanel.java,v 1.3 2006/02/23 01:43:15 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -26,7 +26,6 @@ package pagod.configurator.ui;
 
 import java.awt.BorderLayout;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -36,10 +35,6 @@ import javax.swing.table.AbstractTableModel;
 
 import pagod.common.model.Process;
 import pagod.common.model.Role;
-import pagod.common.model.Step;
-import pagod.common.model.TimeCouple;
-import pagod.utils.TimerManager;
-import pagod.wizard.control.ApplicationManager;
 
 /**
  * Panneau de configuration des roles
@@ -100,16 +95,29 @@ public class RolesPanel extends JPanel
 			this.lRoles.addAll(process.getRoles());
 		}
 
+		/**
+		 * @see javax.swing.table.TableModel#getRowCount()
+		 */
 		public int getRowCount ()
 		{
 			return this.lRoles.size();
 		}
 
+		/**
+		 * @return int
+		 * 
+		 */
 		public int getColumnCount ()
 		{
 			return 2;
 		}
 
+		/**
+		 * @param rowIndex 
+		 * @param columnIndex 
+		 * @return Object
+		 * 
+		 */
 		public Object getValueAt (int rowIndex, int columnIndex)
 		{
 
@@ -123,6 +131,12 @@ public class RolesPanel extends JPanel
 			}
 		}
 		
+		/**
+		 * @param aValue 
+		 * @param rowIndex 
+		 * @param columnIndex 
+		 * 
+		 */		 
 		public void setValueAt (Object aValue, int rowIndex, int columnIndex)
 		{
 
@@ -151,6 +165,10 @@ public class RolesPanel extends JPanel
 			}
 		}
 
+		/**
+		 * @param columnIndex 
+		 * @return  Class
+		*/
 		public Class getColumnClass (int columnIndex)
 		{
 			return this.columnClasses[columnIndex];

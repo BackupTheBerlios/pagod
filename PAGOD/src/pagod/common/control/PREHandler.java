@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: PREHandler.java,v 1.1 2005/11/15 14:47:17 biniou Exp $
+ * $Id: PREHandler.java,v 1.2 2006/02/23 01:43:15 psyko Exp $
  */
 package pagod.common.control;
 
@@ -93,8 +93,12 @@ public class PREHandler
     private final HashMap<String, URL> presentationContentsMap = new HashMap<String, URL>();
 
     private final HashMap<String, URL> presentationIconsMap = new HashMap<String, URL>();
+    
+    private final HashMap<String, String> presentationDescriptionMap = new HashMap<String, String>();
 
     private final HashMap<String, List<Guidance>> presentationGuidancesMap = new HashMap<String, List<Guidance>>();
+
+	private Object	presentationDescriptionsMap;
 
     /**
      * Exception levée si il y a un problème de génération de XML
@@ -377,6 +381,12 @@ public class PREHandler
                 }
             }
 
+            final String sDescription = currentElement.getAttribute("description");
+            if (sDescription.length() > 0)
+            {
+                    this.presentationDescriptionMap.put(sId, sDescription);
+            }
+            
             // note l'association id guide -> id élement présentation
             final List<Element> guidancesElements = this.getElementsNS(
                     currentElement, "guideId");
@@ -455,10 +465,12 @@ public class PREHandler
             final String roleId = this.getIdNS(currentElement);
             if (roleId.length() == 0)
                 throw new InvalidFileException();
-            final Role role = new Role(roleId, currentElement
-                    .getAttribute("nom"), this.presentationContentsMap
-                    .get(presentationElementId), this.presentationIconsMap
-                    .get(presentationElementId), null);
+            final Role role = new Role(roleId,  
+					currentElement.getAttribute("nom"), 
+					this.presentationContentsMap.get(presentationElementId), 
+					this.presentationIconsMap.get(presentationElementId),
+					this.presentationDescriptionMap.get(presentationElementId),
+					null);
 
             // association avec les guides si nécessaire
             final List<Guidance> guidances = this.presentationGuidancesMap
@@ -485,10 +497,12 @@ public class PREHandler
             final String productId = this.getIdNS(currentElement);
             if (productId.length() == 0)
                 throw new InvalidFileException();
-            final Product product = new Product(productId, currentElement
-                    .getAttribute("nom"), this.presentationContentsMap
-                    .get(presentationElementId), this.presentationIconsMap
-                    .get(presentationElementId), null);
+            final Product product = new Product(productId, 
+					currentElement.getAttribute("nom"), 
+					this.presentationContentsMap.get(presentationElementId), 
+					this.presentationIconsMap.get(presentationElementId),
+					this.presentationDescriptionMap.get(presentationElementId),
+					null);
 
             // association avec les guides si nécessaire
             final List<Guidance> guidances = this.presentationGuidancesMap

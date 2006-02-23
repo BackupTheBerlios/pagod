@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ProcessOpenedStateTest.java,v 1.1 2006/01/21 17:08:58 cyberal82 Exp $
+ * $Id: ProcessOpenedStateTest.java,v 1.2 2006/02/23 01:43:15 psyko Exp $
  */
 package test.pagod.wizard.control.states.application;
 
@@ -72,7 +72,7 @@ public class ProcessOpenedStateTest extends TestCase
 		Activity activity = new Activity("", "", null, null, new ArrayList<Step>(),
 				new WorkDefinition("", "", null, null,
 						new ArrayList<Activity>()), new ArrayList<Product>(),
-				new ArrayList<Product>(), new Role("", "", null, null,
+				new ArrayList<Product>(), new Role("", "", null, null, "descr role",
 						new ArrayList<Activity>()));
 		
 		// on passe en parametre de la requete l'activite que l'on veut lancer
