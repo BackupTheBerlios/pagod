@@ -1,13 +1,14 @@
  /*
  * Projet PAGOD
  * 
- * $Id: InitStateTest.java,v 1.1 2006/02/21 12:12:20 fabfoot Exp $
+ * $Id: InitStateTest.java,v 1.2 2006/02/23 15:41:24 fabfoot Exp $
  */
 package test.pagod.wizard.control.states.application;
 
 import junit.framework.TestCase;
 import pagod.wizard.control.ApplicationManager;
 import pagod.wizard.control.states.Request;
+import pagod.wizard.control.states.activity.ActivityPresentationState;
 import pagod.wizard.control.states.application.InitState;
 import pagod.wizard.control.states.application.ProjectOpenedState;
 
@@ -48,5 +49,29 @@ public class InitStateTest extends TestCase
 		assertTrue(
 				"L'etat de l'applicationManager doit etre de type ProjectOpenedState",
 				ApplicationManager.getInstance().getState() instanceof ProjectOpenedState );
+		
+		/** ****** Test sur une requete quelconque ******* */
+
+		// on se met dans le bon etat
+		// creation de l'etat InitState
+		this.initState  = new InitState (ApplicationManager.getInstance());
+
+		// pour toutes les autres requetes l'etat ne devrait pas changer
+		for (Request.RequestType aRequest : Request.RequestType.values())
+		{
+
+			// si la requete est OPEN_PROJECT
+			// suivante car ces cas la on deja etaient teste
+			if (aRequest == Request.RequestType.OPEN_PROJECT) continue;
+
+			Request request = new Request(aRequest);
+
+			assertFalse(
+					"L'etat ne devrait pas changer car ce type de requete ne fait pas changer lorsqu'on est dans l'etat ActivityPresentationState",
+					this.initState.manageRequest(request));
+
+			
+			
+		}
 	}
 }
