@@ -1,5 +1,5 @@
 /*
- * $Id: ProductsPanel.java,v 1.6 2006/02/22 20:43:18 cyberal82 Exp $
+ * $Id: ProductsPanel.java,v 1.7 2006/02/23 18:26:37 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -79,7 +79,6 @@ public class ProductsPanel extends JSplitPane
 		// creation du panneaux listant les produits
 		this.listProductsPanel = new ListProductsPanel(productsToPresent)
 		{
-
 			public void onSelection (Product selectedProduct)
 			{
 				ProductsPanel.this.actionsPanel.setProduct(selectedProduct);
@@ -96,6 +95,7 @@ public class ProductsPanel extends JSplitPane
 		Dimension dim = new Dimension((int) this.listProductsPanel
 				.getMinimumSize().getWidth(), ((int) this.listProductsPanel
 				.getMinimumSize().getHeight()) + 7);
+		
 		
 		scrollPane.setMinimumSize(dim);
 		scrollPane.setPreferredSize(dim);

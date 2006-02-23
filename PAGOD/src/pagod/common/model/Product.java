@@ -1,5 +1,5 @@
 /*
- * $Id: Product.java,v 1.2 2006/02/23 01:43:15 psyko Exp $
+ * $Id: Product.java,v 1.3 2006/02/23 18:26:37 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -93,5 +93,13 @@ public class Product extends ProcessElement
             this.editor = editor;
             editor.addProduct(this);
         }
+    }
+    
+    /**
+     * @return String
+     */
+    public String getDescription()
+    {
+    	return this.description;
     }
 }

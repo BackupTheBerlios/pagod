@@ -1,5 +1,5 @@
 /*
- * $Id: Role.java,v 1.3 2006/02/23 01:43:15 psyko Exp $
+ * $Id: Role.java,v 1.4 2006/02/23 18:26:37 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -160,4 +160,12 @@ public class Role extends ProcessElement
 	{
 		this.isActivate = b;
 	}
+	
+	/**
+     * @return String
+     */
+    public String getDescription()
+    {
+    	return this.description;
+    }
 }

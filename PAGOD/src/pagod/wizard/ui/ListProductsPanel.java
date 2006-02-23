@@ -1,5 +1,5 @@
 /*
- * $Id: ListProductsPanel.java,v 1.6 2006/02/22 20:43:18 cyberal82 Exp $
+ * $Id: ListProductsPanel.java,v 1.7 2006/02/23 18:26:37 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -94,9 +94,11 @@ public abstract class ListProductsPanel extends JPanel
 	public ListProductsPanel (Collection<Product> productsToPresent)
 	{
 		super();
+		
 		// * Mise en forme * //
 		// mettre le fond du panneaux en blanc
 		this.setBackground(Color.WHITE);
+		
 		// Definir le layout
 		BorderLayout bl = new BorderLayout();
 		bl.setHgap(7);
@@ -105,11 +107,13 @@ public abstract class ListProductsPanel extends JPanel
 		this.add(Box.createGlue(), BorderLayout.NORTH);
 		this.add(Box.createGlue(), BorderLayout.WEST);
 		this.add(Box.createGlue(), BorderLayout.EAST);
+		
 		// this.add(Box.createGlue(),BorderLayout.SOUTH);
 
 		// creation et ajout d'un bouton pour lancer la creation du produit
 		this.bpLauncherProduct = new JButton(LanguagesManager.getInstance()
 				.getString("ListProductsPanelBpLauncherProduct"));
+		
 		// creation et ajout d'un bouton pour modifier le produit existant
 		this.bpUpdaterProduct = new JButton(LanguagesManager.getInstance()
 				.getString("ListProductsPanelBpUpdaterProduct"));
@@ -118,11 +122,13 @@ public abstract class ListProductsPanel extends JPanel
 		panel.add(this.bpLauncherProduct);
 		panel.add(this.bpUpdaterProduct);
 		panel.setBackground(Color.WHITE);
+		
 		// creation et ajout du Label
 		this.message = new JLabel(LanguagesManager.getInstance().getString(
 				"nonDefineTool"));
 		panel.add(this.message);
 		this.add(panel, BorderLayout.SOUTH);
+		
 		// mise sur ecoute du bouton pour lancer la creation du produit
 		this.bpLauncherProduct.addMouseListener(new MouseAdapter()
 		{
@@ -151,12 +157,16 @@ public abstract class ListProductsPanel extends JPanel
 		{
 			model.addElement(p);
 		}
+		
 		// Cr?er la JList
 		this.productsList = new JList(model);
+				
 		// mettre en place un renderer Personnalis?
 		this.productsList.setCellRenderer(new ListProductRenderer());
+		
 		// Associer un ?couteur ? la liste
 		this.productsList.addListSelectionListener(new ListProductListener());
+		
 		// selectionner la premiere liste
 		this.productsList.setSelectedIndex(0);
 
@@ -286,10 +296,25 @@ public abstract class ListProductsPanel extends JPanel
 		{
 			JLabel label = (JLabel) super.getListCellRendererComponent(list,
 					value, index, isSelected, cellHasFocus);
+			
 			label.setIcon(ModelResourcesManager.getInstance().getSmallIcon(
 					(Product) value));
 			Font LabelFont = label.getFont();
+			
 			label.setFont(LabelFont.deriveFont(Font.TRUETYPE_FONT));
+			
+			//TODO : c est ici qu on rajoute le cell renderer pr la JList je pense
+			if (value instanceof Product)
+			{
+				// TODO, qd on aura un process avec des produits à description
+				// faudra supprimer l affichage du nom
+				String sTTT = ((Product) value).getName();
+				if (((Product) value).getDescription() != null)
+				{
+					sTTT += " : "+((Product) value).getDescription(); 
+				}
+				this.setToolTipText(sTTT);
+			}
 
 			return label;
 		}

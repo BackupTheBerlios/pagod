@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.55 2006/02/22 16:16:40 cyberal82 Exp $
+ * $Id: MainFrame.java,v 1.56 2006/02/23 18:26:37 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -236,7 +236,7 @@ public class MainFrame extends JFrame implements Observer
 
 			this.stepPanel.setLeftComponent(component);
 			this.stepPanel.setRightComponent(this.jListPanel);
-
+			
 			this.stepPanel.setOneTouchExpandable(true);
 			this.stepPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
 			this.stepPanel.setResizeWeight(0.8);
