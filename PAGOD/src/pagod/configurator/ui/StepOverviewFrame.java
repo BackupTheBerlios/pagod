@@ -1,13 +1,14 @@
 /*
  * Projet PAGOD
  * 
- * $Id: StepOverviewFrame.java,v 1.5 2006/02/24 15:16:38 garwind111 Exp $
+ * $Id: StepOverviewFrame.java,v 1.6 2006/02/24 15:47:25 garwind111 Exp $
  */
 package pagod.configurator.ui;
 
 
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Rectangle;
 import java.util.List;
 
 import javax.swing.DefaultListCellRenderer;
@@ -45,6 +46,8 @@ public class StepOverviewFrame extends JFrame
 	private JEditorPane	jEditorPane_content;
 	private JList JListProducts;
 	private List<Product> productslist = null;
+	private int coordw = 400;
+	private int coordh = 480;
 	
     
     /**
@@ -53,7 +56,7 @@ public class StepOverviewFrame extends JFrame
      */
     public StepOverviewFrame(Step steptoshow) {
         initComponents(steptoshow);
-        this.setBounds(100,100,400,480);
+        this.setBounds(100,100,coordw,coordh);
         stepOverview(steptoshow);
     }
     
