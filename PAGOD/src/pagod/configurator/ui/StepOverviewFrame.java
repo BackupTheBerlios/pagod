@@ -1,14 +1,13 @@
 /*
  * Projet PAGOD
  * 
- * $Id: StepOverviewFrame.java,v 1.6 2006/02/24 15:47:25 garwind111 Exp $
+ * $Id: StepOverviewFrame.java,v 1.7 2006/02/24 16:37:43 psyko Exp $
  */
 package pagod.configurator.ui;
 
 
 import java.awt.Component;
 import java.awt.Font;
-import java.awt.Rectangle;
 import java.util.List;
 
 import javax.swing.DefaultListCellRenderer;
@@ -18,16 +17,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
-import javax.swing.JTree;
-import javax.swing.ListModel;
 
 import pagod.common.control.ModelResourcesManager;
-import pagod.common.model.Process;
 import pagod.common.model.Product;
 import pagod.common.model.Step;
-import pagod.configurator.control.adapters.ProductsListModel;
-import pagod.configurator.ui.ToolsAssociationPanel.PagodListCellRenderer;
-import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
 
 /**
@@ -56,7 +49,7 @@ public class StepOverviewFrame extends JFrame
      */
     public StepOverviewFrame(Step steptoshow) {
         initComponents(steptoshow);
-        this.setBounds(100,100,coordw,coordh);
+        this.setBounds(100,100,this.coordw,this.coordh);
         stepOverview(steptoshow);
     }
     
@@ -123,7 +116,7 @@ public class StepOverviewFrame extends JFrame
     	this.productslist = steptoshow.getOutputProducts();
     	
     	DefaultListModel model = new DefaultListModel();
-    	for (Product p : productslist){
+    	for (Product p : this.productslist){
     		model.addElement(p);
     	}
     	this.JListProducts = new JList(model);

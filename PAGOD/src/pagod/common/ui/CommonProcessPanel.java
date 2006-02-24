@@ -1,5 +1,5 @@
 /*
- * $Id: CommonProcessPanel.java,v 1.3 2006/02/15 18:14:04 yak Exp $
+ * $Id: CommonProcessPanel.java,v 1.4 2006/02/24 16:37:43 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -228,7 +228,23 @@ public abstract class CommonProcessPanel extends JSplitPane
 					node.isLeaf();
 
 				}
-			
+				else if ((node.getUserObject() instanceof Role))
+				{
+					Role r = null;
+					r = (Role) node.getUserObject();
+					//on recupere le role
+					//TODO, qd on aura un process avec un role comprenant un descriptif 
+					// il faudra suppr le nom pr juste laisser place à la descr
+					String roleDescr = r.getName();
+					if (r.getDescription() != null)
+					{
+						roleDescr = roleDescr + " : " + r.getDescription();
+					}	
+					this.setToolTipText(roleDescr);
+					//si l'activité a ete faite on change
+					node.isLeaf();
+
+				}
 
 				if (this.selected && leaf)
 				{

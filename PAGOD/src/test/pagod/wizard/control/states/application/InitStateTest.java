@@ -1,14 +1,13 @@
  /*
  * Projet PAGOD
  * 
- * $Id: InitStateTest.java,v 1.2 2006/02/23 15:41:24 fabfoot Exp $
+ * $Id: InitStateTest.java,v 1.3 2006/02/24 16:37:43 psyko Exp $
  */
 package test.pagod.wizard.control.states.application;
 
 import junit.framework.TestCase;
 import pagod.wizard.control.ApplicationManager;
 import pagod.wizard.control.states.Request;
-import pagod.wizard.control.states.activity.ActivityPresentationState;
 import pagod.wizard.control.states.application.InitState;
 import pagod.wizard.control.states.application.ProjectOpenedState;
 
