@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: StepOverviewFrame.java,v 1.2 2006/02/24 11:51:34 garwind111 Exp $
+ * $Id: StepOverviewFrame.java,v 1.3 2006/02/24 14:47:13 garwind111 Exp $
  */
 package pagod.configurator.ui;
 
@@ -12,11 +12,15 @@ import java.util.List;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
+import javax.swing.ListModel;
 
+import pagod.common.model.Process;
 import pagod.common.model.Product;
 import pagod.common.model.Step;
+import pagod.configurator.control.adapters.ProductsListModel;
 import pagod.configurator.ui.ToolsAssociationPanel.PagodListCellRenderer;
 
 /**
@@ -33,9 +37,9 @@ public class StepOverviewFrame extends JFrame
     private JScrollPane jScrollPane_products;
     private JEditorPane jEditorPane_name;
 	private JEditorPane	jEditorPane_content;
-	private JTree jTreeProducts;
+	private JList JListProducts;
 	private List<Product> productslist = null;
-	private String productsOutput = "";
+	private String[] productsOutput = null;
 	
     
     
@@ -44,7 +48,7 @@ public class StepOverviewFrame extends JFrame
      * @param steptoshow
      */
     public StepOverviewFrame(Step steptoshow) {
-        initComponents();
+        initComponents(steptoshow);
         this.setBounds(100,100,400,480);
         stepOverview(steptoshow);
     }
@@ -55,14 +59,9 @@ public class StepOverviewFrame extends JFrame
 		this.jEditorPane_content.setText(steptoshow.getComment());
 		this.jEditorPane_content.setCaretPosition(0);
 		this.productslist = steptoshow.getOutputProducts();
-		this.jTreeProducts.removeAll();
-		
-		for (Product p : productslist){
-
-		}
 	}
 
-	private void initComponents() {
+	private void initComponents(Step steptoshow) {
     	this.jLabel_name = new javax.swing.JLabel();
     	this.jEditorPane_name = new javax.swing.JEditorPane("text/html", "");
     	this.jLabel_content = new javax.swing.JLabel();
@@ -70,7 +69,12 @@ public class StepOverviewFrame extends JFrame
     	this.jScrollPane_products = new javax.swing.JScrollPane();
     	this.jEditorPane_content = new javax.swing.JEditorPane("text/html", "");
     	this.jLabel_products = new javax.swing.JLabel();
-    	this.jTreeProducts = new JTree();
+    	
+    	this.productslist = steptoshow.getOutputProducts();
+    	this.productsOutput = new String[this.productslist.size()];
+    	for (int i = 0; i <this.productslist.size(); i++)
+    		this.productsOutput[i] = this.productslist.get(i).getName();
+    	this.JListProducts = new JList(productsOutput);
     	
     	/*
     	this.jScrollPane_products = new javax.swing.JScrollPane();
@@ -118,7 +122,7 @@ public class StepOverviewFrame extends JFrame
         this.JListProducts.setBounds(15, 335, 360, 100);
         this.JListProducts.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(100, 100, 100)));*/
         
-        this.jScrollPane_products.setViewportView(this.jTreeProducts);
+        this.jScrollPane_products.setViewportView(this.JListProducts);
         getContentPane().add(this.jScrollPane_products);
         this.jScrollPane_products.setBounds(15, 335, 360, 100);
 	}
