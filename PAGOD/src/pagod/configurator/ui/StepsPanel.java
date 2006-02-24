@@ -1,5 +1,5 @@
 /*
- * $Id: StepsPanel.java,v 1.2 2006/02/19 15:36:04 yak Exp $
+ * $Id: StepsPanel.java,v 1.3 2006/02/24 07:57:41 garwind111 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -195,6 +195,9 @@ public class StepsPanel extends JPanel
         private JPanel pExterne = new JPanel(new BorderLayout());
 
         private JPanel pTableEtBoutons = new JPanel(new BorderLayout());
+        
+        // arno bouton d'aperçu de step
+        private JButton pbStepOverview = null;
 
         protected StepsTable tEtapes = new StepsTable(
                 new ActivityStepsTableModel());
@@ -226,7 +229,13 @@ public class StepsPanel extends JPanel
 
             this.pbSaveStepAsHtmlFile = new JButton(ImagesManager.getInstance()
                     .getIcon("SaveAsHtmlStepIcon.gif"));
-
+            
+            // bouton aperçu de step
+            this.pbStepOverview = new JButton(ImagesManager.getInstance()
+                    .getIcon("SaveAsHtmlStepIcon.gif"));
+            this.pbStepOverview.setSize(10, 10);
+            
+            
             this.pbFirst
                     .addActionListener(new OrganizingStepsButtonActionListener());
             this.boxBoutonsDeplacement.add(this.pbFirst);
@@ -341,7 +350,41 @@ public class StepsPanel extends JPanel
                 }
             });
             this.boxBoutonsDeplacement.add(this.pbRemove);
+            
+//          Ajout bouton aperçu
+            // pbStepOverview
+            this.pbStepOverview.addActionListener(new ActionListener(){
+            		public void actionPerformed(ActionEvent e)
+                    {
+            			StepsTable stepsTable = StepsPanel.this.pStepsConfigurationPanel.tEtapes;
 
+                        if (stepsTable.getSelectedRow() != -1)
+                        {
+                            // annuler modif en cours sur la table
+                            if (stepsTable.getCellEditor() != null)
+                                stepsTable.getCellEditor().cancelCellEditing();
+                            try
+                            {
+                                String stepname = ((ActivityStepsTableModel) stepsTable
+									.getModel()).getStepByRow(
+									stepsTable.getSelectedRow()).getName();
+							if (stepname == null) stepname = "";
+							
+							int linetoview = stepsTable.getSelectedRow();
+							Step steptosee = ((ActivityStepsTableModel) stepsTable.getModel()).getStepByRow(linetoview);
+							if (!stepname.equals("")){
+								new StepOverviewFrame().setVisible(true);
+							}
+                            }
+                            catch (Exception ex)
+                            {
+                                ex.printStackTrace();
+                            }
+                        }
+                    }
+            });
+            this.boxBoutonsDeplacement.add(this.pbStepOverview);
+            
             this.pbAutodetectSteps.addActionListener(new ActionListener()
             {
 
@@ -377,7 +420,9 @@ public class StepsPanel extends JPanel
             this.pbAutodetectSteps.setToolTipText(LanguagesManager
                     .getInstance()
                     .getString("StepsPanelAutodetectStepsTooltip"));
-
+            
+            
+            
             this.boxBoutonsDeplacement.add(this.pbAutodetectSteps);
 
             this.pbSaveStepAsHtmlFile.addActionListener(new ActionListener()
