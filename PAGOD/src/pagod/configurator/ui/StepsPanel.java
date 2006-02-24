@@ -1,5 +1,5 @@
 /*
- * $Id: StepsPanel.java,v 1.4 2006/02/24 11:51:34 garwind111 Exp $
+ * $Id: StepsPanel.java,v 1.5 2006/02/24 15:16:38 garwind111 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -384,7 +384,9 @@ public class StepsPanel extends JPanel
                     }
             });
             this.boxBoutonsDeplacement.add(this.pbStepOverview);
-            this.pbStepOverview.setToolTipText("Previsualisation d'une étape");
+            this.pbStepOverview.setToolTipText(LanguagesManager
+                    .getInstance()
+                    .getString("StepsPanelOverview"));
             
             this.pbAutodetectSteps.addActionListener(new ActionListener()
             {

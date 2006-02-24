@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: StepOverviewFrame.java,v 1.4 2006/02/24 15:03:05 garwind111 Exp $
+ * $Id: StepOverviewFrame.java,v 1.5 2006/02/24 15:16:38 garwind111 Exp $
  */
 package pagod.configurator.ui;
 
@@ -27,6 +27,7 @@ import pagod.common.model.Step;
 import pagod.configurator.control.adapters.ProductsListModel;
 import pagod.configurator.ui.ToolsAssociationPanel.PagodListCellRenderer;
 import pagod.utils.ImagesManager;
+import pagod.utils.LanguagesManager;
 
 /**
  * @author Arno
@@ -133,13 +134,13 @@ public class StepOverviewFrame extends JFrame
         getContentPane().setLayout(null);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Prévisualisation");
+        setTitle(LanguagesManager.getInstance().getString("OverviewFrame_frameTitle"));
         setAlwaysOnTop(true);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setResizable(false);
         
         
-        this.jLabel_name.setText("Nom");
+        this.jLabel_name.setText(LanguagesManager.getInstance().getString("OverviewFrame_stepName"));
         getContentPane().add(this.jLabel_name);
         this.jLabel_name.setBounds(15, 5, 160, 14);
         
@@ -149,7 +150,7 @@ public class StepOverviewFrame extends JFrame
         this.jEditorPane_name.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         
         
-        this.jLabel_content.setText("Contenu : ");
+        this.jLabel_content.setText(LanguagesManager.getInstance().getString("OverviewFrame_stepContent"));
         getContentPane().add(this.jLabel_content);
         this.jLabel_content.setBounds(15, 60, 160, 14);
 
@@ -158,7 +159,7 @@ public class StepOverviewFrame extends JFrame
         getContentPane().add(this.jScrollPane_content);
         this.jScrollPane_content.setBounds(15, 80, 360, 230);
 
-        this.jLabel_products.setText("Produits : ");
+        this.jLabel_products.setText(LanguagesManager.getInstance().getString("OverviewFrame_stepProducts"));
         getContentPane().add(this.jLabel_products);
         this.jLabel_products.setBounds(15, 315, 160, 14);
         
