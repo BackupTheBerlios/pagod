@@ -1,5 +1,5 @@
 /*
- * $Id: StepsPanel.java,v 1.3 2006/02/24 07:57:41 garwind111 Exp $
+ * $Id: StepsPanel.java,v 1.4 2006/02/24 11:51:34 garwind111 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -373,7 +373,7 @@ public class StepsPanel extends JPanel
 							int linetoview = stepsTable.getSelectedRow();
 							Step steptosee = ((ActivityStepsTableModel) stepsTable.getModel()).getStepByRow(linetoview);
 							if (!stepname.equals("")){
-								new StepOverviewFrame().setVisible(true);
+								new StepOverviewFrame(steptosee).setVisible(true);
 							}
                             }
                             catch (Exception ex)
@@ -384,6 +384,7 @@ public class StepsPanel extends JPanel
                     }
             });
             this.boxBoutonsDeplacement.add(this.pbStepOverview);
+            this.pbStepOverview.setToolTipText("Previsualisation d'une étape");
             
             this.pbAutodetectSteps.addActionListener(new ActionListener()
             {
