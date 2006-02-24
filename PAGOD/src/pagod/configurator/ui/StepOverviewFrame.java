@@ -1,14 +1,17 @@
 /*
  * Projet PAGOD
  * 
- * $Id: StepOverviewFrame.java,v 1.3 2006/02/24 14:47:13 garwind111 Exp $
+ * $Id: StepOverviewFrame.java,v 1.4 2006/02/24 15:03:05 garwind111 Exp $
  */
 package pagod.configurator.ui;
 
 
 import java.awt.Component;
+import java.awt.Font;
 import java.util.List;
 
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -17,11 +20,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.ListModel;
 
+import pagod.common.control.ModelResourcesManager;
 import pagod.common.model.Process;
 import pagod.common.model.Product;
 import pagod.common.model.Step;
 import pagod.configurator.control.adapters.ProductsListModel;
 import pagod.configurator.ui.ToolsAssociationPanel.PagodListCellRenderer;
+import pagod.utils.ImagesManager;
 
 /**
  * @author Arno
@@ -39,9 +44,7 @@ public class StepOverviewFrame extends JFrame
 	private JEditorPane	jEditorPane_content;
 	private JList JListProducts;
 	private List<Product> productslist = null;
-	private String[] productsOutput = null;
 	
-    
     
     /**
      * 
@@ -61,6 +64,49 @@ public class StepOverviewFrame extends JFrame
 		this.productslist = steptoshow.getOutputProducts();
 	}
 
+    
+    private class ListProductRenderer extends DefaultListCellRenderer
+	{
+
+		/**
+		 * @param list
+		 * @param value
+		 * @param index
+		 * @param isSelected
+		 * @param cellHasFocus
+		 * @return Composant ? afficher
+		 * 
+		 */
+		public Component getListCellRendererComponent (JList list,
+				Object value, int index, boolean isSelected,
+				boolean cellHasFocus)
+		{
+			JLabel label = (JLabel) super.getListCellRendererComponent(list,
+					value, index, isSelected, cellHasFocus);
+			
+			label.setIcon(ModelResourcesManager.getInstance().getSmallIcon(
+					(Product) value));
+			Font LabelFont = label.getFont();
+			
+			label.setFont(LabelFont.deriveFont(Font.TRUETYPE_FONT));
+			
+			//TODO : c est ici qu on rajoute le cell renderer pr la JList je pense
+			if (value instanceof Product)
+			{
+				// TODO, qd on aura un process avec des produits à description
+				// faudra supprimer l affichage du nom
+				String sTTT = ((Product) value).getName();
+				if (((Product) value).getDescription() != null)
+				{
+					sTTT += " : "+((Product) value).getDescription(); 
+				}
+				this.setToolTipText(sTTT);
+			}
+
+			return label;
+		}
+	}
+    
 	private void initComponents(Step steptoshow) {
     	this.jLabel_name = new javax.swing.JLabel();
     	this.jEditorPane_name = new javax.swing.JEditorPane("text/html", "");
@@ -71,11 +117,14 @@ public class StepOverviewFrame extends JFrame
     	this.jLabel_products = new javax.swing.JLabel();
     	
     	this.productslist = steptoshow.getOutputProducts();
-    	this.productsOutput = new String[this.productslist.size()];
-    	for (int i = 0; i <this.productslist.size(); i++)
-    		this.productsOutput[i] = this.productslist.get(i).getName();
-    	this.JListProducts = new JList(productsOutput);
     	
+    	DefaultListModel model = new DefaultListModel();
+    	for (Product p : productslist){
+    		model.addElement(p);
+    	}
+    	this.JListProducts = new JList(model);
+    	this.JListProducts.setCellRenderer(new ListProductRenderer());
+    	this.JListProducts.setSelectedIndex(0);
     	/*
     	this.jScrollPane_products = new javax.swing.JScrollPane();
     	this.jEditorPane_products = new javax.swing.JEditorPane("text/html", "");*/
