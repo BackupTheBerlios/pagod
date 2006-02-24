@@ -1,5 +1,5 @@
 /* 
- * $Id: RolesPanel.java,v 1.4 2006/02/23 18:44:46 themorpheus Exp $
+ * $Id: RolesPanel.java,v 1.5 2006/02/24 14:29:15 biniou Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -94,8 +94,8 @@ public class RolesPanel extends JPanel
                 "CancelButtonLabel"));
 
         // ajout des boutons
-        pButton.add(this.bpExport);
-        pButton.add(this.bpCancel);
+        this.pButton.add(this.bpExport);
+        this.pButton.add(this.bpCancel);
 
 		// positionnement des panels
 		BorderLayout border = new BorderLayout();

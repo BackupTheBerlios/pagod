@@ -1,5 +1,5 @@
 /* 
- * $Id: ProcessTreeModel.java,v 1.2 2006/02/04 22:42:06 yak Exp $
+ * $Id: ProcessTreeModel.java,v 1.3 2006/02/24 14:29:15 biniou Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -43,76 +43,135 @@ import pagod.common.model.WorkDefinition;
  */
 public class ProcessTreeModel extends DefaultTreeModel
 {
-    /**
-     * le processus à adapter
-     */
-    private Process process;
+	/**
+	 * le processus à adapter
+	 */
+	private Process				process;
 
-    /**
-     * les roles "utiles" que l'utilisateur a choisi d'endosser sur le processus
-     * process
-     */
-    private Collection<Role> arrRoles;
+	/**
+	 * les roles "utiles" que l'utilisateur a choisi d'endosser sur le processus
+	 * process
+	 */
+	private Collection<Role>	arrRoles;
 
-    /**
-     * Constructeur d'un ProcessTreeModel
-     * 
-     * @param process
-     *            Processus à adapter
-     * @param arrRoles
-     *            Roles utiles
-     */
-    public ProcessTreeModel(Process process, Collection<Role> arrRoles)
-    {
-        super(null);
-        // le processus et les roles "utiles" passés en paramètres doivent être
-        // "sauvegardés"
-        this.process = process;
-        this.arrRoles = arrRoles;
-        if (this.arrRoles == null) {
-            this.arrRoles = new ArrayList<Role>() ;
-        }
+	/**
+	 * Constructeur d'un ProcessTreeModel
+	 * 
+	 * @param process
+	 *            Processus à adapter
+	 * @param arrRoles
+	 *            Roles utiles
+	 */
+	public ProcessTreeModel (Process process, Collection<Role> arrRoles)
+	{
+		super(null);
+		// le processus et les roles "utiles" passés en paramètres doivent être
+		// "sauvegardés"
+		this.process = process;
+		this.arrRoles = arrRoles;
+		if (this.arrRoles == null)
+		{
+			this.arrRoles = new ArrayList<Role>();
+		}
 
-        this.root = new DefaultMutableTreeNode("racine");
+		this.root = new DefaultMutableTreeNode("racine");
 
-        Collection<ProcessComponent> arrProcessComponents = this.process
-                .getAllUniqueProcessComponentsForRoles(arrRoles);
+		/*
+		 * Collection<ProcessComponent> arrProcessComponents = this.process
+		 * .getAllUniqueProcessComponentsForRoles(arrRoles);
+		 * 
+		 * for (ProcessComponent pc : arrProcessComponents) {
+		 * DefaultMutableTreeNode processComponentNode = new
+		 * DefaultMutableTreeNode( pc); // ajouter sous le process component les
+		 * work definitions for (WorkDefinition wd : pc.getWorksDefinitions()) {
+		 * DefaultMutableTreeNode workDefinitionNode = new
+		 * DefaultMutableTreeNode( wd); // ajouter sous la work definition les
+		 * activités (vérifier // qu'elles sont bien pour un role autorisés for
+		 * (Activity a : wd.getActivities()) {
+		 * 
+		 * if (this.arrRoles.contains(a.getRole())) { workDefinitionNode.add(new
+		 * DefaultMutableTreeNode(a)); } } // s'il y a au moins une activité,
+		 * ajouter le noeud "WD" if (workDefinitionNode.getChildCount() != 0) {
+		 * processComponentNode.add(workDefinitionNode); } } // s'il y a au
+		 * moins une "WD", ajouter le noeud "PC", ajouter le // process
+		 * component sous la racine if (processComponentNode.getChildCount() !=
+		 * 0) { ((DefaultMutableTreeNode) this.root).add(processComponentNode); } }
+		 */
 
-        for (ProcessComponent pc : arrProcessComponents)
-        {
-            DefaultMutableTreeNode processComponentNode = new DefaultMutableTreeNode(
-                    pc);
-            // ajouter sous le process component les work definitions
-            for (WorkDefinition wd : pc.getWorksDefinitions())
-            {
-                DefaultMutableTreeNode workDefinitionNode = new DefaultMutableTreeNode(
-                        wd);
-                
-                // ajouter sous la work definition les activités (vérifier
-                // qu'elles sont bien pour un role autorisés
-                for (Activity a : wd.getActivities())
-                {
-                    
-                	if (this.arrRoles.contains(a.getRole()))
-                    {
-                        workDefinitionNode.add(new DefaultMutableTreeNode(a));
-                    }
-                }
-                // s'il y a au moins une activité, ajouter le noeud "WD"
-                if (workDefinitionNode.getChildCount() != 0)
-                {
-                    processComponentNode.add(workDefinitionNode);
-                }
+		/*
+		 * for(Role role : this.arrRoles) { DefaultMutableTreeNode roleNode =
+		 * new DefaultMutableTreeNode( role); // ajouter sous la work definition
+		 * les activités (vérifier // qu'elles sont bien pour un role autorisés
+		 * for (Activity a : role.getActivities()) {
+		 * 
+		 * if (this.arrRoles.contains(a.getRole())) { roleNode.add(new
+		 * DefaultMutableTreeNode(a)); } } // s'il y a au moins une "WD",
+		 * ajouter le noeud "PC", ajouter le // process component sous la racine
+		 * if (this.arrRoles.size() != 0) { ((DefaultMutableTreeNode)
+		 * this.root).add(roleNode); } }
+		 */
 
-            }
-            // s'il y a au moins une "WD", ajouter le noeud "PC", ajouter le
-            // process component sous la racine
-            if (processComponentNode.getChildCount() != 0)
-            {
-                ((DefaultMutableTreeNode) this.root).add(processComponentNode);
-            }
-        }
+		// on recupere les processComponent
+		Collection<ProcessComponent> arrProcessComponents = this.process
+				.getAllUniqueProcessComponentsForRoles(arrRoles);
 
-    }
+		for (ProcessComponent pc : arrProcessComponents)
+		{
+			// pour chaque process component on crée un noeud
+			DefaultMutableTreeNode processComponentNode = new DefaultMutableTreeNode(
+					pc);
 
+			// creation de l'arraylist contenant les roles du
+			// processcomponent
+			ArrayList<Role> arrRoleByProcessComponent = new ArrayList<Role>();
+
+			// Recuperation de tous les roles utilisés dans le processcomponent
+			// : on passe par workdefinition, activity et enfin role
+			for (WorkDefinition wd : pc.getWorksDefinitions())
+			{
+
+				for (Activity a : wd.getActivities())
+				{
+					if (this.arrRoles.contains(a.getRole())
+							&& !arrRoleByProcessComponent.contains(a.getRole()))
+					{
+						arrRoleByProcessComponent.add(a.getRole());
+					}
+				}
+
+			}
+
+			// pour tous les roles du processcomponent on rajoute un noeud
+			// contenant
+			// les activites qui lui sont associées
+			for (Role role : arrRoleByProcessComponent)
+			{
+				DefaultMutableTreeNode roleNode = new DefaultMutableTreeNode(
+						role);
+
+				for (Activity a : role.getActivities())
+				{
+					if (arrRoleByProcessComponent.contains(a.getRole()))
+					{
+						roleNode.add(new DefaultMutableTreeNode(a));
+					}
+				}
+
+				// s'il y a au moins un role on ajoute les noeuds au
+				// processcomponent
+				if (arrRoleByProcessComponent.size() != 0)
+				{
+					processComponentNode.add(roleNode);
+				}
+			}
+
+			// s'il y a au moins un processcomponent on le rajoute au noeud
+			// racine
+			if (processComponentNode.getChildCount() != 0)
+			{
+				((DefaultMutableTreeNode) this.root).add(processComponentNode);
+			}
+		}
+
+	}
 }
