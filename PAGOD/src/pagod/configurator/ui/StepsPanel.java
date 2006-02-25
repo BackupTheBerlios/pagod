@@ -1,5 +1,5 @@
 /*
- * $Id: StepsPanel.java,v 1.5 2006/02/24 15:16:38 garwind111 Exp $
+ * $Id: StepsPanel.java,v 1.6 2006/02/25 10:25:08 garwind111 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -232,8 +232,9 @@ public class StepsPanel extends JPanel
             
             // bouton aperçu de step
             this.pbStepOverview = new JButton(ImagesManager.getInstance()
-                    .getIcon("SaveAsHtmlStepIcon.gif"));
-            this.pbStepOverview.setSize(10, 10);
+                    .getIcon("Overview.gif"));
+            // this.pbStepOverview.setSize(10, 10);
+            this.pbStepOverview.setEnabled(false);
             
             
             this.pbFirst
@@ -354,7 +355,9 @@ public class StepsPanel extends JPanel
 //          Ajout bouton aperçu
             // pbStepOverview
             this.pbStepOverview.addActionListener(new ActionListener(){
-            		public void actionPerformed(ActionEvent e)
+            		// Suppression du warning JoptionPane
+            		@SuppressWarnings("static-access")
+					public void actionPerformed(ActionEvent e)
                     {
             			StepsTable stepsTable = StepsPanel.this.pStepsConfigurationPanel.tEtapes;
 
@@ -381,6 +384,15 @@ public class StepsPanel extends JPanel
                                 ex.printStackTrace();
                             }
                         }
+                        else
+					{
+						new JOptionPane().showMessageDialog(null,
+								LanguagesManager.getInstance().getString(
+										"StepsPanelOverview_WarningMessageTitle"),
+								LanguagesManager.getInstance().getString(
+										"StepsPanelOverview_WarningMessage"),
+								JOptionPane.WARNING_MESSAGE);
+					}
                     }
             });
             this.boxBoutonsDeplacement.add(this.pbStepOverview);
@@ -567,7 +579,6 @@ public class StepsPanel extends JPanel
                         .getCellEditor() != null)
                     StepsPanel.this.pStepsConfigurationPanel.tEtapes
                             .getCellEditor().cancelCellEditing();
-
             }
 
             protected void onNoActivitySelection()
