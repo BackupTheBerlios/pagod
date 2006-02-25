@@ -1,5 +1,5 @@
 /*
- * $Id: AboutAction.java,v 1.2 2006/02/19 15:36:04 yak Exp $
+ * $Id: AboutAction.java,v 1.3 2006/02/25 13:23:45 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -29,10 +29,11 @@ import java.io.IOException;
 
 import pagod.common.control.actions.CustomAction;
 import pagod.common.ui.AboutDialog;
+import pagod.configurator.control.ApplicationManager;
+import pagod.configurator.control.Constants;
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
-import pagod.wizard.control.ApplicationManager;
-import pagod.wizard.control.Constants;
+
 
 /**
  * Action pour offrir un processus
