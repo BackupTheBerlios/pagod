@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimeActivityAllIterationsDialog.java,v 1.3 2006/02/20 09:04:44 yak Exp $
+ * $Id: TimeActivityAllIterationsDialog.java,v 1.4 2006/02/26 12:04:48 biniou Exp $
  */
 package pagod.wizard.ui;
 
@@ -68,6 +68,7 @@ public class TimeActivityAllIterationsDialog extends JDialog implements
 		MaTableModel tm = new MaTableModel();
 		this.table = new JTable();
 		this.table.setModel(tm);
+		this.table.setAutoResizeMode (JTable.AUTO_RESIZE_OFF);
 
 		// panel qui va contenir la JTable
 	
@@ -75,7 +76,6 @@ public class TimeActivityAllIterationsDialog extends JDialog implements
 		this.pCentral  = new JScrollPane(this.table);
 		this.pCentral.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		this.pCentral.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		//this.pCentral.add(jspTable, BorderLayout.CENTER);
 
 		// panel contenant les boutons
 		this.pButton = new JPanel();

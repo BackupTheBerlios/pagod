@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimeActivityDialog.java,v 1.10 2006/02/15 15:50:49 biniou Exp $
+ * $Id: TimeActivityDialog.java,v 1.11 2006/02/26 12:04:48 biniou Exp $
  */
 package pagod.wizard.ui;
 
@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.table.AbstractTableModel;
 
 import pagod.common.model.Activity;
@@ -33,7 +34,7 @@ public class TimeActivityDialog extends JDialog implements ActionListener
 {
 
 	// panel contenant la JTable
-	private JPanel	pCentral	= null;
+	private JScrollPane	pCentral	= null;
 
 	// panel qui contiendra les boutons du bas
 	private JPanel	pButton		= null;
@@ -65,14 +66,17 @@ public class TimeActivityDialog extends JDialog implements ActionListener
 
 		MaTableModel tm = new MaTableModel();
 		this.table = new JTable(tm);
+		//this.table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-		// panel qui va contenir la JTable
-		this.pCentral = new JPanel();
-		// jspTable.add(this.table);
-		JScrollPane jspTable = new JScrollPane(this.table);
-		this.pCentral.add(jspTable, BorderLayout.CENTER);
-		// on ajoute la grille
+		
+//		 panel qui va contenir la JTable
+		this.pCentral = new JScrollPane(this.table);
+		this.pCentral.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		this.pCentral.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
+		
+
+		
 		// panel contenant les boutons
 		this.pButton = new JPanel();
 
@@ -92,8 +96,8 @@ public class TimeActivityDialog extends JDialog implements ActionListener
 
 		// positionnement des panel dans la JDialog
 		this.setLayout(new BorderLayout());
-		this.getContentPane().add(this.pCentral, BorderLayout.CENTER);
-		this.getContentPane().add(this.pButton, BorderLayout.SOUTH);
+		add(this.pCentral, BorderLayout.CENTER);
+		add(this.pButton, BorderLayout.SOUTH);
 
 		this.pack();
 
