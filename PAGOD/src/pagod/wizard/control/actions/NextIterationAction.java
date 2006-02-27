@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: NextIterationAction.java,v 1.9 2006/02/27 10:42:35 fabfoot Exp $
+ * $Id: NextIterationAction.java,v 1.10 2006/02/27 12:09:59 fabfoot Exp $
  */
 package pagod.wizard.control.actions;
 
@@ -46,33 +46,44 @@ public class NextIterationAction extends AbstractPagodAction
 	 */
 	public void actionPerformed (ActionEvent actionEvent)
 	{
-		int itcour = ApplicationManager.getInstance().getCurrentProject()
-				.getItCurrent();
-		// mise a zero de tous les temps remaining de chaque activite de l'etape
-		// termine
-
-		TimeCouple tc1 = null;
-		itcour++;
-		TimeCouple tc = new TimeCouple(0, 0);
-		ApplicationManager.getInstance().getCurrentProject().setItCurrent(
-				itcour);
-		Collection<Activity> cAc = ApplicationManager.getInstance()
-				.getCurrentProcess().getAllActivities();
-		for (Activity a : cAc)
+		int ret = JOptionPane.showConfirmDialog(ApplicationManager
+				.getInstance().getMfPagod(), "souhaitez-vous changer d'iteration ?" ,"Changement d'iteration",JOptionPane.YES_NO_OPTION);
+		if (ret == JOptionPane.YES_OPTION)
 		{
-			a.sethmTime(itcour, tc);
-			// pour chaque activit mettre a 0 le temps remainig
-			tc1 = a.gethmTime(itcour - 1);
-			tc1.setTimeRemaining(0);
-			a.setDone(false);
+			int itcour = ApplicationManager.getInstance().getCurrentProject()
+					.getItCurrent();
+			// mise a zero de tous les temps remaining de chaque activite de
+			// l'etape
+			// termine
 
+			TimeCouple tc1 = null;
+			itcour++;
+			TimeCouple tc = new TimeCouple(0, 0);
+			ApplicationManager.getInstance().getCurrentProject().setItCurrent(
+					itcour);
+			Collection<Activity> cAc = ApplicationManager.getInstance()
+					.getCurrentProcess().getAllActivities();
+			for (Activity a : cAc)
+			{
+				a.sethmTime(itcour, tc);
+				// pour chaque activit mettre a 0 le temps remainig
+				tc1 = a.gethmTime(itcour - 1);
+				tc1.setTimeRemaining(0);
+				a.setDone(false);
+
+			}
+
+			// on affiche un message comme quoi l'iteration a chang?
+
+			JOptionPane.showMessageDialog(ApplicationManager.getInstance()
+					.getMfPagod(), LanguagesManager.getInstance().getString(
+					"NewIteration")+ itcour, LanguagesManager.getInstance().getString(
+					"NewIterationTitle")  , JOptionPane.INFORMATION_MESSAGE);
+		}
+		else if (ret == JOptionPane.NO_OPTION)
+		{
+			
 		}
 
-		// on affiche un message comme quoi l'iteration a chang?
-		
-		JOptionPane.showMessageDialog(ApplicationManager.getInstance()
-				.getMfPagod(), LanguagesManager.getInstance().getString(
-				"NewIteration"), LanguagesManager.getInstance().getString(
-				"NewIterationTitle"), JOptionPane.INFORMATION_MESSAGE);
 	}
 }
