@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: NextIterationAction.java,v 1.8 2006/02/22 16:16:40 cyberal82 Exp $
+ * $Id: NextIterationAction.java,v 1.9 2006/02/27 10:42:35 fabfoot Exp $
  */
 package pagod.wizard.control.actions;
 
@@ -64,11 +64,12 @@ public class NextIterationAction extends AbstractPagodAction
 			// pour chaque activit mettre a 0 le temps remainig
 			tc1 = a.gethmTime(itcour - 1);
 			tc1.setTimeRemaining(0);
+			a.setDone(false);
 
 		}
+
+		// on affiche un message comme quoi l'iteration a chang?
 		
-		
-		// on affiche un message comme quoi l'iteration a changé
 		JOptionPane.showMessageDialog(ApplicationManager.getInstance()
 				.getMfPagod(), LanguagesManager.getInstance().getString(
 				"NewIteration"), LanguagesManager.getInstance().getString(
