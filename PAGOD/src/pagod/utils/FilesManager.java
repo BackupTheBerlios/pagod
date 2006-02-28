@@ -1,5 +1,5 @@
 /*
- * $Id: FilesManager.java,v 1.5 2006/02/18 16:35:53 cyberal82 Exp $
+ * $Id: FilesManager.java,v 1.6 2006/02/28 11:24:28 flotueur Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -274,40 +274,48 @@ public class FilesManager
 	 * 			Repertoire source dont on veut copier le contenu
 	 * @param target
 	 * 			Repertoire cible dans lequel on va copier les fochiers contenus dans source
+	 * @param baseTarget
+	 * 			Repertoire cible. Contrairement aux 2 précédants paramètres, on conserve cette donnée
+	 * 			dans le processus récursif afin d'éviter les boucles infini (ex: copie d'un répertoire
+	 * 			dans un de ses sous-répertoires) 
      * @return result
      * 			Indique si la copie ? ?t? un succes ou un ?chec
 	 */
-    public static boolean copyDirectory ( File source, File target) {
+    public static boolean copyDirectory ( File source, File target, File baseTarget) {
     	boolean result = true; 
-        //On v?rifie d'abord que les fichier pass?s en param?tre sont bien des r?pertoires
+        //On verifie d'abord que les fichier passes en parametre sont bien des repertoires
     	if (source.isDirectory() && target.isDirectory()){
     		 
-    		//Nous sommes dans un r?pertoire, on liste donc le contenu
+    		//Nous sommes dans un repertoire, on liste donc le contenu
             File[] list = source.listFiles();
             
             for ( int i = 0; i < list.length; i++) {
 
             	if (list[i].isDirectory()){
-		    		// Si le fichier point? est un repertoire, on cree un nouveau repertoire
+		    		// Si le fichier pointé est un repertoire, on cree un nouveau repertoire
 		    		// portant le meme nom dans le repertoire destination
-		    		File targetdir = new File(target.getAbsolutePath()+File.separator+list[i].getName());
-		    		if (targetdir.mkdir())
-		    		{
-		    			System.out.println(i+". Le repertoire "+targetdir+" est bien copi?.\n");
-		    		}
-		    		else
-		    		{
-		    			System.err.println(i+". Le repertoire "+targetdir+" que vous voulez creer existe d?j?.\n");
-		    		}
-	
-	                // Appel r?cursif sur les sous-r?pertoires
-	            	copyDirectory(list[i],targetdir);
+            		File targetdir = new File(target.getAbsolutePath()+File.separator+list[i].getName()+File.separator);
+            		// On vérifie d'abord que le répertoire ne se copie pas dans lui même
+            		// Pour cela, il faut que le répertoire source soit différent du répertoire du workspace de destination
+            		if (!(baseTarget.getAbsolutePath().equals(source.getAbsolutePath()+File.separator+list[i].getName())))
+            		{
+			    		if (targetdir.mkdir())
+			    		{
+			    			System.out.println("copyDirectory : Le repertoire "+targetdir+" est bien copié.\n");
+			    		}
+			    		else
+			    		{
+			    			System.err.println("copyDirectory : Le repertoire "+targetdir+" que vous voulez creer existe déjà.\n");
+			    		}
+			    		
+		                // Appel r?cursif sur les sous-r?pertoires
+		            	copyDirectory(list[i],targetdir,baseTarget);
+            		}
             	}
             	else {
-                	// Si le fichier point? n'est pas un r?pertoire, on cr?? un fichier identique
+                	// Si le fichier pointé n'est pas un répertoire, on créé un fichier identique
             		// dans l'emplacement de destination
             		File targetfile=new File(target.getAbsolutePath()+File.separator+list[i].getName());
-                	
                 	// Copie du fichier
             		copyAFile(list[i],targetfile);
                 	
