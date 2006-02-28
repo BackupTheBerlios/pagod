@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: StepOverviewFrame.java,v 1.7 2006/02/24 16:37:43 psyko Exp $
+ * $Id: StepOverviewFrame.java,v 1.8 2006/02/28 18:46:28 garwind111 Exp $
  */
 package pagod.configurator.ui;
 
@@ -155,8 +155,14 @@ public class StepOverviewFrame extends JFrame
         getContentPane().add(this.jScrollPane_content);
         this.jScrollPane_content.setBounds(15, 80, 360, 230);
 
-        this.jLabel_products.setText(LanguagesManager.getInstance().getString("OverviewFrame_stepProducts"));
-        getContentPane().add(this.jLabel_products);
+        if (productslist.size() > 1) this.jLabel_products
+				.setText(LanguagesManager.getInstance().getString(
+						"OverviewFrame_stepProducts"));
+		else this.jLabel_products
+		.setText(LanguagesManager.getInstance().getString(
+				"OverviewFrame_stepProduct"));
+			
+			getContentPane().add(this.jLabel_products);
         this.jLabel_products.setBounds(15, 315, 160, 14);
         
         /*
