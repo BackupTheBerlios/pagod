@@ -1,5 +1,5 @@
 /*
- * $Id: PreferencesDialog.java,v 1.7 2006/02/26 18:44:22 flotueur Exp $
+ * $Id: PreferencesDialog.java,v 1.8 2006/02/28 11:13:41 flotueur Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -153,7 +153,7 @@ public class PreferencesDialog extends JDialog implements ActionListener
 	    		
 	    		// Si le nouveau chemin est valide alors on copie les fichiers
 	    		if (targetWorkspace.exists()){
-		    		// On copie le r?pertoire source dans le r?pertoire destination
+		    		// On copie le r?pertoire source dans le r?pertoire destination en faisant attention aux paramètres
 		    		FilesManager.copyDirectory(sourceWorkspace,targetWorkspace,targetWorkspace);
 		    		// On efface le r?pertoire source
 		    		//FilesManager.deleteDirectory(sourceWorkspace);
