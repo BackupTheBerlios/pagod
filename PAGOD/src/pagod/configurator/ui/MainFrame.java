@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.5 2006/02/23 18:44:46 themorpheus Exp $
+ * $Id: MainFrame.java,v 1.6 2006/03/02 22:25:53 themorpheus Exp $
  *
  * SPWIZ - Spem Wizard
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -72,11 +72,6 @@ public class MainFrame extends JFrame implements Observer
 	 * Panneaux associations des produits
 	 */
 	private ToolsAssociationPanel	toolsAssociationPanel;
-
-	/**
-	 * Panneau d'activation/d?sactivation de r?les
-	 */
-	private RolesPanel				rolesPanel;
 
 	/**
 	 * Les onglets
@@ -167,14 +162,15 @@ public class MainFrame extends JFrame implements Observer
 		// creer les panneaux
 		this.stepsPanel = new StepsPanel(process);
 		this.toolsAssociationPanel = new ToolsAssociationPanel(process);
-		this.rolesPanel = new RolesPanel(process);
 		this.tabs = new JTabbedPane();
 		this.tabs.addTab(LanguagesManager.getInstance().getString("stepsTab"),
 				this.stepsPanel);
 		this.tabs.addTab(LanguagesManager.getInstance().getString("toolsTab"),
 				this.toolsAssociationPanel);
-		this.tabs.addTab(LanguagesManager.getInstance().getString("rolesTab"),
-				this.rolesPanel);
+		/*
+		 * this.tabs.addTab(LanguagesManager.getInstance().getString("rolesTab"),
+		 * this.rolesPanel);
+		 */
 		this.getContentPane().removeAll();
 		this.getContentPane().add(this.tabs);
 		this.setVisible(true);
@@ -311,6 +307,14 @@ public class MainFrame extends JFrame implements Observer
 	}
 
 	/**
+	 * Gère l'ouverture de la fenetre des roles
+	 */
+	public void exportProcess ()
+	{
+
+	}
+
+	/**
 	 * Ferme l'application
 	 * 
 	 * @param saveMessage
@@ -391,6 +395,8 @@ public class MainFrame extends JFrame implements Observer
 						.setEnabled(false);
 				ActionManager.getInstance().getAction(Constants.ACTION_SAVE_AS)
 						.setEnabled(false);
+				ActionManager.getInstance().getAction(Constants.ACTION_EXPORT)
+						.setEnabled(false);
 			}
 			else if (obj instanceof ProcessOpenedState)
 			{
@@ -398,6 +404,8 @@ public class MainFrame extends JFrame implements Observer
 				ActionManager.getInstance().getAction(Constants.ACTION_SAVE)
 						.setEnabled(true);
 				ActionManager.getInstance().getAction(Constants.ACTION_SAVE_AS)
+						.setEnabled(true);
+				ActionManager.getInstance().getAction(Constants.ACTION_EXPORT)
 						.setEnabled(true);
 			}
 		}

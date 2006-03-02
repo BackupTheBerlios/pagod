@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrameMenuBar.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: MainFrameMenuBar.java,v 1.2 2006/03/02 22:25:53 themorpheus Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -74,6 +74,10 @@ public class MainFrameMenuBar extends JMenuBar
         JMenuItem miSaveAs = new JMenuItem(ActionManager.getInstance().getAction(
                 Constants.ACTION_SAVE_AS));
         mFile.add(miSaveAs);
+        
+        JMenuItem miExport = new JMenuItem(ActionManager.getInstance().getAction(
+                Constants.ACTION_EXPORT));
+        mFile.add(miExport);
         
         JMenuItem miQuit = new JMenuItem(ActionManager.getInstance().getAction(
                 Constants.ACTION_QUIT));

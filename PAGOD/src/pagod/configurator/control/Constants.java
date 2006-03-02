@@ -1,5 +1,5 @@
 /*
- * $Id: Constants.java,v 1.4 2006/02/19 15:36:04 yak Exp $
+ * $Id: Constants.java,v 1.5 2006/03/02 22:25:53 themorpheus Exp $
  *
  * PAGOD - Spem Wizard
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -114,6 +114,11 @@ public interface Constants
      * <code>ACTION_SAVE_AS</code>
      */
     public static final String ACTION_SAVE_AS = "saveAsAction";
+    
+    /**
+     * <code>ACTION_SAVE_AS</code>
+     */
+    public static final String ACTION_EXPORT = "exportAction";
 
     /**
      * <code>ACTION_ABOUT</code>
