@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: NextIterationAction.java,v 1.10 2006/02/27 12:09:59 fabfoot Exp $
+ * $Id: NextIterationAction.java,v 1.11 2006/03/02 21:43:19 fabfoot Exp $
  */
 package pagod.wizard.control.actions;
 
@@ -47,7 +47,7 @@ public class NextIterationAction extends AbstractPagodAction
 	public void actionPerformed (ActionEvent actionEvent)
 	{
 		int ret = JOptionPane.showConfirmDialog(ApplicationManager
-				.getInstance().getMfPagod(), "souhaitez-vous changer d'iteration ?" ,"Changement d'iteration",JOptionPane.YES_NO_OPTION);
+				.getInstance().getMfPagod(), LanguagesManager.getInstance().getString("ChangeIteration" ) ,LanguagesManager.getInstance().getString("ChangeIterationTitle" ) ,JOptionPane.YES_NO_OPTION);
 		if (ret == JOptionPane.YES_OPTION)
 		{
 			int itcour = ApplicationManager.getInstance().getCurrentProject()
