@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.57 2006/02/27 22:56:50 yak Exp $
+ * $Id: MainFrame.java,v 1.58 2006/03/02 21:02:06 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -146,7 +146,7 @@ public class MainFrame extends JFrame implements Observer
 	/**
 	 * panel qui va contenir: le contenu de l'?tape et la liste des etapes
 	 */
-	private JSplitPane			stepPanel			= null;
+	private JPanel			stepPanel			= null;
 
 	private int					dividerLocation		= 300;
 
@@ -231,18 +231,19 @@ public class MainFrame extends JFrame implements Observer
 				this.splitPane.setOneTouchExpandable(false);
 				this.splitPane.setLeftComponent(component);
 			}
-
-			this.stepPanel = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-
-			this.stepPanel.setLeftComponent(component);
-			this.stepPanel.setRightComponent(this.jListPanel);
 			
-			this.stepPanel.setOneTouchExpandable(true);
-			this.stepPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
-			this.stepPanel.setResizeWeight(0.8);
-
+			
+			this.stepPanel = new JPanel(new BorderLayout());
+			this.stepPanel.add(component, BorderLayout.CENTER);
+			
+			// si on doit afficher la StepList
+			// TODO Alex a voir if (PreferencesManager.getInstance().getDisplayStepList())
+			this.stepPanel.add(this.jListPanel, BorderLayout.SOUTH);
+			
 			this.splitPane.setLeftComponent(this.stepPanel);
 
+			// on selectionne l'etape que l'on affiche
+			this.jListPanel.selectedStep((Step)obj);
 		}
 
 	}
@@ -1033,8 +1034,8 @@ public class MainFrame extends JFrame implements Observer
 				// on initialise la combo box
 				this.buttonPanel.initComboBox(activityScheduler.getStateList());
 
-				this.jListPanel = new StepListPanel();
-				this.jListPanel.initJList(activityScheduler);
+				this.jListPanel = new StepListPanel(activityScheduler);
+				// this.jListPanel.initJList(activityScheduler);
 
 			}
 			else if (obj instanceof InitState)
