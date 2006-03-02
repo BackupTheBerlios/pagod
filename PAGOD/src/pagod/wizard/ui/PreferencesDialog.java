@@ -1,5 +1,5 @@
 /*
- * $Id: PreferencesDialog.java,v 1.9 2006/03/02 17:35:11 flotueur Exp $
+ * $Id: PreferencesDialog.java,v 1.10 2006/03/02 17:54:28 flotueur Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -135,13 +135,17 @@ public class PreferencesDialog extends JDialog implements ActionListener
         if (e.getSource() == this.pbOk)
         {
             // on a clique sur le bouton Ok
+        	
+        	// Ce flag permet de savoir si le chemin du workspace est bon
+        	Boolean flagGoodDirectory = true;
 
+        	
             // on recupere la langue selectionne et la precedente
             String sLang = this.pLanguage.getSelectedLanguage();
             String sPrecLang = PreferencesManager.getInstance().getLanguage();
 
             PreferencesManager.getInstance().setLanguage(sLang);
-            /*Modif Coin coin & flotueur*/
+           
 	            
             // On n'effectue la copie que si le chemin du workspace a ete modifie
             // et si le workspace existe deja
@@ -159,6 +163,7 @@ public class PreferencesDialog extends JDialog implements ActionListener
 		    		//FilesManager.deleteDirectory(sourceWorkspace);
 		    		// Mise à jour du preferences manager
 		    		PreferencesManager.getInstance().setWorkspace(this.pLanguage.getWorkspace());
+		    		
 	    		} else {
 	    		// Sinon on ne copie pas et on affiche un message d'erreur
 	    			JOptionPane.showMessageDialog(this, LanguagesManager
@@ -166,12 +171,14 @@ public class PreferencesDialog extends JDialog implements ActionListener
 							LanguagesManager.getInstance().getString(
 									"WorkspaceErrorTitle"),
 							JOptionPane.ERROR_MESSAGE);
+	    			// Le répertoire n'est pas bon, il faut en changer alors on ne ferme pas la fenetre
+	    			flagGoodDirectory = false;
 	    		}
 	    		
             }
  
             
-            /*Fin Modif Coin coin & flotueur.0*/
+           if (flagGoodDirectory){
             PreferencesManager.getInstance().storePreferences();
             PreferencesManager.getInstance().setLanguage(sPrecLang);
 
@@ -191,6 +198,7 @@ public class PreferencesDialog extends JDialog implements ActionListener
             
             
             this.dispose();
+           }
         }
         else
         {
