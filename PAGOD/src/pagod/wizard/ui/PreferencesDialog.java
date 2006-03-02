@@ -1,5 +1,5 @@
 /*
- * $Id: PreferencesDialog.java,v 1.8 2006/02/28 11:13:41 flotueur Exp $
+ * $Id: PreferencesDialog.java,v 1.9 2006/03/02 17:35:11 flotueur Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -157,6 +157,8 @@ public class PreferencesDialog extends JDialog implements ActionListener
 		    		FilesManager.copyDirectory(sourceWorkspace,targetWorkspace,targetWorkspace);
 		    		// On efface le r?pertoire source
 		    		//FilesManager.deleteDirectory(sourceWorkspace);
+		    		// Mise à jour du preferences manager
+		    		PreferencesManager.getInstance().setWorkspace(this.pLanguage.getWorkspace());
 	    		} else {
 	    		// Sinon on ne copie pas et on affiche un message d'erreur
 	    			JOptionPane.showMessageDialog(this, LanguagesManager
@@ -167,8 +169,7 @@ public class PreferencesDialog extends JDialog implements ActionListener
 	    		}
 	    		
             }
-            
-            PreferencesManager.getInstance().setWorkspace(this.pLanguage.getWorkspace());
+ 
             
             /*Fin Modif Coin coin & flotueur.0*/
             PreferencesManager.getInstance().storePreferences();
