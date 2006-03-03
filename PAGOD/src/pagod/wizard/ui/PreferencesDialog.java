@@ -1,5 +1,5 @@
 /*
- * $Id: PreferencesDialog.java,v 1.10 2006/03/02 17:54:28 flotueur Exp $
+ * $Id: PreferencesDialog.java,v 1.11 2006/03/03 13:47:55 coincoin Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -60,6 +60,8 @@ public class PreferencesDialog extends JDialog implements ActionListener
     private LanguageChooserPanel pLanguage = null;
 
     private ViewerPanel pViewer = null;
+    
+    private ColorPanel pColor = null;
 
     /**
      * Constructeur d'une PreferencesDialog, ayant pour fen?tre appelante
@@ -91,6 +93,11 @@ public class PreferencesDialog extends JDialog implements ActionListener
         this.pViewer = new ViewerPanel(parentFrame);
         tpPreferences.addTab(LanguagesManager.getInstance().getString(
                 "ExtensionTabTitle"), this.pViewer);
+        
+        // ajout de l'onglet permettant de gerer les associations
+        this.pColor = new ColorPanel(parentFrame);
+        tpPreferences.addTab(LanguagesManager.getInstance().getString(
+        		"ColorTabTitle"), this.pColor);
 
         // panneau contenant les boutons
         JPanel pButton = new JPanel();
@@ -179,6 +186,7 @@ public class PreferencesDialog extends JDialog implements ActionListener
  
             
            if (flagGoodDirectory){
+
             PreferencesManager.getInstance().storePreferences();
             PreferencesManager.getInstance().setLanguage(sPrecLang);
 
@@ -193,7 +201,20 @@ public class PreferencesDialog extends JDialog implements ActionListener
                         JOptionPane.INFORMATION_MESSAGE);
             }
             
+            /*Modif Coin coin pour la gestion des couleurs*/
             
+            //Enregistrement des couleurs dans le fichier de préférence
+            //Test pour savoir si la couleur a ete modifiee
+            if (this.pColor.getColorAF() != null){
+            PreferencesManager.getInstance().setColorAF(this.pColor.getColorAF());
+            }
+            
+            //Test pour savoir si la couleur a ete modifiee
+            if (this.pColor.getColorAS() != null){
+            PreferencesManager.getInstance().setColorAS(this.pColor.getColorAS());
+            }
+            
+            /*Fin Modif*/
             
             
             
