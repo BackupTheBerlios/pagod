@@ -1,5 +1,5 @@
 /*
- * $Id: PreferencesDialog.java,v 1.11 2006/03/03 13:47:55 coincoin Exp $
+ * $Id: PreferencesDialog.java,v 1.12 2006/03/03 13:58:55 coincoin Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -37,6 +37,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import pagod.utils.LanguagesManager;
+import pagod.wizard.control.ApplicationManager;
 import pagod.wizard.control.PreferencesManager;
 import pagod.utils.FilesManager;
 
@@ -217,8 +218,9 @@ public class PreferencesDialog extends JDialog implements ActionListener
             /*Fin Modif*/
             
             
-            
+            ApplicationManager.getInstance().getMfPagod().repaint();
             this.dispose();
+            
            }
         }
         else
