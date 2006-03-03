@@ -93,7 +93,8 @@ public class EkitApplet extends JApplet
 		if(this.getParameter("SPELLCHECK") != null) { spellChecker = this.getParameter("SPELLCHECK").equalsIgnoreCase("true"); }
 		String toolbarSeq = (showToolBarMulti ? EkitCore.TOOLBAR_DEFAULT_MULTI : EkitCore.TOOLBAR_DEFAULT_SINGLE);
 		if(this.getParameter("TOOLBARSEQ") != null) { toolbarSeq = this.getParameter("TOOLBARSEQ").toUpperCase(); }
-
+		
+		/*
 		if(spellChecker)
 		{
 			ekitCore = new EkitCoreSpell(sRawDocument, urlCSS, showToolBar, showViewSource, showMenuIcons, editModeExclusive, sLanguage, sCountry, base64, showToolBarMulti, toolbarSeq);
@@ -101,7 +102,10 @@ public class EkitApplet extends JApplet
 		else
 		{
 			ekitCore = new EkitCore(sRawDocument, urlCSS, showToolBar, showViewSource, showMenuIcons, editModeExclusive, sLanguage, sCountry, base64, false, showToolBarMulti, toolbarSeq);
-		}
+		}*/
+		
+		ekitCore = new EkitCore(sRawDocument, urlCSS, showToolBar, showViewSource, showMenuIcons, editModeExclusive, sLanguage, sCountry, base64, false, showToolBarMulti, toolbarSeq);
+		
 
 		/* Add menus, based on whether or not they are requested (all are shown by default) */
 		Vector vcMenus = new Vector();

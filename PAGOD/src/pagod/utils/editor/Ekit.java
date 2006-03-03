@@ -38,7 +38,6 @@ import javax.swing.JToolBar;
 
 import pagod.common.model.Step;
 import pagod.utils.editor.EkitCore;
-import pagod.utils.editor.EkitCoreSpell;
 
 
 /** Ekit
@@ -76,14 +75,13 @@ public class Ekit extends JFrame implements WindowListener
 	  */
 	public Ekit(String sDocument, String sStyleSheet, String sRawDocument, URL urlStyleSheet, boolean includeToolBar, boolean showViewSource, boolean showMenuIcons, boolean editModeExclusive, String sLanguage, String sCountry, boolean base64, boolean debugMode, boolean useSpellChecker, boolean multiBar)
 	{
+		/*
 		if(useSpellChecker)
 		{
 			ekitCore = new EkitCoreSpell(sDocument, sStyleSheet, sRawDocument, null, urlStyleSheet, includeToolBar, showViewSource, showMenuIcons, editModeExclusive, sLanguage, sCountry, base64, debugMode, true, multiBar, (multiBar ? EkitCore.TOOLBAR_DEFAULT_MULTI : EkitCore.TOOLBAR_DEFAULT_SINGLE));
-		}
-		else
-		{
-			ekitCore = new EkitCore(sDocument, sStyleSheet, sRawDocument, null, urlStyleSheet, includeToolBar, showViewSource, showMenuIcons, editModeExclusive, sLanguage, sCountry, base64, debugMode, false, multiBar, (multiBar ? EkitCore.TOOLBAR_DEFAULT_MULTI : EkitCore.TOOLBAR_DEFAULT_SINGLE));
-		}
+		}*/
+		ekitCore = new EkitCore(sDocument, sStyleSheet, sRawDocument, null, urlStyleSheet, includeToolBar, showViewSource, showMenuIcons, editModeExclusive, sLanguage, sCountry, base64, debugMode, false, multiBar, (multiBar ? EkitCore.TOOLBAR_DEFAULT_MULTI : EkitCore.TOOLBAR_DEFAULT_SINGLE));
+		
 
 		ekitCore.setFrame(this);
 
@@ -147,13 +145,15 @@ public class Ekit extends JFrame implements WindowListener
 	public Ekit(Step steptoedit)
 	{
 		this(steptoedit.getComment(),null,null,null,true,true,true,true,"FR","fr",false,false,false,true);
+		ekitCore.setDocumentText(steptoedit.getComment());
+		ekitCore.setCaretPosition(0);
 	}
 
 	/* WindowListener methods */
 	public void windowClosing(WindowEvent we)
 	{
 		this.dispose();
-		System.exit(0);
+		// System.exit(0);
 	}
 	public void windowOpened(WindowEvent we)      { ; }
 	public void windowClosed(WindowEvent we)      { ; }
