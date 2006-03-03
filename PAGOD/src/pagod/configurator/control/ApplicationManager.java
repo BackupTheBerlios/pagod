@@ -1,5 +1,5 @@
 /*
- * $Id: ApplicationManager.java,v 1.2 2006/02/19 15:36:04 yak Exp $
+ * $Id: ApplicationManager.java,v 1.3 2006/03/03 12:02:39 themorpheus Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -35,6 +35,7 @@ import java.util.Observable;
 
 import pagod.common.model.Process;
 import pagod.configurator.control.actions.AboutAction;
+import pagod.configurator.control.actions.ExportAction;
 import pagod.configurator.control.actions.OpenAction;
 import pagod.configurator.control.actions.PreferencesAction;
 import pagod.configurator.control.actions.QuitAction;
@@ -50,7 +51,7 @@ import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
 
 /**
- * Gestionnaire de l'application implémenté comme un singleton Cette classe gère
+ * Gestionnaire de l'application impl?ment? comme un singleton Cette classe g?re
  * la logique applicative
  * 
  * @author MoOky
@@ -76,7 +77,7 @@ public class ApplicationManager extends Observable
 		 */
 		INIT,
 		/**
-		 * Etat Processus ouvert : choix de l'activité à lancer
+		 * Etat Processus ouvert : choix de l'activit? ? lancer
 		 */
 		PROCESS_OPENED,
 	}
@@ -97,7 +98,7 @@ public class ApplicationManager extends Observable
 	private Process						currentProcess	= null;
 
 	/**
-	 * Constructeur privé du gestionnaire d'application (implémentation d'un
+	 * Constructeur priv? du gestionnaire d'application (impl?mentation d'un
 	 * singleton)
 	 */
 	private ApplicationManager ()
@@ -110,7 +111,7 @@ public class ApplicationManager extends Observable
 					+ Constants.LANGUAGES_OUTPUT_DIRECTORY);
 			if (!languagesDirectory.exists())
 			{
-				// on crée le repertoire
+				// on cr?e le repertoire
 				languagesDirectory.mkdir();
 			}
 			// on extrait le fichier de langue par defaut
@@ -154,6 +155,7 @@ public class ApplicationManager extends Observable
 			am.registerAction(Constants.ACTION_OPEN, new OpenAction());
 			am.registerAction(Constants.ACTION_SAVE, new SaveAction());
 			am.registerAction(Constants.ACTION_SAVE_AS, new SaveAsAction());
+			am.registerAction(Constants.ACTION_EXPORT, new ExportAction());
 			am.registerAction(Constants.ACTION_ABOUT, new AboutAction());
 			am.registerAction(Constants.ACTION_PREFERENCES,
 				new PreferencesAction());
@@ -181,10 +183,10 @@ public class ApplicationManager extends Observable
 	}
 
 	/**
-	 * Gère les requetes
+	 * G?re les requetes
 	 * 
 	 * @param request
-	 *            requete à traiter
+	 *            requete ? traiter
 	 * @return vrai si mle chnagment d'etat a etait fait, faut sinon
 	 */
 	public boolean manageRequest (Request request)
@@ -261,7 +263,7 @@ public class ApplicationManager extends Observable
 
 	/**
 	 * @param currentProcess
-	 *            Valeur à donner à currentProcess
+	 *            Valeur ? donner ? currentProcess
 	 */
 	public void setCurrentProcess (Process currentProcess)
 	{
