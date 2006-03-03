@@ -32,7 +32,7 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyledEditorKit;
 import javax.swing.text.html.HTML;
 
-import pagod.utils.editor.EkitCore;
+import pagod.utils.editor.PagodEditorCore;
 import pagod.utils.editor.component.SimpleInfoDialog;
 import pagod.utils.editor.component.UserInputAnchorDialog;
 import pagod.utils.editor.hexidec.util.Translatrix;
@@ -43,11 +43,11 @@ import pagod.utils.editor.hexidec.util.Translatrix;
 */
 public class CustomAction extends StyledEditorKit.StyledTextAction
 {
-	protected EkitCore parentEkit;
+	protected PagodEditorCore parentEkit;
 	private   HTML.Tag htmlTag;
 	private   Hashtable htmlAttribs;
 
-	public CustomAction(EkitCore ekit, String actionName, HTML.Tag inTag, Hashtable attribs)
+	public CustomAction(PagodEditorCore ekit, String actionName, HTML.Tag inTag, Hashtable attribs)
 	{
 		super(actionName);
 		parentEkit  = ekit;
@@ -55,7 +55,7 @@ public class CustomAction extends StyledEditorKit.StyledTextAction
 		htmlAttribs = attribs;
 	}
 
-	public CustomAction(EkitCore ekit, String actionName, HTML.Tag inTag)
+	public CustomAction(PagodEditorCore ekit, String actionName, HTML.Tag inTag)
 	{
 		this(ekit, actionName, inTag, new Hashtable());
 	}

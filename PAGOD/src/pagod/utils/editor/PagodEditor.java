@@ -1,7 +1,7 @@
 /*
 GNU Lesser General Public License
 
-Ekit - Java Swing HTML Editor & Viewer
+PagodEditor - Java Swing HTML Editor & Viewer
 Copyright (C) 2000 Howard Kistler
 
 This library is free software; you can redistribute it and/or
@@ -37,10 +37,10 @@ import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
 import pagod.common.model.Step;
-import pagod.utils.editor.EkitCore;
+import pagod.utils.editor.PagodEditorCore;
 
 
-/** Ekit
+/** PagodEditor
   * App for editing and saving HTML in a Java text component
   *
   * @author Howard Kistler
@@ -51,9 +51,9 @@ import pagod.utils.editor.EkitCore;
   * Swing Library
   */
 
-public class Ekit extends JFrame implements WindowListener
+public class PagodEditor extends JFrame implements WindowListener
 {
-	private EkitCore ekitCore;
+	private PagodEditorCore pagodEditorCore;
 
 	private File currentFile = (File)null;
 
@@ -66,24 +66,24 @@ public class Ekit extends JFrame implements WindowListener
 	  * @param showViewSource    [boolean] Specifies whether or not to show the View Source window on startup.
 	  * @param showMenuIcons     [boolean] Specifies whether or not to show icon pictures in menus.
 	  * @param editModeExclusive [boolean] Specifies whether or not to use exclusive edit mode (recommended on).
-	  * @param sLanguage         [String]  The language portion of the Internationalization Locale to run Ekit in.
-	  * @param sCountry          [String]  The country portion of the Internationalization Locale to run Ekit in.
+	  * @param sLanguage         [String]  The language portion of the Internationalization Locale to run PagodEditor in.
+	  * @param sCountry          [String]  The country portion of the Internationalization Locale to run PagodEditor in.
 	  * @param base64            [boolean] Specifies whether the raw document is Base64 encoded or not.
 	  * @param debugMode         [boolean] Specifies whether to show the Debug menu or not.
 	  * @param useSpellChecker   [boolean] Specifies whether to include the spellchecker or not.
 	  * @param multiBar          [boolean] Specifies whether to use multiple toolbars or one big toolbar.
 	  */
-	public Ekit(String sDocument, String sStyleSheet, String sRawDocument, URL urlStyleSheet, boolean includeToolBar, boolean showViewSource, boolean showMenuIcons, boolean editModeExclusive, String sLanguage, String sCountry, boolean base64, boolean debugMode, boolean useSpellChecker, boolean multiBar)
+	public PagodEditor(String sDocument, String sStyleSheet, String sRawDocument, URL urlStyleSheet, boolean includeToolBar, boolean showViewSource, boolean showMenuIcons, boolean editModeExclusive, String sLanguage, String sCountry, boolean base64, boolean debugMode, boolean useSpellChecker, boolean multiBar)
 	{
 		/*
 		if(useSpellChecker)
 		{
-			ekitCore = new EkitCoreSpell(sDocument, sStyleSheet, sRawDocument, null, urlStyleSheet, includeToolBar, showViewSource, showMenuIcons, editModeExclusive, sLanguage, sCountry, base64, debugMode, true, multiBar, (multiBar ? EkitCore.TOOLBAR_DEFAULT_MULTI : EkitCore.TOOLBAR_DEFAULT_SINGLE));
+			pagodEditorCore = new EkitCoreSpell(sDocument, sStyleSheet, sRawDocument, null, urlStyleSheet, includeToolBar, showViewSource, showMenuIcons, editModeExclusive, sLanguage, sCountry, base64, debugMode, true, multiBar, (multiBar ? PagodEditorCore.TOOLBAR_DEFAULT_MULTI : PagodEditorCore.TOOLBAR_DEFAULT_SINGLE));
 		}*/
-		ekitCore = new EkitCore(sDocument, sStyleSheet, sRawDocument, null, urlStyleSheet, includeToolBar, showViewSource, showMenuIcons, editModeExclusive, sLanguage, sCountry, base64, debugMode, false, multiBar, (multiBar ? EkitCore.TOOLBAR_DEFAULT_MULTI : EkitCore.TOOLBAR_DEFAULT_SINGLE));
+		pagodEditorCore = new PagodEditorCore(sDocument, sStyleSheet, sRawDocument, null, urlStyleSheet, includeToolBar, showViewSource, showMenuIcons, editModeExclusive, sLanguage, sCountry, base64, debugMode, false, multiBar, (multiBar ? PagodEditorCore.TOOLBAR_DEFAULT_MULTI : PagodEditorCore.TOOLBAR_DEFAULT_SINGLE));
 		
 
-		ekitCore.setFrame(this);
+		pagodEditorCore.setFrame(this);
 
 		/* Add the components to the app */
 		if(includeToolBar)
@@ -101,34 +101,34 @@ public class Ekit extends JFrame implements WindowListener
 				gbc.gridx      = 1;
 
 				gbc.gridy      = 1;
-				this.getContentPane().add(ekitCore.getToolBarMain(includeToolBar), gbc);
+				this.getContentPane().add(pagodEditorCore.getToolBarMain(includeToolBar), gbc);
 
 				gbc.gridy      = 2;
-				this.getContentPane().add(ekitCore.getToolBarFormat(includeToolBar), gbc);
+				this.getContentPane().add(pagodEditorCore.getToolBarFormat(includeToolBar), gbc);
 
 				gbc.gridy      = 3;
-				this.getContentPane().add(ekitCore.getToolBarStyles(includeToolBar), gbc);
+				this.getContentPane().add(pagodEditorCore.getToolBarStyles(includeToolBar), gbc);
 
 				gbc.anchor     = GridBagConstraints.SOUTH;
 				gbc.fill       = GridBagConstraints.BOTH;
 				gbc.weighty    = 1.0;
 				gbc.gridy      = 4;
-				this.getContentPane().add(ekitCore, gbc);
+				this.getContentPane().add(pagodEditorCore, gbc);
 			}
 			else
 			{
 				this.getContentPane().setLayout(new BorderLayout());
-				this.getContentPane().add(ekitCore, BorderLayout.CENTER);
-				this.getContentPane().add(ekitCore.getToolBar(includeToolBar), BorderLayout.NORTH);
+				this.getContentPane().add(pagodEditorCore, BorderLayout.CENTER);
+				this.getContentPane().add(pagodEditorCore.getToolBar(includeToolBar), BorderLayout.NORTH);
 			}
 		}
 		else
 		{
 			this.getContentPane().setLayout(new BorderLayout());
-			this.getContentPane().add(ekitCore, BorderLayout.CENTER);
+			this.getContentPane().add(pagodEditorCore, BorderLayout.CENTER);
 		}
 
-		this.setJMenuBar(ekitCore.getMenuBar());
+		this.setJMenuBar(pagodEditorCore.getMenuBar());
 
 		this.addWindowListener(this);
 
@@ -137,16 +137,16 @@ public class Ekit extends JFrame implements WindowListener
 		this.show();
 	}
 
-	public Ekit()
+	public PagodEditor()
 	{
 		this(null, null, null, null, true, false, true, true, null, null, false, false, false, true);
 	}
 	
-	public Ekit(Step steptoedit)
+	public PagodEditor(Step steptoedit)
 	{
 		this(steptoedit.getComment(),null,null,null,true,true,true,true,"FR","fr",false,false,false,true);
-		ekitCore.setDocumentText(steptoedit.getComment());
-		ekitCore.setCaretPosition(0);
+		pagodEditorCore.setDocumentText(steptoedit.getComment());
+		pagodEditorCore.setCaretPosition(0);
 	}
 
 	/* WindowListener methods */
@@ -166,14 +166,14 @@ public class Ekit extends JFrame implements WindowListener
 	  */
 	private void updateTitle()
 	{
-		this.setTitle(ekitCore.getAppName() + (currentFile == null ? "" : " - " + currentFile.getName()));
+		this.setTitle(pagodEditorCore.getAppName() + (currentFile == null ? "" : " - " + currentFile.getName()));
 	}
 
 	/** Usage method
 	  */
 	public static void usage()
 	{
-		System.out.println("usage: pagod.utils.editor.Ekit [-t|t+|T] [-s|S] [-m|M] [-x|X] [-b|B] [-v|V] [-fFILE] [-cCSS] [-rRAW] [-uURL] [-lLANG] [-d|D] [-h|H|?]");
+		System.out.println("usage: pagod.utils.editor.PagodEditor [-t|t+|T] [-s|S] [-m|M] [-x|X] [-b|B] [-v|V] [-fFILE] [-cCSS] [-rRAW] [-uURL] [-lLANG] [-d|D] [-h|H|?]");
 		System.out.println("       Each option contained in [] brackets is optional,");
 		System.out.println("       and can be one of the values separated be the | pipe.");
 		System.out.println("       Each option must be proceeded by a - hyphen.");
@@ -259,7 +259,7 @@ public class Ekit extends JFrame implements WindowListener
 			else if(args[i].equals("-d"))     { debugOn = true; }
 			else if(args[i].equals("-D"))     { debugOn = false; }
 		}
-		Ekit ekit = new Ekit(sDocument, sStyleSheet, sRawDocument, urlStyleSheet, includeToolBar, includeViewSource, includeMenuIcons, modeExclusive, sLang, sCtry, base64, debugOn, spellCheck, multibar);
+		PagodEditor pagodEditor = new PagodEditor(sDocument, sStyleSheet, sRawDocument, urlStyleSheet, includeToolBar, includeViewSource, includeMenuIcons, modeExclusive, sLang, sCtry, base64, debugOn, spellCheck, multibar);
 	}
 
 }

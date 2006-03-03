@@ -52,7 +52,7 @@ import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
-import pagod.utils.editor.EkitCore;
+import pagod.utils.editor.PagodEditorCore;
 import pagod.utils.editor.hexidec.util.Translatrix;
 
 public class UnicodeDialog extends JDialog implements ActionListener
@@ -362,14 +362,14 @@ public class UnicodeDialog extends JDialog implements ActionListener
 	"Supplementary Private Use Area-B"			-> 1048576-1114109
 */
 
-	private EkitCore parentEkit;
+	private PagodEditorCore parentEkit;
 	private Font buttonFont;
 	private JToggleButton[] buttonArray = new JToggleButton[UNICODEBLOCKSIZE];
 	private ButtonGroup buttonGroup;
 	private JComboBox jcmbBlockSelector;
 	private JComboBox jcmbPageSelector;
 
-	public UnicodeDialog(EkitCore parent, String title, boolean bModal, int index)
+	public UnicodeDialog(PagodEditorCore parent, String title, boolean bModal, int index)
 	{
 		super(parent.getFrame(), title, bModal);
 		parentEkit = parent;

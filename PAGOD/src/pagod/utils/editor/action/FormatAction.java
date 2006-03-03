@@ -27,7 +27,7 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyledEditorKit;
 import javax.swing.text.html.HTML;
 
-import pagod.utils.editor.EkitCore;
+import pagod.utils.editor.PagodEditorCore;
 import pagod.utils.editor.component.*;
 import pagod.utils.editor.hexidec.util.Translatrix;
 
@@ -38,10 +38,10 @@ import pagod.utils.editor.hexidec.util.Translatrix;
  */
 public class FormatAction extends StyledEditorKit.StyledTextAction
 {
-	protected EkitCore parentEkit;
+	protected PagodEditorCore parentEkit;
 	HTML.Tag htmlTag;
 
-	public FormatAction(EkitCore ekit, String actionName, HTML.Tag inTag)
+	public FormatAction(PagodEditorCore ekit, String actionName, HTML.Tag inTag)
 	{
 		super(actionName);
 		parentEkit = ekit;

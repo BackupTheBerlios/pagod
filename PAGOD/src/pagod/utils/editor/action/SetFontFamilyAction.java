@@ -24,7 +24,7 @@ package pagod.utils.editor.action;
 import java.awt.event.ActionEvent;
 import javax.swing.text.StyledEditorKit;
 
-import pagod.utils.editor.EkitCore;
+import pagod.utils.editor.PagodEditorCore;
 import pagod.utils.editor.component.FontSelectorDialog;
 import pagod.utils.editor.hexidec.util.Translatrix;
 
@@ -34,9 +34,9 @@ import pagod.utils.editor.hexidec.util.Translatrix;
 public class SetFontFamilyAction extends StyledEditorKit.FontFamilyAction
 {
 	protected String   name;
-	protected EkitCore parentEkit;
+	protected PagodEditorCore parentEkit;
 
-	public SetFontFamilyAction(EkitCore ekit, String actionName)
+	public SetFontFamilyAction(PagodEditorCore ekit, String actionName)
 	{
 		super(actionName, "");
 		this.name = actionName;

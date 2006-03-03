@@ -1,7 +1,7 @@
 /*
 GNU Lesser General Public License
 
-HTMLUtilities - Special Utility Functions For Ekit
+HTMLUtilities - Special Utility Functions For PagodEditor
 Copyright (C) 2003 Rafael Cieplinski & Howard Kistler
 
 This library is free software; you can redistribute it and/or
@@ -28,16 +28,16 @@ import javax.swing.*;
 import javax.swing.text.*;
 import javax.swing.text.html.*;
 
-import pagod.utils.editor.EkitCore;
+import pagod.utils.editor.PagodEditorCore;
 import pagod.utils.editor.component.*;
 
 
 public class HTMLUtilities
 {
-	EkitCore parent;
+	PagodEditorCore parent;
 	Hashtable tags = new Hashtable();
 
-	public HTMLUtilities(EkitCore newParent)
+	public HTMLUtilities(PagodEditorCore newParent)
 	{
 		parent = newParent;
 		HTML.Tag[] tagList = HTML.getAllTags();

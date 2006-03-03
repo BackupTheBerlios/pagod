@@ -29,7 +29,7 @@ import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 
-import pagod.utils.editor.EkitCore;
+import pagod.utils.editor.PagodEditorCore;
 import pagod.utils.editor.component.*;
 import pagod.utils.editor.hexidec.util.Translatrix;
 
@@ -39,12 +39,12 @@ import pagod.utils.editor.hexidec.util.Translatrix;
   */
 public class ListAutomationAction extends HTMLEditorKit.InsertHTMLTextAction
 {
-	protected EkitCore parentEkit;
+	protected PagodEditorCore parentEkit;
 	private HTML.Tag baseTag;
 	private String sListType;
 	private HTMLUtilities htmlUtilities;
 
-	public ListAutomationAction(EkitCore ekit, String sLabel, HTML.Tag listType)
+	public ListAutomationAction(PagodEditorCore ekit, String sLabel, HTML.Tag listType)
 	{
 		super(sLabel, "", listType, HTML.Tag.LI);
 		parentEkit = ekit;

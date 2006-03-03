@@ -1,5 +1,5 @@
 /*
- * $Id: StepsPanel.java,v 1.7 2006/03/03 15:48:26 garwind111 Exp $
+ * $Id: StepsPanel.java,v 1.8 2006/03/03 17:32:19 garwind111 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -56,7 +56,7 @@ import pagod.configurator.control.adapters.ActivityStepsTableModel;
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
 import pagod.utils.Utilities;
-import pagod.utils.editor.Ekit;
+import pagod.utils.editor.PagodEditor;
 
 /**
  * Panneaux de configuration des étapes.
@@ -435,7 +435,7 @@ public class StepsPanel extends JPanel
 							Step steptosee = ((ActivityStepsTableModel) stepsTable.getModel()).getStepByRow(linetoview);
 							if (!stepname.equals("")){
 								// Appel de Pagod Editor
-								new Ekit(steptosee);
+								new PagodEditor(steptosee);
 							}
                             }
                             catch (Exception ex)

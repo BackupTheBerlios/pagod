@@ -37,15 +37,15 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
-import pagod.utils.editor.EkitCore;
+import pagod.utils.editor.PagodEditorCore;
 
 public class UserInputAnchorDialog extends JDialog implements ActionListener
 {
-//	private EkitCore parentEkit;
+//	private PagodEditorCore parentEkit;
 	private String inputText = null;
 	private final JTextField jtxfInput = new JTextField(32);
 
-	public UserInputAnchorDialog(EkitCore peKit, String title, boolean bModal, String defaultAnchor)
+	public UserInputAnchorDialog(PagodEditorCore peKit, String title, boolean bModal, String defaultAnchor)
 	{		
 		super(peKit.getFrame(), title, bModal);
 //		parentEkit = peKit;

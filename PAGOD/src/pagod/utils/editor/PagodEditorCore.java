@@ -1,7 +1,7 @@
 /*
 GNU Lesser General Public License
 
-EkitCore - Base Java Swing HTML Editor & Viewer Class (Core)
+PagodEditorCore - Base Java Swing HTML Editor & Viewer Class (Core)
 Copyright (C) 2000 Howard Kistler
 
 This library is free software; you can redistribute it and/or
@@ -124,7 +124,7 @@ import pagod.utils.editor.hexidec.util.Base64Codec;
 import pagod.utils.editor.hexidec.util.Translatrix;
 
 
-/** EkitCore
+/** PagodEditorCore
   * Main application class for editing and saving HTML in a Java text component
   *
   * @author Howard Kistler
@@ -135,7 +135,7 @@ import pagod.utils.editor.hexidec.util.Translatrix;
   * Swing Library
   */
 
-public class EkitCore extends JPanel implements ActionListener, KeyListener, FocusListener, DocumentListener
+public class PagodEditorCore extends JPanel implements ActionListener, KeyListener, FocusListener, DocumentListener
 {
 	/* Components */
 	private JSplitPane jspltDisplay;
@@ -281,7 +281,7 @@ public class EkitCore extends JPanel implements ActionListener, KeyListener, Foc
 	private static Hashtable htMenus = new Hashtable();
 	private static Hashtable htTools = new Hashtable();
 
-	private final String appName = "Ekit";
+	private final String appName = "Pagod Editor";
 	private final String menuDialog = "..."; /* text to append to a MenuItem label when menu item opens a dialog */
 
 	private final boolean useFormIndicator = true; /* Creates a highlighted background on a new FORM so that it may be more easily edited */
@@ -325,15 +325,15 @@ public class EkitCore extends JPanel implements ActionListener, KeyListener, Foc
 	  * @param showViewSource    [boolean] Specifies whether or not to show the View Source window on startup.
 	  * @param showMenuIcons     [boolean] Specifies whether or not to show icon pictures in menus.
 	  * @param editModeExclusive [boolean] Specifies whether or not to use exclusive edit mode (recommended on).
-	  * @param sLanguage         [String]  The language portion of the Internationalization Locale to run Ekit in.
-	  * @param sCountry          [String]  The country portion of the Internationalization Locale to run Ekit in.
+	  * @param sLanguage         [String]  The language portion of the Internationalization Locale to run PagodEditor in.
+	  * @param sCountry          [String]  The country portion of the Internationalization Locale to run PagodEditor in.
 	  * @param base64            [boolean] Specifies whether the raw document is Base64 encoded or not.
 	  * @param debugMode         [boolean] Specifies whether to show the Debug menu or not.
 	  * @param hasSpellChecker   [boolean] Specifies whether or not this uses the SpellChecker module
 	  * @param multiBar          [boolean] Specifies whether to use multiple toolbars or one big toolbar.
 	  * @param toolbarSeq        [String]  Code string specifying the toolbar buttons to show.
 	  */
-	public EkitCore(String sDocument, String sStyleSheet, String sRawDocument, StyledDocument sdocSource, URL urlStyleSheet, boolean includeToolBar, boolean showViewSource, boolean showMenuIcons, boolean editModeExclusive, String sLanguage, String sCountry, boolean base64, boolean debugMode, boolean hasSpellChecker, boolean multiBar, String toolbarSeq)
+	public PagodEditorCore(String sDocument, String sStyleSheet, String sRawDocument, StyledDocument sdocSource, URL urlStyleSheet, boolean includeToolBar, boolean showViewSource, boolean showMenuIcons, boolean editModeExclusive, String sLanguage, String sCountry, boolean base64, boolean debugMode, boolean hasSpellChecker, boolean multiBar, String toolbarSeq)
 	{
 		super();
 
@@ -983,21 +983,21 @@ public class EkitCore extends JPanel implements ActionListener, KeyListener, Foc
 	  * @param showViewSource    [boolean] Specifies whether or not to show the View Source window on startup.
 	  * @param showMenuIcons     [boolean] Specifies whether or not to show icon pictures in menus.
 	  * @param editModeExclusive [boolean] Specifies whether or not to use exclusive edit mode (recommended on).
-	  * @param sLanguage         [String]  The language portion of the Internationalization Locale to run Ekit in.
-	  * @param sCountry          [String]  The country portion of the Internationalization Locale to run Ekit in.
+	  * @param sLanguage         [String]  The language portion of the Internationalization Locale to run PagodEditor in.
+	  * @param sCountry          [String]  The country portion of the Internationalization Locale to run PagodEditor in.
 	  * @param base64            [boolean] Specifies whether the raw document is Base64 encoded or not.
 	  * @param hasSpellChecker   [boolean] Specifies whether or not this uses the SpellChecker module
 	  * @param multiBar          [boolean] Specifies whether to use multiple toolbars or one big toolbar.
 	  * @param toolbarSeq        [String]  Code string specifying the toolbar buttons to show.
 	  */
-	public EkitCore(String sRawDocument, URL urlStyleSheet, boolean includeToolBar, boolean showViewSource, boolean showMenuIcons, boolean editModeExclusive, String sLanguage, String sCountry, boolean base64, boolean hasSpellChecker, boolean multiBar, String toolbarSeq)
+	public PagodEditorCore(String sRawDocument, URL urlStyleSheet, boolean includeToolBar, boolean showViewSource, boolean showMenuIcons, boolean editModeExclusive, String sLanguage, String sCountry, boolean base64, boolean hasSpellChecker, boolean multiBar, String toolbarSeq)
 	{
 		this(null, null, sRawDocument, (StyledDocument)null, urlStyleSheet, includeToolBar, showViewSource, showMenuIcons, editModeExclusive, sLanguage, sCountry, base64, false, hasSpellChecker, multiBar, toolbarSeq);
 	}
 
 	/** Empty Constructor
 	  */
-	public EkitCore()
+	public PagodEditorCore()
 	{
 		this((String)null, (String)null, (String)null, (StyledDocument)null, (URL)null, true, false, true, true, (String)null, (String)null, false, false, false, true, TOOLBAR_DEFAULT_MULTI);
 	}
