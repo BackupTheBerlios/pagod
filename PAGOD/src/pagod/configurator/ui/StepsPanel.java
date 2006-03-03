@@ -1,5 +1,5 @@
 /*
- * $Id: StepsPanel.java,v 1.6 2006/02/25 10:25:08 garwind111 Exp $
+ * $Id: StepsPanel.java,v 1.7 2006/03/03 15:48:26 garwind111 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -56,6 +56,7 @@ import pagod.configurator.control.adapters.ActivityStepsTableModel;
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
 import pagod.utils.Utilities;
+import pagod.utils.editor.Ekit;
 
 /**
  * Panneaux de configuration des étapes.
@@ -198,6 +199,9 @@ public class StepsPanel extends JPanel
         
         // arno bouton d'aperçu de step
         private JButton pbStepOverview = null;
+        
+        // arno bouton d'aperçu de step
+        private JButton pbPagodEditor = null;
 
         protected StepsTable tEtapes = new StepsTable(
                 new ActivityStepsTableModel());
@@ -235,6 +239,12 @@ public class StepsPanel extends JPanel
                     .getIcon("Overview.gif"));
             // this.pbStepOverview.setSize(10, 10);
             this.pbStepOverview.setEnabled(false);
+            
+            // bouton pagod editor
+            this.pbPagodEditor = new JButton(ImagesManager.getInstance()
+                    .getIcon("Overview.gif"));
+            // this.pbStepOverview.setSize(10, 10);
+            this.pbPagodEditor.setEnabled(false);
             
             
             this.pbFirst
@@ -352,7 +362,7 @@ public class StepsPanel extends JPanel
             });
             this.boxBoutonsDeplacement.add(this.pbRemove);
             
-//          Ajout bouton aperçu
+            // ajout bouton aperçu
             // pbStepOverview
             this.pbStepOverview.addActionListener(new ActionListener(){
             		// Suppression du warning JoptionPane
@@ -397,6 +407,55 @@ public class StepsPanel extends JPanel
             });
             this.boxBoutonsDeplacement.add(this.pbStepOverview);
             this.pbStepOverview.setToolTipText(LanguagesManager
+                    .getInstance()
+                    .getString("StepsPanelOverview"));
+            
+//          ajout bouton aperçu
+            // pbStepOverview
+            this.pbPagodEditor.addActionListener(new ActionListener(){
+            		// Suppression du warning JoptionPane
+            		@SuppressWarnings("static-access")
+					public void actionPerformed(ActionEvent e)
+                    {
+            			StepsTable stepsTable = StepsPanel.this.pStepsConfigurationPanel.tEtapes;
+
+                        if (stepsTable.getSelectedRow() != -1)
+                        {
+                            // annuler modif en cours sur la table
+                            if (stepsTable.getCellEditor() != null)
+                                stepsTable.getCellEditor().cancelCellEditing();
+                            try
+                            {
+                                String stepname = ((ActivityStepsTableModel) stepsTable
+									.getModel()).getStepByRow(
+									stepsTable.getSelectedRow()).getName();
+							if (stepname == null) stepname = "";
+							
+							int linetoview = stepsTable.getSelectedRow();
+							Step steptosee = ((ActivityStepsTableModel) stepsTable.getModel()).getStepByRow(linetoview);
+							if (!stepname.equals("")){
+								// Appel de Pagod Editor
+								new Ekit(steptosee);
+							}
+                            }
+                            catch (Exception ex)
+                            {
+                                ex.printStackTrace();
+                            }
+                        }
+                        else
+					{
+						new JOptionPane().showMessageDialog(null,
+								LanguagesManager.getInstance().getString(
+										"StepsPanelOverview_WarningMessageTitle"),
+								LanguagesManager.getInstance().getString(
+										"StepsPanelOverview_WarningMessage"),
+								JOptionPane.WARNING_MESSAGE);
+					}
+                    }
+            });
+            this.boxBoutonsDeplacement.add(this.pbPagodEditor);
+            this.pbPagodEditor.setToolTipText(LanguagesManager
                     .getInstance()
                     .getString("StepsPanelOverview"));
             

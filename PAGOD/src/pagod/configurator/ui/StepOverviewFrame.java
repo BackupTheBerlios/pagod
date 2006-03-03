@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: StepOverviewFrame.java,v 1.8 2006/02/28 18:46:28 garwind111 Exp $
+ * $Id: StepOverviewFrame.java,v 1.9 2006/03/03 15:48:26 garwind111 Exp $
  */
 package pagod.configurator.ui;
 
@@ -140,7 +140,7 @@ public class StepOverviewFrame extends JFrame
         getContentPane().add(this.jLabel_name);
         this.jLabel_name.setBounds(15, 5, 160, 14);
         
-        this.jEditorPane_name.setEditable(false);
+        this.jEditorPane_name.setEditable(true);
         getContentPane().add(this.jEditorPane_name);
         this.jEditorPane_name.setBounds(15, 25, 360, 25);
         this.jEditorPane_name.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
@@ -150,7 +150,7 @@ public class StepOverviewFrame extends JFrame
         getContentPane().add(this.jLabel_content);
         this.jLabel_content.setBounds(15, 60, 160, 14);
 
-        this.jEditorPane_content.setEditable(false);
+        this.jEditorPane_content.setEditable(true);
         this.jScrollPane_content.setViewportView(this.jEditorPane_content);
         getContentPane().add(this.jScrollPane_content);
         this.jScrollPane_content.setBounds(15, 80, 360, 230);

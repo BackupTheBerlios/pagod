@@ -36,6 +36,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
+import pagod.common.model.Step;
 import pagod.utils.editor.EkitCore;
 import pagod.utils.editor.EkitCoreSpell;
 
@@ -141,6 +142,11 @@ public class Ekit extends JFrame implements WindowListener
 	public Ekit()
 	{
 		this(null, null, null, null, true, false, true, true, null, null, false, false, false, true);
+	}
+	
+	public Ekit(Step steptoedit)
+	{
+		this(steptoedit.getComment(),null,null,null,true,true,true,true,"FR","fr",false,false,false,true);
 	}
 
 	/* WindowListener methods */
