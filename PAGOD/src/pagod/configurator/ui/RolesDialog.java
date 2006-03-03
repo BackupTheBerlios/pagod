@@ -1,5 +1,5 @@
 /* 
- * $Id: RolesDialog.java,v 1.1 2006/03/02 22:25:53 themorpheus Exp $
+ * $Id: RolesDialog.java,v 1.2 2006/03/03 16:01:17 themorpheus Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -27,31 +27,24 @@ package pagod.configurator.ui;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.MissingResourceException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
 
+import pagod.common.control.InterfaceManager;
 import pagod.common.model.Process;
 import pagod.common.model.Role;
-import pagod.common.ui.WorkspaceFileChooser;
+import pagod.configurator.control.ApplicationManager;
 import pagod.configurator.control.PreferencesManager;
 import pagod.utils.LanguagesManager;
-import pagod.utils.LanguagesManager.NotInitializedException;
-import pagod.wizard.control.ApplicationManager;
-import pagod.wizard.ui.LanguageChooserPanel;
-import pagod.wizard.ui.ViewerPanel;
 
 /**
  * Panneau de configuration des roles
@@ -59,32 +52,36 @@ import pagod.wizard.ui.ViewerPanel;
  * @author baloo
  * 
  */
-public class RolesDialog extends JDialog implements ActionListener
+public class RolesDialog extends JDialog
 {
 	// panel contenant la JTable
-	private JPanel	pCentral;
+	private JPanel		pCentral;
 
 	// Jtable
-	private JTable	tableRoles;
+	private JTable		tableRoles;
 
 	// panneau contenant les boutons
-	private JPanel	pButton		= new JPanel();
-	private JFrame parentFrame = null;
+	private JPanel		pButton		= new JPanel();
+	private Process		process		= null;
 
-	private JButton	bpExport	= null;
-	private JButton	bpCancel	= null;
+	private JButton		bpExport	= null;
+	private JButton		bpCancel	= null;
 
 	/**
 	 * Constructeur du panneaux de configuration des roles
 	 * 
+	 * @param parentFrame
+	 * 
 	 * @param process
 	 *            Processus pour lequel il faut cr?er des ?tapes.
+	 * 
 	 */
-	public RolesDialog (JFrame parentFrame, Process process)
+	public RolesDialog (MainFrame parentFrame, Process process)
 	{
 		super(parentFrame);
-		this.parentFrame = parentFrame;
-		// boîte de dialogue modale et centrée par rapport à l'appelant
+		this.process = process;
+
+		// bo?te de dialogue modale et centr?e par rapport ? l'appelant
 		this.setModal(true);
 
 		// on met le titre
@@ -103,14 +100,47 @@ public class RolesDialog extends JDialog implements ActionListener
 
 		// creation des boutons Exporter et Quitter
 		this.bpExport = new JButton(LanguagesManager.getInstance().getString(
-				"ExportButtonLabel"));
+				"RolesExportButtonLabel"));
 		this.bpCancel = new JButton(LanguagesManager.getInstance().getString(
-				"CancelButtonLabel"));
+				"RolesCancelButtonLabel"));
 
 		// ajout des boutons
 		this.pButton.add(this.bpExport);
 		this.pButton.add(this.bpCancel);
 
+		this.bpExport.addActionListener(new ActionListener()
+		{
+			public void actionPerformed (ActionEvent e)
+			{
+				if (RolesDialog.this
+						.exportProcessAction(RolesDialog.this.process))
+				{
+					// TODO debug alex
+					System.out.println("role du model baloo : ");
+					for (Role r : RolesDialog.this.process.getRoles())
+					{
+						System.out.println(r.getName() + " : " + r.isActivate());
+					}
+					
+					System.out.println("role du du dpc : ");
+					for (Role r : ApplicationManager.getInstance().getCurrentProcess().getRoles())
+					{
+						System.out.println(r.getName() + " : " + r.isActivate());
+					}
+					
+					
+					
+					RolesDialog.this.dispose();
+				}
+			}
+		});
+		this.bpCancel.addActionListener(new ActionListener()
+		{
+			public void actionPerformed (ActionEvent e)
+			{
+				RolesDialog.this.dispose();
+			}
+		});
 		// positionnement des panels
 		BorderLayout border = new BorderLayout();
 		this.setLayout(border);
@@ -123,36 +153,65 @@ public class RolesDialog extends JDialog implements ActionListener
 
 		this.pack();
 
-		// boîte de dialogue centrée par rapport à l'appelant
+		// bo?te de dialogue centr?e par rapport ? l'appelant
 		this.setLocationRelativeTo(parentFrame);
 
 	}
 
 	/**
+	 * Export d'un processus dont les roles ont ete redefini le modele
 	 * 
-	 * @param e
-	 *            evenement
-	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 * @param p
+	 * @return vrai si le fichier a bien ete enregistre
 	 */
-	public void actionPerformed (ActionEvent e)
+	public boolean exportProcessAction (Process p)
 	{
-		if (e.getSource() == this.bpExport)
-		{
-			((MainFrame) this.parentFrame).saveAsProcess();
-		}
-		else
-		{
-			this.dispose();
-		}
-	}
 
+		ProcessOutputFileChooser fileChooser = new ProcessOutputFileChooser();
+		String savePath = null;
+		// Chemin de sauvegarde
+		do
+		{
+			if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION)
+			{
+				// on verifie si le fichier existe deja
+				if (fileChooser.getSelectedFile().exists())
+				{
+					// si il existe on demande confirmation
+					if (JOptionPane.showConfirmDialog(this, LanguagesManager
+							.getInstance().getString(
+									"eraseFileConfirmationMessage"),
+							LanguagesManager.getInstance().getString(
+									"eraseFileConfirmationTitle"),
+							JOptionPane.YES_NO_OPTION,
+							JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION)
+					{
+						// si on souhaite ecrase
+						savePath = fileChooser.getSelectedFile().getPath();
+					}
+				}
+				// si le fichier n'existe pas
+				else
+				{
+					savePath = fileChooser.getSelectedFile().getPath();
+				}
+			}
+			// si l'utilisateur appuie sur Annuler
+			else
+			{
+				// on arrete tout
+				return false;
+			}
+		} while (savePath == null);
+		return InterfaceManager.getInstance().exportProcess(savePath, p, this);
+	}
 	private class RolesTableModel extends AbstractTableModel
 	{
 		// arraylist contenant toutes les roles du modele
 		private List<Role>	lRoles			= new ArrayList<Role>();
 
 		/**
-		 * classe des colonnes (plus facile à maintenir en passant par un
+		 * classe des colonnes (plus facile ? maintenir en passant par un
 		 * tableau de la sorte)
 		 */
 		private Class[]		columnClasses	= { String.class, Boolean.class };
@@ -258,7 +317,7 @@ public class RolesDialog extends JDialog implements ActionListener
 		 * @param columnIndex
 		 * @return Class
 		 */
-		public Class getColumnClass (int columnIndex)
+		public Class<?> getColumnClass (int columnIndex)
 		{
 			return this.columnClasses[columnIndex];
 		}
