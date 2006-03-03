@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.6 2006/03/02 22:25:53 themorpheus Exp $
+ * $Id: MainFrame.java,v 1.7 2006/03/03 15:47:02 themorpheus Exp $
  *
  * SPWIZ - Spem Wizard
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -177,7 +177,7 @@ public class MainFrame extends JFrame implements Observer
 	}
 
 	/**
-	 * Gère l'ouverture d'un processus
+	 * G?re l'ouverture d'un processus
 	 * 
 	 * @param saveMessage
 	 *            vrai si on veut proposer une sauvegarde
@@ -219,7 +219,7 @@ public class MainFrame extends JFrame implements Observer
 			ProcessFileChooser fileChooser = new ProcessFileChooser();
 			if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
 			{
-				// Remplir le modèle metier
+				// Remplir le mod?le metier
 				InterfaceManager im = InterfaceManager.getInstance();
 				File choosenFile = fileChooser.getSelectedFile();
 				Process aProcess = im.importModel(
@@ -228,7 +228,7 @@ public class MainFrame extends JFrame implements Observer
 				if (aProcess != null)
 				{
 					// recuperer les Roles choisis
-					// creer le TreeModel nécessaire au JTree de la fenetre
+					// creer le TreeModel n?cessaire au JTree de la fenetre
 					// presenter a l'utilisateur le processus
 					this.presentProcess(aProcess, choosenFile.getName());
 					// mettre a jour le processus en cours
@@ -304,14 +304,6 @@ public class MainFrame extends JFrame implements Observer
 
 		return InterfaceManager.getInstance().exportProcess(savePath,
 				ApplicationManager.getInstance().getCurrentProcess(), this);
-	}
-
-	/**
-	 * Gère l'ouverture de la fenetre des roles
-	 */
-	public void exportProcess ()
-	{
-
 	}
 
 	/**
