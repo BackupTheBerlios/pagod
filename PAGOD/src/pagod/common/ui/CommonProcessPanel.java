@@ -1,5 +1,5 @@
 /*
- * $Id: CommonProcessPanel.java,v 1.4 2006/02/24 16:37:43 psyko Exp $
+ * $Id: CommonProcessPanel.java,v 1.5 2006/03/03 13:51:50 coincoin Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -47,6 +47,8 @@ import pagod.common.control.adapters.ProcessTreeModel;
 import pagod.common.model.Activity;
 import pagod.common.model.ProcessElement;
 import pagod.common.model.Role;
+import pagod.wizard.control.PreferencesManager;
+import pagod.wizard.ui.ColorPanel;
 
 /**
  * Panneaux affichant le processus
@@ -259,12 +261,12 @@ public abstract class CommonProcessPanel extends JSplitPane
 					a = (Activity) node.getUserObject();
 					if (a.getDone())
 					{
-						this.setForeground(Color.LIGHT_GRAY);
-					
+						/*Modif Coin coin*/
+						this.setForeground(PreferencesManager.getInstance().getColorAF());
 					}
 					else
 					{
-						this.setForeground(Color.BLACK);
+						this.setForeground(PreferencesManager.getInstance().getColorAS());
 					}
 					
 				}
@@ -309,6 +311,8 @@ public abstract class CommonProcessPanel extends JSplitPane
 			row--;
 		}
 	}
+	
+	
 
 	/**
 	 * Surcharge donne le focus a l'arbre
@@ -317,7 +321,7 @@ public abstract class CommonProcessPanel extends JSplitPane
 	{
 		this.processTree.requestFocus();
 	}
-
+	
 	/**
 	 * 
 	 */
