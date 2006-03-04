@@ -211,7 +211,7 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 	private JMenu jMenuFormat;
 	private JMenu jMenuInsert;
 	private JMenu jMenuTable;
-	private JMenu jMenuForms;
+	// private JMenu jMenuForms;
 	private JMenu jMenuSearch;
 	private JMenu jMenuTools;
 	private JMenu jMenuHelp;
@@ -516,17 +516,19 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 		htMenus.put(KEY_MENU_FILE, jMenuFile);
 		JMenuItem jmiNew       = new JMenuItem(Translatrix.getTranslationString("NewDocument"));                     jmiNew.setActionCommand("newdoc");        jmiNew.addActionListener(this);      jmiNew.setAccelerator(KeyStroke.getKeyStroke('N', KeyEvent.CTRL_MASK, false));      if(showMenuIcons) { jmiNew.setIcon(getEkitIcon("New")); }; jMenuFile.add(jmiNew);
 		JMenuItem jmiOpenHTML  = new JMenuItem(Translatrix.getTranslationString("OpenDocument") + menuDialog);       jmiOpenHTML.setActionCommand("openhtml"); jmiOpenHTML.addActionListener(this); jmiOpenHTML.setAccelerator(KeyStroke.getKeyStroke('O', KeyEvent.CTRL_MASK, false)); if(showMenuIcons) { jmiOpenHTML.setIcon(getEkitIcon("Open")); }; jMenuFile.add(jmiOpenHTML);
-		JMenuItem jmiOpenCSS   = new JMenuItem(Translatrix.getTranslationString("OpenStyle") + menuDialog);          jmiOpenCSS.setActionCommand("opencss");   jmiOpenCSS.addActionListener(this);  jMenuFile.add(jmiOpenCSS);
-		JMenuItem jmiOpenB64   = new JMenuItem(Translatrix.getTranslationString("OpenBase64Document") + menuDialog); jmiOpenB64.setActionCommand("openb64");   jmiOpenB64.addActionListener(this);  jMenuFile.add(jmiOpenB64);
+		// JMenuItem jmiOpenCSS   = new JMenuItem(Translatrix.getTranslationString("OpenStyle") + menuDialog);          jmiOpenCSS.setActionCommand("opencss");   jmiOpenCSS.addActionListener(this);  jMenuFile.add(jmiOpenCSS);
+		// JMenuItem jmiOpenB64   = new JMenuItem(Translatrix.getTranslationString("OpenBase64Document") + menuDialog); jmiOpenB64.setActionCommand("openb64");   jmiOpenB64.addActionListener(this);  jMenuFile.add(jmiOpenB64);
 		jMenuFile.addSeparator();
 		JMenuItem jmiSave      = new JMenuItem(Translatrix.getTranslationString("Save"));                  jmiSave.setActionCommand("save");         jmiSave.addActionListener(this);     jmiSave.setAccelerator(KeyStroke.getKeyStroke('S', KeyEvent.CTRL_MASK, false)); if(showMenuIcons) { jmiSave.setIcon(getEkitIcon("Save")); }; jMenuFile.add(jmiSave);
 		JMenuItem jmiSaveAs    = new JMenuItem(Translatrix.getTranslationString("SaveAs") + menuDialog);   jmiSaveAs.setActionCommand("saveas");     jmiSaveAs.addActionListener(this);   jMenuFile.add(jmiSaveAs);
 		JMenuItem jmiSaveBody  = new JMenuItem(Translatrix.getTranslationString("SaveBody") + menuDialog); jmiSaveBody.setActionCommand("savebody"); jmiSaveBody.addActionListener(this); jMenuFile.add(jmiSaveBody);
 		JMenuItem jmiSaveRTF   = new JMenuItem(Translatrix.getTranslationString("SaveRTF") + menuDialog);  jmiSaveRTF.setActionCommand("savertf");   jmiSaveRTF.addActionListener(this);  jMenuFile.add(jmiSaveRTF);
-		JMenuItem jmiSaveB64   = new JMenuItem(Translatrix.getTranslationString("SaveB64") + menuDialog);  jmiSaveB64.setActionCommand("saveb64");   jmiSaveB64.addActionListener(this);  jMenuFile.add(jmiSaveB64);
+		// JMenuItem jmiSaveB64   = new JMenuItem(Translatrix.getTranslationString("SaveB64") + menuDialog);  jmiSaveB64.setActionCommand("saveb64");   jmiSaveB64.addActionListener(this);  jMenuFile.add(jmiSaveB64);
+		/*
 		jMenuFile.addSeparator();
 		JMenuItem jmiSerialOut = new JMenuItem(Translatrix.getTranslationString("Serialize") + menuDialog);   jmiSerialOut.setActionCommand("serialize");  jmiSerialOut.addActionListener(this); jMenuFile.add(jmiSerialOut);
 		JMenuItem jmiSerialIn  = new JMenuItem(Translatrix.getTranslationString("ReadFromSer") + menuDialog); jmiSerialIn.setActionCommand("readfromser"); jmiSerialIn.addActionListener(this);  jMenuFile.add(jmiSerialIn);
+		*/
 		jMenuFile.addSeparator();
 		JMenuItem jmiExit      = new JMenuItem(Translatrix.getTranslationString("Exit")); jmiExit.setActionCommand("exit"); jmiExit.addActionListener(this); jMenuFile.add(jmiExit);
 
@@ -688,10 +690,12 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 		JMenuItem jmiUnicodeSpec  = new JMenuItem(Translatrix.getTranslationString("InsertUnicodeCharacterSpec") + menuDialog); jmiUnicodeSpec.setActionCommand("insertunicodespec"); jmiUnicodeSpec.addActionListener(this);  jMenuUnicode.add(jmiUnicodeSpec);
 		jMenuInsert.add(jMenuUnicode);
 		JMenuItem jmiHRule        = new JMenuItem((Action)actions.get("InsertHR"));                  jmiHRule.setText(Translatrix.getTranslationString("InsertHorizontalRule")); jMenuInsert.add(jmiHRule);
+		/*
 		jMenuInsert.addSeparator();
 		JMenuItem jmiImageLocal   = new JMenuItem(Translatrix.getTranslationString("InsertLocalImage") + menuDialog);  jmiImageLocal.setActionCommand("insertlocalimage"); jmiImageLocal.addActionListener(this); jMenuInsert.add(jmiImageLocal);
 		JMenuItem jmiImageURL     = new JMenuItem(Translatrix.getTranslationString("InsertURLImage") + menuDialog);    jmiImageURL.setActionCommand("inserturlimage");     jmiImageURL.addActionListener(this);   jMenuInsert.add(jmiImageURL);
-
+		*/
+		
 		/* TABLE Menu */
 		jMenuTable              = new JMenu(Translatrix.getTranslationString("Table"));
 		htMenus.put(KEY_MENU_TABLE, jMenuTable);
@@ -704,6 +708,7 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 		JMenuItem jmiTableColDel = new JMenuItem(Translatrix.getTranslationString("DeleteTableColumn"));        if(showMenuIcons) { jmiTableColDel.setIcon(getEkitIcon("DeleteColumn")); }; jmiTableColDel.setActionCommand("deletetablecolumn"); jmiTableColDel.addActionListener(this); jMenuTable.add(jmiTableColDel);
 
 		/* FORMS Menu */
+		/*
 		jMenuForms                    = new JMenu(Translatrix.getTranslationString("Forms"));
 		htMenus.put(KEY_MENU_FORMS, jMenuForms);
 		JMenuItem jmiFormInsertForm   = new JMenuItem(Translatrix.getTranslationString("FormInsertForm")); jmiFormInsertForm.setActionCommand("insertform");     jmiFormInsertForm.addActionListener(this); jMenuForms.add(jmiFormInsertForm);
@@ -717,7 +722,7 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 		JMenuItem jmiFormButton       = new JMenuItem(Translatrix.getTranslationString("FormButton"));       jmiFormButton.setActionCommand("insertbutton");             jmiFormButton.addActionListener(this);       jMenuForms.add(jmiFormButton);
 		JMenuItem jmiFormButtonSubmit = new JMenuItem(Translatrix.getTranslationString("FormButtonSubmit")); jmiFormButtonSubmit.setActionCommand("insertbuttonsubmit"); jmiFormButtonSubmit.addActionListener(this); jMenuForms.add(jmiFormButtonSubmit);
 		JMenuItem jmiFormButtonReset  = new JMenuItem(Translatrix.getTranslationString("FormButtonReset"));  jmiFormButtonReset.setActionCommand("insertbuttonreset");   jmiFormButtonReset.addActionListener(this);  jMenuForms.add(jmiFormButtonReset);
-
+		*/
 		/* TOOLS Menu */
 		if(hasSpellChecker)
 		{
@@ -755,7 +760,7 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 		jMenuBar.add(jMenuSearch);
 		jMenuBar.add(jMenuInsert);
 		jMenuBar.add(jMenuTable);
-		jMenuBar.add(jMenuForms);
+		// jMenuBar.add(jMenuForms);
 		if(jMenuTools != null) { jMenuBar.add(jMenuTools); }
 		jMenuBar.add(jMenuHelp);
 		if(debugMode)
@@ -1002,7 +1007,9 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 		this((String)null, (String)null, (String)null, (StyledDocument)null, (URL)null, true, false, true, true, (String)null, (String)null, false, false, false, true, TOOLBAR_DEFAULT_MULTI);
 	}
 
-	/* ActionListener method */
+	/* ActionListener method *
+	 */
+	// TODO modifications ici
 	public void actionPerformed(ActionEvent ae)
 	{
 		try
@@ -2806,7 +2813,7 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 		jMenuFormat.setEnabled(state);
 		jMenuInsert.setEnabled(state);
 		jMenuTable.setEnabled(state);
-		jMenuForms.setEnabled(state);
+		// jMenuForms.setEnabled(state);
 	}
 
 	/** Convenience method for obtaining the current file handle
@@ -2936,7 +2943,7 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 	public void dispose()
 	{
 		frameHandler.dispose();
-		System.exit(0);
+		// System.exit(0);
 	}
 
 	/** Convenience method for fetching icon images from jar file

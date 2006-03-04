@@ -134,7 +134,7 @@ public class PagodEditor extends JFrame implements WindowListener
 
 		this.updateTitle();
 		this.pack();
-		this.show();
+		this.setVisible(true);
 	}
 
 	public PagodEditor()
@@ -146,6 +146,13 @@ public class PagodEditor extends JFrame implements WindowListener
 	{
 		this(steptoedit.getComment(),null,null,null,true,true,true,true,"FR","fr",false,false,false,true);
 		pagodEditorCore.setDocumentText(steptoedit.getComment());
+		pagodEditorCore.setCaretPosition(0);
+	}
+	
+	public PagodEditor(String txt)
+	{
+		this(txt,null,null,null,true,true,true,true,"FR","fr",false,false,false,true);
+		pagodEditorCore.setDocumentText(txt);
 		pagodEditorCore.setCaretPosition(0);
 	}
 

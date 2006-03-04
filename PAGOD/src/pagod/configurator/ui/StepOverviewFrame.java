@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: StepOverviewFrame.java,v 1.9 2006/03/03 15:48:26 garwind111 Exp $
+ * $Id: StepOverviewFrame.java,v 1.10 2006/03/04 10:25:38 garwind111 Exp $
  */
 package pagod.configurator.ui;
 
@@ -56,6 +56,7 @@ public class StepOverviewFrame extends JFrame
     private void stepOverview (Step steptoshow)
 	{
 		this.jEditorPane_name.setText(steptoshow.getName());
+		this.jEditorPane_name.setCaretPosition(0);
 		this.jEditorPane_content.setText(steptoshow.getComment());
 		this.jEditorPane_content.setCaretPosition(0);
 		this.productslist = steptoshow.getOutputProducts();

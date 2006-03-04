@@ -1,5 +1,5 @@
 /*
- * $Id: StepsTable.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: StepsTable.java,v 1.2 2006/03/04 10:25:38 garwind111 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -49,6 +49,7 @@ import pagod.configurator.control.adapters.ActivityStepsTableModel;
 import pagod.configurator.control.adapters.OutputProductsTableModel;
 import pagod.configurator.control.adapters.StepsTransferHandler;
 import pagod.utils.LanguagesManager;
+import pagod.utils.editor.PagodEditor;
 
 /**
  * @author Benjamin
@@ -109,13 +110,13 @@ public class StepsTable extends JTable
     {
         private JTextArea txtAreaEditor = new JTextArea();
 
-     /**
+     
+    //constructeur vide de l'editor
+    /**
      * 
      */
-    //constructeur vide de l'editor
     public StepEditor()
        {
-        
        }
    
     /**
@@ -223,9 +224,11 @@ public class StepsTable extends JTable
              * this.tableEdition
              * .setBackground(StepsTable.this.couleurLignesPaires);
              */
+            
             this.tableEdition.getColumnModel().getColumn(0).setPreferredWidth(
                     15);
             this.tableEdition.getColumnModel().getColumn(0).setMaxWidth(15);
+            
             // TODO donner correctement le focus à la première ligne de la table
             // (pour édition tout au clavier)
             /*
