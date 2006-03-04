@@ -132,6 +132,8 @@ import pagod.utils.editor.hexidec.util.Translatrix;
  */
 public class PagodEditorCore extends JPanel implements ActionListener, KeyListener, FocusListener, DocumentListener
 {
+	final private String PAGOD_EDITOR_VERSION = "Pagod Editor 1.0";
+	
 	/* Components */
 	private JSplitPane jspltDisplay;
 	private JTextPane jtpMain;
@@ -276,7 +278,7 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 	private static Hashtable htMenus = new Hashtable();
 	private static Hashtable htTools = new Hashtable();
 
-	private final String appName = "Pagod Editor";
+	private final String appName = "PAGOD Editor";
 	private final String menuDialog = "..."; /* text to append to a MenuItem label when menu item opens a dialog */
 
 	private final boolean useFormIndicator = true; /* Creates a highlighted background on a new FORM so that it may be more easily edited */
@@ -510,7 +512,7 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 		jMenuFile              = new JMenu(Translatrix.getTranslationString("File"));
 		htMenus.put(KEY_MENU_FILE, jMenuFile);
 		JMenuItem jmiNew       = new JMenuItem(Translatrix.getTranslationString("NewDocument"));                     jmiNew.setActionCommand("newdoc");        jmiNew.addActionListener(this);      jmiNew.setAccelerator(KeyStroke.getKeyStroke('N', KeyEvent.CTRL_MASK, false));      if(showMenuIcons) { jmiNew.setIcon(getEkitIcon("New")); }; jMenuFile.add(jmiNew);
-		JMenuItem jmiSaveBody  = new JMenuItem(Translatrix.getTranslationString("SaveToPagod") + menuDialog); jmiSaveBody.setActionCommand("savebody"); jmiSaveBody.addActionListener(this); jMenuFile.add(jmiSaveBody);
+		JMenuItem jmiSaveBody  = new JMenuItem(Translatrix.getTranslationString("SaveToPagod") + menuDialog); jmiSaveBody.setActionCommand("savebody"); jmiSaveBody.addActionListener(this); jmiSaveBody.setAccelerator(KeyStroke.getKeyStroke('S', KeyEvent.CTRL_MASK, false)); jMenuFile.add(jmiSaveBody);
 		// JMenuItem jmiOpenHTML  = new JMenuItem(Translatrix.getTranslationString("OpenDocument") + menuDialog);       jmiOpenHTML.setActionCommand("openhtml"); jmiOpenHTML.addActionListener(this); jmiOpenHTML.setAccelerator(KeyStroke.getKeyStroke('O', KeyEvent.CTRL_MASK, false)); if(showMenuIcons) { jmiOpenHTML.setIcon(getEkitIcon("Open")); }; jMenuFile.add(jmiOpenHTML);
 		// JMenuItem jmiOpenCSS   = new JMenuItem(Translatrix.getTranslationString("OpenStyle") + menuDialog);          jmiOpenCSS.setActionCommand("opencss");   jmiOpenCSS.addActionListener(this);  jMenuFile.add(jmiOpenCSS);
 		// JMenuItem jmiOpenB64   = new JMenuItem(Translatrix.getTranslationString("OpenBase64Document") + menuDialog); jmiOpenB64.setActionCommand("openb64");   jmiOpenB64.addActionListener(this);  jMenuFile.add(jmiOpenB64);
@@ -1313,11 +1315,12 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 			else if(command.equals("exit"))
 			{
 				this.dispose();
+				// TODO arno : demande sauvegarde ?
 			}
 			else if(command.equals("helpabout"))
 			{
 				// TODO arno / about
-				new PagodEditorAboutDialog("1.0");
+				new PagodEditorAboutDialog(PAGOD_EDITOR_VERSION);
 			}
 			else if(command.equals("spellcheck"))
 			{

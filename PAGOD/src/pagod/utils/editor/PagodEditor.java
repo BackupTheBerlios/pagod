@@ -31,12 +31,14 @@ import java.io.File;
 import java.io.FileWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Locale;
 import java.util.Vector;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
 import pagod.common.model.Step;
+import pagod.utils.LanguagesManager;
 import pagod.utils.editor.PagodEditorCore;
 
 
@@ -74,7 +76,7 @@ public class PagodEditor extends JFrame implements WindowListener
 		{
 			pagodEditorCore = new EkitCoreSpell(sDocument, sStyleSheet, sRawDocument, null, urlStyleSheet, includeToolBar, showViewSource, showMenuIcons, editModeExclusive, sLanguage, sCountry, base64, debugMode, true, multiBar, (multiBar ? PagodEditorCore.TOOLBAR_DEFAULT_MULTI : PagodEditorCore.TOOLBAR_DEFAULT_SINGLE));
 		}*/
-		pagodEditorCore = new PagodEditorCore(sDocument, sStyleSheet, sRawDocument, null, urlStyleSheet, includeToolBar, showViewSource, showMenuIcons, editModeExclusive, sLanguage, sCountry, base64, debugMode, false, multiBar, (multiBar ? PagodEditorCore.TOOLBAR_DEFAULT_MULTI : PagodEditorCore.TOOLBAR_DEFAULT_SINGLE));
+		this.pagodEditorCore = new PagodEditorCore(sDocument, sStyleSheet, sRawDocument, null, urlStyleSheet, includeToolBar, showViewSource, showMenuIcons, editModeExclusive, sLanguage, sCountry, base64, debugMode, false, multiBar, (multiBar ? PagodEditorCore.TOOLBAR_DEFAULT_MULTI : PagodEditorCore.TOOLBAR_DEFAULT_SINGLE));
 		
 
 		pagodEditorCore.setFrame(this);
@@ -136,15 +138,15 @@ public class PagodEditor extends JFrame implements WindowListener
 		this(null, null, null, null, true, false, true, true, null, null, false, false, false, true);
 	}
 	
-	public PagodEditor(Step steptoedit)
+	public PagodEditor(Step steptoedit,String lang, String country)
 	{
-		this(steptoedit.getComment(),null,null,null,true,true,true,true,"FR","fr",false,false,false,true);
+		this(steptoedit.getComment(),null,null,null,true,true,true,true,lang,country,false,false,false,true);
 		this.PagodEditorStart(steptoedit.getComment());
 	}
 	
-	public PagodEditor(String txt)
+	public PagodEditor(String txt,String lang, String country)
 	{
-		this(txt,null,null,null,true,true,true,true,"FR","fr",false,false,false,true);
+		this(txt,null,null,null,true,true,true,true,lang,country,false,false,false,true);
 		this.PagodEditorStart(txt);
 	}
 	

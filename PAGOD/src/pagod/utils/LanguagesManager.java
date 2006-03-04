@@ -1,5 +1,5 @@
 /*
- * $Id: LanguagesManager.java,v 1.1 2005/10/30 10:44:59 yak Exp $
+ * $Id: LanguagesManager.java,v 1.2 2006/03/04 12:56:18 garwind111 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -129,5 +129,13 @@ public class LanguagesManager
         {
             throw new NotInitializedException();
         }
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    public ResourceBundle getResourceBundle(){
+    	return this.resourceBundle;
     }
 }

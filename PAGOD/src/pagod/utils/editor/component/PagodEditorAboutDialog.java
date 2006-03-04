@@ -63,7 +63,8 @@ public class PagodEditorAboutDialog extends JFrame implements ActionListener
         gridBagConstraints.gridheight = 2;
         centerPanel.add(lbl, gridBagConstraints);
 
-        lbl = new JLabel("Pagod Editor est un editeur de texte html pour le logiciel Pagod.");
+        lbl = new JLabel(LanguagesManager.getInstance().getString(
+        "aboutEditorWhatIsPagodEditorDialog"));
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -80,7 +81,7 @@ public class PagodEditorAboutDialog extends JFrame implements ActionListener
         gridBagConstraints.insets = new Insets(10, 0, 0, 0);
         centerPanel.add(lbl, gridBagConstraints);
 
-        lbl = new JLabel("<li>Arnaud GIULIANI</li>");
+        lbl = new JLabel("<html>Authors:<ul><li>Arnaud GIULIANI</li></ul></html>");
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -108,7 +109,6 @@ public class PagodEditorAboutDialog extends JFrame implements ActionListener
         this.getContentPane().add(southPanel, BorderLayout.SOUTH);
         this.getContentPane().add(centerPanel, BorderLayout.CENTER);
         // boîte de dialogue modale et centrée par rapport à l'appelant
-
         this.setResizable(false);
         this.pack();
         this.setVisible(true);
