@@ -23,6 +23,7 @@ package pagod.utils.editor;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Frame;
@@ -136,8 +137,8 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 	private StepsTable stepsTable = null;
 	private int StepRowNumber = 0;
 	private Step step = null;
-	public Observable editorObservable = new Observable();
-	
+	// public Observable editorObservable = new Observable();
+	JPanel jpanel_source;
 	
 	/* Components */
 	private JSplitPane jspltDisplay;
@@ -2219,16 +2220,7 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 	private void writeOutFragment(HTMLDocument doc, String containingTag)
 	throws IOException, BadLocationException
 	{
-		/*
-		 * File whatFile = getFileFromChooser(".", JFileChooser.SAVE_DIALOG,
-		 * extsHTML, Translatrix.getTranslationString("FiletypeHTML"));
-		 * if(whatFile != null) {
-		 */
-		// FileWriter fw = new FileWriter(whatFile);
-		// Element eleBody = locateElementInDocument((StyledDocument)doc,
-		// containingTag);
-		// htmlKit.write(fw, doc, eleBody.getStartOffset(),
-		// eleBody.getEndOffset());
+		
 		String docTextCase = this.jtpSource.getText().toLowerCase();
 		int tagStart = docTextCase.indexOf("<" + containingTag.toLowerCase());
 		int tagStartClose = docTextCase.indexOf(">", tagStart) + 1;
@@ -2242,18 +2234,17 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 		{
 			tagEndOpen = docTextCase.length();
 		}
+		/*
 		String bodyText = this.jtpSource.getText().substring(tagStartClose,
-				tagEndOpen);
+				tagEndOpen);*/
+		
+		String bodyText = getDocumentBody();
 		// arno
 		// TODO arno : Sauvegarde Pagod
 		this.step.setComment(bodyText);
 		this.stepsTable.getModel().setValueAt(bodyText, this.StepRowNumber, 2);
-		this.editorObservable.notifyObservers();
-		
-		/*
-		 * fw.write(bodyText, 0, bodyText.length()); fw.flush(); fw.close();
-		 */
-		// }
+		// this.editorObservable.notifyObservers();
+		this.jpanel_source.repaint();
 		refreshOnUpdate();
 	}
 
@@ -3308,5 +3299,15 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 	public void setStep (Step step)
 	{
 		this.step = step;
+	}
+
+	public JPanel getJpan ()
+	{
+		return this.jpanel_source;
+	}
+
+	public void setJpan (JPanel jpan)
+	{
+		this.jpanel_source = jpan;
 	}
 }

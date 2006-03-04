@@ -1,5 +1,5 @@
 /*
- * $Id: StepsPanel.java,v 1.12 2006/03/04 16:34:46 garwind111 Exp $
+ * $Id: StepsPanel.java,v 1.13 2006/03/04 18:00:55 garwind111 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -451,6 +451,7 @@ public class StepsPanel extends JPanel
 								// TODO boolean set visible <=
 								// TODO attribut 
 								editor = new PagodEditor(steptosee,l.getLanguage(),stepsTable,linetoview,true);
+								givePanelToEditor();
 							}
                             }
                             catch (Exception ex)
@@ -616,10 +617,8 @@ public class StepsPanel extends JPanel
             Utilities.setEnabledContainer(this, false);
             
             // TODO arno : ajout observer
-            editor = new PagodEditor();
+            editor = new PagodEditor(this);
             editor.run();
-            tEtapes.pagodObserver.setComposant(this);
-            editor.getPagodEditorCore().editorObservable.addObserver(this.tEtapes.pagodObserver);
         }
     }
 
@@ -715,5 +714,8 @@ public class StepsPanel extends JPanel
                 .getModel()).clear();
     }
     
+    private void givePanelToEditor(){
+    	editor.getPagodEditorCore().setJpan(this);
+    }
     
 }

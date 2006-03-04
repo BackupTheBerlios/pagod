@@ -22,6 +22,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package pagod.utils.editor;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -32,12 +33,15 @@ import java.io.FileWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Locale;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Vector;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
 import pagod.common.model.Step;
+import pagod.configurator.control.ApplicationManager;
 import pagod.configurator.ui.StepsTable;
 import pagod.utils.LanguagesManager;
 import pagod.utils.editor.PagodEditorCore;
@@ -51,7 +55,8 @@ import pagod.utils.editor.PagodEditorCore;
 public class PagodEditor extends JFrame implements WindowListener, Runnable
 {
 	private PagodEditorCore pagodEditorCore;
-
+	private JPanel fromPanel = null;
+	// PagodObserver editorObserver = new PagodObserver();
 	private File currentFile = (File)null;
 
 	/** Master Constructor
@@ -134,7 +139,7 @@ public class PagodEditor extends JFrame implements WindowListener, Runnable
 		this.setVisible(b);
 	}
 
-	public PagodEditor()
+	public PagodEditor(JPanel j)
 	{
 		this(null, null, null, null, true, false, true, true, null, null, false, false, false, true,false);
 	}
@@ -146,6 +151,7 @@ public class PagodEditor extends JFrame implements WindowListener, Runnable
 		this.pagodEditorCore.setStep(steptoedit);
 		this.pagodEditorCore.setStepsTable(stepsTable);
 		this.pagodEditorCore.setStepRowNumber(StepRowNumber);
+		//		 this.editorObserver.setComposant(fromPanel);
 	}
 	
 	/**

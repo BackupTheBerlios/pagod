@@ -1,5 +1,5 @@
 /*
- * $Id: StepsTable.java,v 1.3 2006/03/04 16:34:46 garwind111 Exp $
+ * $Id: StepsTable.java,v 1.4 2006/03/04 18:00:55 garwind111 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -47,11 +47,11 @@ import javax.swing.table.TableCellEditor;
 import pagod.common.control.ModelResourcesManager;
 import pagod.common.model.Product;
 import pagod.common.model.Step;
+import pagod.configurator.control.ApplicationManager;
 import pagod.configurator.control.adapters.ActivityStepsTableModel;
 import pagod.configurator.control.adapters.OutputProductsTableModel;
 import pagod.configurator.control.adapters.StepsTransferHandler;
 import pagod.utils.LanguagesManager;
-import pagod.utils.editor.PagodEditor;
 
 /**
  * @author Benjamin
@@ -59,7 +59,6 @@ import pagod.utils.editor.PagodEditor;
  */
 public class StepsTable extends JTable 
 {
-	PagodObserver pagodObserver = new PagodObserver();
 	
     /**
      * Renderer d'une String en HTML (EditorPane)
@@ -131,7 +130,7 @@ public class StepsTable extends JTable
      */
     public boolean isCellEditable(EventObject evt)
        {
-           if (evt instanceof MouseEvent)
+    		if (evt instanceof MouseEvent)
            {
                // éditabilité sur un double-clic
                return ((MouseEvent) evt).getClickCount() >= 2;
@@ -143,7 +142,8 @@ public class StepsTable extends JTable
         */
        public boolean shouldSelectCell(EventObject anEvent)
        {
-           return true;
+    	   this.txtAreaEditor.repaint();
+    	   return true;
        }
        
         /**
@@ -385,27 +385,4 @@ public class StepsTable extends JTable
         this.setDragEnabled(true);
         this.setTransferHandler(new StepsTransferHandler());
     }
-    
-    class PagodObserver implements Observer
-	{
-
-		private Component composant;
-
-		
-		public void update (Observable o, Object arg)
-		{
-			// TODO arno : update
-			this.composant.repaint();
-		}
-
-		public Component getComposant ()
-		{
-			return this.composant;
-		}
-
-		public void setComposant (Component composant)
-		{
-			this.composant = composant;
-		}
-	}
 }
