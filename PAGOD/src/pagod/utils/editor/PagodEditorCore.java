@@ -1603,6 +1603,7 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 	public void insertListStyle(Element element)
 	throws BadLocationException,IOException
 	{
+		// System.err.println("PagodEditorCore.insertListStyle");
 		if(element.getParentElement().getName() == "ol")
 		{
 			this.actionListOrdered.actionPerformed(new ActionEvent(new Object(), 0, "newListPoint"));
@@ -2240,7 +2241,7 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 		
 		String bodyText = getDocumentBody();
 		// arno
-		// TODO arno : Sauvegarde Pagod
+		// Sauvegarde Pagod
 		this.step.setComment(bodyText);
 		this.stepsTable.getModel().setValueAt(bodyText, this.StepRowNumber, 2);
 		// this.editorObservable.notifyObservers();

@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: StepOverviewFrame.java,v 1.10 2006/03/04 10:25:38 garwind111 Exp $
+ * $Id: StepOverviewFrame.java,v 1.11 2006/03/04 18:36:24 garwind111 Exp $
  */
 package pagod.configurator.ui;
 
@@ -132,7 +132,7 @@ public class StepOverviewFrame extends JFrame
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(LanguagesManager.getInstance().getString("OverviewFrame_frameTitle"));
-        setAlwaysOnTop(true);
+        // setAlwaysOnTop(true);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setResizable(false);
         
