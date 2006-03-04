@@ -1,5 +1,5 @@
 /*
- * $Id: StepsTable.java,v 1.2 2006/03/04 10:25:38 garwind111 Exp $
+ * $Id: StepsTable.java,v 1.3 2006/03/04 16:34:46 garwind111 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -29,6 +29,8 @@ import java.awt.Component;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.EventObject;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.AbstractCellEditor;
 import javax.swing.BoxLayout;
@@ -53,10 +55,12 @@ import pagod.utils.editor.PagodEditor;
 
 /**
  * @author Benjamin
+ * @author Arno
  */
 public class StepsTable extends JTable 
 {
-
+	PagodObserver pagodObserver = new PagodObserver();
+	
     /**
      * Renderer d'une String en HTML (EditorPane)
      */
@@ -381,4 +385,27 @@ public class StepsTable extends JTable
         this.setDragEnabled(true);
         this.setTransferHandler(new StepsTransferHandler());
     }
+    
+    class PagodObserver implements Observer
+	{
+
+		private Component composant;
+
+		
+		public void update (Observable o, Object arg)
+		{
+			// TODO arno : update
+			this.composant.repaint();
+		}
+
+		public Component getComposant ()
+		{
+			return this.composant;
+		}
+
+		public void setComposant (Component composant)
+		{
+			this.composant = composant;
+		}
+	}
 }

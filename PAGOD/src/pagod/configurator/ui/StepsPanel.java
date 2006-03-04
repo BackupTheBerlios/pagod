@@ -1,5 +1,5 @@
 /*
- * $Id: StepsPanel.java,v 1.11 2006/03/04 14:18:01 garwind111 Exp $
+ * $Id: StepsPanel.java,v 1.12 2006/03/04 16:34:46 garwind111 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -25,6 +25,7 @@
 package pagod.configurator.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -32,6 +33,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.ResourceBundle;
 
 import javax.swing.Box;
@@ -59,15 +62,18 @@ import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
 import pagod.utils.Utilities;
 import pagod.utils.editor.PagodEditor;
+import pagod.utils.editor.PagodEditorCore;
 
 /**
  * Panneaux de configuration des étapes.
  * 
  * @author MoOky
+ * @author Arno
  */
-public class StepsPanel extends JPanel 
+public class StepsPanel extends JPanel
 {
-
+	PagodEditor editor = null;
+	
     /**
      * action listener du bouton "autodetect des etapes de ttes les activités"
      * 
@@ -214,6 +220,7 @@ public class StepsPanel extends JPanel
         public StepsManagementPanel()
         {
             super();
+            
             this.setLayout(new BorderLayout());
             // initialisation de tous les boutons (label ou icones)
             this.pbFirst = new JButton(ImagesManager.getInstance().getIcon(
@@ -437,10 +444,13 @@ public class StepsPanel extends JPanel
 							Step steptosee = ((ActivityStepsTableModel) stepsTable.getModel()).getStepByRow(linetoview);
 							if (!stepname.equals("")){
 								// Appel de Pagod Editor
-								// TODO arno : appel PagodEditor
+								// arno : appel PagodEditor
 								ResourceBundle rb = LanguagesManager.getInstance().getResourceBundle();
 								Locale l = rb.getLocale();
-								new PagodEditor(steptosee,l.getLanguage(),stepsTable,linetoview);
+								// TODO Setvisible false
+								// TODO boolean set visible <=
+								// TODO attribut 
+								editor = new PagodEditor(steptosee,l.getLanguage(),stepsTable,linetoview,true);
 							}
                             }
                             catch (Exception ex)
@@ -604,7 +614,12 @@ public class StepsPanel extends JPanel
 
             // griser le StepsManagementPanel à l'ouverture :
             Utilities.setEnabledContainer(this, false);
-
+            
+            // TODO arno : ajout observer
+            editor = new PagodEditor();
+            editor.run();
+            tEtapes.pagodObserver.setComposant(this);
+            editor.getPagodEditorCore().editorObservable.addObserver(this.tEtapes.pagodObserver);
         }
     }
 
@@ -699,4 +714,6 @@ public class StepsPanel extends JPanel
         ((ActivityStepsTableModel) this.pStepsConfigurationPanel.tEtapes
                 .getModel()).clear();
     }
+    
+    
 }

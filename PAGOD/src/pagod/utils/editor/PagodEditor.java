@@ -48,7 +48,7 @@ import pagod.utils.editor.PagodEditorCore;
  * @author Arno
  *
  */
-public class PagodEditor extends JFrame implements WindowListener
+public class PagodEditor extends JFrame implements WindowListener, Runnable
 {
 	private PagodEditorCore pagodEditorCore;
 
@@ -70,7 +70,7 @@ public class PagodEditor extends JFrame implements WindowListener
 	  * @param useSpellChecker   [boolean] Specifies whether to include the spellchecker or not.
 	  * @param multiBar          [boolean] Specifies whether to use multiple toolbars or one big toolbar.
 	  */
-	public PagodEditor(String sDocument, String sStyleSheet, String sRawDocument, URL urlStyleSheet, boolean includeToolBar, boolean showViewSource, boolean showMenuIcons, boolean editModeExclusive, String sLanguage, String sCountry, boolean base64, boolean debugMode, boolean useSpellChecker, boolean multiBar)
+	public PagodEditor(String sDocument, String sStyleSheet, String sRawDocument, URL urlStyleSheet, boolean includeToolBar, boolean showViewSource, boolean showMenuIcons, boolean editModeExclusive, String sLanguage, String sCountry, boolean base64, boolean debugMode, boolean useSpellChecker, boolean multiBar, boolean b)
 	{
 		/*
 		if(useSpellChecker)
@@ -131,17 +131,17 @@ public class PagodEditor extends JFrame implements WindowListener
 
 		this.updateTitle();
 		this.pack();
-		this.setVisible(true);
+		this.setVisible(b);
 	}
 
 	public PagodEditor()
 	{
-		this(null, null, null, null, true, false, true, true, null, null, false, false, false, true);
+		this(null, null, null, null, true, false, true, true, null, null, false, false, false, true,false);
 	}
 	
-	public PagodEditor(Step steptoedit,String lang, StepsTable stepsTable, int StepRowNumber)
+	public PagodEditor(Step steptoedit,String lang, StepsTable stepsTable, int StepRowNumber, boolean shown)
 	{
-		this(steptoedit.getComment(),null,null,null,true,false,true,true,lang,lang.toUpperCase(),false,false,false,true);
+		this(steptoedit.getComment(),null,null,null,true,false,true,true,lang,lang.toUpperCase(),false,false,false,true,shown);
 		this.PagodEditorStart(steptoedit.getComment());
 		this.pagodEditorCore.setStep(steptoedit);
 		this.pagodEditorCore.setStepsTable(stepsTable);
@@ -208,70 +208,15 @@ public class PagodEditor extends JFrame implements WindowListener
 		System.out.println("         ");
 		System.out.println("For further information, read the README file.");
 	}
-
-	// Main method
-	/*
-	public static void main(String[] args)
+	
+	public PagodEditorCore getPagodEditorCore ()
 	{
-		String sDocument = null;
-		String sStyleSheet = null;
-		String sRawDocument = null;
-		URL urlStyleSheet = null;
-		boolean includeToolBar = true;
-		boolean multibar = true;
-		boolean includeViewSource = false;
-		boolean includeMenuIcons = true;
-		boolean modeExclusive = true;
-		String sLang = null;
-		String sCtry = null;
-		boolean base64 = false;
-		boolean debugOn = false;
-		boolean spellCheck = false;
-		for(int i = 0; i < args.length; i++)
-		{
-			if     (args[i].equals("-h") ||
-					args[i].equals("-H") ||
-					args[i].equals("-?"))     { usage(); }
-			else if(args[i].equals("-t"))     { includeToolBar = true; multibar = false; }
-			else if(args[i].equals("-t+"))    { includeToolBar = true; multibar = true; }
-			else if(args[i].equals("-T"))     { includeToolBar = false; multibar = false; }
-			else if(args[i].equals("-s"))     { includeViewSource = true; }
-			else if(args[i].equals("-S"))     { includeViewSource = false; }
-			else if(args[i].equals("-m"))     { includeMenuIcons = true; }
-			else if(args[i].equals("-M"))     { includeMenuIcons = false; }
-			else if(args[i].equals("-x"))     { modeExclusive = true; }
-			else if(args[i].equals("-X"))     { modeExclusive = false; }
-			else if(args[i].equals("-b"))     { base64 = true; }
-			else if(args[i].equals("-B"))     { base64 = false; }
-			else if(args[i].startsWith("-f")) { sDocument = args[i].substring(2, args[i].length()); }
-			else if(args[i].startsWith("-c")) { sStyleSheet = args[i].substring(2, args[i].length()); }
-			else if(args[i].startsWith("-r")) { sRawDocument = args[i].substring(2, args[i].length()); }
-			else if(args[i].equals("-v"))     { spellCheck = true; }
-			else if(args[i].equals("-V"))     { spellCheck = false; }
-			else if(args[i].startsWith("-u"))
-			{
-				try
-				{
-					urlStyleSheet = new URL(args[i].substring(2, args[i].length()));
-				}
-				catch(MalformedURLException murle)
-				{
-					murle.printStackTrace(System.err);
-				}
-			}
-			else if(args[i].startsWith("-l"))
-			{
-				if(args[i].indexOf('_') == 4 && args[i].length() >= 7)
-				{
-					sLang = args[i].substring(2, args[i].indexOf('_'));
-					sCtry = args[i].substring(args[i].indexOf('_') + 1, args[i].length());
-				}
-			}
-			else if(args[i].equals("-d"))     { debugOn = true; }
-			else if(args[i].equals("-D"))     { debugOn = false; }
-		}
-		PagodEditor pagodEditor = new PagodEditor(sDocument, sStyleSheet, sRawDocument, urlStyleSheet, includeToolBar, includeViewSource, includeMenuIcons, modeExclusive, sLang, sCtry, base64, debugOn, spellCheck, multibar);
+		return this.pagodEditorCore;
 	}
-	*/
 
+	public void run ()
+	{
+		// TODO Corps de méthode généré automatiquement
+		
+	}
 }
