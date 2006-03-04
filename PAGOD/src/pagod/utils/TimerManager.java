@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimerManager.java,v 1.8 2006/02/18 16:35:53 cyberal82 Exp $
+ * $Id: TimerManager.java,v 1.9 2006/03/04 15:54:32 biniou Exp $
  */
 package pagod.utils;
 
@@ -173,6 +173,38 @@ public class TimerManager extends Observable implements ActionListener
 		int heure = reste / 60;
 		
 		return new String(heure + ":" + minute + ":" + sec);
+
+	}
+
+	/**
+	 * @param time : une chaine de caractere de la forme h:m:s
+	 * @return une chaine de caractere de la forme h:s, si erreur en entrée on renvoie null
+	 */
+	public static String displayTimeWithoutSeconds (String time)
+	{
+		String newTime = null;
+		boolean isValid = time.matches("[0-9]+:[0-5]?[0-9]:[0-5]?[0-9]");
+		if (isValid)
+		{
+			String tabTime[] = time.split(":");
+			newTime = tabTime[0]+":"+tabTime[1] ;
+			return (newTime);
+		}
+		else return null;
+	}
+	
+	/**
+	 * @param timeWithoutSeconds : une chaine de caracteres sans secondes h:m
+	 * @return le temps sous forme h:m:s
+	 */
+	public static int timeFromStringWithoutSeconds (String timeWithoutSeconds)
+	{
+
+		String tabTime[] = timeWithoutSeconds.split(":");
+		int h = (Integer.parseInt(tabTime[0]));
+		int m = (Integer.parseInt(tabTime[1]));
+		int s = 0 ;
+		return h * 3600 + m * 60 + s;
 
 	}
 

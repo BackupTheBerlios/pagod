@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimeActivityAllIterationsDialog.java,v 1.4 2006/02/26 12:04:48 biniou Exp $
+ * $Id: TimeActivityAllIterationsDialog.java,v 1.5 2006/03/04 15:54:32 biniou Exp $
  */
 package pagod.wizard.ui;
 
@@ -221,7 +221,8 @@ public class TimeActivityAllIterationsDialog extends JDialog implements
 				// pass?
 				TimeCouple tc = (TimeCouple) hmTime.get(columnIndex);
 				cellValue = TimerManager.stringFromTime(tc.getTimeElapsed());
-
+				cellValue = TimerManager.displayTimeWithoutSeconds(cellValue) ;
+				
 			}
 
 			return cellValue;
@@ -274,12 +275,12 @@ public class TimeActivityAllIterationsDialog extends JDialog implements
 
 			boolean isValid = false;
 			String val = String.valueOf(value);
-			isValid = val.matches("[0-9]+:[0-5]?[0-9]:[0-5]?[0-9]");
+			isValid = val.matches("[0-9]+:[0-5]?[0-9]");
 
 			// sauver les modifs dans l'arraylist
 			if (isValid)
 			{
-				int time = TimerManager.timeFromString(String.valueOf(value));
+				int time = TimerManager.timeFromStringWithoutSeconds(String.valueOf(value));
 				HashMap<Integer, TimeCouple> hm = this.alTime.get(rowIndex);
 				int it = ApplicationManager.getInstance().getCurrentProject()
 						.getItCurrent();

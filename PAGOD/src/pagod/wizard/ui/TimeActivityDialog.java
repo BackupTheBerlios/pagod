@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimeActivityDialog.java,v 1.11 2006/02/26 12:04:48 biniou Exp $
+ * $Id: TimeActivityDialog.java,v 1.12 2006/03/04 15:54:32 biniou Exp $
  */
 package pagod.wizard.ui;
 
@@ -228,6 +228,7 @@ public class TimeActivityDialog extends JDialog implements ActionListener
 				// en fonction de l'ité courante, on recupere le temps passé
 				TimeCouple tc = (TimeCouple) hmTime.get(it);
 				cellValue = TimerManager.stringFromTime(tc.getTimeElapsed());
+				cellValue = TimerManager.displayTimeWithoutSeconds(cellValue) ;
 			}
 			else
 			{
@@ -239,9 +240,10 @@ public class TimeActivityDialog extends JDialog implements ActionListener
 				// en fonction de l'ité courante, on recupere le temps passé
 				TimeCouple tc = (TimeCouple) hmTime.get(it);
 				cellValue = TimerManager.stringFromTime(tc.getTimeRemaining());
+				cellValue = TimerManager.displayTimeWithoutSeconds(cellValue) ;
 			}
 
-			return cellValue;
+			return (cellValue);
 		}
 
 		/**
@@ -283,7 +285,7 @@ public class TimeActivityDialog extends JDialog implements ActionListener
 				}
 			else
 				{
-				return true;
+					return true;
 				}
 		}
 
@@ -298,12 +300,12 @@ public class TimeActivityDialog extends JDialog implements ActionListener
 
 			boolean isValid = false;
 			String val = String.valueOf(value);
-			isValid = val.matches("[0-9]+:[0-5]?[0-9]:[0-5]?[0-9]");
+			isValid = val.matches("[0-9]+:[0-5]?[0-9]");
 
 			// sauver les modifs dans l'arraylist
 			if (isValid)
 			{
-				int time = TimerManager.timeFromString(String.valueOf(value));
+				int time = TimerManager.timeFromStringWithoutSeconds(String.valueOf(value));
 				HashMap<Integer,TimeCouple> hm = new HashMap<Integer,TimeCouple>();
 				int it = ApplicationManager.getInstance().getCurrentProject()
 				.getItCurrent();

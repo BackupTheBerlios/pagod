@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimeEditDialog.java,v 1.6 2006/02/15 11:57:18 psyko Exp $
+ * $Id: TimeEditDialog.java,v 1.7 2006/03/04 15:54:32 biniou Exp $
  */
 
 package pagod.wizard.ui;
@@ -83,13 +83,13 @@ public class TimeEditDialog extends JDialog
 
 		// creation de nos 2 JTextField
 		// initialisés avec les valeurs de la HMap de Activity
-		this.tfEstimatedTime = new JTextField(TimerManager
+		this.tfEstimatedTime = new JTextField(TimerManager.displayTimeWithoutSeconds(TimerManager
 				.stringFromTime(this.activity.gethmTime(iCurrentIt)
-						.getTimeRemaining()),8);
+						.getTimeRemaining())),8);
 
-		this.tfPassedTime = new JTextField(TimerManager
+		this.tfPassedTime = new JTextField(TimerManager.displayTimeWithoutSeconds(TimerManager
 				.stringFromTime(this.activity.gethmTime(iCurrentIt)
-						.getTimeElapsed()),8);
+						.getTimeElapsed())),8);
 
 		// creation de nos 2 JLabel
 		this.lEstimatedTime = new JLabel(LanguagesManager.getInstance()
@@ -161,17 +161,17 @@ public class TimeEditDialog extends JDialog
 		String sElapsedTime = this.tfPassedTime.getText();
 		String sEstimatedTime = this.tfEstimatedTime.getText();
 
-		isValid = (sElapsedTime.matches("[0-9]+:[0-5]?[0-9]:[0-5]?[0-9]"))
-				&& (sEstimatedTime.matches("[0-9]+:[0-5]?[0-9]:[0-5]?[0-9]"));
+		isValid = (sElapsedTime.matches("[0-9]+:[0-5]?[0-9]"))
+				&& (sEstimatedTime.matches("[0-9]+:[0-5]?[0-9]"));
 
 		if (isValid)
 		{
 			// 1°)récupérer les valeurs ds les champs texte
 			// 2°)faire conversion en int
-			int iTimeElapsed = TimerManager.timeFromString(this.tfPassedTime
+			int iTimeElapsed = TimerManager.timeFromStringWithoutSeconds(this.tfPassedTime
 					.getText());
 			int iTimeRemaining = TimerManager
-					.timeFromString(this.tfEstimatedTime.getText());
+					.timeFromStringWithoutSeconds(this.tfEstimatedTime.getText());
 			int iCurrentIt = ApplicationManager.getInstance()
 					.getCurrentProject().getItCurrent();
 
