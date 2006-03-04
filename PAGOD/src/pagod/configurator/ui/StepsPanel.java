@@ -1,5 +1,5 @@
 /*
- * $Id: StepsPanel.java,v 1.8 2006/03/03 17:32:19 garwind111 Exp $
+ * $Id: StepsPanel.java,v 1.9 2006/03/04 09:35:12 garwind111 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -242,7 +242,7 @@ public class StepsPanel extends JPanel
             
             // bouton pagod editor
             this.pbPagodEditor = new JButton(ImagesManager.getInstance()
-                    .getIcon("Overview.gif"));
+                    .getIcon("PagodEditor.gif"));
             // this.pbStepOverview.setSize(10, 10);
             this.pbPagodEditor.setEnabled(false);
             
@@ -447,9 +447,9 @@ public class StepsPanel extends JPanel
 					{
 						new JOptionPane().showMessageDialog(null,
 								LanguagesManager.getInstance().getString(
-										"StepsPanelOverview_WarningMessageTitle"),
+										"StepsPanelPagodEditor_WarningMessageTitle"),
 								LanguagesManager.getInstance().getString(
-										"StepsPanelOverview_WarningMessage"),
+										"StepsPanelPagodEditor_WarningMessage"),
 								JOptionPane.WARNING_MESSAGE);
 					}
                     }
@@ -457,7 +457,7 @@ public class StepsPanel extends JPanel
             this.boxBoutonsDeplacement.add(this.pbPagodEditor);
             this.pbPagodEditor.setToolTipText(LanguagesManager
                     .getInstance()
-                    .getString("StepsPanelOverview"));
+                    .getString("StepsPanelPagodEditor"));
             
             this.pbAutodetectSteps.addActionListener(new ActionListener()
             {
