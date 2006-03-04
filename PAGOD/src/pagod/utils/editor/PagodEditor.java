@@ -38,6 +38,7 @@ import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
 import pagod.common.model.Step;
+import pagod.configurator.ui.StepsTable;
 import pagod.utils.LanguagesManager;
 import pagod.utils.editor.PagodEditorCore;
 
@@ -138,16 +139,13 @@ public class PagodEditor extends JFrame implements WindowListener
 		this(null, null, null, null, true, false, true, true, null, null, false, false, false, true);
 	}
 	
-	public PagodEditor(Step steptoedit,String lang, String country)
+	public PagodEditor(Step steptoedit,String lang, StepsTable stepsTable, int StepRowNumber)
 	{
-		this(steptoedit.getComment(),null,null,null,true,true,true,true,lang,country,false,false,false,true);
+		this(steptoedit.getComment(),null,null,null,true,false,true,true,lang,lang.toUpperCase(),false,false,false,true);
 		this.PagodEditorStart(steptoedit.getComment());
-	}
-	
-	public PagodEditor(String txt,String lang, String country)
-	{
-		this(txt,null,null,null,true,true,true,true,lang,country,false,false,false,true);
-		this.PagodEditorStart(txt);
+		this.pagodEditorCore.setStep(steptoedit);
+		this.pagodEditorCore.setStepsTable(stepsTable);
+		this.pagodEditorCore.setStepRowNumber(StepRowNumber);
 	}
 	
 	/**

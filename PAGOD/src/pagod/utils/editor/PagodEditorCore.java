@@ -118,6 +118,8 @@ import javax.swing.text.rtf.RTFEditorKit;
 import javax.swing.undo.UndoManager;
 import javax.swing.undo.CannotUndoException;
 
+import pagod.common.model.Step;
+import pagod.configurator.ui.StepsTable;
 import pagod.utils.LanguagesManager;
 import pagod.utils.editor.action.*;
 import pagod.utils.editor.component.*;
@@ -133,6 +135,10 @@ import pagod.utils.editor.hexidec.util.Translatrix;
 public class PagodEditorCore extends JPanel implements ActionListener, KeyListener, FocusListener, DocumentListener
 {
 	final private String PAGOD_EDITOR_VERSION = "Pagod Editor 1.0";
+	// Integration du modele pagod
+	private StepsTable stepsTable = null;
+	private int StepRowNumber = 0;
+	private Step step = null;
 	
 	/* Components */
 	private JSplitPane jspltDisplay;
@@ -520,7 +526,7 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 		jMenuFile.addSeparator();
 		JMenuItem jmiSaveRTF   = new JMenuItem(Translatrix.getTranslationString("SaveRTF") + menuDialog);  jmiSaveRTF.setActionCommand("savertf");   jmiSaveRTF.addActionListener(this);  jMenuFile.add(jmiSaveRTF);
 		JMenuItem jmiSaveAs    = new JMenuItem(Translatrix.getTranslationString("SaveAs") + menuDialog);   jmiSaveAs.setActionCommand("saveas");     jmiSaveAs.addActionListener(this);   jMenuFile.add(jmiSaveAs);
-		// TODO arno : menu sauvegarde Save To Pagod
+		// arno : menu sauvegarde Save To Pagod
 		// JMenuItem jmiSaveB64   = new JMenuItem(Translatrix.getTranslationString("SaveB64") + menuDialog);  jmiSaveB64.setActionCommand("saveb64");   jmiSaveB64.addActionListener(this);  jMenuFile.add(jmiSaveB64);
 		/*
 		jMenuFile.addSeparator();
@@ -781,7 +787,7 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 			
 		jbtnSaveHTML = new JButtonNoFocus(getEkitIcon("Save"));
 			jbtnSaveHTML.setToolTipText(Translatrix.getTranslationString("SaveToPagod"));
-			// TODO arno : modification action savebody
+			// arno : modification action savebody
 			jbtnSaveHTML.setActionCommand("savebody");
 			jbtnSaveHTML.addActionListener(this);
 			htTools.put(KEY_TOOL_SAVE, jbtnSaveHTML);
@@ -1319,7 +1325,7 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 			}
 			else if(command.equals("helpabout"))
 			{
-				// TODO arno / about
+				// arno / about
 				new PagodEditorAboutDialog(PAGOD_EDITOR_VERSION);
 			}
 			else if(command.equals("spellcheck"))
@@ -2188,6 +2194,7 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 	private void writeOut(HTMLDocument doc, File whatFile)
 	throws IOException, BadLocationException
 	{
+		/*
 		if(whatFile == null)
 		{
 			whatFile = getFileFromChooser(".", JFileChooser.SAVE_DIALOG, extsHTML, Translatrix.getTranslationString("FiletypeHTML"));
@@ -2201,7 +2208,11 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 			currentFile = whatFile;
 			updateTitle();
 		}
-		refreshOnUpdate();
+		refreshOnUpdate();*/
+		// arno
+		// Sauvegarde Pagod
+		step.setComment(doc.toString());
+		stepsTable.getModel().setValueAt(step, this.StepRowNumber, 2);
 	}
 
 	/** Method for saving text as an HTML fragment
@@ -2209,24 +2220,40 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 	private void writeOutFragment(HTMLDocument doc, String containingTag)
 	throws IOException, BadLocationException
 	{
-		File whatFile = getFileFromChooser(".", JFileChooser.SAVE_DIALOG, extsHTML, Translatrix.getTranslationString("FiletypeHTML"));
-		if(whatFile != null)
+		/*
+		 * File whatFile = getFileFromChooser(".", JFileChooser.SAVE_DIALOG,
+		 * extsHTML, Translatrix.getTranslationString("FiletypeHTML"));
+		 * if(whatFile != null) {
+		 */
+		// FileWriter fw = new FileWriter(whatFile);
+		// Element eleBody = locateElementInDocument((StyledDocument)doc,
+		// containingTag);
+		// htmlKit.write(fw, doc, eleBody.getStartOffset(),
+		// eleBody.getEndOffset());
+		String docTextCase = jtpSource.getText().toLowerCase();
+		int tagStart = docTextCase.indexOf("<" + containingTag.toLowerCase());
+		int tagStartClose = docTextCase.indexOf(">", tagStart) + 1;
+		String closeTag = "</" + containingTag.toLowerCase() + ">";
+		int tagEndOpen = docTextCase.indexOf(closeTag);
+		if (tagStartClose < 0)
 		{
-			FileWriter fw = new FileWriter(whatFile);
-//			Element eleBody = locateElementInDocument((StyledDocument)doc, containingTag);
-//			htmlKit.write(fw, doc, eleBody.getStartOffset(), eleBody.getEndOffset());
-			String docTextCase = jtpSource.getText().toLowerCase();
-			int tagStart       = docTextCase.indexOf("<" + containingTag.toLowerCase());
-			int tagStartClose  = docTextCase.indexOf(">", tagStart) + 1;
-			String closeTag    = "</" + containingTag.toLowerCase() + ">";
-			int tagEndOpen     = docTextCase.indexOf(closeTag);
-			if(tagStartClose < 0) { tagStartClose = 0; }
-			if(tagEndOpen < 0 || tagEndOpen > docTextCase.length()) { tagEndOpen = docTextCase.length(); }
-			String bodyText = jtpSource.getText().substring(tagStartClose, tagEndOpen);
-			fw.write(bodyText, 0, bodyText.length());
-			fw.flush();
-			fw.close();
+			tagStartClose = 0;
 		}
+		if (tagEndOpen < 0 || tagEndOpen > docTextCase.length())
+		{
+			tagEndOpen = docTextCase.length();
+		}
+		String bodyText = jtpSource.getText().substring(tagStartClose,
+				tagEndOpen);
+		// arno
+		// TODO : Sauvegarde Pagod
+		step.setComment(bodyText);
+		stepsTable.getModel().setValueAt(bodyText, this.StepRowNumber, 2);
+		
+		/*
+		 * fw.write(bodyText, 0, bodyText.length()); fw.flush(); fw.close();
+		 */
+		// }
 		refreshOnUpdate();
 	}
 
@@ -3251,6 +3278,36 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 			undoAction.updateUndoState();
 			redoAction.updateRedoState();
 		}
+	}
+
+	public StepsTable getStepsTable ()
+	{
+		return this.stepsTable;
+	}
+
+	public void setStepsTable (StepsTable stepsTable)
+	{
+		this.stepsTable = stepsTable;
+	}
+
+	public int getStepRowNumber ()
+	{
+		return this.StepRowNumber;
+	}
+
+	public void setStepRowNumber (int stepRowNumber)
+	{
+		this.StepRowNumber = stepRowNumber;
+	}
+
+	public Step getStep ()
+	{
+		return this.step;
+	}
+
+	public void setStep (Step step)
+	{
+		this.step = step;
 	}
 
 }

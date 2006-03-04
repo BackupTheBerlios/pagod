@@ -1,5 +1,5 @@
 /*
- * $Id: StepsPanel.java,v 1.10 2006/03/04 12:56:18 garwind111 Exp $
+ * $Id: StepsPanel.java,v 1.11 2006/03/04 14:18:01 garwind111 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -437,9 +437,10 @@ public class StepsPanel extends JPanel
 							Step steptosee = ((ActivityStepsTableModel) stepsTable.getModel()).getStepByRow(linetoview);
 							if (!stepname.equals("")){
 								// Appel de Pagod Editor
+								// TODO arno : appel PagodEditor
 								ResourceBundle rb = LanguagesManager.getInstance().getResourceBundle();
 								Locale l = rb.getLocale();
-								new PagodEditor(steptosee,l.getLanguage(),l.getLanguage().toUpperCase());
+								new PagodEditor(steptosee,l.getLanguage(),stepsTable,linetoview);
 							}
                             }
                             catch (Exception ex)
