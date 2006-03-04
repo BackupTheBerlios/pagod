@@ -118,23 +118,18 @@ import javax.swing.text.rtf.RTFEditorKit;
 import javax.swing.undo.UndoManager;
 import javax.swing.undo.CannotUndoException;
 
+import pagod.utils.LanguagesManager;
 import pagod.utils.editor.action.*;
 import pagod.utils.editor.component.*;
 import pagod.utils.editor.hexidec.util.Base64Codec;
 import pagod.utils.editor.hexidec.util.Translatrix;
 
 
-/** PagodEditorCore
-  * Main application class for editing and saving HTML in a Java text component
-  *
-  * @author Howard Kistler
-  * @version 1.1
-  *
-  * REQUIREMENTS
-  * Java 2 (JDK 1.3 or 1.4)
-  * Swing Library
-  */
-
+/**
+ * PAGOD EDITOR CORE
+ * @author Arno
+ *
+ */
 public class PagodEditorCore extends JPanel implements ActionListener, KeyListener, FocusListener, DocumentListener
 {
 	/* Components */
@@ -151,7 +146,7 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 	private JToolBar jToolBarStyles;
 
 	private JButtonNoFocus jbtnNewHTML;
-	private JButtonNoFocus jbtnOpenHTML;
+	// private JButtonNoFocus jbtnOpenHTML;
 	private JButtonNoFocus jbtnSaveHTML;
 	private JButtonNoFocus jbtnCut;
 	private JButtonNoFocus jbtnCopy;
@@ -357,7 +352,7 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 		}
 
 		/* Localize for language */
-		Translatrix.setBundleName("pagod.utils.editor.LanguageResources");
+		Translatrix.setBundleName("resources.languages.editor.LanguageResources");
 		Locale baseLocale = (Locale)null;
 		if(sLanguage != null && sCountry != null)
 		{
@@ -515,14 +510,15 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 		jMenuFile              = new JMenu(Translatrix.getTranslationString("File"));
 		htMenus.put(KEY_MENU_FILE, jMenuFile);
 		JMenuItem jmiNew       = new JMenuItem(Translatrix.getTranslationString("NewDocument"));                     jmiNew.setActionCommand("newdoc");        jmiNew.addActionListener(this);      jmiNew.setAccelerator(KeyStroke.getKeyStroke('N', KeyEvent.CTRL_MASK, false));      if(showMenuIcons) { jmiNew.setIcon(getEkitIcon("New")); }; jMenuFile.add(jmiNew);
-		JMenuItem jmiOpenHTML  = new JMenuItem(Translatrix.getTranslationString("OpenDocument") + menuDialog);       jmiOpenHTML.setActionCommand("openhtml"); jmiOpenHTML.addActionListener(this); jmiOpenHTML.setAccelerator(KeyStroke.getKeyStroke('O', KeyEvent.CTRL_MASK, false)); if(showMenuIcons) { jmiOpenHTML.setIcon(getEkitIcon("Open")); }; jMenuFile.add(jmiOpenHTML);
+		JMenuItem jmiSaveBody  = new JMenuItem(Translatrix.getTranslationString("SaveToPagod") + menuDialog); jmiSaveBody.setActionCommand("savebody"); jmiSaveBody.addActionListener(this); jMenuFile.add(jmiSaveBody);
+		// JMenuItem jmiOpenHTML  = new JMenuItem(Translatrix.getTranslationString("OpenDocument") + menuDialog);       jmiOpenHTML.setActionCommand("openhtml"); jmiOpenHTML.addActionListener(this); jmiOpenHTML.setAccelerator(KeyStroke.getKeyStroke('O', KeyEvent.CTRL_MASK, false)); if(showMenuIcons) { jmiOpenHTML.setIcon(getEkitIcon("Open")); }; jMenuFile.add(jmiOpenHTML);
 		// JMenuItem jmiOpenCSS   = new JMenuItem(Translatrix.getTranslationString("OpenStyle") + menuDialog);          jmiOpenCSS.setActionCommand("opencss");   jmiOpenCSS.addActionListener(this);  jMenuFile.add(jmiOpenCSS);
 		// JMenuItem jmiOpenB64   = new JMenuItem(Translatrix.getTranslationString("OpenBase64Document") + menuDialog); jmiOpenB64.setActionCommand("openb64");   jmiOpenB64.addActionListener(this);  jMenuFile.add(jmiOpenB64);
+		// JMenuItem jmiSave      = new JMenuItem(Translatrix.getTranslationString("Save"));                  jmiSave.setActionCommand("save");         jmiSave.addActionListener(this);     jmiSave.setAccelerator(KeyStroke.getKeyStroke('S', KeyEvent.CTRL_MASK, false)); if(showMenuIcons) { jmiSave.setIcon(getEkitIcon("Save")); }; jMenuFile.add(jmiSave);
 		jMenuFile.addSeparator();
-		JMenuItem jmiSave      = new JMenuItem(Translatrix.getTranslationString("Save"));                  jmiSave.setActionCommand("save");         jmiSave.addActionListener(this);     jmiSave.setAccelerator(KeyStroke.getKeyStroke('S', KeyEvent.CTRL_MASK, false)); if(showMenuIcons) { jmiSave.setIcon(getEkitIcon("Save")); }; jMenuFile.add(jmiSave);
-		JMenuItem jmiSaveAs    = new JMenuItem(Translatrix.getTranslationString("SaveAs") + menuDialog);   jmiSaveAs.setActionCommand("saveas");     jmiSaveAs.addActionListener(this);   jMenuFile.add(jmiSaveAs);
-		JMenuItem jmiSaveBody  = new JMenuItem(Translatrix.getTranslationString("SaveBody") + menuDialog); jmiSaveBody.setActionCommand("savebody"); jmiSaveBody.addActionListener(this); jMenuFile.add(jmiSaveBody);
 		JMenuItem jmiSaveRTF   = new JMenuItem(Translatrix.getTranslationString("SaveRTF") + menuDialog);  jmiSaveRTF.setActionCommand("savertf");   jmiSaveRTF.addActionListener(this);  jMenuFile.add(jmiSaveRTF);
+		JMenuItem jmiSaveAs    = new JMenuItem(Translatrix.getTranslationString("SaveAs") + menuDialog);   jmiSaveAs.setActionCommand("saveas");     jmiSaveAs.addActionListener(this);   jMenuFile.add(jmiSaveAs);
+		// TODO arno : menu sauvegarde Save To Pagod
 		// JMenuItem jmiSaveB64   = new JMenuItem(Translatrix.getTranslationString("SaveB64") + menuDialog);  jmiSaveB64.setActionCommand("saveb64");   jmiSaveB64.addActionListener(this);  jMenuFile.add(jmiSaveB64);
 		/*
 		jMenuFile.addSeparator();
@@ -774,14 +770,17 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 			jbtnNewHTML.setActionCommand("newdoc");
 			jbtnNewHTML.addActionListener(this);
 			htTools.put(KEY_TOOL_NEW, jbtnNewHTML);
+		/*
 		jbtnOpenHTML = new JButtonNoFocus(getEkitIcon("Open"));
 			jbtnOpenHTML.setToolTipText(Translatrix.getTranslationString("OpenDocument"));
 			jbtnOpenHTML.setActionCommand("openhtml");
 			jbtnOpenHTML.addActionListener(this);
-			htTools.put(KEY_TOOL_OPEN, jbtnOpenHTML);
+			htTools.put(KEY_TOOL_OPEN, jbtnOpenHTML);*/
+			
 		jbtnSaveHTML = new JButtonNoFocus(getEkitIcon("Save"));
-			jbtnSaveHTML.setToolTipText(Translatrix.getTranslationString("SaveDocument"));
-			jbtnSaveHTML.setActionCommand("saveas");
+			jbtnSaveHTML.setToolTipText(Translatrix.getTranslationString("SaveToPagod"));
+			// TODO arno : modification action savebody
+			jbtnSaveHTML.setActionCommand("savebody");
 			jbtnSaveHTML.addActionListener(this);
 			htTools.put(KEY_TOOL_SAVE, jbtnSaveHTML);
 		jbtnCut = new JButtonNoFocus(new DefaultEditorKit.CutAction());
@@ -1059,6 +1058,7 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 			}
 			else if(command.equals("savebody"))
 			{
+				// TODO arno : sauvegarde
 				writeOutFragment((HTMLDocument)(jtpMain.getDocument()),"body");
 			}
 			else if(command.equals("savertf"))
@@ -1316,7 +1316,8 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 			}
 			else if(command.equals("helpabout"))
 			{
-				SimpleInfoDialog sidAbout = new SimpleInfoDialog(this.getFrame(), Translatrix.getTranslationString("About"), true, Translatrix.getTranslationString("AboutMessage"), SimpleInfoDialog.INFO);
+				// TODO arno / about
+				new PagodEditorAboutDialog("1.0");
 			}
 			else if(command.equals("spellcheck"))
 			{
@@ -2180,6 +2181,7 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 
 	/** Method for saving text as a complete HTML document
 	  */
+	// TODO arno / export html
 	private void writeOut(HTMLDocument doc, File whatFile)
 	throws IOException, BadLocationException
 	{
@@ -2948,14 +2950,15 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 
 	/** Convenience method for fetching icon images from jar file
 	  */
+	
 	private ImageIcon getEkitIcon(String iconName)
 	{
-		URL imageURL = getClass().getResource("icons/" + iconName + "HK.png");
+		URL imageURL = getClass().getResource("/resources/images/pagodeditoricons/" + iconName + "HK.png");
 		if(imageURL != null)
 		{
 			return new ImageIcon(Toolkit.getDefaultToolkit().getImage(imageURL));
 		}
-		imageURL = getClass().getResource("icons/" + iconName + "HK.gif");
+		imageURL = getClass().getResource("/resources/images/pagodeditoricons/" + iconName + "HK.gif");
 		if(imageURL != null)
 		{
 			return new ImageIcon(Toolkit.getDefaultToolkit().getImage(imageURL));

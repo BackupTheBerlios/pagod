@@ -40,17 +40,11 @@ import pagod.common.model.Step;
 import pagod.utils.editor.PagodEditorCore;
 
 
-/** PagodEditor
-  * App for editing and saving HTML in a Java text component
-  *
-  * @author Howard Kistler
-  * @version 1.1
-  *
-  * REQUIREMENTS
-  * Java 2 (JDK 1.3 or 1.4)
-  * Swing Library
-  */
-
+/**
+ * PAGOD EDITOR
+ * @author Arno
+ *
+ */
 public class PagodEditor extends JFrame implements WindowListener
 {
 	private PagodEditorCore pagodEditorCore;
@@ -145,17 +139,27 @@ public class PagodEditor extends JFrame implements WindowListener
 	public PagodEditor(Step steptoedit)
 	{
 		this(steptoedit.getComment(),null,null,null,true,true,true,true,"FR","fr",false,false,false,true);
-		pagodEditorCore.setDocumentText(steptoedit.getComment());
-		pagodEditorCore.setCaretPosition(0);
+		this.PagodEditorStart(steptoedit.getComment());
 	}
 	
 	public PagodEditor(String txt)
 	{
 		this(txt,null,null,null,true,true,true,true,"FR","fr",false,false,false,true);
-		pagodEditorCore.setDocumentText(txt);
+		this.PagodEditorStart(txt);
+	}
+	
+	/**
+	 * Arno
+	 * @param txttoedit
+	 * @param x
+	 * @param y
+	 */
+	private void PagodEditorStart(String txttoedit){
+		this.setLocation(150, 50);
+		pagodEditorCore.setDocumentText(txttoedit);
 		pagodEditorCore.setCaretPosition(0);
 	}
-
+	
 	/* WindowListener methods */
 	public void windowClosing(WindowEvent we)
 	{
@@ -205,8 +209,8 @@ public class PagodEditor extends JFrame implements WindowListener
 		System.out.println("For further information, read the README file.");
 	}
 
-	/** Main method
-	  */
+	// Main method
+	/*
 	public static void main(String[] args)
 	{
 		String sDocument = null;
@@ -268,5 +272,6 @@ public class PagodEditor extends JFrame implements WindowListener
 		}
 		PagodEditor pagodEditor = new PagodEditor(sDocument, sStyleSheet, sRawDocument, urlStyleSheet, includeToolBar, includeViewSource, includeMenuIcons, modeExclusive, sLang, sCtry, base64, debugOn, spellCheck, multibar);
 	}
+	*/
 
 }
