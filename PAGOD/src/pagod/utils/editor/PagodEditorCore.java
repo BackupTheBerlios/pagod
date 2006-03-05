@@ -23,7 +23,6 @@ package pagod.utils.editor;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Frame;
@@ -52,8 +51,6 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Locale;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
@@ -229,22 +226,67 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 
 	/* Constants */
 	// Menu Keys
+	/**
+	 * Commentaire pour <code>KEY_MENU_FILE</code>
+	 */
 	public static final String KEY_MENU_FILE   = "file";
+	/**
+	 * 
+	 */
 	public static final String KEY_MENU_EDIT   = "edit";
+	/**
+	 * 
+	 */
 	public static final String KEY_MENU_VIEW   = "view";
+	/**
+	 * 
+	 */
 	public static final String KEY_MENU_FONT   = "font";
+	/**
+	 * 
+	 */
 	public static final String KEY_MENU_FORMAT = "format";
+	/**
+	 * 
+	 */
 	public static final String KEY_MENU_INSERT = "insert";
+	/**
+	 * 
+	 */
 	public static final String KEY_MENU_TABLE  = "table";
+	/**
+	 * 
+	 */
 	public static final String KEY_MENU_FORMS  = "forms";
+	/**
+	 * 
+	 */
 	public static final String KEY_MENU_SEARCH = "search";
+	/**
+	 * 
+	 */
 	public static final String KEY_MENU_TOOLS  = "tools";
+	/**
+	 * 
+	 */
 	public static final String KEY_MENU_HELP   = "help";
+	/**
+	 * 
+	 */
 	public static final String KEY_MENU_DEBUG  = "debug";
 
 	// Tool Keys
+	/**
+	 * 
+	 */
 	public static final String KEY_TOOL_SEP       = "SP";
+	/**
+	 * 
+	 */
 	public static final String KEY_TOOL_NEW       = "NW";
+	/**
+	 * 
+	 */
 	public static final String KEY_TOOL_OPEN      = "OP";
 	public static final String KEY_TOOL_SAVE      = "SV";
 	public static final String KEY_TOOL_CUT       = "CT";
@@ -362,7 +404,7 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 
 		/* Localize for language */
 		Translatrix.setBundleName("resources.languages.editor.LanguageResources");
-		Locale baseLocale = (Locale)null;
+		Locale baseLocale = null; // (Locale) null
 		if(sLanguage != null && sCountry != null)
 		{
 			baseLocale = new Locale(sLanguage, sCountry);
@@ -518,7 +560,7 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 		/* FILE Menu */
 		this.jMenuFile              = new JMenu(Translatrix.getTranslationString("File"));
 		htMenus.put(KEY_MENU_FILE, this.jMenuFile);
-		JMenuItem jmiNew       = new JMenuItem(Translatrix.getTranslationString("NewDocument"));                     jmiNew.setActionCommand("newdoc");        jmiNew.addActionListener(this);      jmiNew.setAccelerator(KeyStroke.getKeyStroke('N', KeyEvent.CTRL_MASK, false));      if(showMenuIcons) { jmiNew.setIcon(getEkitIcon("New")); }; this.jMenuFile.add(jmiNew);
+		JMenuItem jmiNew       = new JMenuItem(Translatrix.getTranslationString("NewDocument"));                     jmiNew.setActionCommand("newdoc");        jmiNew.addActionListener(this);      jmiNew.setAccelerator(KeyStroke.getKeyStroke('N', KeyEvent.CTRL_MASK, false));      if(showMenuIcons) { jmiNew.setIcon(getEkitIcon("New")); } this.jMenuFile.add(jmiNew);
 		JMenuItem jmiSaveBody  = new JMenuItem(Translatrix.getTranslationString("SaveToPagod") + this.menuDialog); jmiSaveBody.setActionCommand("savebody"); jmiSaveBody.addActionListener(this); jmiSaveBody.setAccelerator(KeyStroke.getKeyStroke('S', KeyEvent.CTRL_MASK, false)); this.jMenuFile.add(jmiSaveBody);
 		// JMenuItem jmiOpenHTML  = new JMenuItem(Translatrix.getTranslationString("OpenDocument") + menuDialog);       jmiOpenHTML.setActionCommand("openhtml"); jmiOpenHTML.addActionListener(this); jmiOpenHTML.setAccelerator(KeyStroke.getKeyStroke('O', KeyEvent.CTRL_MASK, false)); if(showMenuIcons) { jmiOpenHTML.setIcon(getEkitIcon("Open")); }; jMenuFile.add(jmiOpenHTML);
 		// JMenuItem jmiOpenCSS   = new JMenuItem(Translatrix.getTranslationString("OpenStyle") + menuDialog);          jmiOpenCSS.setActionCommand("opencss");   jmiOpenCSS.addActionListener(this);  jMenuFile.add(jmiOpenCSS);
@@ -654,10 +696,10 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 		this.jMenuFormat            = new JMenu(Translatrix.getTranslationString("Format"));
 		htMenus.put(KEY_MENU_FORMAT, this.jMenuFormat);
 		JMenu jMenuFormatAlign = new JMenu(Translatrix.getTranslationString("Align"));
-			JMenuItem jmiAlignLeft = new JMenuItem(this.actionAlignLeft);           if(showMenuIcons) { jmiAlignLeft.setIcon(getEkitIcon("AlignLeft")); };           jMenuFormatAlign.add(jmiAlignLeft);
-			JMenuItem jmiAlignCenter = new JMenuItem(this.actionAlignCenter);       if(showMenuIcons) { jmiAlignCenter.setIcon(getEkitIcon("AlignCenter")); };       jMenuFormatAlign.add(jmiAlignCenter);
-			JMenuItem jmiAlignRight = new JMenuItem(this.actionAlignRight);         if(showMenuIcons) { jmiAlignRight.setIcon(getEkitIcon("AlignRight")); };         jMenuFormatAlign.add(jmiAlignRight);
-			JMenuItem jmiAlignJustified = new JMenuItem(this.actionAlignJustified); if(showMenuIcons) { jmiAlignJustified.setIcon(getEkitIcon("AlignJustified")); }; jMenuFormatAlign.add(jmiAlignJustified);
+			JMenuItem jmiAlignLeft = new JMenuItem(this.actionAlignLeft);           if(showMenuIcons) { jmiAlignLeft.setIcon(getEkitIcon("AlignLeft")); }           jMenuFormatAlign.add(jmiAlignLeft);
+			JMenuItem jmiAlignCenter = new JMenuItem(this.actionAlignCenter);       if(showMenuIcons) { jmiAlignCenter.setIcon(getEkitIcon("AlignCenter")); }       jMenuFormatAlign.add(jmiAlignCenter);
+			JMenuItem jmiAlignRight = new JMenuItem(this.actionAlignRight);         if(showMenuIcons) { jmiAlignRight.setIcon(getEkitIcon("AlignRight")); }         jMenuFormatAlign.add(jmiAlignRight);
+			JMenuItem jmiAlignJustified = new JMenuItem(this.actionAlignJustified); if(showMenuIcons) { jmiAlignJustified.setIcon(getEkitIcon("AlignJustified")); } jMenuFormatAlign.add(jmiAlignJustified);
 		this.jMenuFormat.add(jMenuFormatAlign);
 		this.jMenuFormat.addSeparator();
 		JMenu jMenuFormatHeading = new JMenu(Translatrix.getTranslationString("Heading"));
@@ -669,9 +711,11 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 			jMenuFormatHeading.add(new JMenuItem(new FormatAction(this, Translatrix.getTranslationString("Heading6"), HTML.Tag.H6)));
 		this.jMenuFormat.add(jMenuFormatHeading);
 		this.jMenuFormat.addSeparator();
+		// menu unordered list
 		JMenuItem jmiUList = new JMenuItem(this.actionListUnordered); if(showMenuIcons) { jmiUList.setIcon(getEkitIcon("UList")); } this.jMenuFormat.add(jmiUList);
-		JMenuItem jmiOList = new JMenuItem(this.actionListOrdered);   if(showMenuIcons) { jmiOList.setIcon(getEkitIcon("OList")); } this.jMenuFormat.add(jmiOList);
-		this.jMenuFormat.add(new JMenuItem(new FormatAction(this, Translatrix.getTranslationString("ListItem"), HTML.Tag.LI)));
+		// this.jMenuFormat.add(new JMenuItem(new FormatAction(this, Translatrix.getTranslationString("ListItem"), HTML.Tag.LI))); // if(showMenuIcons) { jmiUList.setIcon(getEkitIcon("UList")); }
+		this.jMenuFormat.add(new JMenuItem(new FormatAction(this, Translatrix.getTranslationString("ListItem"), HTML.Tag.LI))); // if(showMenuIcons) { jmiUList.setIcon(getEkitIcon("UList")); }
+		JMenuItem jmiOList = new JMenuItem(this.actionListOrdered);   if(showMenuIcons) { jmiOList.setIcon(getEkitIcon("OList")); this.jMenuFormat.add(jmiOList);
 		this.jMenuFormat.addSeparator();
 		this.jMenuFormat.add(new JMenuItem(new FormatAction(this, Translatrix.getTranslationString("FormatBlockquote"), HTML.Tag.BLOCKQUOTE)));
 		this.jMenuFormat.add(new JMenuItem(new FormatAction(this, Translatrix.getTranslationString("FormatPre"), HTML.Tag.PRE)));
@@ -683,13 +727,13 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 		/* INSERT Menu */
 		this.jMenuInsert               = new JMenu(Translatrix.getTranslationString("Insert"));
 		htMenus.put(KEY_MENU_INSERT, this.jMenuInsert);
-		JMenuItem jmiInsertAnchor = new JMenuItem(this.actionInsertAnchor); if(showMenuIcons) { jmiInsertAnchor.setIcon(getEkitIcon("Anchor")); }; this.jMenuInsert.add(jmiInsertAnchor);
+		JMenuItem jmiInsertAnchor = new JMenuItem(this.actionInsertAnchor); if(showMenuIcons) { jmiInsertAnchor.setIcon(getEkitIcon("Anchor")); } this.jMenuInsert.add(jmiInsertAnchor);
 		JMenuItem jmiBreak        = new JMenuItem(Translatrix.getTranslationString("InsertBreak"));  jmiBreak.setActionCommand("insertbreak");   jmiBreak.addActionListener(this);   jmiBreak.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, KeyEvent.SHIFT_MASK, false)); this.jMenuInsert.add(jmiBreak);
 		JMenuItem jmiNBSP         = new JMenuItem(Translatrix.getTranslationString("InsertNBSP"));   jmiNBSP.setActionCommand("insertnbsp");     jmiNBSP.addActionListener(this);    jmiNBSP.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, KeyEvent.SHIFT_MASK, false)); this.jMenuInsert.add(jmiNBSP);
-		JMenu jMenuUnicode        = new JMenu(Translatrix.getTranslationString("InsertUnicodeCharacter")); if(showMenuIcons) { jMenuUnicode.setIcon(getEkitIcon("Unicode")); };
-		JMenuItem jmiUnicodeAll   = new JMenuItem(Translatrix.getTranslationString("InsertUnicodeCharacterAll") + this.menuDialog);  if(showMenuIcons) { jmiUnicodeAll.setIcon(getEkitIcon("Unicode")); }; jmiUnicodeAll.setActionCommand("insertunicode");      jmiUnicodeAll.addActionListener(this);   jMenuUnicode.add(jmiUnicodeAll);
-		JMenuItem jmiUnicodeMath  = new JMenuItem(Translatrix.getTranslationString("InsertUnicodeCharacterMath") + this.menuDialog); if(showMenuIcons) { jmiUnicodeMath.setIcon(getEkitIcon("Math")); };   jmiUnicodeMath.setActionCommand("insertunicodemath"); jmiUnicodeMath.addActionListener(this);  jMenuUnicode.add(jmiUnicodeMath);
-		JMenuItem jmiUnicodeDraw  = new JMenuItem(Translatrix.getTranslationString("InsertUnicodeCharacterDraw") + this.menuDialog); if(showMenuIcons) { jmiUnicodeDraw.setIcon(getEkitIcon("Draw")); };   jmiUnicodeDraw.setActionCommand("insertunicodedraw"); jmiUnicodeDraw.addActionListener(this);  jMenuUnicode.add(jmiUnicodeDraw);
+		JMenu jMenuUnicode        = new JMenu(Translatrix.getTranslationString("InsertUnicodeCharacter")); if(showMenuIcons) { jMenuUnicode.setIcon(getEkitIcon("Unicode")); }
+		JMenuItem jmiUnicodeAll   = new JMenuItem(Translatrix.getTranslationString("InsertUnicodeCharacterAll") + this.menuDialog);  if(showMenuIcons) { jmiUnicodeAll.setIcon(getEkitIcon("Unicode")); } jmiUnicodeAll.setActionCommand("insertunicode");      jmiUnicodeAll.addActionListener(this);   jMenuUnicode.add(jmiUnicodeAll);
+		JMenuItem jmiUnicodeMath  = new JMenuItem(Translatrix.getTranslationString("InsertUnicodeCharacterMath") + this.menuDialog); if(showMenuIcons) { jmiUnicodeMath.setIcon(getEkitIcon("Math")); }   jmiUnicodeMath.setActionCommand("insertunicodemath"); jmiUnicodeMath.addActionListener(this);  jMenuUnicode.add(jmiUnicodeMath);
+		JMenuItem jmiUnicodeDraw  = new JMenuItem(Translatrix.getTranslationString("InsertUnicodeCharacterDraw") + this.menuDialog); if(showMenuIcons) { jmiUnicodeDraw.setIcon(getEkitIcon("Draw")); }   jmiUnicodeDraw.setActionCommand("insertunicodedraw"); jmiUnicodeDraw.addActionListener(this);  jMenuUnicode.add(jmiUnicodeDraw);
 		JMenuItem jmiUnicodeDing  = new JMenuItem(Translatrix.getTranslationString("InsertUnicodeCharacterDing") + this.menuDialog); jmiUnicodeDing.setActionCommand("insertunicodeding"); jmiUnicodeDing.addActionListener(this);  jMenuUnicode.add(jmiUnicodeDing);
 		JMenuItem jmiUnicodeSigs  = new JMenuItem(Translatrix.getTranslationString("InsertUnicodeCharacterSigs") + this.menuDialog); jmiUnicodeSigs.setActionCommand("insertunicodesigs"); jmiUnicodeSigs.addActionListener(this);  jMenuUnicode.add(jmiUnicodeSigs);
 		JMenuItem jmiUnicodeSpec  = new JMenuItem(Translatrix.getTranslationString("InsertUnicodeCharacterSpec") + this.menuDialog); jmiUnicodeSpec.setActionCommand("insertunicodespec"); jmiUnicodeSpec.addActionListener(this);  jMenuUnicode.add(jmiUnicodeSpec);
@@ -704,13 +748,13 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 		/* TABLE Menu */
 		this.jMenuTable              = new JMenu(Translatrix.getTranslationString("Table"));
 		htMenus.put(KEY_MENU_TABLE, this.jMenuTable);
-		JMenuItem jmiTable       = new JMenuItem(Translatrix.getTranslationString("InsertTable") + this.menuDialog); if(showMenuIcons) { jmiTable.setIcon(getEkitIcon("TableCreate")); }; jmiTable.setActionCommand("inserttable");             jmiTable.addActionListener(this);       this.jMenuTable.add(jmiTable);
+		JMenuItem jmiTable       = new JMenuItem(Translatrix.getTranslationString("InsertTable") + this.menuDialog); if(showMenuIcons) { jmiTable.setIcon(getEkitIcon("TableCreate")); } jmiTable.setActionCommand("inserttable");             jmiTable.addActionListener(this);       this.jMenuTable.add(jmiTable);
 		this.jMenuTable.addSeparator();
-		JMenuItem jmiTableRow    = new JMenuItem(Translatrix.getTranslationString("InsertTableRow"));           if(showMenuIcons) { jmiTableRow.setIcon(getEkitIcon("InsertRow")); }; jmiTableRow.setActionCommand("inserttablerow");       jmiTableRow.addActionListener(this);    this.jMenuTable.add(jmiTableRow);
-		JMenuItem jmiTableCol    = new JMenuItem(Translatrix.getTranslationString("InsertTableColumn"));        if(showMenuIcons) { jmiTableCol.setIcon(getEkitIcon("InsertColumn")); }; jmiTableCol.setActionCommand("inserttablecolumn");    jmiTableCol.addActionListener(this);    this.jMenuTable.add(jmiTableCol);
+		JMenuItem jmiTableRow    = new JMenuItem(Translatrix.getTranslationString("InsertTableRow"));           if(showMenuIcons) { jmiTableRow.setIcon(getEkitIcon("InsertRow")); } jmiTableRow.setActionCommand("inserttablerow");       jmiTableRow.addActionListener(this);    this.jMenuTable.add(jmiTableRow);
+		JMenuItem jmiTableCol    = new JMenuItem(Translatrix.getTranslationString("InsertTableColumn"));        if(showMenuIcons) { jmiTableCol.setIcon(getEkitIcon("InsertColumn")); } jmiTableCol.setActionCommand("inserttablecolumn");    jmiTableCol.addActionListener(this);    this.jMenuTable.add(jmiTableCol);
 		this.jMenuTable.addSeparator();
-		JMenuItem jmiTableRowDel = new JMenuItem(Translatrix.getTranslationString("DeleteTableRow"));           if(showMenuIcons) { jmiTableRowDel.setIcon(getEkitIcon("DeleteRow")); }; jmiTableRowDel.setActionCommand("deletetablerow");    jmiTableRowDel.addActionListener(this); this.jMenuTable.add(jmiTableRowDel);
-		JMenuItem jmiTableColDel = new JMenuItem(Translatrix.getTranslationString("DeleteTableColumn"));        if(showMenuIcons) { jmiTableColDel.setIcon(getEkitIcon("DeleteColumn")); }; jmiTableColDel.setActionCommand("deletetablecolumn"); jmiTableColDel.addActionListener(this); this.jMenuTable.add(jmiTableColDel);
+		JMenuItem jmiTableRowDel = new JMenuItem(Translatrix.getTranslationString("DeleteTableRow"));           if(showMenuIcons) { jmiTableRowDel.setIcon(getEkitIcon("DeleteRow")); } jmiTableRowDel.setActionCommand("deletetablerow");    jmiTableRowDel.addActionListener(this); this.jMenuTable.add(jmiTableRowDel);
+		JMenuItem jmiTableColDel = new JMenuItem(Translatrix.getTranslationString("DeleteTableColumn"));        if(showMenuIcons) { jmiTableColDel.setIcon(getEkitIcon("DeleteColumn")); } jmiTableColDel.setActionCommand("deletetablecolumn"); jmiTableColDel.addActionListener(this); this.jMenuTable.add(jmiTableColDel);
 
 		/* FORMS Menu */
 		/*
@@ -739,9 +783,9 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 		/* SEARCH Menu */
 		this.jMenuSearch            = new JMenu(Translatrix.getTranslationString("Search"));
 		htMenus.put(KEY_MENU_SEARCH, this.jMenuSearch);
-		JMenuItem jmiFind      = new JMenuItem(Translatrix.getTranslationString("SearchFind"));      if(showMenuIcons) { jmiFind.setIcon(getEkitIcon("Find")); };           jmiFind.setActionCommand("find");           jmiFind.addActionListener(this);      jmiFind.setAccelerator(KeyStroke.getKeyStroke('F', KeyEvent.CTRL_MASK, false));      this.jMenuSearch.add(jmiFind);
-		JMenuItem jmiFindAgain = new JMenuItem(Translatrix.getTranslationString("SearchFindAgain")); if(showMenuIcons) { jmiFindAgain.setIcon(getEkitIcon("FindAgain")); }; jmiFindAgain.setActionCommand("findagain"); jmiFindAgain.addActionListener(this); jmiFindAgain.setAccelerator(KeyStroke.getKeyStroke('G', KeyEvent.CTRL_MASK, false)); this.jMenuSearch.add(jmiFindAgain);
-		JMenuItem jmiReplace   = new JMenuItem(Translatrix.getTranslationString("SearchReplace"));   if(showMenuIcons) { jmiReplace.setIcon(getEkitIcon("Replace")); };     jmiReplace.setActionCommand("replace");     jmiReplace.addActionListener(this);   jmiReplace.setAccelerator(KeyStroke.getKeyStroke('R', KeyEvent.CTRL_MASK, false));   this.jMenuSearch.add(jmiReplace);
+		JMenuItem jmiFind      = new JMenuItem(Translatrix.getTranslationString("SearchFind"));      if(showMenuIcons) { jmiFind.setIcon(getEkitIcon("Find")); }          jmiFind.setActionCommand("find");           jmiFind.addActionListener(this);      jmiFind.setAccelerator(KeyStroke.getKeyStroke('F', KeyEvent.CTRL_MASK, false));      this.jMenuSearch.add(jmiFind);
+		JMenuItem jmiFindAgain = new JMenuItem(Translatrix.getTranslationString("SearchFindAgain")); if(showMenuIcons) { jmiFindAgain.setIcon(getEkitIcon("FindAgain")); } jmiFindAgain.setActionCommand("findagain"); jmiFindAgain.addActionListener(this); jmiFindAgain.setAccelerator(KeyStroke.getKeyStroke('G', KeyEvent.CTRL_MASK, false)); this.jMenuSearch.add(jmiFindAgain);
+		JMenuItem jmiReplace   = new JMenuItem(Translatrix.getTranslationString("SearchReplace"));   if(showMenuIcons) { jmiReplace.setIcon(getEkitIcon("Replace")); }     jmiReplace.setActionCommand("replace");     jmiReplace.addActionListener(this);   jmiReplace.setAccelerator(KeyStroke.getKeyStroke('R', KeyEvent.CTRL_MASK, false));   this.jMenuSearch.add(jmiReplace);
 
 		/* HELP Menu */
 		this.jMenuHelp = new JMenu(Translatrix.getTranslationString("Help"));
@@ -987,10 +1031,12 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 		/* Add the components to the app */
 		this.setLayout(new BorderLayout());
 		this.add(this.jspltDisplay, BorderLayout.CENTER);
+		}
 	}
 
 	/** Raw/Base64 Document & Style Sheet URL Constructor (Ideal for EkitApplet)
 	  * @param sRawDocument      [String]  A document encoded as a String to load in the editor upon startup.
+	 * @param urlStyleSheet 
 	  * @param includeToolBar    [boolean] Specifies whether the app should include the toolbar(s).
 	  * @param showViewSource    [boolean] Specifies whether or not to show the View Source window on startup.
 	  * @param showMenuIcons     [boolean] Specifies whether or not to show icon pictures in menus.
@@ -1001,7 +1047,6 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 	  * @param hasSpellChecker   [boolean] Specifies whether or not this uses the SpellChecker module
 	  * @param multiBar          [boolean] Specifies whether to use multiple toolbars or one big toolbar.
 	  * @param toolbarSeq        [String]  Code string specifying the toolbar buttons to show.
-	  * @param b
 	  */
 	public PagodEditorCore(String sRawDocument, URL urlStyleSheet, boolean includeToolBar, boolean showViewSource, boolean showMenuIcons, boolean editModeExclusive, String sLanguage, String sCountry, boolean base64, boolean hasSpellChecker, boolean multiBar, String toolbarSeq)
 	{
@@ -1017,6 +1062,11 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 
 	/* ActionListener method *
 	 */
+	/**
+	 * @param ae 
+	 *  
+	 */
+	@SuppressWarnings("unchecked")
 	public void actionPerformed(ActionEvent ae)
 	{
 		try
@@ -1071,7 +1121,7 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 			}
 			else if(command.equals("savertf"))
 			{
-				writeOutRTF((StyledDocument)(this.jtpMain.getStyledDocument()));
+				writeOutRTF((this.jtpMain.getStyledDocument()));
 			}
 			else if(command.equals("saveb64"))
 			{
@@ -1336,35 +1386,38 @@ public class PagodEditorCore extends JPanel implements ActionListener, KeyListen
 		catch(IOException ioe)
 		{
 			logException("IOException in actionPerformed method", ioe);
-			SimpleInfoDialog sidAbout = new SimpleInfoDialog(this.getFrame(), Translatrix.getTranslationString("Error"), true, Translatrix.getTranslationString("ErrorIOException"), SimpleInfoDialog.ERROR);
+			@SuppressWarnings("unused") SimpleInfoDialog sidAbout = new SimpleInfoDialog(this.getFrame(), Translatrix.getTranslationString("Error"), true, Translatrix.getTranslationString("ErrorIOException"), SimpleInfoDialog.ERROR);
 		}
 		catch(BadLocationException ble)
 		{
 			logException("BadLocationException in actionPerformed method", ble);
-			SimpleInfoDialog sidAbout = new SimpleInfoDialog(this.getFrame(), Translatrix.getTranslationString("Error"), true, Translatrix.getTranslationString("ErrorBadLocationException"), SimpleInfoDialog.ERROR);
+			@SuppressWarnings("unused") SimpleInfoDialog sidAbout = new SimpleInfoDialog(this.getFrame(), Translatrix.getTranslationString("Error"), true, Translatrix.getTranslationString("ErrorBadLocationException"), SimpleInfoDialog.ERROR);
 		}
 		catch(NumberFormatException nfe)
 		{
 			logException("NumberFormatException in actionPerformed method", nfe);
-			SimpleInfoDialog sidAbout = new SimpleInfoDialog(this.getFrame(), Translatrix.getTranslationString("Error"), true, Translatrix.getTranslationString("ErrorNumberFormatException"), SimpleInfoDialog.ERROR);
+			@SuppressWarnings("unused") SimpleInfoDialog sidAbout = new SimpleInfoDialog(this.getFrame(), Translatrix.getTranslationString("Error"), true, Translatrix.getTranslationString("ErrorNumberFormatException"), SimpleInfoDialog.ERROR);
 		}
 		catch(ClassNotFoundException cnfe)
 		{
 			logException("ClassNotFound Exception in actionPerformed method", cnfe);
-			SimpleInfoDialog sidAbout = new SimpleInfoDialog(this.getFrame(), Translatrix.getTranslationString("Error"), true, Translatrix.getTranslationString("ErrorClassNotFoundException "), SimpleInfoDialog.ERROR);
+			@SuppressWarnings("unused") SimpleInfoDialog sidAbout = new SimpleInfoDialog(this.getFrame(), Translatrix.getTranslationString("Error"), true, Translatrix.getTranslationString("ErrorClassNotFoundException "), SimpleInfoDialog.ERROR);
 		}
 		catch(RuntimeException re)
 		{
 			logException("RuntimeException in actionPerformed method", re);
-			SimpleInfoDialog sidAbout = new SimpleInfoDialog(this.getFrame(), Translatrix.getTranslationString("Error"), true, Translatrix.getTranslationString("ErrorRuntimeException"), SimpleInfoDialog.ERROR);
+			@SuppressWarnings("unused") SimpleInfoDialog sidAbout = new SimpleInfoDialog(this.getFrame(), Translatrix.getTranslationString("Error"), true, Translatrix.getTranslationString("ErrorRuntimeException"), SimpleInfoDialog.ERROR);
 		}
 	}
 
 	/* KeyListener methods */
+	/** (non-Javadoc)
+	 * @see java.awt.event.KeyListener#keyTyped(java.awt.event.KeyEvent)
+	 */
 	public void keyTyped(KeyEvent ke)
 	{
 		Element elem;
-		String selectedText;
+		@SuppressWarnings("unused") String selectedText;
 		int pos = this.getCaretPosition();
 		int repos = -1;
 		if(ke.getKeyChar() == KeyEvent.VK_BACK_SPACE)
