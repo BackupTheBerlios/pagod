@@ -1,5 +1,5 @@
 /*
- * $Id: SplashConfigurator.java,v 1.1 2006/03/06 10:43:21 garwind111 Exp $
+ * $Id: ConfiguratorShadowSplasher.java,v 1.1 2006/03/06 10:49:42 garwind111 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -34,7 +34,7 @@ import pagod.configurator.ui.MainFrame;
  * 
  * @author MoOky
  */
-public class SplashConfigurator
+public class ConfiguratorShadowSplasher
 {
 	/**
 	 * Méthode Principale de PAGOD configurator
