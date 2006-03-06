@@ -26,6 +26,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Locale;
+
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -47,6 +49,8 @@ public class TableInputDialog extends JDialog
 	public TableInputDialog(Frame parent, String title, boolean bModal)
 	{
 		super(parent, title, bModal);
+		Locale l = parent.getLocale();
+		Translatrix.setLocale(l);
 		final JTextField jtxfRows   = new JTextField(3);
 		final JTextField jtxfCols   = new JTextField(3);
 		final JTextField jtxfBorder = new JTextField(3);

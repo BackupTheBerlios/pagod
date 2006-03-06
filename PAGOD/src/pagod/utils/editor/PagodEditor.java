@@ -37,6 +37,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Vector;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
@@ -45,6 +46,7 @@ import pagod.configurator.control.ApplicationManager;
 import pagod.configurator.ui.StepsTable;
 import pagod.utils.LanguagesManager;
 import pagod.utils.editor.PagodEditorCore;
+import pagod.utils.editor.hexidec.util.Translatrix;
 
 
 /**
@@ -172,12 +174,35 @@ public class PagodEditor extends JFrame implements WindowListener, Runnable
 		this.dispose();
 		// System.exit(0);
 	}
-	public void windowOpened(WindowEvent we)      { ; }
-	public void windowClosed(WindowEvent we)      { ; }
-	public void windowActivated(WindowEvent we)   { ; }
-	public void windowDeactivated(WindowEvent we) { ; }
-	public void windowIconified(WindowEvent we)   { ; }
-	public void windowDeiconified(WindowEvent we) { ; }
+	public void windowOpened (WindowEvent we)
+	{
+		;
+	}
+
+	public void windowClosed (WindowEvent we)
+	{
+		// this.pagodEditorCore.write();
+	}
+
+	public void windowActivated (WindowEvent we)
+	{
+		;
+	}
+
+	public void windowDeactivated (WindowEvent we)
+	{
+		;
+	}
+
+	public void windowIconified (WindowEvent we)
+	{
+		;
+	}
+
+	public void windowDeiconified (WindowEvent we)
+	{
+		;
+	}
 
 	/** Convenience method for updating the application title bar
 	  */
