@@ -1,5 +1,5 @@
 /*
- * $Id: PreferencesManager.java,v 1.10 2006/03/07 16:34:39 cyberal82 Exp $
+ * $Id: PreferencesManager.java,v 1.11 2006/03/07 17:02:41 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -603,7 +603,8 @@ public class PreferencesManager extends Observable
         {
             sExtension = keys.nextElement().toString();
 
-            if (!sExtension.equals("lang") && !sExtension.equals("workspace") && !sExtension.equals("couleurAF") && !sExtension.equals("couleurAS"))
+            // if (!sExtension.equals("lang") && !sExtension.equals("workspace") && !sExtension.equals("couleurAF") && !sExtension.equals("couleurAS"))
+            if (sExtension.startsWith("."))
                 extensions.add(sExtension);
         }
 
