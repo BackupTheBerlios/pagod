@@ -1,5 +1,5 @@
 /*
- * $Id: PreferencesDialog.java,v 1.12 2006/03/03 13:58:55 coincoin Exp $
+ * $Id: PreferencesDialog.java,v 1.13 2006/03/07 16:34:39 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -48,187 +48,203 @@ import pagod.utils.FilesManager;
  */
 public class PreferencesDialog extends JDialog implements ActionListener
 {
-    /**
-     * Bouton Valider
-     */
-    private JButton pbOk = null;
+	/**
+	 * Bouton Valider
+	 */
+	private JButton					pbOk		= null;
 
-    /**
-     * Bouton Annuler
-     */
-    private JButton pbCancel = null;
+	/**
+	 * Bouton Annuler
+	 */
+	private JButton					pbCancel	= null;
 
-    private LanguageChooserPanel pLanguage = null;
+	private LanguageChooserPanel	pLanguage	= null;
 
-    private ViewerPanel pViewer = null;
-    
-    private ColorPanel pColor = null;
+	private ViewerPanel				pViewer		= null;
 
-    /**
-     * Constructeur d'une PreferencesDialog, ayant pour fen?tre appelante
-     * parentFrame
-     * 
-     * @param parentFrame
-     *            fen?tre appelante du AboutDialog Si
-     *            GraphicsEnvironment.isHeadless() retourne vrai.
-     */
-    public PreferencesDialog(JFrame parentFrame)
-    {
-        super(parentFrame);
-        // bo?te de dialogue modale et centr?e par rapport ? l'appelant
-        this.setModal(true);
+	private ColorPanel				pColor		= null;
 
-        // on met le titre
-        this.setTitle(LanguagesManager.getInstance().getString(
-                "PreferencesDialogTitle"));
+	/**
+	 * Constructeur d'une PreferencesDialog, ayant pour fen?tre appelante
+	 * parentFrame
+	 * 
+	 * @param parentFrame
+	 *            fen?tre appelante du AboutDialog Si
+	 *            GraphicsEnvironment.isHeadless() retourne vrai.
+	 */
+	public PreferencesDialog (JFrame parentFrame)
+	{
+		super(parentFrame);
+		// bo?te de dialogue modale et centr?e par rapport ? l'appelant
+		this.setModal(true);
 
-        // on cree le panneau a onglet
-        JTabbedPane tpPreferences = new JTabbedPane();
+		// on met le titre
+		this.setTitle(LanguagesManager.getInstance().getString(
+				"PreferencesDialogTitle"));
 
-        // ajout de l'onglet permettant de changer la langue
-        this.pLanguage = new LanguageChooserPanel();
-        tpPreferences.addTab(LanguagesManager.getInstance().getString(
-                "LanguageTabTitle"), this.pLanguage);
+		// on cree le panneau a onglet
+		JTabbedPane tpPreferences = new JTabbedPane();
 
-        // ajout de l'onglet permettant de gerer les associations
-        this.pViewer = new ViewerPanel(parentFrame);
-        tpPreferences.addTab(LanguagesManager.getInstance().getString(
-                "ExtensionTabTitle"), this.pViewer);
-        
-        // ajout de l'onglet permettant de gerer les associations
-        this.pColor = new ColorPanel(parentFrame);
-        tpPreferences.addTab(LanguagesManager.getInstance().getString(
-        		"ColorTabTitle"), this.pColor);
+		// ajout de l'onglet permettant de changer la langue
+		this.pLanguage = new LanguageChooserPanel();
+		tpPreferences.addTab(LanguagesManager.getInstance().getString(
+				"LanguageTabTitle"), this.pLanguage);
 
-        // panneau contenant les boutons
-        JPanel pButton = new JPanel();
+		// ajout de l'onglet permettant de gerer les associations
+		this.pViewer = new ViewerPanel(parentFrame);
+		tpPreferences.addTab(LanguagesManager.getInstance().getString(
+				"ExtensionTabTitle"), this.pViewer);
 
-        // creation des boutons Ok et annuler
-        this.pbOk = new JButton(LanguagesManager.getInstance().getString(
-                "OKButtonLabel"));
-        this.pbCancel = new JButton(LanguagesManager.getInstance().getString(
-                "CancelButtonLabel"));
+		// ajout de l'onglet permettant de gerer les associations
+		this.pColor = new ColorPanel(parentFrame);
+		tpPreferences.addTab(LanguagesManager.getInstance().getString(
+				"ColorTabTitle"), this.pColor);
 
-        // ajout des boutons
-        pButton.add(this.pbOk);
-        pButton.add(this.pbCancel);
+		// panneau contenant les boutons
+		JPanel pButton = new JPanel();
 
-        // mise sur ecoute des boutons
-        this.pbOk.addActionListener(this);
-        this.pbCancel.addActionListener(this);
+		// creation des boutons Ok et annuler
+		this.pbOk = new JButton(LanguagesManager.getInstance().getString(
+				"OKButtonLabel"));
+		this.pbCancel = new JButton(LanguagesManager.getInstance().getString(
+				"CancelButtonLabel"));
 
-        // ajout des panneaux d'onglet et de bouton dans la JDialog
-        this.setLayout(new BorderLayout());
-        this.getContentPane().add(tpPreferences, BorderLayout.CENTER);
-        this.getContentPane().add(pButton, BorderLayout.SOUTH);
+		// ajout des boutons
+		pButton.add(this.pbOk);
+		pButton.add(this.pbCancel);
 
-        // on sauvegarde les preferences pour ne pas perdre celle qui ont put
-        // etre modifer ailleur qu'en passant par cette fenetre
-        PreferencesManager.getInstance().storePreferences();
-        this.pack();
+		// mise sur ecoute des boutons
+		this.pbOk.addActionListener(this);
+		this.pbCancel.addActionListener(this);
 
-        // bo?te de dialogue centr?e par rapport ? l'appelant
-        this.setLocationRelativeTo(parentFrame);
-    }
+		// ajout des panneaux d'onglet et de bouton dans la JDialog
+		this.setLayout(new BorderLayout());
+		this.getContentPane().add(tpPreferences, BorderLayout.CENTER);
+		this.getContentPane().add(pButton, BorderLayout.SOUTH);
 
-    /**
-     * 
-     * @param e
-     *            evenement
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e)
-    {
+		// on sauvegarde les preferences pour ne pas perdre celle qui ont put
+		// etre modifer ailleur qu'en passant par cette fenetre
+		PreferencesManager.getInstance().storePreferences();
+		this.pack();
 
-        if (e.getSource() == this.pbOk)
-        {
-            // on a clique sur le bouton Ok
-        	
-        	// Ce flag permet de savoir si le chemin du workspace est bon
-        	Boolean flagGoodDirectory = true;
+		// bo?te de dialogue centr?e par rapport ? l'appelant
+		this.setLocationRelativeTo(parentFrame);
+	}
 
-        	
-            // on recupere la langue selectionne et la precedente
-            String sLang = this.pLanguage.getSelectedLanguage();
-            String sPrecLang = PreferencesManager.getInstance().getLanguage();
+	/**
+	 * 
+	 * @param e
+	 *            evenement
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed (ActionEvent e)
+	{
 
-            PreferencesManager.getInstance().setLanguage(sLang);
-           
-	            
-            // On n'effectue la copie que si le chemin du workspace a ete modifie
-            // et si le workspace existe deja
-            if (!PreferencesManager.getInstance().getWorkspace().equals( this.pLanguage.getWorkspace())
-            	&& PreferencesManager.getInstance().getWorkspace()!=null ){
-	            // On instancie les fichiers
-	    		File sourceWorkspace = new File(PreferencesManager.getInstance().getWorkspace());
-	    		File targetWorkspace = new File(this.pLanguage.getWorkspace());
-	    		
-	    		// Si le nouveau chemin est valide alors on copie les fichiers
-	    		if (targetWorkspace.exists()){
-		    		// On copie le r?pertoire source dans le r?pertoire destination en faisant attention aux paramètres
-		    		FilesManager.copyDirectory(sourceWorkspace,targetWorkspace,targetWorkspace);
-		    		// On efface le r?pertoire source
-		    		//FilesManager.deleteDirectory(sourceWorkspace);
-		    		// Mise à jour du preferences manager
-		    		PreferencesManager.getInstance().setWorkspace(this.pLanguage.getWorkspace());
-		    		
-	    		} else {
-	    		// Sinon on ne copie pas et on affiche un message d'erreur
-	    			JOptionPane.showMessageDialog(this, LanguagesManager
+		if (e.getSource() == this.pbOk)
+		{
+			// on a clique sur le bouton Ok
+
+			// Ce flag permet de savoir si le chemin du workspace est bon
+			Boolean flagGoodDirectory = true;
+
+			// on met a jour le fait qu'il faut ou non afficher le stepPanel
+			PreferencesManager.getInstance().setDisplayStepList(
+					this.pLanguage.getChoiceStepPanel());
+
+			// on recupere la langue selectionne et la precedente
+			String sLang = this.pLanguage.getSelectedLanguage();
+			String sPrecLang = PreferencesManager.getInstance().getLanguage();
+
+			PreferencesManager.getInstance().setLanguage(sLang);
+
+			// On n'effectue la copie que si le chemin du workspace a ete
+			// modifie
+			// et si le workspace existe deja
+			if (!PreferencesManager.getInstance().getWorkspace().equals(
+					this.pLanguage.getWorkspace())
+					&& PreferencesManager.getInstance().getWorkspace() != null)
+			{
+				// On instancie les fichiers
+				File sourceWorkspace = new File(PreferencesManager
+						.getInstance().getWorkspace());
+				File targetWorkspace = new File(this.pLanguage.getWorkspace());
+
+				// Si le nouveau chemin est valide alors on copie les fichiers
+				if (targetWorkspace.exists())
+				{
+					// On copie le r?pertoire source dans le r?pertoire
+					// destination en faisant attention aux paramètres
+					FilesManager.copyDirectory(sourceWorkspace,
+							targetWorkspace, targetWorkspace);
+					// On efface le r?pertoire source
+					// FilesManager.deleteDirectory(sourceWorkspace);
+					// Mise à jour du preferences manager
+					PreferencesManager.getInstance().setWorkspace(
+							this.pLanguage.getWorkspace());
+
+				}
+				else
+				{
+					// Sinon on ne copie pas et on affiche un message d'erreur
+					JOptionPane.showMessageDialog(this, LanguagesManager
 							.getInstance().getString("WorkspaceException"),
 							LanguagesManager.getInstance().getString(
 									"WorkspaceErrorTitle"),
 							JOptionPane.ERROR_MESSAGE);
-	    			// Le répertoire n'est pas bon, il faut en changer alors on ne ferme pas la fenetre
-	    			flagGoodDirectory = false;
-	    		}
-	    		
-            }
- 
-            
-           if (flagGoodDirectory){
+					// Le répertoire n'est pas bon, il faut en changer alors on
+					// ne ferme pas la fenetre
+					flagGoodDirectory = false;
+				}
 
-            PreferencesManager.getInstance().storePreferences();
-            PreferencesManager.getInstance().setLanguage(sPrecLang);
+			}
 
-            if (!sLang.equals(sPrecLang))
-            {
-                // on affiche un message comme quoi la langue a change
-                JOptionPane.showMessageDialog(
-                        PreferencesDialog.this.getOwner(), LanguagesManager
-                                .getInstance().getString("infoChangeLanguage"),
-                        LanguagesManager.getInstance().getString(
-                                "titleInfoChangeLanguage"),
-                        JOptionPane.INFORMATION_MESSAGE);
-            }
-            
-            /*Modif Coin coin pour la gestion des couleurs*/
-            
-            //Enregistrement des couleurs dans le fichier de préférence
-            //Test pour savoir si la couleur a ete modifiee
-            if (this.pColor.getColorAF() != null){
-            PreferencesManager.getInstance().setColorAF(this.pColor.getColorAF());
-            }
-            
-            //Test pour savoir si la couleur a ete modifiee
-            if (this.pColor.getColorAS() != null){
-            PreferencesManager.getInstance().setColorAS(this.pColor.getColorAS());
-            }
-            
-            /*Fin Modif*/
-            
-            
-            ApplicationManager.getInstance().getMfPagod().repaint();
-            this.dispose();
-            
-           }
-        }
-        else
-        {
-            // on a cliquer sur le bouton annuler
-            // on charge les preferences avant les modifications
-            PreferencesManager.getInstance().loadPreferences();
-            this.dispose();
-        }
-    }
+			if (flagGoodDirectory)
+			{
+
+				PreferencesManager.getInstance().storePreferences();
+				PreferencesManager.getInstance().setLanguage(sPrecLang);
+
+				if (!sLang.equals(sPrecLang))
+				{
+					// on affiche un message comme quoi la langue a change
+					JOptionPane.showMessageDialog(PreferencesDialog.this
+							.getOwner(), LanguagesManager.getInstance()
+							.getString("infoChangeLanguage"),
+							LanguagesManager.getInstance().getString(
+									"titleInfoChangeLanguage"),
+							JOptionPane.INFORMATION_MESSAGE);
+				}
+
+				/* Modif Coin coin pour la gestion des couleurs */
+
+				// Enregistrement des couleurs dans le fichier de préférence
+				// Test pour savoir si la couleur a ete modifiee
+				if (this.pColor.getColorAF() != null)
+				{
+					PreferencesManager.getInstance().setColorAF(
+							this.pColor.getColorAF());
+				}
+
+				// Test pour savoir si la couleur a ete modifiee
+				if (this.pColor.getColorAS() != null)
+				{
+					PreferencesManager.getInstance().setColorAS(
+							this.pColor.getColorAS());
+				}
+
+				/* Fin Modif */
+
+				ApplicationManager.getInstance().getMfPagod().repaint();
+				this.dispose();
+
+			}
+		}
+		else
+		{
+			// on a cliquer sur le bouton annuler
+			// on charge les preferences avant les modifications
+			PreferencesManager.getInstance().loadPreferences();
+			this.dispose();
+		}
+	}
 }

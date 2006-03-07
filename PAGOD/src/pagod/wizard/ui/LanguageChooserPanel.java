@@ -1,5 +1,5 @@
  /*
- * $Id: LanguageChooserPanel.java,v 1.5 2006/03/03 13:49:36 coincoin Exp $
+ * $Id: LanguageChooserPanel.java,v 1.6 2006/03/07 16:34:39 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -24,28 +24,24 @@
 
 package pagod.wizard.ui;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
-/*Modif Coin coin*/
-import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-/*Fin Modif Coin coin*/
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Locale;
 
 import javax.swing.DefaultListCellRenderer;
-import javax.swing.JColorChooser;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-/*Modif Coin coin*/
 import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-/*Fin Modif Coin coin*/
 
 import pagod.common.ui.WorkspaceFileChooser;
 import pagod.utils.FilesManager;
@@ -88,7 +84,14 @@ public class LanguageChooserPanel extends JPanel
     JPanel pWorkspace = new JPanel();
     /*Fin Modif Coin coin*/
 
+    /**
+     * panneau permettant a l'utilisateur de choisir 
+     * s'il veut ou non afficher le panneau des étapes quand 
+     * une activité est lancé et qu'on est dans l'etat StepState
+     */
+    JPanel pChoiceStepPanel = new JPanel();
     
+    JCheckBox chkChoiceStepPanel;
     
     /**
      * Constructeur de la classe LanguageChooserPanel
@@ -114,7 +117,7 @@ public class LanguageChooserPanel extends JPanel
         
         //Mise en forme des panels inclus dans pCenter 
         
-        this.pLangage.setLayout(new FlowLayout());
+        this.pLangage.setLayout(new BorderLayout());
         this.pWorkspace.setLayout(new FlowLayout());
         
         
@@ -152,14 +155,21 @@ public class LanguageChooserPanel extends JPanel
         //add(lLangue);
         //add(this.cbLanguages);
         
-        this.pLangage.add(lLangue);
-        this.pLangage.add(this.cbLanguages);
+        // creation d'une checkBox permettant d'indiquer
+        // si on doit afficher le panneau permettant de choisir les etapes et initialisation
+        this.chkChoiceStepPanel = new JCheckBox(LanguagesManager.getInstance().getString("lblChoiceStepPanel"));
+        this.chkChoiceStepPanel.setSelected(PreferencesManager.getInstance().getDisplayStepList());
+        
+        JPanel pLangue= new JPanel();
+        pLangue.setLayout(new FlowLayout(FlowLayout.LEFT));
+        pLangue.add(lLangue);
+        pLangue.add(this.cbLanguages);
+        this.pLangage.add(pLangue, BorderLayout.NORTH);
+        this.pLangage.add(this.chkChoiceStepPanel, BorderLayout.SOUTH);
         
         this.pWorkspace.add(this.lChangeWorkspace);
         this.pWorkspace.add(this.tfChangeWorkspace);
         this.pWorkspace.add(this.bChangeWorkspace);
-        
-        
         
 
         this.bChangeWorkspace.addActionListener(new ActionListener(){
@@ -184,6 +194,7 @@ public class LanguageChooserPanel extends JPanel
         
         add(this.pLangage, BorderLayout.NORTH);
         add(this.pWorkspace, BorderLayout.CENTER);
+        add(this.pChoiceStepPanel, BorderLayout.SOUTH);
         
         
         /*Fin Modif Coin coin*/
@@ -245,11 +256,20 @@ public class LanguageChooserPanel extends JPanel
     /**
      * Retourne le chemin d'acces selectionne par l'utilisateur
      * 
-     * 
      * @return un string qui contient le chemin d'acces au workspace
      */
     public String getWorkspace()
     {
     	return this.tfChangeWorkspace.getText();
+    }
+    
+    /**
+     * Retourne true s'il faut afficher la liste des étapes sinon false
+     * 
+     * @return true s'il faut afficher la liste des étapes sinon false
+     */
+    public boolean getChoiceStepPanel()
+    {
+    	return this.chkChoiceStepPanel.isSelected();
     }
 }

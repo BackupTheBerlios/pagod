@@ -1,5 +1,5 @@
 /*
- * $Id: QuitAction.java,v 1.11 2006/02/19 14:20:04 yak Exp $
+ * $Id: QuitAction.java,v 1.12 2006/03/07 16:34:39 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -85,8 +85,8 @@ public class QuitAction extends AbstractPagodAction
 		// sauvegarde des temps lies au processus
 		ApplicationManager.getInstance().saveTime();
 		
-		
 		PreferencesManager.getInstance().storeExtensions();
+		
 		System.exit(0);
 	}
 }

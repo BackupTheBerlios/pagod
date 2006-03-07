@@ -1,5 +1,5 @@
 /*
- * $Id: PreferencesManager.java,v 1.9 2006/03/03 13:19:43 coincoin Exp $
+ * $Id: PreferencesManager.java,v 1.10 2006/03/07 16:34:39 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -176,9 +176,7 @@ public class PreferencesManager extends Observable
 	 */
 	public boolean getDisplayStepList ()
 	{
-		System.out.println("PreferencesManager.getDisplayStepList : " + Boolean.getBoolean(preferences.getProperty("displayStepList", "true")));
-		
-		return Boolean.getBoolean(preferences.getProperty("displayStepList", "true"));
+		return Boolean.valueOf(preferences.getProperty("displayStepList", "true"));
 	}
     
     /*Modif Coin coin*/
@@ -761,7 +759,10 @@ public class PreferencesManager extends Observable
         {
             String extension = keys.nextElement().toString();
             //TODO a am?liorer
-            if (!extension.equals("lang") && !extension.equals("workspace") && !extension.equals("couleurAF") && !extension.equals("couleurAS"))
+            // if (!extension.equals("lang") && !extension.equals("workspace") && !extension.equals("couleurAF") && !extension.equals("couleurAS"))
+            // on supprime les associations outils extension (toutes les extensions sont stockées avec des . devant)
+            // et les autres clé (celle qui n'ont pas de . devant sont des clées spéciale qu'il ne faut pas supprimer)
+            if (extension.startsWith("."))
             {
                 file = new File(preferences.getProperty(extension));
                

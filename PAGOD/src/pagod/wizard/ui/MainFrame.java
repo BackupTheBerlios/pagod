@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.58 2006/03/02 21:02:06 cyberal82 Exp $
+ * $Id: MainFrame.java,v 1.59 2006/03/07 16:34:39 cyberal82 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -237,8 +237,8 @@ public class MainFrame extends JFrame implements Observer
 			this.stepPanel.add(component, BorderLayout.CENTER);
 			
 			// si on doit afficher la StepList
-			// TODO Alex a voir if (PreferencesManager.getInstance().getDisplayStepList())
-			this.stepPanel.add(this.jListPanel, BorderLayout.SOUTH);
+			if (PreferencesManager.getInstance().getDisplayStepList())
+				this.stepPanel.add(this.jListPanel, BorderLayout.SOUTH);
 			
 			this.splitPane.setLeftComponent(this.stepPanel);
 
