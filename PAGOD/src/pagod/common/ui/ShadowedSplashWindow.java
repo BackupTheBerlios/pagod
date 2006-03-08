@@ -125,6 +125,11 @@ public class ShadowedSplashWindow extends JWindow {
         if (splash != null) {
             g.drawImage(splash, 0, 0, null);
         }
+        // on informe l'instance que le dessin a ete demander
+        if (! this.paintCalled) {
+            this.paintCalled = true;
+            synchronized (this) { notifyAll(); }
+        }
     }
     
     private void createShadowPicture(BufferedImage image) {
@@ -189,51 +194,4 @@ public class ShadowedSplashWindow extends JWindow {
             instance = null;
         }
     }
-    
-    /*
-    public static void main(String[] args) {
-        try {
-            BufferedImage image = ImageIO.read(ShadowedSplashWindow.class.getResourceAsStream("/resources/images/logo.png"));
-            ShadowedSplashWindow window = new ShadowedSplashWindow(image);
-            window.setVisible(true);
-            Timer timer = new Timer(2000, new ActionListener() {
-                public void actionPerformed(ActionEvent evt) {
-                	try
-        			{
-        				wait(1000);
-        			}
-        			catch (InterruptedException e)
-        			{
-        				// Bloc de traitement des exceptions généré automatiquement
-        				e.printStackTrace();
-        			}
-                }
-            });
-            timer.start();
-            try
-			{
-				timer.wait(1000);
-			}
-			catch (InterruptedException e)
-			{
-				// TODO Bloc de traitement des exceptions généré automatiquement
-				e.printStackTrace();
-			}
-            
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-//      lancement de l'application
-		ApplicationManager applicationManager = ApplicationManager
-				.getInstance();
-		// creation de la fenetre principale
-
-		MainFrame mfPagod = new MainFrame();
-
-		applicationManager.setMfPagod(mfPagod);
-
-		// on passe dans l'?tat init
-		applicationManager.setState(new InitState(applicationManager));
-    }*/
-    
 }
