@@ -1,5 +1,5 @@
 /*
- * $Id: CheckPane.java,v 1.4 2006/02/15 18:18:54 cyberal82 Exp $
+ * $Id: CheckPane.java,v 1.5 2006/03/09 18:46:33 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -145,14 +145,38 @@ public class CheckPane extends JScrollPane
                 lProductLabel.setBackground(Color.WHITE);
                 Font fontProduct = pProductTitlePanel.getFont();
                 lProductLabel.setFont(fontProduct.deriveFont(Font.PLAIN));
+          
                 pProduct.setBackground(Color.WHITE);
                 pProduct.add(lProductLabel);
                 Dimension productLabelSize = lProductLabel.getPreferredSize();
                 pProduct.setMaximumSize(new Dimension(iWidth,
                         productLabelSize.height));
+                
+                String toolTipTempText = product.getName();
+                if (product.getDescription() != null)
+                	toolTipTempText = toolTipTempText + product.getDescription();
+                lProductLabel.setToolTipText(toolTipTempText);
+                
+                lProductLabel.addMouseListener( new MouseAdapter()
+                {
+                     public void mouseEntered(MouseEvent e)
+                     {
+                          JLabel ltemp;
+                          ltemp =  (JLabel)e.getSource();
+                          ltemp.setForeground(Color.blue);
+                      } 
+                      public void mouseExited(MouseEvent e)
+                      {
+                           JLabel ltemp;
+                           ltemp =  (JLabel)e.getSource();
+                           ltemp.setForeground(Color.black);
+                      }
+                     
+                  });
+                
                 pCenterPanel.add(pProduct);
             }
-            pCenterPanel.add(Box.createVerticalStrut(10));
+            //pCenterPanel.add(Box.createVerticalStrut(10));
             // section outils
             if (activity.needsTools())
             {

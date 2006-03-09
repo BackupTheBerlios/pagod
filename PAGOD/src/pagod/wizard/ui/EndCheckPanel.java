@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: EndCheckPanel.java,v 1.7 2006/02/15 18:18:54 cyberal82 Exp $
+ * $Id: EndCheckPanel.java,v 1.8 2006/03/09 18:46:33 psyko Exp $
  */
 package pagod.wizard.ui;
 
@@ -127,15 +127,38 @@ public class EndCheckPanel extends JScrollPane
                 lProductLabel.setFont(fontProduct.deriveFont(Font.PLAIN));
                 pProduct.setBackground(Color.WHITE);
                 pProduct.add(lProductLabel);
+                String toolTipTempText = product.getName();
+                if (product.getDescription() != null)
+                	toolTipTempText = toolTipTempText + product.getDescription();
+                lProductLabel.setToolTipText(toolTipTempText);
+                
+                lProductLabel.addMouseListener( new MouseAdapter()
+                {
+                      public void mouseEntered(MouseEvent e)
+                      {
+                            JLabel ltemp;
+                            ltemp =  (JLabel)e.getSource();
+                            ltemp.setForeground(Color.blue);
+                      } 
+                      public void mouseExited(MouseEvent e)
+                      {
+                            JLabel ltemp;
+                            ltemp =  (JLabel)e.getSource();
+                            ltemp.setForeground(Color.black);
+                      }
+                             
+                  });
+                
+                
                 Dimension productLabelSize = lProductLabel.getPreferredSize();
                 pProduct.setMaximumSize(new Dimension(iWidth,
                         productLabelSize.height));
                 pCenterPanel.add(pProduct);
             }
-            pCenterPanel.add(Box.createVerticalStrut(10));
+            //pCenterPanel.add(Box.createVerticalStrut(10));
            
         }
-        pCenterPanel.add(Box.createVerticalStrut(10));
+        //pCenterPanel.add(Box.createVerticalStrut(10));
 
         // pCenterPanel.add(Box.createVerticalStrut(10));
         
