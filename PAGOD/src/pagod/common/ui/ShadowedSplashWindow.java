@@ -9,8 +9,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Robot;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -21,14 +19,9 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.JWindow;
-import javax.swing.Timer;
 
-import pagod.configurator.control.ApplicationManager;
 import pagod.configurator.control.Constants;
-import pagod.configurator.control.states.InitState;
-import pagod.configurator.ui.MainFrame;
 import pagod.utils.ImagesManager;
-import pagod.wizard.ui.SplashWindow;
 
 /**
  * @author Arno
@@ -85,16 +78,20 @@ public class ShadowedSplashWindow extends JWindow {
         }
     }
     
+    /**
+     * @param parent
+     * @param imagePath
+     */
     public ShadowedSplashWindow(Frame parent, String imagePath) {
     	super(parent);
         ImagesManager.getInstance()
         .setImagePath(Constants.IMAGES_DIRECTORY);
         this.image = ImagesManager.getInstance().getIcon( imagePath);
         
-    	BufferedImage image = null;
+    	BufferedImage b_image = null;
 		try
 		{
-			image = ImageIO.read(ShadowedSplashWindow.class.getResourceAsStream("/resources/images/logo.png"));
+			b_image = ImageIO.read(ShadowedSplashWindow.class.getResourceAsStream("/resources/images/logo.png"));
 		}
 		catch (IOException e)
 		{
@@ -103,7 +100,7 @@ public class ShadowedSplashWindow extends JWindow {
 		}
         // ShadowedSplashWindow window = new ShadowedSplashWindow(image);
         
-        createShadowPicture(image);
+        createShadowPicture(b_image);
         this.setVisible(true);
         
 //      pour que l'utilisateur puisse ferm? les splash screen en cliquant dessus
@@ -121,9 +118,12 @@ public class ShadowedSplashWindow extends JWindow {
         addMouseListener(disposeOnClick);
     }
 
+    /** 
+     * @see java.awt.Container#paint(java.awt.Graphics)
+     */
     public void paint(Graphics g) {
-        if (splash != null) {
-            g.drawImage(splash, 0, 0, null);
+        if (this.splash != null) {
+            g.drawImage(this.splash, 0, 0, null);
         }
         // on informe l'instance que le dessin a ete demander
         if (! this.paintCalled) {
@@ -132,17 +132,17 @@ public class ShadowedSplashWindow extends JWindow {
         }
     }
     
-    private void createShadowPicture(BufferedImage image) {
-        int width = image.getWidth();
-        int height = image.getHeight();
+    private void createShadowPicture(BufferedImage b_image) {
+        int width = b_image.getWidth();
+        int height = b_image.getHeight();
         int extra = 14;
 
         setSize(new Dimension(width + extra, height + extra));
         setLocationRelativeTo(null);
         Rectangle windowRect = getBounds();
 
-        splash = new BufferedImage(width + extra, height + extra, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2 = (Graphics2D) splash.getGraphics();
+        this.splash = new BufferedImage(width + extra, height + extra, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = (Graphics2D) this.splash.getGraphics();
 
         try {
             Robot robot = new Robot(getGraphicsConfiguration().getDevice());
@@ -156,7 +156,7 @@ public class ShadowedSplashWindow extends JWindow {
         g.fillRoundRect(6, 6, width, height, 12, 12);
 
         g2.drawImage(shadow, getBlurOp(7), 0, 0);
-        g2.drawImage(image, 0, 0, this);
+        g2.drawImage(b_image, 0, 0, this);
     }
 
     private ConvolveOp getBlurOp(int size) {

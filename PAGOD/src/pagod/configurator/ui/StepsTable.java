@@ -1,5 +1,5 @@
 /*
- * $Id: StepsTable.java,v 1.4 2006/03/04 18:00:55 garwind111 Exp $
+ * $Id: StepsTable.java,v 1.5 2006/03/09 00:40:48 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -29,8 +29,6 @@ import java.awt.Component;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.EventObject;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.AbstractCellEditor;
 import javax.swing.BoxLayout;
@@ -47,7 +45,6 @@ import javax.swing.table.TableCellEditor;
 import pagod.common.control.ModelResourcesManager;
 import pagod.common.model.Product;
 import pagod.common.model.Step;
-import pagod.configurator.control.ApplicationManager;
 import pagod.configurator.control.adapters.ActivityStepsTableModel;
 import pagod.configurator.control.adapters.OutputProductsTableModel;
 import pagod.configurator.control.adapters.StepsTransferHandler;

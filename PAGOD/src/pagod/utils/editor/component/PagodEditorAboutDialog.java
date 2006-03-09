@@ -10,15 +10,14 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import pagod.utils.ImagesManager;
-import pagod.utils.LanguagesManager;
-
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import pagod.utils.ImagesManager;
+import pagod.utils.LanguagesManager;
 
 /**
  * 

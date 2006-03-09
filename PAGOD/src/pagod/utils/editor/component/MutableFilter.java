@@ -31,19 +31,26 @@ public class MutableFilter extends FileFilter
 	private String[] acceptableExtensions;
 	private String descriptor;
 
+	/**
+	 * @param exts
+	 * @param desc
+	 */
 	public MutableFilter(String[] exts, String desc)
 	{
-		acceptableExtensions = exts;
+		this.acceptableExtensions = exts;
 		StringBuffer strbDesc = new StringBuffer(desc + " (");
-		for(int i = 0; i < acceptableExtensions.length; i++)
+		for(int i = 0; i < this.acceptableExtensions.length; i++)
 		{
 			if(i > 0) { strbDesc.append(", "); }
-			strbDesc.append("*." + acceptableExtensions[i]);
+			strbDesc.append("*." + this.acceptableExtensions[i]);
 		}
 		strbDesc.append(")");
-		descriptor = strbDesc.toString();
+		this.descriptor = strbDesc.toString();
 	}
 
+	/** (non-Javadoc)
+	 * @see javax.swing.filechooser.FileFilter#accept(java.io.File)
+	 */
 	public boolean accept(File file)
 	{
 		if(file.isDirectory())
@@ -54,9 +61,9 @@ public class MutableFilter extends FileFilter
 		String fileExt = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length()).toLowerCase();
 		if(fileExt != null)
 		{
-			for(int i = 0; i < acceptableExtensions.length; i++)
+			for(int i = 0; i < this.acceptableExtensions.length; i++)
 			{
-				if(fileExt.equals(acceptableExtensions[i]))
+				if(fileExt.equals(this.acceptableExtensions[i]))
 				{
 					return true;
 				}
@@ -69,9 +76,12 @@ public class MutableFilter extends FileFilter
 		}
 	}
 
+	/** (non-Javadoc)
+	 * @see javax.swing.filechooser.FileFilter#getDescription()
+	 */
 	public String getDescription()
 	{
-		return descriptor;
+		return this.descriptor;
 	}
 }
 

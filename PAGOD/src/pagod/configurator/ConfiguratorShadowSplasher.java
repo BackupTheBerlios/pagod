@@ -1,5 +1,5 @@
 /*
- * $Id: ConfiguratorShadowSplasher.java,v 1.1 2006/03/06 10:49:42 garwind111 Exp $
+ * $Id: ConfiguratorShadowSplasher.java,v 1.2 2006/03/09 00:40:48 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -25,9 +25,6 @@
 package pagod.configurator;
 
 import pagod.common.ui.ShadowedSplashWindow;
-import pagod.configurator.control.ApplicationManager;
-import pagod.configurator.control.states.InitState;
-import pagod.configurator.ui.MainFrame;
 
 /**
  * Classe principale de PAGOD configurator.

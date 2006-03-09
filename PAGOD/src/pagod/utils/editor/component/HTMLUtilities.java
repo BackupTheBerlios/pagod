@@ -21,15 +21,18 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package pagod.utils.editor.component;
 
-import java.io.*;
-import java.lang.reflect.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.text.*;
-import javax.swing.text.html.*;
+import java.io.IOException;
+import java.util.Enumeration;
+import java.util.Hashtable;
+
+import javax.swing.JTextArea;
+import javax.swing.JTextPane;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Element;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.html.HTML;
 
 import pagod.utils.editor.PagodEditorCore;
-import pagod.utils.editor.component.*;
 
 
 public class HTMLUtilities

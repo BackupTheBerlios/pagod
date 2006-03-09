@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ImportProjectAction.java,v 1.1 2006/03/03 14:57:29 flotueur Exp $
+ * $Id: ImportProjectAction.java,v 1.2 2006/03/09 00:40:47 psyko Exp $
  */
 
 package pagod.configurator.control.actions;
@@ -10,8 +10,6 @@ import java.awt.event.ActionEvent;
 import java.io.IOException;
 
 import pagod.common.control.actions.CustomAction;
-import pagod.configurator.control.ApplicationManager;
-import pagod.configurator.ui.PreferencesDialog;
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
 

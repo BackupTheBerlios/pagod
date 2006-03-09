@@ -32,16 +32,13 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Insets;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
-import javax.swing.border.*;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -55,13 +52,38 @@ import javax.swing.WindowConstants;
 import pagod.utils.editor.PagodEditorCore;
 import pagod.utils.editor.hexidec.util.Translatrix;
 
+/**
+ * @author 
+ *
+ */
 public class UnicodeDialog extends JDialog implements ActionListener
 {
+	/**
+	 * Commentaire pour <code>UNICODE_BASE</code>
+	 */
 	public static final int UNICODE_BASE = 0;
+	/**
+	 * Commentaire pour <code>UNICODE_SIGS</code>
+	 */
 	public static final int UNICODE_SIGS = 47;
+	/**
+	 * Commentaire pour <code>UNICODE_SPEC</code>
+	 */
 	public static final int UNICODE_SPEC = 48;
+	/**
+	 * Commentaire pour <code>UNICODE_MATH</code>
+	 */
+	/**
+	 * Commentaire pour <code>UNICODE_MATH</code>
+	 */
 	public static final int UNICODE_MATH = 49;
+	/**
+	 * Commentaire pour <code>UNICODE_DRAW</code>
+	 */
 	public static final int UNICODE_DRAW = 54;
+	/**
+	 * Commentaire pour <code>UNICODE_DING</code>
+	 */
 	public static final int UNICODE_DING = 56;
 
 	private static final int    UNICODEBLOCKSIZE  = 256;
@@ -369,18 +391,27 @@ public class UnicodeDialog extends JDialog implements ActionListener
 	private JComboBox jcmbBlockSelector;
 	private JComboBox jcmbPageSelector;
 
+	/**
+	 * @param parent
+	 * @param title
+	 * @param bModal
+	 * @param index
+	 */
 	public UnicodeDialog(PagodEditorCore parent, String title, boolean bModal, int index)
 	{
 		super(parent.getFrame(), title, bModal);
-		parentEkit = parent;
+		this.parentEkit = parent;
 		init(index);
 	}
 
+	/** (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	public void actionPerformed(ActionEvent ae)
 	{
 		if(ae.getActionCommand().equals(CMDCHANGEBLOCK))
 		{
-			populateButtons(jcmbBlockSelector.getSelectedIndex(), jcmbPageSelector.getSelectedIndex());
+			populateButtons(this.jcmbBlockSelector.getSelectedIndex(), this.jcmbPageSelector.getSelectedIndex());
 		}
 		else if(ae.getActionCommand().equals("close"))
 		{
@@ -395,23 +426,26 @@ public class UnicodeDialog extends JDialog implements ActionListener
 		{
 			try
 			{
-				parentEkit.insertUnicodeChar(ae.getActionCommand());
+				this.parentEkit.insertUnicodeChar(ae.getActionCommand());
 			}
 			catch(java.io.IOException ioe) { System.out.println("IOException during character insertion : " + ioe.getMessage()); }
 			catch(javax.swing.text.BadLocationException ble) { System.out.println("BadLocationException during character insertion : " + ble.getMessage()); }
 		}
 	}
 
+	/**
+	 * @param startIndex
+	 */
 	public void init(int startIndex)
 	{
 		String customFont = Translatrix.getTranslationString("UnicodeDialogButtonFont");
 		if(customFont != null && customFont.length() > 0)
 		{
-			buttonFont = new Font(Translatrix.getTranslationString("UnicodeDialogButtonFont"), Font.PLAIN, 12);
+			this.buttonFont = new Font(Translatrix.getTranslationString("UnicodeDialogButtonFont"), Font.PLAIN, 12);
 		}
 		else
 		{
-			buttonFont = new Font("Monospaced", Font.PLAIN, 12);
+			this.buttonFont = new Font("Monospaced", Font.PLAIN, 12);
 		}
 
 		Container contentPane = getContentPane();
@@ -420,7 +454,7 @@ public class UnicodeDialog extends JDialog implements ActionListener
 
 		JPanel centerPanel = new JPanel();
 		centerPanel.setLayout(new GridLayout(0, 17, 0, 0));
-		buttonGroup = new ButtonGroup();
+		this.buttonGroup = new ButtonGroup();
 
 		int prefButtonWidth  = 32;
 		int prefButtonHeight = 32;
@@ -447,43 +481,43 @@ public class UnicodeDialog extends JDialog implements ActionListener
 				centerPanel.add(jlblMarker);
 				labelcount++;
 			}
-			buttonArray[counter] = new JToggleButton(" ");
-			buttonArray[counter].getModel().setActionCommand("");
-			buttonArray[counter].setFont(buttonFont);
-			buttonArray[counter].setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.LOWERED));
-			buttonArray[counter].addActionListener(this);
+			this.buttonArray[counter] = new JToggleButton(" ");
+			this.buttonArray[counter].getModel().setActionCommand("");
+			this.buttonArray[counter].setFont(this.buttonFont);
+			this.buttonArray[counter].setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.LOWERED));
+			this.buttonArray[counter].addActionListener(this);
 			if(counter == 0)
 			{
-				FontRenderContext frcLocal = ((java.awt.Graphics2D)(parentEkit.getGraphics())).getFontRenderContext();
-				Rectangle2D fontBounds = buttonFont.getMaxCharBounds(frcLocal);
+				FontRenderContext frcLocal = ((java.awt.Graphics2D)(this.parentEkit.getGraphics())).getFontRenderContext();
+				Rectangle2D fontBounds = this.buttonFont.getMaxCharBounds(frcLocal);
 				int maxCharWidth  = (int)(Math.abs(fontBounds.getX())) + (int)(Math.abs(fontBounds.getWidth()));
 				int maxCharHeight = (int)(Math.abs(fontBounds.getY())) + (int)(Math.abs(fontBounds.getHeight()));
-				Insets buttonInsets = buttonArray[counter].getBorder().getBorderInsets(buttonArray[counter]);
+				Insets buttonInsets = this.buttonArray[counter].getBorder().getBorderInsets(this.buttonArray[counter]);
 				prefButtonWidth  = maxCharWidth + buttonInsets.left + buttonInsets.right;
 				prefButtonHeight = maxCharHeight + buttonInsets.top + buttonInsets.bottom;
 			}
-			buttonArray[counter].setPreferredSize(new Dimension(prefButtonWidth, prefButtonHeight));
-			centerPanel.add(buttonArray[counter]);
-			buttonGroup.add(buttonArray[counter]);
+			this.buttonArray[counter].setPreferredSize(new Dimension(prefButtonWidth, prefButtonHeight));
+			centerPanel.add(this.buttonArray[counter]);
+			this.buttonGroup.add(this.buttonArray[counter]);
 		}
 
 		JPanel selectorPanel = new JPanel();
 
-		jcmbBlockSelector = new JComboBox(unicodeBlocks);
-		jcmbBlockSelector.setSelectedIndex(startIndex);
-		jcmbBlockSelector.setActionCommand(CMDCHANGEBLOCK);
-		jcmbBlockSelector.addActionListener(this);
+		this.jcmbBlockSelector = new JComboBox(unicodeBlocks);
+		this.jcmbBlockSelector.setSelectedIndex(startIndex);
+		this.jcmbBlockSelector.setActionCommand(CMDCHANGEBLOCK);
+		this.jcmbBlockSelector.addActionListener(this);
 
 		String[] sPages = { "1" };
-		jcmbPageSelector = new JComboBox(sPages);
-		jcmbPageSelector.setSelectedIndex(0);
-		jcmbPageSelector.setActionCommand(CMDCHANGEBLOCK);
-		jcmbPageSelector.addActionListener(this);
+		this.jcmbPageSelector = new JComboBox(sPages);
+		this.jcmbPageSelector.setSelectedIndex(0);
+		this.jcmbPageSelector.setActionCommand(CMDCHANGEBLOCK);
+		this.jcmbPageSelector.addActionListener(this);
 
 		selectorPanel.add(new JLabel(Translatrix.getTranslationString("SelectorToolUnicodeBlock")));
-		selectorPanel.add(jcmbBlockSelector);
+		selectorPanel.add(this.jcmbBlockSelector);
 		selectorPanel.add(new JLabel(Translatrix.getTranslationString("SelectorToolUnicodePage")));
-		selectorPanel.add(jcmbPageSelector);
+		selectorPanel.add(this.jcmbPageSelector);
 
 		JPanel buttonPanel = new JPanel();
 
@@ -505,54 +539,54 @@ public class UnicodeDialog extends JDialog implements ActionListener
 
 	private void populateButtons(int index, int page)
 	{
-		int blockPages = ((unicodeBlockEnd[index] / UNICODEBLOCKSIZE) - (unicodeBlockStart[index] / UNICODEBLOCKSIZE)) + 1;
-		if(blockPages != jcmbPageSelector.getItemCount())
+		int blockPages = ((this.unicodeBlockEnd[index] / UNICODEBLOCKSIZE) - (this.unicodeBlockStart[index] / UNICODEBLOCKSIZE)) + 1;
+		if(blockPages != this.jcmbPageSelector.getItemCount())
 		{
-			jcmbPageSelector.setActionCommand("");
-			jcmbPageSelector.setEnabled(false);
-			jcmbPageSelector.removeAllItems();
+			this.jcmbPageSelector.setActionCommand("");
+			this.jcmbPageSelector.setEnabled(false);
+			this.jcmbPageSelector.removeAllItems();
 			for(int i = 0; i < blockPages; i++)
 			{
-				jcmbPageSelector.addItem("" + (i + 1));
+				this.jcmbPageSelector.addItem("" + (i + 1));
 			}
-			jcmbPageSelector.setEnabled(true);
-			jcmbPageSelector.update(this.getGraphics());
-			jcmbPageSelector.setActionCommand(CMDCHANGEBLOCK);
+			this.jcmbPageSelector.setEnabled(true);
+			this.jcmbPageSelector.update(this.getGraphics());
+			this.jcmbPageSelector.setActionCommand(CMDCHANGEBLOCK);
 		}
-		if(page > (jcmbPageSelector.getItemCount() - 1))
+		if(page > (this.jcmbPageSelector.getItemCount() - 1))
 		{
 			page = 0;
 		}
 
-		int firstInt = ((unicodeBlockStart[index] / UNICODEBLOCKSIZE) * UNICODEBLOCKSIZE) + (page * UNICODEBLOCKSIZE);
+		int firstInt = ((this.unicodeBlockStart[index] / UNICODEBLOCKSIZE) * UNICODEBLOCKSIZE) + (page * UNICODEBLOCKSIZE);
 		int currInt = firstInt;
 		for(int charInt = 0; charInt < UNICODEBLOCKSIZE; charInt++)
 		{
 			currInt = firstInt + charInt;
-			buttonArray[charInt].setSelected(false);
-			if(currInt < unicodeBlockStart[index] || currInt > unicodeBlockEnd[index])
+			this.buttonArray[charInt].setSelected(false);
+			if(currInt < this.unicodeBlockStart[index] || currInt > this.unicodeBlockEnd[index])
 			{
-				buttonArray[charInt].setText(" ");
-				buttonArray[charInt].getModel().setActionCommand(" ");
-				buttonArray[charInt].setEnabled(false);
-				buttonArray[charInt].setVisible(false);
+				this.buttonArray[charInt].setText(" ");
+				this.buttonArray[charInt].getModel().setActionCommand(" ");
+				this.buttonArray[charInt].setEnabled(false);
+				this.buttonArray[charInt].setVisible(false);
 			}
 			else
 			{
 				char unichar = (char)currInt;
 				String symbol = Character.toString(unichar);
-				if(buttonFont.canDisplay(unichar))
+				if(this.buttonFont.canDisplay(unichar))
 				{
-					buttonArray[charInt].setText(symbol);
+					this.buttonArray[charInt].setText(symbol);
 				}
 				else
 				{
-					buttonArray[charInt].setText(" ");
+					this.buttonArray[charInt].setText(" ");
 				}
-				buttonArray[charInt].getModel().setActionCommand(symbol);
-				buttonArray[charInt].setEnabled(true);
-				buttonArray[charInt].setVisible(true);
-				buttonArray[charInt].update(this.getGraphics());
+				this.buttonArray[charInt].getModel().setActionCommand(symbol);
+				this.buttonArray[charInt].setEnabled(true);
+				this.buttonArray[charInt].setVisible(true);
+				this.buttonArray[charInt].update(this.getGraphics());
 			}
 		}
 	}

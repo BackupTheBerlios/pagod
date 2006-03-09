@@ -22,16 +22,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package pagod.utils.editor.component;
 
 import java.awt.Container;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.border.*;
-import javax.swing.BorderFactory;
+
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -39,34 +36,50 @@ import javax.swing.WindowConstants;
 
 import pagod.utils.editor.PagodEditorCore;
 
+/**
+ * @author 
+ *
+ */
 public class UserInputAnchorDialog extends JDialog implements ActionListener
 {
 //	private PagodEditorCore parentEkit;
 	private String inputText = null;
 	private final JTextField jtxfInput = new JTextField(32);
 
+	/**
+	 * @param peKit
+	 * @param title
+	 * @param bModal
+	 * @param defaultAnchor
+	 */
 	public UserInputAnchorDialog(PagodEditorCore peKit, String title, boolean bModal, String defaultAnchor)
 	{		
 		super(peKit.getFrame(), title, bModal);
 //		parentEkit = peKit;
-		jtxfInput.setText(defaultAnchor);
+		this.jtxfInput.setText(defaultAnchor);
 		init();
 	}
 
+   	/** (non-Javadoc)
+   	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+   	 */
    	public void actionPerformed(ActionEvent e)
    	{
 		if(e.getActionCommand().equals("accept"))
 		{
-			inputText = jtxfInput.getText();
+			this.inputText = this.jtxfInput.getText();
 			setVisible(false);
 		}	
 	  	if(e.getActionCommand().equals("cancel"))
 		{
-			inputText = null;
+	  		this.inputText = null;
 			setVisible(false);
 		}
 	}
 
+	/**
+	 * 
+	 */
 	public void init()
 	{
 	  	Container contentPane = getContentPane();
@@ -78,7 +91,7 @@ public class UserInputAnchorDialog extends JDialog implements ActionListener
        	centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.X_AXIS));
 	  	JLabel anchorLabel = new JLabel("Anchor:", SwingConstants.LEFT);
 	  	centerPanel.add(anchorLabel);
-	  	centerPanel.add(jtxfInput);
+	  	centerPanel.add(this.jtxfInput);
 
 		JPanel buttonPanel= new JPanel();	  	
 //	  	buttonPanel.setBorder(new SoftBevelBorder(BevelBorder.LOWERED));
@@ -106,14 +119,20 @@ public class UserInputAnchorDialog extends JDialog implements ActionListener
 		this.setVisible(true);
    	}
 
+	/**
+	 * @return
+	 */
 	public String getInputText()
 	{
-		return inputText;
+		return this.inputText;
 	}
 
+	/**
+	 * @param anchor
+	 */
 	public void setAnchor(String anchor)
 	{
-		jtxfInput.setText(anchor);
+		this.jtxfInput.setText(anchor);
 	}
 }
 

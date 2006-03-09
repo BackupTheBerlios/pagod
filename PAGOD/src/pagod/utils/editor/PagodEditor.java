@@ -22,31 +22,18 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package pagod.utils.editor;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.GridLayout;
-import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
-import java.io.FileWriter;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Locale;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.Vector;
+
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JToolBar;
 
 import pagod.common.model.Step;
-import pagod.configurator.control.ApplicationManager;
 import pagod.configurator.ui.StepsTable;
-import pagod.utils.LanguagesManager;
-import pagod.utils.editor.PagodEditorCore;
-import pagod.utils.editor.hexidec.util.Translatrix;
 
 
 /**
@@ -59,7 +46,7 @@ public class PagodEditor extends JFrame implements WindowListener, Runnable
 	private PagodEditorCore pagodEditorCore;
 	private JPanel fromPanel = null;
 	// PagodObserver editorObserver = new PagodObserver();
-	private File currentFile = (File)null;
+	private File currentFile = null;
 
 	/** Master Constructor
 	  * @param sDocument         [String]  A text or HTML document to load in the editor upon startup.
@@ -76,6 +63,7 @@ public class PagodEditor extends JFrame implements WindowListener, Runnable
 	  * @param debugMode         [boolean] Specifies whether to show the Debug menu or not.
 	  * @param useSpellChecker   [boolean] Specifies whether to include the spellchecker or not.
 	  * @param multiBar          [boolean] Specifies whether to use multiple toolbars or one big toolbar.
+	 * @param b 
 	  */
 	public PagodEditor(String sDocument, String sStyleSheet, String sRawDocument, URL urlStyleSheet, boolean includeToolBar, boolean showViewSource, boolean showMenuIcons, boolean editModeExclusive, String sLanguage, String sCountry, boolean base64, boolean debugMode, boolean useSpellChecker, boolean multiBar, boolean b)
 	{
@@ -87,7 +75,7 @@ public class PagodEditor extends JFrame implements WindowListener, Runnable
 		this.pagodEditorCore = new PagodEditorCore(sDocument, sStyleSheet, sRawDocument, null, urlStyleSheet, includeToolBar, showViewSource, showMenuIcons, editModeExclusive, sLanguage, sCountry, base64, debugMode, false, multiBar, (multiBar ? PagodEditorCore.TOOLBAR_DEFAULT_MULTI : PagodEditorCore.TOOLBAR_DEFAULT_SINGLE));
 		
 
-		pagodEditorCore.setFrame(this);
+		this.pagodEditorCore.setFrame(this);
 
 		/* Add the components to the app */
 		if(includeToolBar)
@@ -105,34 +93,34 @@ public class PagodEditor extends JFrame implements WindowListener, Runnable
 				gbc.gridx      = 1;
 
 				gbc.gridy      = 1;
-				this.getContentPane().add(pagodEditorCore.getToolBarMain(includeToolBar), gbc);
+				this.getContentPane().add(this.pagodEditorCore.getToolBarMain(includeToolBar), gbc);
 
 				gbc.gridy      = 2;
-				this.getContentPane().add(pagodEditorCore.getToolBarFormat(includeToolBar), gbc);
+				this.getContentPane().add(this.pagodEditorCore.getToolBarFormat(includeToolBar), gbc);
 
 				gbc.gridy      = 3;
-				this.getContentPane().add(pagodEditorCore.getToolBarStyles(includeToolBar), gbc);
+				this.getContentPane().add(this.pagodEditorCore.getToolBarStyles(includeToolBar), gbc);
 
 				gbc.anchor     = GridBagConstraints.SOUTH;
 				gbc.fill       = GridBagConstraints.BOTH;
 				gbc.weighty    = 1.0;
 				gbc.gridy      = 4;
-				this.getContentPane().add(pagodEditorCore, gbc);
+				this.getContentPane().add(this.pagodEditorCore, gbc);
 			}
 			else
 			{
 				this.getContentPane().setLayout(new BorderLayout());
-				this.getContentPane().add(pagodEditorCore, BorderLayout.CENTER);
-				this.getContentPane().add(pagodEditorCore.getToolBar(includeToolBar), BorderLayout.NORTH);
+				this.getContentPane().add(this.pagodEditorCore, BorderLayout.CENTER);
+				this.getContentPane().add(this.pagodEditorCore.getToolBar(includeToolBar), BorderLayout.NORTH);
 			}
 		}
 		else
 		{
 			this.getContentPane().setLayout(new BorderLayout());
-			this.getContentPane().add(pagodEditorCore, BorderLayout.CENTER);
+			this.getContentPane().add(this.pagodEditorCore, BorderLayout.CENTER);
 		}
 
-		this.setJMenuBar(pagodEditorCore.getMenuBar());
+		this.setJMenuBar(this.pagodEditorCore.getMenuBar());
 
 		this.addWindowListener(this);
 
@@ -141,11 +129,21 @@ public class PagodEditor extends JFrame implements WindowListener, Runnable
 		this.setVisible(b);
 	}
 
+	/**
+	 * @param j
+	 */
 	public PagodEditor(JPanel j)
 	{
 		this(null, null, null, null, true, false, true, true, null, null, false, false, false, true,false);
 	}
 	
+	/**
+	 * @param steptoedit
+	 * @param lang
+	 * @param stepsTable
+	 * @param StepRowNumber
+	 * @param shown
+	 */
 	public PagodEditor(Step steptoedit,String lang, StepsTable stepsTable, int StepRowNumber, boolean shown)
 	{
 		this(steptoedit.getComment(),null,null,null,true,false,true,true,lang,lang.toUpperCase(),false,false,false,true,shown);
@@ -159,56 +157,74 @@ public class PagodEditor extends JFrame implements WindowListener, Runnable
 	/**
 	 * Arno
 	 * @param txttoedit
-	 * @param x
-	 * @param y
 	 */
 	private void PagodEditorStart(String txttoedit){
 		this.setLocation(150, 50);
-		pagodEditorCore.setDocumentText(txttoedit);
-		pagodEditorCore.setCaretPosition(0);
+		this.pagodEditorCore.setDocumentText(txttoedit);
+		this.pagodEditorCore.setCaretPosition(0);
 	}
 	
-	/* WindowListener methods */
+	/** (non-Javadoc)
+	 * @see java.awt.event.WindowListener#windowClosing(java.awt.event.WindowEvent)
+	 */
 	public void windowClosing(WindowEvent we)
 	{
 		this.dispose();
 		// System.exit(0);
 	}
+	/** (non-Javadoc)
+	 * @see java.awt.event.WindowListener#windowOpened(java.awt.event.WindowEvent)
+	 */
 	public void windowOpened (WindowEvent we)
 	{
-		;
+		
 	}
 
+	/** (non-Javadoc)
+	 * @see java.awt.event.WindowListener#windowClosed(java.awt.event.WindowEvent)
+	 */
 	public void windowClosed (WindowEvent we)
 	{
 		// this.pagodEditorCore.write();
 	}
 
+	/** (non-Javadoc)
+	 * @see java.awt.event.WindowListener#windowActivated(java.awt.event.WindowEvent)
+	 */
 	public void windowActivated (WindowEvent we)
 	{
-		;
+		
 	}
 
+	/** (non-Javadoc)
+	 * @see java.awt.event.WindowListener#windowDeactivated(java.awt.event.WindowEvent)
+	 */
 	public void windowDeactivated (WindowEvent we)
 	{
-		;
+		
 	}
 
+	/** (non-Javadoc)
+	 * @see java.awt.event.WindowListener#windowIconified(java.awt.event.WindowEvent)
+	 */
 	public void windowIconified (WindowEvent we)
 	{
-		;
+		
 	}
 
+	/** (non-Javadoc)
+	 * @see java.awt.event.WindowListener#windowDeiconified(java.awt.event.WindowEvent)
+	 */
 	public void windowDeiconified (WindowEvent we)
 	{
-		;
+		
 	}
 
 	/** Convenience method for updating the application title bar
 	  */
 	private void updateTitle()
 	{
-		this.setTitle(pagodEditorCore.getAppName() + (currentFile == null ? "" : " - " + currentFile.getName()));
+		this.setTitle(this.pagodEditorCore.getAppName() + (this.currentFile == null ? "" : " - " + this.currentFile.getName()));
 	}
 
 	/** Usage method
@@ -240,11 +256,17 @@ public class PagodEditor extends JFrame implements WindowListener, Runnable
 		System.out.println("For further information, read the README file.");
 	}
 	
+	/**
+	 * @return PagodEditorCore
+	 */
 	public PagodEditorCore getPagodEditorCore ()
 	{
 		return this.pagodEditorCore;
 	}
 
+	/** (non-Javadoc)
+	 * @see java.lang.Runnable#run()
+	 */
 	public void run ()
 	{
 		// TODO Corps de méthode généré automatiquement

@@ -1,5 +1,5 @@
 /*
- * $Id: StepsPanel.java,v 1.13 2006/03/04 18:00:55 garwind111 Exp $
+ * $Id: StepsPanel.java,v 1.14 2006/03/09 00:40:48 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -25,7 +25,6 @@
 package pagod.configurator.ui;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -33,8 +32,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.ResourceBundle;
 
 import javax.swing.Box;
@@ -48,12 +45,12 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
+import pagod.common.control.adapters.ProcessTreeModel;
 import pagod.common.model.Activity;
 import pagod.common.model.Process;
 import pagod.common.model.Product;
 import pagod.common.model.Step;
 import pagod.common.ui.CommonProcessPanel;
-import pagod.common.control.adapters.ProcessTreeModel;
 import pagod.configurator.control.ApplicationManager;
 import pagod.configurator.control.HtmlStepsAutodetector;
 import pagod.configurator.control.HtmlStepsExporter;
@@ -62,7 +59,6 @@ import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
 import pagod.utils.Utilities;
 import pagod.utils.editor.PagodEditor;
-import pagod.utils.editor.PagodEditorCore;
 
 /**
  * Panneaux de configuration des étapes.

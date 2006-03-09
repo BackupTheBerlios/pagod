@@ -98,11 +98,8 @@ import javax.swing.text.rtf.RTFEditorKit;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 
-import javax.swing.*;
-
 import pagod.common.model.Step;
 import pagod.configurator.ui.StepsTable;
-import pagod.utils.LanguagesManager;
 import pagod.utils.editor.action.CustomAction;
 import pagod.utils.editor.action.FormatAction;
 import pagod.utils.editor.action.ListAutomationAction;
@@ -294,42 +291,170 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 	 * 
 	 */
 	public static final String				KEY_TOOL_OPEN			= "OP";
+	
+	/**
+	 * Commentaire pour <code>KEY_TOOL_SAVE</code>
+	 */
 	public static final String				KEY_TOOL_SAVE			= "SV";
+	
+	/**
+	 * Commentaire pour <code>KEY_TOOL_CUT</code>
+	 */
 	public static final String				KEY_TOOL_CUT			= "CT";
+	
+	/**
+	 * Commentaire pour <code>KEY_TOOL_COPY</code>
+	 */
 	public static final String				KEY_TOOL_COPY			= "CP";
+	
+	/**
+	 * Commentaire pour <code>KEY_TOOL_PASTE</code>
+	 */
 	public static final String				KEY_TOOL_PASTE			= "PS";
+	
+	/**
+	 * Commentaire pour <code>KEY_TOOL_UNDO</code>
+	 */
 	public static final String				KEY_TOOL_UNDO			= "UN";
+	
+	/**
+	 * Commentaire pour <code>KEY_TOOL_REDO</code>
+	 */
 	public static final String				KEY_TOOL_REDO			= "RE";
+	
+	/**
+	 * Commentaire pour <code>KEY_TOOL_BOLD</code>
+	 */
 	public static final String				KEY_TOOL_BOLD			= "BL";
+	
+	/**
+	 * Commentaire pour <code>KEY_TOOL_ITALIC</code>
+	 */
 	public static final String				KEY_TOOL_ITALIC			= "IT";
+	
+	/**
+	 * Commentaire pour <code>KEY_TOOL_UNDERLINE</code>
+	 */
 	public static final String				KEY_TOOL_UNDERLINE		= "UD";
+	
+	/**
+	 * Commentaire pour <code>KEY_TOOL_STRIKE</code>
+	 */
 	public static final String				KEY_TOOL_STRIKE			= "SK";
+	
+	/**
+	 * Commentaire pour <code>KEY_TOOL_SUPER</code>
+	 */
 	public static final String				KEY_TOOL_SUPER			= "SU";
+	
+	/**
+	 * Commentaire pour <code>KEY_TOOL_SUB</code>
+	 */
 	public static final String				KEY_TOOL_SUB			= "SB";
+	
+	/**
+	 * Commentaire pour <code>KEY_TOOL_ULIST</code>
+	 */
 	public static final String				KEY_TOOL_ULIST			= "UL";
+	
+	/**
+	 * Commentaire pour <code>KEY_TOOL_OLIST</code>
+	 */
 	public static final String				KEY_TOOL_OLIST			= "OL";
+	
+	/**
+	 * Commentaire pour <code>KEY_TOOL_ALIGNL</code>
+	 */
 	public static final String				KEY_TOOL_ALIGNL			= "AL";
+	
+	/**
+	 * Commentaire pour <code>KEY_TOOL_ALIGNC</code>
+	 */
 	public static final String				KEY_TOOL_ALIGNC			= "AC";
+	
+	/**
+	 * Commentaire pour <code>KEY_TOOL_ALIGNR</code>
+	 */
 	public static final String				KEY_TOOL_ALIGNR			= "AR";
+	
+	/**
+	 * Commentaire pour <code>KEY_TOOL_ALIGNJ</code>
+	 */
 	public static final String				KEY_TOOL_ALIGNJ			= "AJ";
+	
+	/**
+	 * Commentaire pour <code>KEY_TOOL_UNICODE</code>
+	 */
 	public static final String				KEY_TOOL_UNICODE		= "UC";
+	
+	/**
+	 * Commentaire pour <code>KEY_TOOL_UNIMATH</code>
+	 */
 	public static final String				KEY_TOOL_UNIMATH		= "UM";
+	
+	/**
+	 * Commentaire pour <code>KEY_TOOL_FIND</code>
+	 */
 	public static final String				KEY_TOOL_FIND			= "FN";
+	
+	/**
+	 * Commentaire pour <code>KEY_TOOL_ANCHOR</code>
+	 */
 	public static final String				KEY_TOOL_ANCHOR			= "LK";
+	
+	/**
+	 * Commentaire pour <code>KEY_TOOL_SOURCE</code>
+	 */
 	public static final String				KEY_TOOL_SOURCE			= "SR";
+	
+	/**
+	 * Commentaire pour <code>KEY_TOOL_STYLES</code>
+	 */
 	public static final String				KEY_TOOL_STYLES			= "ST";
+	
+	/**
+	 * Commentaire pour <code>KEY_TOOL_FONTS</code>
+	 */
 	public static final String				KEY_TOOL_FONTS			= "FO";
 
+	
+
+	/**
+	 * Commentaire pour <code>TOOLBAR_DEFAULT_MULTI</code>
+	 */
 	public static final String				TOOLBAR_DEFAULT_MULTI	= "NW|OP|SV|SP|CT|CP|PS|SP|UN|RE|SP|FN|SP|UC|UM|SP|SR|*|BL|IT|UD|SP|SK|SU|SB|SP|AL|AC|AR|AJ|SP|UL|OL|SP|LK|*|ST|SP|FO";
+	
+	/**
+	 * Commentaire pour <code>TOOLBAR_DEFAULT_SINGLE</code>
+	 */
 	public static final String				TOOLBAR_DEFAULT_SINGLE	= "NW|OP|SV|SP|CT|CP|PS|SP|UN|RE|SP|BL|IT|UD|SP|FN|SP|UC|SP|LK|SP|SR|SP|ST";
 
+	/**
+	 * Commentaire pour <code>TOOLBAR_SINGLE</code>
+	 */
 	public static final int					TOOLBAR_SINGLE			= 0;
+	
+	/**
+	 * Commentaire pour <code>TOOLBAR_MAIN</code>
+	 */
 	public static final int					TOOLBAR_MAIN			= 1;
+	
+	/**
+	 * Commentaire pour <code>TOOLBAR_FORMAT</code>
+	 */
 	public static final int					TOOLBAR_FORMAT			= 2;
+	
+	/**
+	 * Commentaire pour <code>TOOLBAR_STYLES</code>
+	 */
 	public static final int					TOOLBAR_STYLES			= 3;
 
+	
+
 	// Menu & Tool Key Arrays
+	
 	private static Hashtable				htMenus					= new Hashtable();
+	
 	private static Hashtable				htTools					= new Hashtable();
 
 	private final String					appName					= "PAGOD Editor";
@@ -581,7 +706,7 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 		/* Preload the specified HTML document, if exists */
 		if (sDocument != null)
 		{
-			SOURCE_DOC = sDocument;
+			this.SOURCE_DOC = sDocument;
 			File defHTML = new File(sDocument);
 			if (defHTML.exists())
 			{
@@ -2204,8 +2329,7 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 											eo - so).toCharArray();
 									for (int i = 0; i < temp.length; i++)
 									{
-										if (!(new Character(temp[i]))
-												.isWhitespace(temp[i]))
+										if (!(new Character(temp[i])).isWhitespace(temp[i]))
 										{
 											content = true;
 										}
@@ -2213,8 +2337,8 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 								}
 								if (!content)
 								{
-									Element listElement = elem
-											.getParentElement();
+									Element listElement;
+									listElement = elem.getParentElement();
 									this.htmlUtilities.removeTag(elem, true);
 									this.setCaretPosition(sOffset - 1);
 									return;
@@ -2360,14 +2484,23 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 		}
 	}
 
+	/** (non-Javadoc)
+	 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
+	 */
 	public void keyPressed (KeyEvent e)
 	{
 	}
 
+	/** (non-Javadoc)
+	 * @see java.awt.event.KeyListener#keyReleased(java.awt.event.KeyEvent)
+	 */
 	public void keyReleased (KeyEvent e)
 	{
 	}
 
+	/** (non-Javadoc)
+	 * @see java.awt.event.FocusListener#focusGained(java.awt.event.FocusEvent)
+	 */
 	/* FocusListener methods */
 	public void focusGained (FocusEvent fe)
 	{
@@ -2380,27 +2513,42 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 			setFormattersActive(false);
 		}
 	}
+/** (non-Javadoc)
+ * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
+ */
 
 	public void focusLost (FocusEvent fe)
 	{
 	}
 
+	/** (non-Javadoc)
+	 * @see javax.swing.event.DocumentListener#changedUpdate(javax.swing.event.DocumentEvent)
+	 */
 	/* DocumentListener methods */
 	public void changedUpdate (DocumentEvent de)
 	{
 		handleDocumentChange(de);
 	}
 
+	/** (non-Javadoc)
+	 * @see javax.swing.event.DocumentListener#insertUpdate(javax.swing.event.DocumentEvent)
+	 */
 	public void insertUpdate (DocumentEvent de)
 	{
 		handleDocumentChange(de);
 	}
 
+	/** (non-Javadoc)
+	 * @see javax.swing.event.DocumentListener#removeUpdate(javax.swing.event.DocumentEvent)
+	 */
 	public void removeUpdate (DocumentEvent de)
 	{
 		handleDocumentChange(de);
 	}
 
+	/**
+	 * @param de
+	 */
 	public void handleDocumentChange (DocumentEvent de)
 	{
 		if (!this.exclusiveEdit)
@@ -2428,6 +2576,7 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 	/**
 	 * Method for setting a document as the current document for the text pane
 	 * and re-registering the controls and settings for it
+	 * @param htmlDoc 
 	 */
 	public void registerDocument (ExtendedHTMLDocument htmlDoc)
 	{
@@ -2467,6 +2616,9 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 
 	/**
 	 * Method for inserting list elements
+	 * @param element 
+	 * @throws BadLocationException 
+	 * @throws IOException 
 	 */
 	public void insertListStyle (Element element) throws BadLocationException,
 			IOException
@@ -2486,6 +2638,13 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 
 	/**
 	 * Method for inserting an HTML Table
+	 * @param attribs 
+	 * @param fieldNames 
+	 * @param fieldTypes 
+	 * @throws IOException 
+	 * @throws BadLocationException 
+	 * @throws RuntimeException 
+	 * @throws NumberFormatException 
 	 */
 	private void insertTable (Hashtable attribs, String[] fieldNames,
 			String[] fieldTypes) throws IOException, BadLocationException,
@@ -2691,6 +2850,7 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 
 	/**
 	 * Method for deleting a row from an HTML Table
+	 * @throws BadLocationException 
 	 */
 	private void deleteTableRow () throws BadLocationException
 	{
@@ -2729,6 +2889,7 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 
 	/**
 	 * Method for deleting a column from an HTML Table
+	 * @throws BadLocationException 
 	 */
 	private void deleteTableColumn () throws BadLocationException
 	{
@@ -2736,9 +2897,9 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 		Element element = this.htmlDoc.getCharacterElement(this.jtpMain
 				.getCaretPosition());
 		Element elementParent = element.getParentElement();
-		Element elementCell = (Element) null;
-		Element elementRow = (Element) null;
-		Element elementTable = (Element) null;
+		Element elementCell = null;
+		Element elementRow = null;
+		Element elementTable = null;
 		// Locate the table, row, and cell location of the cursor
 		while (elementParent != null && !elementParent.getName().equals("body"))
 		{
@@ -2797,6 +2958,9 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 
 	/**
 	 * Method for inserting a break (BR) element
+	 * @throws IOException 
+	 * @throws BadLocationException 
+	 * @throws RuntimeException 
 	 */
 	private void insertBreak () throws IOException, BadLocationException,
 			RuntimeException
@@ -2809,6 +2973,10 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 
 	/**
 	 * Method for opening the Unicode dialog
+	 * @param index 
+	 * @throws IOException 
+	 * @throws BadLocationException 
+	 * @throws RuntimeException 
 	 */
 	private void insertUnicode (int index) throws IOException,
 			BadLocationException, RuntimeException
@@ -2819,6 +2987,10 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 
 	/**
 	 * Method for inserting Unicode characters via the UnicodeDialog class
+	 * @param sChar 
+	 * @throws IOException 
+	 * @throws BadLocationException 
+	 * @throws RuntimeException 
 	 */
 	public void insertUnicodeChar (String sChar) throws IOException,
 			BadLocationException, RuntimeException
@@ -2834,6 +3006,9 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 
 	/**
 	 * Method for inserting a non-breaking space (&nbsp;)
+	 * @throws IOException 
+	 * @throws BadLocationException 
+	 * @throws RuntimeException 
 	 */
 	private void insertNonbreakingSpace () throws IOException,
 			BadLocationException, RuntimeException
@@ -2846,6 +3021,16 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 
 	/**
 	 * Method for inserting a form element
+	 * @param baseTag 
+	 * @param baseElement 
+	 * @param attribs 
+	 * @param fieldNames 
+	 * @param fieldTypes 
+	 * @param fieldValues 
+	 * @param hasClosingTag 
+	 * @throws IOException 
+	 * @throws BadLocationException 
+	 * @throws RuntimeException 
 	 */
 	private void insertFormElement (HTML.Tag baseTag, String baseElement,
 			Hashtable attribs, String[] fieldNames, String[] fieldTypes,
@@ -2940,6 +3125,15 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 
 	/**
 	 * Alternate method call for inserting a form element
+	 * @param baseTag 
+	 * @param baseElement 
+	 * @param attribs 
+	 * @param fieldNames 
+	 * @param fieldTypes 
+	 * @param hasClosingTag 
+	 * @throws IOException 
+	 * @throws BadLocationException 
+	 * @throws RuntimeException 
 	 */
 	private void insertFormElement (HTML.Tag baseTag, String baseElement,
 			Hashtable attribs, String[] fieldNames, String[] fieldTypes,
@@ -2952,6 +3146,7 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 
 	/**
 	 * Method that handles initial list insertion and deletion
+	 * @param element 
 	 */
 	public void manageListElement (Element element)
 	{
@@ -2965,15 +3160,20 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 
 	/**
 	 * Method to initiate a find/replace operation
+	 * @param searchFindTerm 
+	 * @param searchReplaceTerm 
+	 * @param bIsFindReplace 
+	 * @param bCaseSensitive 
+	 * @param bStartAtTop 
 	 */
 	private void doSearch (String searchFindTerm, String searchReplaceTerm,
 			boolean bIsFindReplace, boolean bCaseSensitive, boolean bStartAtTop)
 	{
 		boolean bReplaceAll = false;
-		JTextComponent searchPane = (JTextComponent) this.jtpMain;
+		JTextComponent searchPane = this.jtpMain;
 		if (this.jspSource.isShowing() || this.jtpSource.hasFocus())
 		{
-			searchPane = (JTextComponent) this.jtpSource;
+			searchPane = this.jtpSource;
 		}
 		if (searchFindTerm == null
 				|| (bIsFindReplace && searchReplaceTerm == null))
@@ -3041,6 +3241,11 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 
 	/**
 	 * Method for finding (and optionally replacing) a string in the text
+	 * @param findTerm 
+	 * @param replaceTerm 
+	 * @param bCaseSenstive 
+	 * @param iOffset 
+	 * @return int
 	 */
 	private int findText (String findTerm, String replaceTerm,
 			boolean bCaseSenstive, int iOffset)
@@ -3048,11 +3253,11 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 		JTextComponent jtpFindSource;
 		if (isSourceWindowActive() || this.jtpSource.hasFocus())
 		{
-			jtpFindSource = (JTextComponent) this.jtpSource;
+			jtpFindSource = this.jtpSource;
 		}
 		else
 		{
-			jtpFindSource = (JTextComponent) this.jtpMain;
+			jtpFindSource = this.jtpMain;
 		}
 		int searchPlace = -1;
 		try
@@ -3130,6 +3335,9 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 
 	/**
 	 * Method for inserting an image from a URL
+	 * @throws IOException 
+	 * @throws BadLocationException 
+	 * @throws RuntimeException 
 	 */
 	public void insertURLImage () throws IOException, BadLocationException,
 			RuntimeException
@@ -3151,14 +3359,18 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 
 	/**
 	 * Empty spell check method, overwritten by spell checker extension class
+	 * @param doc 
 	 */
 	public void checkDocumentSpelling (Document doc)
 	{
-		;
 	}
 
 	/**
 	 * Method for saving text as a complete HTML document
+	 * @param doc 
+	 * @param whatFile 
+	 * @throws IOException 
+	 * @throws BadLocationException 
 	 */
 	// arno / export html
 	private void writeOut (HTMLDocument doc, File whatFile) throws IOException,
@@ -3180,11 +3392,15 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 
 	/**
 	 * Method for saving text as an HTML fragment
+	 * @param doc 
+	 * @param containingTag 
+	 * @throws IOException 
+	 * @throws BadLocationException 
 	 */
 	private void writeOutFragment (HTMLDocument doc, String containingTag)
 			throws IOException, BadLocationException
 	{
-		DOC_SAVED = true;
+		this.DOC_SAVED = true;
 		String docTextCase = this.jtpSource.getText().toLowerCase();
 		int tagStart = docTextCase.indexOf("<" + containingTag.toLowerCase());
 		int tagStartClose = docTextCase.indexOf(">", tagStart) + 1;
@@ -3215,6 +3431,9 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 
 	/**
 	 * Method for saving text as an RTF document
+	 * @param doc 
+	 * @throws IOException 
+	 * @throws BadLocationException 
 	 */
 	private void writeOutRTF (StyledDocument doc) throws IOException,
 			BadLocationException
@@ -3234,6 +3453,9 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 
 	/**
 	 * Method for saving text as a Base64 encoded document
+	 * @param text 
+	 * @throws IOException 
+	 * @throws BadLocationException 
 	 */
 	private void writeOutBase64 (String text) throws IOException,
 			BadLocationException
@@ -3253,6 +3475,9 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 
 	/**
 	 * Method to invoke loading HTML into the app
+	 * @param whatFile 
+	 * @throws IOException 
+	 * @throws BadLocationException 
 	 */
 	private void openDocument (File whatFile) throws IOException,
 			BadLocationException
@@ -3292,6 +3517,9 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 
 	/**
 	 * Method for loading HTML document
+	 * @param whatFile 
+	 * @throws IOException 
+	 * @throws BadLocationException 
 	 */
 	public void loadDocument (File whatFile) throws IOException,
 			BadLocationException
@@ -3322,6 +3550,10 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 	/**
 	 * Method for loading HTML document into the app, including document
 	 * encoding setting
+	 * @param whatFile 
+	 * @param whatEncoding 
+	 * @throws IOException 
+	 * @throws BadLocationException 
 	 */
 	private void loadDocument (File whatFile, String whatEncoding)
 			throws IOException, BadLocationException

@@ -51,12 +51,16 @@ public class ExtendedHTMLEditorKit extends HTMLEditorKit
 	}
 
 	/** Method for returning a ViewFactory which handles the image rendering.
+	 * @return 
 	  */
 	public ViewFactory getViewFactory()
 	{
 		return new HTMLFactoryExtended();
 	}
 
+	/** (non-Javadoc)
+	 * @see javax.swing.text.html.HTMLEditorKit#createDefaultDocument()
+	 */
 	public Document createDefaultDocument()
 	{
 		StyleSheet styles = getStyleSheet();

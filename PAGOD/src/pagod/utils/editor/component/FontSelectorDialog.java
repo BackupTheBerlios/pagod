@@ -24,8 +24,6 @@ package pagod.utils.editor.component;
 import java.awt.Frame;
 import java.awt.GraphicsEnvironment;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
@@ -33,6 +31,7 @@ import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Vector;
+
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -47,13 +46,20 @@ import pagod.utils.editor.hexidec.util.Translatrix;
   */
 public class FontSelectorDialog extends JDialog implements ItemListener
 {
-	private Vector vcFontnames = (Vector)null;
+	private Vector vcFontnames = null;
 	private final JComboBox jcmbFontlist;
 	private String fontName = new String();
 	private JOptionPane jOptionPane;
 	private final JTextPane jtpFontPreview;
 	private String defaultText;
 
+	/**
+	 * @param parent
+	 * @param title
+	 * @param bModal
+	 * @param attribName
+	 * @param demoText
+	 */
 	public FontSelectorDialog(Frame parent, String title, boolean bModal, String attribName, String demoText)
 	{
 		super(parent, title, bModal);
@@ -62,44 +68,44 @@ public class FontSelectorDialog extends JDialog implements ItemListener
 		{
 			if(demoText.length() > 24)
 			{
-				defaultText = demoText.substring(0, 24);
+				this.defaultText = demoText.substring(0, 24);
 			}
 			else
 			{
-				defaultText = demoText;
+				this.defaultText = demoText;
 			}
 		}
 		else
 		{
-			defaultText = "aAbBcCdDeEfFgGhH,.0123";
+			this.defaultText = "aAbBcCdDeEfFgGhH,.0123";
 		}
 
 		/* Obtain available fonts */
 		String[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-		vcFontnames = new Vector(fonts.length - 5);
+		this.vcFontnames = new Vector(fonts.length - 5);
 		for(int i = 0; i < fonts.length; i++)
 		{
 			if(!fonts[i].equals("Dialog") && !fonts[i].equals("DialogInput") && !fonts[i].equals("Monospaced") && !fonts[i].equals("SansSerif") && !fonts[i].equals("Serif"))
 			{
-				vcFontnames.add(fonts[i]);
+				this.vcFontnames.add(fonts[i]);
 			}
 		}
-		jcmbFontlist = new JComboBox(vcFontnames);
-		jcmbFontlist.addItemListener(this);
+		this.jcmbFontlist = new JComboBox(this.vcFontnames);
+		this.jcmbFontlist.addItemListener(this);
 
-		jtpFontPreview = new JTextPane();
+		this.jtpFontPreview = new JTextPane();
 		final HTMLEditorKit kitFontPreview = new HTMLEditorKit();
 		final HTMLDocument docFontPreview = (HTMLDocument)(kitFontPreview.createDefaultDocument());
-		jtpFontPreview.setEditorKit(kitFontPreview);
-		jtpFontPreview.setDocument(docFontPreview);
-		jtpFontPreview.setMargin(new Insets(4, 4, 4, 4));
-		jtpFontPreview.setBounds(0, 0, 120, 18);
-		jtpFontPreview.setText(getFontSampleString(defaultText));
-		Object[] panelContents = { attribName, jcmbFontlist, Translatrix.getTranslationString("FontSample"), jtpFontPreview };
+		this.jtpFontPreview.setEditorKit(kitFontPreview);
+		this.jtpFontPreview.setDocument(docFontPreview);
+		this.jtpFontPreview.setMargin(new Insets(4, 4, 4, 4));
+		this.jtpFontPreview.setBounds(0, 0, 120, 18);
+		this.jtpFontPreview.setText(getFontSampleString(this.defaultText));
+		Object[] panelContents = { attribName, this.jcmbFontlist, Translatrix.getTranslationString("FontSample"), this.jtpFontPreview };
 		final Object[] buttonLabels = { Translatrix.getTranslationString("DialogAccept"), Translatrix.getTranslationString("DialogCancel") };
 
-		jOptionPane = new JOptionPane(panelContents, JOptionPane.QUESTION_MESSAGE, JOptionPane.OK_CANCEL_OPTION, null, buttonLabels, buttonLabels[0]);
-		setContentPane(jOptionPane);
+		this.jOptionPane = new JOptionPane(panelContents, JOptionPane.QUESTION_MESSAGE, JOptionPane.OK_CANCEL_OPTION, null, buttonLabels, buttonLabels[0]);
+		setContentPane(this.jOptionPane);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
 		addWindowListener(new WindowAdapter() {
@@ -109,7 +115,7 @@ public class FontSelectorDialog extends JDialog implements ItemListener
 			}
 		});
 
-		jOptionPane.addPropertyChangeListener(new PropertyChangeListener() {
+		this.jOptionPane.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent e)
 			{
 				String prop = e.getPropertyName();
@@ -141,27 +147,39 @@ public class FontSelectorDialog extends JDialog implements ItemListener
 	}
 
 	/* ItemListener method */
+	/** (non-Javadoc)
+	 * @see java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
+	 */
 	public void itemStateChanged(ItemEvent ie)
 	{
 		if(ie.getStateChange() == ItemEvent.SELECTED)
 		{
-			jtpFontPreview.setText(getFontSampleString(defaultText));
+			this.jtpFontPreview.setText(getFontSampleString(this.defaultText));
 		}
 	}
 
+	/**
+	 * @param parent
+	 * @param title
+	 * @param bModal
+	 * @param attribName
+	 */
 	public FontSelectorDialog(Frame parent, String title, boolean bModal, String attribName)
 	{
 		this(parent, title, bModal, attribName, "");
 	}
 
+	/**
+	 * @return string
+	 */
 	public String getFontName()
 	{
-		return fontName;
+		return this.fontName;
 	}
 
 	private String getFontSampleString(String demoText)
 	{
-		return "<HTML><BODY><FONT FACE=" + '"' + jcmbFontlist.getSelectedItem() + '"' + ">" + demoText + "</FONT></BODY></HTML>";
+		return "<HTML><BODY><FONT FACE=" + '"' + this.jcmbFontlist.getSelectedItem() + '"' + ">" + demoText + "</FONT></BODY></HTML>";
 	}
 
 }

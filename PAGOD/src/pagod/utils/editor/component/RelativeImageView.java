@@ -38,14 +38,16 @@ import java.awt.image.ImageObserver;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Dictionary;
+
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JEditorPane;
+import javax.swing.event.DocumentEvent;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
@@ -61,7 +63,6 @@ import javax.swing.text.ViewFactory;
 import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.StyleSheet;
-import javax.swing.event.DocumentEvent;
 
 /**
   * @author <a href="mailto:jal@grimor.com">Frits Jalvingh</a>
@@ -74,12 +75,38 @@ import javax.swing.event.DocumentEvent;
 
 public class RelativeImageView extends View implements ImageObserver, MouseListener, MouseMotionListener
 {
+	/**
+	 * Commentaire pour <code>TOP</code>
+	 */
 	public static final String TOP       = "top";
+	/**
+	 * Commentaire pour <code>TEXTTOP</code>
+	 */
 	public static final String TEXTTOP   = "texttop";
+	/**
+	 * Commentaire pour <code>MIDDLE</code>
+	 */
 	public static final String MIDDLE    = "middle";
+	/**
+	 * Commentaire pour <code>ABSMIDDLE</code>
+	 */
+	/**
+	 * Commentaire pour <code>ABSMIDDLE</code>
+	 */
 	public static final String ABSMIDDLE = "absmiddle";
+	
+	/**
+	 * Commentaire pour <code>CENTER</code>
+	 */
 	public static final String CENTER    = "center";
+	
+	/**
+	 * Commentaire pour <code>BOTTOM</code>
+	 */
 	public static final String BOTTOM    = "bottom";
+	/**
+	 * Commentaire pour <code>IMAGE_CACHE_PROPERTY</code>
+	 */
 	public static final String IMAGE_CACHE_PROPERTY = "imageCache";
 
 	private static Icon sPendingImageIcon;
@@ -111,16 +138,16 @@ public class RelativeImageView extends View implements ImageObserver, MouseListe
 		super(elem);
 		initialize(elem);
 		StyleSheet sheet = getStyleSheet();
-		attr = sheet.getViewAttributes(this);
+		this.attr = sheet.getViewAttributes(this);
 	}
 
 	private void initialize(Element elem)
 	{
 		synchronized(this)
 		{
-			bLoading = true;
-			fWidth  = 0;
-			fHeight = 0;
+			this.bLoading = true;
+			this.fWidth  = 0;
+			this.fHeight = 0;
 		}
 		int width = 0;
 		int height = 0;
@@ -128,7 +155,7 @@ public class RelativeImageView extends View implements ImageObserver, MouseListe
 		boolean customHeight = false;
 		try
 		{
-			fElement = elem;
+			this.fElement = elem;
 			// request image from document's cache
 			AttributeSet attr = elem.getAttributes();
 			if(isURL())
@@ -139,27 +166,27 @@ public class RelativeImageView extends View implements ImageObserver, MouseListe
 					Dictionary cache = (Dictionary)getDocument().getProperty(IMAGE_CACHE_PROPERTY);
 					if(cache != null)
 					{
-						fImage = (Image)cache.get(src);
+						this.fImage = (Image)cache.get(src);
 					}
 					else
 					{
-						fImage = Toolkit.getDefaultToolkit().getImage(src);
+						this.fImage = Toolkit.getDefaultToolkit().getImage(src);
 					}
 				}
 			}
 			else
 			{
 				// load image from relative path
-				String src = (String)fElement.getAttributes().getAttribute(HTML.Attribute.SRC);
+				String src = (String)this.fElement.getAttributes().getAttribute(HTML.Attribute.SRC);
 				src = processSrcPath(src);
-				fImage = Toolkit.getDefaultToolkit().createImage(src);
+				this.fImage = Toolkit.getDefaultToolkit().createImage(src);
 				try
 				{
 					waitForImage();
 				}
 				catch(InterruptedException ie)
 				{
-					fImage = null;
+					this.fImage = null;
 					// possibly replace with the ImageBroken icon, if that's what is happening
 				}
 			}
@@ -167,9 +194,9 @@ public class RelativeImageView extends View implements ImageObserver, MouseListe
 			// get height & width from params or image or defaults
 			height = getIntAttr(HTML.Attribute.HEIGHT, -1);
 			customHeight = (height > 0);
-			if(!customHeight && fImage != null)
+			if(!customHeight && this.fImage != null)
 			{
-				height = fImage.getHeight(this);
+				height = this.fImage.getHeight(this);
 			}
 			if(height <= 0)
 			{
@@ -178,24 +205,24 @@ public class RelativeImageView extends View implements ImageObserver, MouseListe
 
 			width = getIntAttr(HTML.Attribute.WIDTH, -1);
 			customWidth = (width > 0);
-			if(!customWidth && fImage != null)
+			if(!customWidth && this.fImage != null)
 			{
-				width = fImage.getWidth(this);
+				width = this.fImage.getWidth(this);
 			}
 			if(width <= 0)
 			{
 				width = DEFAULT_WIDTH;
 			}
 
-			if(fImage != null)
+			if(this.fImage != null)
 			{
 				if(customHeight && customWidth)
 				{
-					Toolkit.getDefaultToolkit().prepareImage(fImage, height, width, this);
+					Toolkit.getDefaultToolkit().prepareImage(this.fImage, height, width, this);
 				}
 				else
 				{
-					Toolkit.getDefaultToolkit().prepareImage(fImage, -1, -1, this);
+					Toolkit.getDefaultToolkit().prepareImage(this.fImage, -1, -1, this);
 				}
 			}
 		}
@@ -203,30 +230,33 @@ public class RelativeImageView extends View implements ImageObserver, MouseListe
 		{
 			synchronized(this)
 			{
-				bLoading = false;
-				if(customHeight || fHeight == 0)
+				this.bLoading = false;
+				if(customHeight || this.fHeight == 0)
 				{
-					fHeight = height;
+					this.fHeight = height;
 				}
-				if(customWidth || fWidth == 0)
+				if(customWidth || this.fWidth == 0)
 				{
-					fWidth = width;
+					this.fWidth = width;
 				}
 			}
 		}
 	}
 
 	/** Determines if path is in the form of a URL
+	 * @return bool
 	  */
 	private boolean isURL()
 	{
-		String src = (String)fElement.getAttributes().getAttribute(HTML.Attribute.SRC);
+		String src = (String)this.fElement.getAttributes().getAttribute(HTML.Attribute.SRC);
 		return src.toLowerCase().startsWith("file") || src.toLowerCase().startsWith("http");
 	}
 
 	/** Checks to see if the absolute path is availabe thru an application
 	  * global static variable or thru a system variable. If so, appends
 	  * the relative path to the absolute path and returns the String.
+	 * @param src 
+	 * @return string
 	  */
 	private String processSrcPath(String src)
 	{
@@ -260,15 +290,16 @@ public class RelativeImageView extends View implements ImageObserver, MouseListe
 	}
 
 	/** Method insures that the image is loaded and not a broken reference
+	 * @throws InterruptedException 
 	  */
 	private void waitForImage()
 	throws InterruptedException
 	{
-		int w = fImage.getWidth(this);
-		int h = fImage.getHeight(this);
+		int w = this.fImage.getWidth(this);
+		int h = this.fImage.getHeight(this);
 		while (true)
 		{
-			int flags = Toolkit.getDefaultToolkit().checkImage(fImage, w, h, this);
+			int flags = Toolkit.getDefaultToolkit().checkImage(this.fImage, w, h, this);
 			if(((flags & ERROR) != 0) || ((flags & ABORT) != 0 ))
 			{
 				throw new InterruptedException();
@@ -284,17 +315,19 @@ public class RelativeImageView extends View implements ImageObserver, MouseListe
 	/** Fetches the attributes to use when rendering. This is
 	  * implemented to multiplex the attributes specified in the
 	  * model with a StyleSheet.
+	 * @return AttributeSet
 	  */
 	public AttributeSet getAttributes()
 	{
-		return attr;
+		return this.attr;
 	}
 
 	/** Method tests whether the image within a link
+	 * @return bool
 	  */
 	boolean isLink()
 	{
-		AttributeSet anchorAttr = (AttributeSet)fElement.getAttributes().getAttribute(HTML.Tag.A);
+		AttributeSet anchorAttr = (AttributeSet)this.fElement.getAttributes().getAttribute(HTML.Tag.A);
 		if(anchorAttr != null)
 		{
 			return anchorAttr.isDefined(HTML.Attribute.HREF);
@@ -303,6 +336,7 @@ public class RelativeImageView extends View implements ImageObserver, MouseListe
 	}
 
 	/** Method returns the size of the border to use
+	 * @return int
 	  */
 	int getBorder()
 	{
@@ -310,6 +344,8 @@ public class RelativeImageView extends View implements ImageObserver, MouseListe
 	}
 
 	/** Method returns the amount of extra space to add along an axis
+	 * @param axis 
+	 * @return int
 		*/
 	int getSpace(int axis)
 	{
@@ -317,6 +353,7 @@ public class RelativeImageView extends View implements ImageObserver, MouseListe
 	}
 
 	/** Method returns the border's color, or null if this is not a link
+	 * @return color
 	*/
 	Color getBorderColor()
 	{
@@ -325,10 +362,11 @@ public class RelativeImageView extends View implements ImageObserver, MouseListe
 	}
 
 	/** Method returns the image's vertical alignment
+	 * @return float
 	  */
 	float getVerticalAlignment()
 	{
-		String align = (String)fElement.getAttributes().getAttribute(HTML.Attribute.ALIGN);
+		String align = (String)this.fElement.getAttributes().getAttribute(HTML.Attribute.ALIGN);
 		if(align != null)
 		{
 			align = align.toLowerCase();
@@ -346,14 +384,15 @@ public class RelativeImageView extends View implements ImageObserver, MouseListe
 
 	boolean hasPixels(ImageObserver obs)
 	{
-		return ((fImage != null) && (fImage.getHeight(obs) > 0) && (fImage.getWidth(obs) > 0));
+		return ((this.fImage != null) && (this.fImage.getHeight(obs) > 0) && (this.fImage.getWidth(obs) > 0));
 	}
 
 	/** Method returns a URL for the image source, or null if it could not be determined
+	 * @return URL
 	  */
 	private URL getSourceURL()
 	{
-		String src = (String)fElement.getAttributes().getAttribute(HTML.Attribute.SRC);
+		String src = (String)this.fElement.getAttributes().getAttribute(HTML.Attribute.SRC);
 		if(src == null)
 		{
 			return null;
@@ -371,10 +410,13 @@ public class RelativeImageView extends View implements ImageObserver, MouseListe
 	}
 
 	/** Method looks up an integer-valued attribute (not recursive!)
+	 * @param name 
+	 * @param iDefault 
+	 * @return int
 	  */
 	private int getIntAttr(HTML.Attribute name, int iDefault)
 	{
-		AttributeSet attr = fElement.getAttributes();
+		AttributeSet attr = this.fElement.getAttributes();
 		if(attr.isDefined(name))
 		{
 			int i;
@@ -405,31 +447,35 @@ public class RelativeImageView extends View implements ImageObserver, MouseListe
 	/**
 	* Establishes the parent view for this view.
 	* Seize this moment to cache the AWT Container I'm in.
+	 * @param parent 
 	*/
 	public void setParent(View parent)
 	{
 		super.setParent(parent);
-		fContainer = ((parent != null) ? getContainer() : null);
-		if((parent == null) && (fComponent != null))
+		this.fContainer = ((parent != null) ? getContainer() : null);
+		if((parent == null) && (this.fComponent != null))
 		{
-			fComponent.getParent().remove(fComponent);
-			fComponent = null;
+			this.fComponent.getParent().remove(this.fComponent);
+			this.fComponent = null;
 		}
 	}
 
-	/** My attributes may have changed. */
+	/** My attributes may have changed. 
+	 * @param e 
+	 * @param a 
+	 * @param f */
 	public void changedUpdate(DocumentEvent e, Shape a, ViewFactory f)
 	{
 		super.changedUpdate(e, a, f);
 		float align = getVerticalAlignment();
 
-		int height = fHeight;
-		int width  = fWidth;
+		int height = this.fHeight;
+		int width  = this.fWidth;
 
 		initialize(getElement());
 
-		boolean hChanged = fHeight != height;
-		boolean wChanged = fWidth != width;
+		boolean hChanged = this.fHeight != height;
+		boolean wChanged = this.fWidth != width;
 		if(hChanged || wChanged || getVerticalAlignment() != align)
 		{
 			getParent().preferenceChanged(this, hChanged, wChanged);
@@ -447,12 +493,12 @@ public class RelativeImageView extends View implements ImageObserver, MouseListe
 	public void paint(Graphics g, Shape a)
 	{
 		Color oldColor = g.getColor();
-		fBounds = a.getBounds();
+		this.fBounds = a.getBounds();
 		int border = getBorder();
-		int x = fBounds.x + border + getSpace(X_AXIS);
-		int y = fBounds.y + border + getSpace(Y_AXIS);
-		int width = fWidth;
-		int height = fHeight;
+		int x = this.fBounds.x + border + getSpace(X_AXIS);
+		int y = this.fBounds.y + border + getSpace(Y_AXIS);
+		int width = this.fWidth;
+		int height = this.fHeight;
 		int sel = getSelectionState();
 
 		// If no pixels yet, draw gray outline and icon
@@ -462,7 +508,7 @@ public class RelativeImageView extends View implements ImageObserver, MouseListe
 			g.drawRect(x, y, width - 1, height - 1);
 			g.setColor(oldColor);
 			loadImageStatusIcons();
-			Icon icon = ((fImage == null) ? sMissingImageIcon : sPendingImageIcon);
+			Icon icon = ((this.fImage == null) ? sMissingImageIcon : sPendingImageIcon);
 			if(icon != null)
 			{
 				icon.paintIcon(getContainer(), g, x, y);
@@ -470,9 +516,9 @@ public class RelativeImageView extends View implements ImageObserver, MouseListe
 		}
 
 		// Draw image
-		if(fImage != null)
+		if(this.fImage != null)
 		{
-			g.drawImage(fImage, x, y, width, height, this);
+			g.drawImage(this.fImage, x, y, width, height, this);
 		}
 
 		// If selected exactly, we need a black border & grow-box
@@ -512,12 +558,13 @@ public class RelativeImageView extends View implements ImageObserver, MouseListe
 	}
 
 	/** Request that this view be repainted. Assumes the view is still at its last-drawn location.
+	 * @param delay 
 	  */
 	protected void repaint(long delay)
 	{
-		if((fContainer != null) && (fBounds != null))
+		if((this.fContainer != null) && (this.fBounds != null))
 		{
-			fContainer.repaint(delay, fBounds.x, fBounds.y, fBounds.width, fBounds.height);
+			this.fContainer.repaint(delay, this.fBounds.x, this.fBounds.y, this.fBounds.width, this.fBounds.height);
 		}
 	}
 
@@ -528,11 +575,11 @@ public class RelativeImageView extends View implements ImageObserver, MouseListe
 	  */
 	protected int getSelectionState()
 	{
-		int p0 = fElement.getStartOffset();
-		int p1 = fElement.getEndOffset();
-		if(fContainer instanceof JTextComponent)
+		int p0 = this.fElement.getStartOffset();
+		int p1 = this.fElement.getEndOffset();
+		if(this.fContainer instanceof JTextComponent)
 		{
-			JTextComponent textComp = (JTextComponent)fContainer;
+			JTextComponent textComp = (JTextComponent)this.fContainer;
 			int start = textComp.getSelectionStart();
 			int end = textComp.getSelectionEnd();
 			if((start <= p0) && (end >= p1))
@@ -552,14 +599,15 @@ public class RelativeImageView extends View implements ImageObserver, MouseListe
 
 	protected boolean isEditable()
 	{
-		return ((fContainer instanceof JEditorPane) && ((JEditorPane)fContainer).isEditable());
+		return ((this.fContainer instanceof JEditorPane) && ((JEditorPane)this.fContainer).isEditable());
 	}
 
 	/** Returns the text editor's highlight color.
+	 * @return color
 	  */
 	protected Color getHighlightColor()
 	{
-		JTextComponent textComp = (JTextComponent)fContainer;
+		JTextComponent textComp = (JTextComponent)this.fContainer;
 		return textComp.getSelectionColor();
 	}
 
@@ -574,9 +622,12 @@ public class RelativeImageView extends View implements ImageObserver, MouseListe
 	private static boolean sIsInc = true;
 	private static int sIncRate = 100;
 
+	/** (non-Javadoc)
+	 * @see java.awt.image.ImageObserver#imageUpdate(java.awt.Image, int, int, int, int, int)
+	 */
 	public boolean imageUpdate(Image img, int flags, int x, int y, int width, int height)
 	{
-		if((fImage == null) || (fImage != img))
+		if((this.fImage == null) || (this.fImage != img))
 		{
 			return false;
 		}
@@ -584,7 +635,7 @@ public class RelativeImageView extends View implements ImageObserver, MouseListe
 		// Bail out if there was an error
 		if((flags & (ABORT|ERROR)) != 0)
 		{
-			fImage = null;
+			this.fImage = null;
 			repaint(0);
 			return false;
 		}
@@ -610,13 +661,13 @@ public class RelativeImageView extends View implements ImageObserver, MouseListe
 		{
 			if((changed & 1) == 1)
 			{
-				fWidth = width;
+				this.fWidth = width;
 			}
 			if((changed & 2) == 2)
 			{
-				fHeight = height;
+				this.fHeight = height;
 			}
-			if(bLoading)
+			if(this.bLoading)
 			{
 				// No need to resize or repaint, still in the process of loading
 				return true;
@@ -665,6 +716,7 @@ public class RelativeImageView extends View implements ImageObserver, MouseListe
 	/** Determines the preferred span for this view along an axis.
 	  *
 	  * @param axis may be either X_AXIS or Y_AXIS
+	 * @return float
 	  * @returns  the span the view would like to be rendered into.
 	  *           Typically the view is told to render into the span
 	  *           that is returned, although there is no guarantee.
@@ -676,9 +728,9 @@ public class RelativeImageView extends View implements ImageObserver, MouseListe
 		switch(axis)
 		{
 			case View.X_AXIS:
-				return fWidth+extra;
+				return this.fWidth+extra;
 			case View.Y_AXIS:
-				return fHeight+extra;
+				return this.fHeight+extra;
 			default:
 				throw new IllegalArgumentException("Invalid axis in getPreferredSpan() : " + axis);
 		}
@@ -690,7 +742,7 @@ public class RelativeImageView extends View implements ImageObserver, MouseListe
 	  * along the x axis.
 	  *
 	  * @param axis may be either X_AXIS or Y_AXIS
-	  * @returns the desired alignment. This should be a value
+	  *@return the desired alignment. This should be a value
 	  *   between 0.0 and 1.0 where 0 indicates alignment at the
 	  *   origin and 1.0 indicates alignment to the full span
 	  *   away from the origin. An alignment of 0.5 would be the
@@ -712,10 +764,11 @@ public class RelativeImageView extends View implements ImageObserver, MouseListe
 	  *
 	  * @param pos the position to convert
 	  * @param a the allocated region to render into
+	 * @param b 
 	  * @return the bounding box of the given position
 	  * @exception BadLocationException if the given position does not represent a
 	  *   valid location in the associated document
-	  * @see View#modelToView
+	  * @see View
 	  */
 	public Shape modelToView(int pos, Shape a, Position.Bias b)
 	throws BadLocationException
@@ -741,9 +794,10 @@ public class RelativeImageView extends View implements ImageObserver, MouseListe
 	  * @param x the X coordinate
 	  * @param y the Y coordinate
 	  * @param a the allocated region to render into
+	 * @param bias 
 	  * @return the location within the model that best represents the
 	  *         given point of view
-	  * @see View#viewToModel
+	  * @see View
 	  */
 	public int viewToModel(float x, float y, Shape a, Position.Bias[] bias)
 	{
@@ -759,43 +813,46 @@ public class RelativeImageView extends View implements ImageObserver, MouseListe
 
 	/** Change the size of this image. This alters the HEIGHT and WIDTH
 	  * attributes of the Element and causes a re-layout.
+	 * @param width 
+	 * @param height 
 	  */
 	protected void resize(int width, int height)
 	{
-		if((width == fWidth) && (height == fHeight))
+		if((width == this.fWidth) && (height == this.fHeight))
 		{
 			return;
 		}
-		fWidth = width;
-		fHeight= height;
+		this.fWidth = width;
+		this.fHeight= height;
 		// Replace attributes in document
 		MutableAttributeSet attr = new SimpleAttributeSet();
 		attr.addAttribute(HTML.Attribute.WIDTH ,Integer.toString(width));
 		attr.addAttribute(HTML.Attribute.HEIGHT,Integer.toString(height));
-		((StyledDocument)getDocument()).setCharacterAttributes(fElement.getStartOffset(), fElement.getEndOffset(), attr, false);
+		((StyledDocument)getDocument()).setCharacterAttributes(this.fElement.getStartOffset(), fElement.getEndOffset(), attr, false);
 	}
 
 	// Mouse event handling ------------------------------------------------
 
 	/** Select or grow image when clicked.
+	 * @param e 
 	  */
 	public void mousePressed(MouseEvent e)
 	{
-		Dimension size = fComponent.getSize();
+		Dimension size = this.fComponent.getSize();
 		if((e.getX() >= (size.width - 7)) && (e.getY() >= (size.height - 7)) && (getSelectionState() == 2))
 		{
 			// Click in selected grow-box:
-			Point loc = fComponent.getLocationOnScreen();
-			fGrowBase = new Point(loc.x + e.getX() - fWidth, loc.y + e.getY() - fHeight);
-			fGrowProportionally = e.isShiftDown();
+			Point loc = this.fComponent.getLocationOnScreen();
+			this.fGrowBase = new Point(loc.x + e.getX() - this.fWidth, loc.y + e.getY() - this.fHeight);
+			this.fGrowProportionally = e.isShiftDown();
 		}
 		else
 		{
 			// Else select image:
-			fGrowBase = null;
-			JTextComponent comp = (JTextComponent)fContainer;
-			int start = fElement.getStartOffset();
-			int end = fElement.getEndOffset();
+			this.fGrowBase = null;
+			JTextComponent comp = (JTextComponent)this.fContainer;
+			int start = this.fElement.getStartOffset();
+			int end = this.fElement.getEndOffset();
 			int mark = comp.getCaret().getMark();
 			int dot  = comp.getCaret().getDot();
 			if(e.isShiftDown())
@@ -825,19 +882,20 @@ public class RelativeImageView extends View implements ImageObserver, MouseListe
 		}
 	}
 
-	/** Resize image if initial click was in grow-box: */
+	/** Resize image if initial click was in grow-box: 
+	 * @param e */
 	public void mouseDragged(MouseEvent e)
 	{
-		if(fGrowBase != null)
+		if(this.fGrowBase != null)
 		{
-			Point loc = fComponent.getLocationOnScreen();
-			int width = Math.max(2, loc.x + e.getX() - fGrowBase.x);
-			int height= Math.max(2, loc.y + e.getY() - fGrowBase.y);
-			if(e.isShiftDown() && fImage != null)
+			Point loc = this.fComponent.getLocationOnScreen();
+			int width = Math.max(2, loc.x + e.getX() - this.fGrowBase.x);
+			int height= Math.max(2, loc.y + e.getY() - this.fGrowBase.y);
+			if(e.isShiftDown() && this.fImage != null)
 			{
 				// Make sure size is proportional to actual image size
-				float imgWidth = fImage.getWidth(this);
-				float imgHeight = fImage.getHeight(this);
+				float imgWidth = this.fImage.getWidth(this);
+				float imgHeight = this.fImage.getHeight(this);
 				if((imgWidth > 0) && (imgHeight > 0))
 				{
 					float prop = imgHeight / imgWidth;
@@ -857,13 +915,17 @@ public class RelativeImageView extends View implements ImageObserver, MouseListe
 		}
 	}
 
+	/** (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
+	 */
 	public void mouseReleased(MouseEvent me)
 	{
-		fGrowBase = null;
+		this.fGrowBase = null;
 		//! Should post some command to make the action undo-able
 	}
 
 	/** On double-click, open image properties dialog.
+	 * @param me 
 	  */
 	public void mouseClicked(MouseEvent me)
 	{
@@ -873,9 +935,18 @@ public class RelativeImageView extends View implements ImageObserver, MouseListe
 		}
 	}
 
-	public void mouseEntered(MouseEvent me) { ; }
-	public void mouseMoved(MouseEvent me)   { ; }
-	public void mouseExited(MouseEvent me)  { ; }
+	/** (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
+	 */
+	public void mouseEntered(MouseEvent me) { }
+	/** (non-Javadoc)
+	 * @see java.awt.event.MouseMotionListener#mouseMoved(java.awt.event.MouseEvent)
+	 */
+	public void mouseMoved(MouseEvent me)   { }
+	/** (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
+	 */
+	public void mouseExited(MouseEvent me)  {  }
 
 	// Static icon accessors -----------------------------------------------
 

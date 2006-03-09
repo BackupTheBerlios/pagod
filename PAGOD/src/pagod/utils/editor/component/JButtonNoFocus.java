@@ -29,17 +29,40 @@ import javax.swing.JButton;
   */
 public class JButtonNoFocus extends JButton
 {
+	/**
+	 * 
+	 */
 	public JButtonNoFocus()                       { super();           this.setRequestFocusEnabled(false); }
+	/**
+	 * @param a
+	 */
 	public JButtonNoFocus(Action a)               { super(a);          this.setRequestFocusEnabled(false); }
+	/**
+	 * @param icon
+	 */
 	public JButtonNoFocus(Icon icon)              { super(icon);       this.setRequestFocusEnabled(false); }
+	/**
+	 * @param text
+	 */
 	public JButtonNoFocus(String text)            { super(text);       this.setRequestFocusEnabled(false); }
+	/**
+	 * @param text
+	 * @param icon
+	 */
 	public JButtonNoFocus(String text, Icon icon) { super(text, icon); this.setRequestFocusEnabled(false); }
 
+	/** (non-Javadoc)
+	 * @see java.awt.Component#isFocusable()
+	 */
 	public boolean isFocusable()
 	{
 		return false;
 	}
 
+	/*** (non-Javadoc)
+	 * @return bool
+	 * @see java.awt.Component
+	 */
 	// deprecated in 1.4 with isFocusable(), left in for 1.3 compatibility
 	public boolean isFocusTraversable()
 	{

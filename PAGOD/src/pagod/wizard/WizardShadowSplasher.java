@@ -11,7 +11,6 @@
  */
 package pagod.wizard;
 import pagod.common.ui.ShadowedSplashWindow;
-import pagod.wizard.ui.SplashWindow;
 /**
  *
  * @author  yak

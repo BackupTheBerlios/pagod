@@ -1,5 +1,5 @@
 /*
- * $Id: CommonProcessPanel.java,v 1.5 2006/03/03 13:51:50 coincoin Exp $
+ * $Id: CommonProcessPanel.java,v 1.6 2006/03/09 00:40:48 psyko Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -25,7 +25,6 @@
 package pagod.common.ui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
@@ -48,7 +47,6 @@ import pagod.common.model.Activity;
 import pagod.common.model.ProcessElement;
 import pagod.common.model.Role;
 import pagod.wizard.control.PreferencesManager;
-import pagod.wizard.ui.ColorPanel;
 
 /**
  * Panneaux affichant le processus
