@@ -1,5 +1,5 @@
 /*
- * $Id: ApplicationManager.java,v 1.3 2006/03/03 12:02:39 themorpheus Exp $
+ * $Id: ApplicationManager.java,v 1.4 2006/03/09 19:01:55 flotueur Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -36,6 +36,7 @@ import java.util.Observable;
 import pagod.common.model.Process;
 import pagod.configurator.control.actions.AboutAction;
 import pagod.configurator.control.actions.ExportAction;
+import pagod.configurator.control.actions.ImportProjectAction;
 import pagod.configurator.control.actions.OpenAction;
 import pagod.configurator.control.actions.PreferencesAction;
 import pagod.configurator.control.actions.QuitAction;
@@ -159,6 +160,7 @@ public class ApplicationManager extends Observable
 			am.registerAction(Constants.ACTION_ABOUT, new AboutAction());
 			am.registerAction(Constants.ACTION_PREFERENCES,
 				new PreferencesAction());
+			am.registerAction( Constants.ACTION_IMPORT_PROJECT , new ImportProjectAction());
 
 		}
 		catch (Exception ex)
