@@ -1,5 +1,5 @@
 /*
- * $Id: Constants.java,v 1.15 2006/02/19 15:36:43 yak Exp $
+ * $Id: Constants.java,v 1.16 2006/03/09 19:17:41 flotueur Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -192,5 +192,10 @@ public interface Constants
 	 * <code>DOCS_DIRECTORY</code>
 	 */
 	public static final String	DOCS_DIRECTORY	= "produits" + File.separator;
+	
+    /**
+     * <code>ACTION_IMPORT_PROJECT</code>
+     */
+    public static final String ACTION_IMPORT_PROJECT = "importProjectAction";
     
 }

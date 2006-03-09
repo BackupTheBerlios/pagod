@@ -1,5 +1,5 @@
 /*
- * $Id: Constants.java,v 1.6 2006/03/09 19:01:55 flotueur Exp $
+ * $Id: Constants.java,v 1.7 2006/03/09 19:17:41 flotueur Exp $
  *
  * PAGOD - Spem Wizard
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -129,10 +129,6 @@ public interface Constants
      * <code>ACTION_PREFERENCES</code>
      */
     public static final String ACTION_PREFERENCES = "preferencesConfigAction";
-    
-    /**
-     * <code>ACTION_IMPORT_PROJECT</code>
-     */
-    public static final String ACTION_IMPORT_PROJECT = "importProjectAction";
+
 
 }

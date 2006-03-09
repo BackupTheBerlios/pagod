@@ -1,5 +1,5 @@
 /*
- * $Id: ApplicationManager.java,v 1.34 2006/02/22 16:16:40 cyberal82 Exp $
+ * $Id: ApplicationManager.java,v 1.35 2006/03/09 19:17:41 flotueur Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -52,6 +52,7 @@ import pagod.wizard.control.PreferencesManager.InvalidExtensionException;
 import pagod.wizard.control.actions.AboutAction;
 import pagod.wizard.control.actions.CloseProjectAction;
 import pagod.wizard.control.actions.GotoAction;
+import pagod.wizard.control.actions.ImportProjectAction;
 import pagod.wizard.control.actions.NewProjectAction;
 import pagod.wizard.control.actions.NextAction;
 import pagod.wizard.control.actions.NextIterationAction;
@@ -202,6 +203,7 @@ public class ApplicationManager extends Observable
 
 			am.registerAction(Constants.ACTION_TIME_ALL_ITERATIONS,
 					new TimeActivityAllIterationAction());
+			am.registerAction( Constants.ACTION_IMPORT_PROJECT , new ImportProjectAction());
 		}
 		catch (Exception ex)
 		{

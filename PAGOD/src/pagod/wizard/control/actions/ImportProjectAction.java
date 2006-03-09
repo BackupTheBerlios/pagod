@@ -1,10 +1,10 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ImportProjectAction.java,v 1.3 2006/03/09 19:01:55 flotueur Exp $
+ * $Id: ImportProjectAction.java,v 1.1 2006/03/09 19:17:41 flotueur Exp $
  */
 
-package pagod.configurator.control.actions;
+package pagod.wizard.control.actions;
 
 import java.awt.event.ActionEvent;
 import java.io.File;
