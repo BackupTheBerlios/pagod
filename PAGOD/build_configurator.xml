@@ -1,4 +1,90 @@
 <?xml version="1.0"?>
-<project name="PAGOD_Configurator" default="" basedir=".">
+<project name="PAGOD_Config" default="" basedir=".">
+	<!--fichier de propriété de ant tel que le build number-->
+	<propertyfile file="antwizard.properties" comment="Fichier propriété">
+	</propertyfile>
+	<description>
+		Génération de l'application  Pagod configurator ou wizard
+	</description>
+
+	<!-- Déclaration des variables répertoires -->
+	<property name="src" location="src/" />
+	<property name="bin" location="bin/" />
+	<property name="build" location="build/" />
+	<property name="doc" location="doc/config" />
+
+	<!-- Déclaration des variables librairie -->
+	<property name="lib_parserHTML" location="lib/htmlparser.jar" />
+
+
+
+
+	<!-- Compilation du config -->
+	<target name="config" depends="" description="compil des sources du configurateur ">
+
+
+
+		<javac srcdir="${src}" destdir="${bin}">
+			<classpath>
+				<pathelement path="${java.class.path}" />
+				<pathelement location="lib/htmlparser.jar" />
+				<pathelement location="lib/jdic.jar" />
+			</classpath>
+		</javac>
+	</target>
+	<!--creation d'un zip du build actuel-->
+	<target name="javadoc" description="Créer la javadoc de l'application " depends="">
+
+
+	</target>
+	<!--jar-->
+	<target name="jarConfigWin" description="Construit le jar du config" depends="config">
+		<buildnumber file="antwizard.properties" />
+		<!--Creation des repertoire pour la build courante-->
+		<!--Variable ou générer la build-->
+		<property name="curbuild" location="${build}/config_windows_${build.number}" />
+		<mkdir dir="${build}" />
+		<mkdir dir="${curbuild}" />
+		<mkdir dir="${curbuild}/lib" />
+		<!-- copie des fichier librairie -->
+		<copy file="lib/htmlparser.jar" todir="${curbuild}/lib/" />
+		<copy file="lib/windows/jdic.jar" todir="${curbuild}/lib/" />
+		<jar jarfile="${curbuild}/pagod_config.jar" basedir="${bin}" excludes="test/** resources/*.** resources/exportpabe/**">
+			<manifest>
+				<!--<attribute name="Built-By" value="${user.name}" />-->
+				<attribute name="Main-Class" value="pagod.configurator.MainConfigurator" />
+				<attribute name="Class-Path" value="lib/htmlparser.jar lib/jdic.jar" />
+			</manifest>
+			
+		</jar>
+
+	</target>
+	<!--jar-->
+		<target name="jarConfigLin" description="Construit le jar du config" depends="config">
+			<buildnumber file="antwizard.properties" />
+			<!--Creation des repertoire pour la build courante-->
+			<!--Variable ou générer la build-->
+			<property name="curbuild" location="${build}/config_linux_${build.number}" />
+			<mkdir dir="${build}" />
+			<mkdir dir="${curbuild}" />
+			<mkdir dir="${curbuild}/lib" />
+			<!-- copie des fichier librairie -->
+			<copy file="lib/htmlparser.jar" todir="${curbuild}/lib/" />
+			<copy file="lib/linux/jdic.jar" todir="${curbuild}/lib/" />
+			<jar jarfile="${curbuild}/pagod_config.jar" basedir="${bin}" excludes="test/** resources/*.** resources/exportpabe/**">
+				<manifest>
+					<!--<attribute name="Built-By" value="${user.name}" />-->
+					<attribute name="Main-Class" value="pagod.configurator.MainConfigurator" />
+					<attribute name="Class-Path" value="lib/htmlparser.jar lib/jdic.jar" />
+				</manifest>
+				
+			</jar>
+
+		</target>
 	
+
+
+	
+
 </project>
+
