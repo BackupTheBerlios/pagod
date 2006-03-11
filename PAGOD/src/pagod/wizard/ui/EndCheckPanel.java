@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: EndCheckPanel.java,v 1.8 2006/03/09 18:46:33 psyko Exp $
+ * $Id: EndCheckPanel.java,v 1.9 2006/03/11 16:44:12 cyberal82 Exp $
  */
 package pagod.wizard.ui;
 
@@ -129,7 +129,7 @@ public class EndCheckPanel extends JScrollPane
                 pProduct.add(lProductLabel);
                 String toolTipTempText = product.getName();
                 if (product.getDescription() != null)
-                	toolTipTempText = toolTipTempText + product.getDescription();
+                	toolTipTempText = toolTipTempText + " : "+ product.getDescription();
                 lProductLabel.setToolTipText(toolTipTempText);
                 
                 lProductLabel.addMouseListener( new MouseAdapter()
