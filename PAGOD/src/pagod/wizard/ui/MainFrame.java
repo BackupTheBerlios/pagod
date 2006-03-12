@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.59 2006/03/07 16:34:39 cyberal82 Exp $
+ * $Id: MainFrame.java,v 1.60 2006/03/12 02:11:22 fabfoot Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -1060,6 +1060,8 @@ public class MainFrame extends JFrame implements Observer
 				ActionManager.getInstance().getAction(
 						Constants.ACTION_CLOSEPROJECT).setEnabled(false);
 				ActionManager.getInstance().getAction(
+						Constants.ACTION_EXPORT_TIME ).setEnabled(false);
+				ActionManager.getInstance().getAction(
 						Constants.ACTION_NEXT_ITERATION).setEnabled(false);
 				ActionManager.getInstance().getAction(
 						Constants.ACTION_TIME_ALL_ITERATIONS).setEnabled(false);
@@ -1206,6 +1208,8 @@ public class MainFrame extends JFrame implements Observer
 						Constants.ACTION_TERMINATE).setEnabled(false);
 				// on degrise les menus d'iteration
 				ActionManager.getInstance().getAction(
+						Constants.ACTION_EXPORT_TIME).setEnabled(true);
+				ActionManager.getInstance().getAction(
 						Constants.ACTION_NEXT_ITERATION).setEnabled(true);
 				ActionManager.getInstance().getAction(
 						Constants.ACTION_TIME_ALL_ITERATIONS).setEnabled(true);
@@ -1216,6 +1220,8 @@ public class MainFrame extends JFrame implements Observer
 			else if (obj instanceof ActivityLaunchedState)
 			{
 				// on grise les menus d'iteration
+				ActionManager.getInstance().getAction(
+						Constants.ACTION_EXPORT_TIME).setEnabled(false);
 				ActionManager.getInstance().getAction(
 						Constants.ACTION_NEXT_ITERATION).setEnabled(false);
 				ActionManager.getInstance().getAction(

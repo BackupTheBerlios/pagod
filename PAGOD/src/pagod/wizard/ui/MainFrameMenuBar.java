@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrameMenuBar.java,v 1.7 2006/03/09 19:40:05 cyberal82 Exp $
+ * $Id: MainFrameMenuBar.java,v 1.8 2006/03/12 02:11:23 fabfoot Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -87,6 +87,11 @@ public class MainFrameMenuBar extends JMenuBar
         // Menu Itération
         MnemonicMenu mIteration = new MnemonicMenu(LanguagesManager.getInstance().getString(
         "iteration"));
+        
+        //export du temps
+        JMenuItem miExport = new JMenuItem(ActionManager.getInstance().getAction(
+                Constants.ACTION_EXPORT_TIME));
+        mIteration.add(miExport);
         
         // passer a l'ité suivante
         JMenuItem miNextIteration = new JMenuItem(ActionManager.getInstance().getAction(

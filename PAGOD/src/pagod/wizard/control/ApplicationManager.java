@@ -1,5 +1,5 @@
 /*
- * $Id: ApplicationManager.java,v 1.35 2006/03/09 19:17:41 flotueur Exp $
+ * $Id: ApplicationManager.java,v 1.36 2006/03/12 02:11:23 fabfoot Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -56,6 +56,7 @@ import pagod.wizard.control.actions.ImportProjectAction;
 import pagod.wizard.control.actions.NewProjectAction;
 import pagod.wizard.control.actions.NextAction;
 import pagod.wizard.control.actions.NextIterationAction;
+import pagod.wizard.control.actions.ExportTimeAction;
 import pagod.wizard.control.actions.OpenProcessAction;
 import pagod.wizard.control.actions.OpenProjectAction;
 import pagod.wizard.control.actions.PreferencesAction;
@@ -195,6 +196,8 @@ public class ApplicationManager extends Observable
 			 */
 
 			/* ajout des actions pour le menu it?ration */
+			am.registerAction(Constants.ACTION_EXPORT_TIME,
+					new ExportTimeAction());
 			am.registerAction(Constants.ACTION_NEXT_ITERATION,
 					new NextIterationAction());
 
@@ -203,7 +206,8 @@ public class ApplicationManager extends Observable
 
 			am.registerAction(Constants.ACTION_TIME_ALL_ITERATIONS,
 					new TimeActivityAllIterationAction());
-			am.registerAction( Constants.ACTION_IMPORT_PROJECT , new ImportProjectAction());
+			am.registerAction(Constants.ACTION_IMPORT_PROJECT,
+					new ImportProjectAction());
 		}
 		catch (Exception ex)
 		{

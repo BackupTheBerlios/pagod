@@ -1,5 +1,5 @@
 /*
- * $Id: Constants.java,v 1.16 2006/03/09 19:17:41 flotueur Exp $
+ * $Id: Constants.java,v 1.17 2006/03/12 02:11:23 fabfoot Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -133,7 +133,12 @@ public interface Constants
      * <code>ACTION_NEXT_ITERATION</code>
      */
     public static final String ACTION_NEXT_ITERATION = "goToNextIteration";
-
+   
+    /**
+     * <code>EXPORT_TIME</code>
+     */
+    public static final String ACTION_EXPORT_TIME = "exportTime";
+    
     /**
      * <code>ACTION_TIME_CURRENT_ITERATION</code>
      */
