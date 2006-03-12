@@ -1,22 +1,24 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ExportTimeAction.java,v 1.1 2006/03/12 02:11:23 fabfoot Exp $
+ * $Id: ExportTimeAction.java,v 1.2 2006/03/12 14:05:16 fabfoot Exp $
  */
 package pagod.wizard.control.actions;
 
 import java.awt.event.ActionEvent;
 import java.io.IOException;
+import java.util.Vector;
 
-import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileFilter;
 
+import pagod.common.ui.CustomFileFilter;
 import pagod.utils.ImagesManager;
 import pagod.utils.LanguagesManager;
 import pagod.utils.TimerManager;
 import pagod.utils.ImagesManager.NotInitializedException;
 import pagod.wizard.control.ApplicationManager;
 import pagod.wizard.control.TimeHandler;
-import pagod.wizard.control.states.Request;
 
 /**
  * @author fabfoot
@@ -24,6 +26,7 @@ import pagod.wizard.control.states.Request;
  */
 public class ExportTimeAction extends AbstractPagodAction
 {
+
 	/**
 	 * @throws LanguagesManager.NotInitializedException
 	 * @throws NotInitializedException
@@ -39,15 +42,17 @@ public class ExportTimeAction extends AbstractPagodAction
 		super("exportTime", "AboutIcon.gif", null);
 	}
 
-	/* (non-Javadoc)
-	 * @see pagod.wizard.control.actions.AbstractPagodAction#actionPerformed(java.awt.event.ActionEvent)
+	/**
+	 * Methode appélée lorsque l'action est déclenché
+	 * 
+	 * @param actionEvent
+	 *            Evenement survenue
 	 */
 	public void actionPerformed (ActionEvent actionEvent)
 	{
-		//exporter les temps passés
-		//decendre le model sur le dom et ecrire le fichier
-		
-		
+		// exporter les temps passés
+		// decendre le model sur le dom et ecrire le fichier
+
 		if (TimerManager.getInstance().isStarted())
 		{
 			TimerManager.getInstance().stop();
@@ -58,10 +63,33 @@ public class ExportTimeAction extends AbstractPagodAction
 		{
 			TimeHandler th = new TimeHandler();
 			th.loadModel(ApplicationManager.getInstance().getCurrentProcess());
-			System.out.println("ExportTimeAction : ou faut il exporter");
-			//doc a ecrire reste a savoir ou l'ecrire
-			//th.writeXML(ApplicationManager.getInstance().getCurrentProject()
-				//	.getName());
+			// doc a ecrire reste a savoir ou l'ecrire
+			
+			JFileChooser chooser = new JFileChooser();// création dun nouveau
+			chooser.setMultiSelectionEnabled(false); // filechosser
+			Vector<String> authorizedExtensions = new Vector<String>();
+
+			// xml
+			authorizedExtensions.add("xml");
+			CustomFileFilter xmlFileFilter = new CustomFileFilter(
+					authorizedExtensions, ".xml");
+			chooser.addChoosableFileFilter(xmlFileFilter);
+			chooser.setApproveButtonText(LanguagesManager.getInstance().getString("Save" )); // intitulé du bouton
+			if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION)
+			{
+				String path = chooser.getSelectedFile().getAbsolutePath();
+				String test = path.substring( path.length()-4,path.length()  );
+				//System.out.println(test);
+				if (test.equals(".xml" ))
+				{
+					th.exportXML(path );
+				}
+				else{
+					th.exportXML(path + ".xml");
+				}
+				
+			}
+
 		}
 	}
 }

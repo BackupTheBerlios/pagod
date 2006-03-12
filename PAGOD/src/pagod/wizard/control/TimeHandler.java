@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: TimeHandler.java,v 1.15 2006/02/18 16:35:54 cyberal82 Exp $
+ * $Id: TimeHandler.java,v 1.16 2006/03/12 14:05:16 fabfoot Exp $
  */
 package pagod.wizard.control;
 
@@ -232,6 +232,24 @@ public class TimeHandler
 					+ sNameproject
 					+ File.separator
 					+ Constants.NAME_FILE_TIME));
+
+		}
+		catch (java.io.IOException e)
+		{
+		}
+	}
+	
+	
+	/**
+	 * @param path
+	 */
+	public void exportXML (String path)
+	{
+		try
+		{
+			// On utilise ici un affichage classique avec getPrettyFormat()
+			XMLOutputter sortie = new XMLOutputter(Format.getPrettyFormat());
+			sortie.output(this.doc, new FileOutputStream(path));
 
 		}
 		catch (java.io.IOException e)
