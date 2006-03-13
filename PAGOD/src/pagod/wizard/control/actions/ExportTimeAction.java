@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ExportTimeAction.java,v 1.2 2006/03/12 14:05:16 fabfoot Exp $
+ * $Id: ExportTimeAction.java,v 1.3 2006/03/13 09:15:28 fabfoot Exp $
  */
 package pagod.wizard.control.actions;
 
@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.util.Vector;
 
 import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileFilter;
 
 import pagod.common.ui.CustomFileFilter;
 import pagod.utils.ImagesManager;
@@ -43,14 +42,14 @@ public class ExportTimeAction extends AbstractPagodAction
 	}
 
 	/**
-	 * Methode appélée lorsque l'action est déclenché
+	 * Methode app?l?e lorsque l'action est d?clench?
 	 * 
 	 * @param actionEvent
 	 *            Evenement survenue
 	 */
 	public void actionPerformed (ActionEvent actionEvent)
 	{
-		// exporter les temps passés
+		// exporter les temps pass?s
 		// decendre le model sur le dom et ecrire le fichier
 
 		if (TimerManager.getInstance().isStarted())
@@ -65,7 +64,7 @@ public class ExportTimeAction extends AbstractPagodAction
 			th.loadModel(ApplicationManager.getInstance().getCurrentProcess());
 			// doc a ecrire reste a savoir ou l'ecrire
 			
-			JFileChooser chooser = new JFileChooser();// création dun nouveau
+			JFileChooser chooser = new JFileChooser();// cr?ation dun nouveau
 			chooser.setMultiSelectionEnabled(false); // filechosser
 			Vector<String> authorizedExtensions = new Vector<String>();
 
@@ -74,7 +73,7 @@ public class ExportTimeAction extends AbstractPagodAction
 			CustomFileFilter xmlFileFilter = new CustomFileFilter(
 					authorizedExtensions, ".xml");
 			chooser.addChoosableFileFilter(xmlFileFilter);
-			chooser.setApproveButtonText(LanguagesManager.getInstance().getString("Save" )); // intitulé du bouton
+			chooser.setApproveButtonText(LanguagesManager.getInstance().getString("Save" )); // intitul? du bouton
 			if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION)
 			{
 				String path = chooser.getSelectedFile().getAbsolutePath();
