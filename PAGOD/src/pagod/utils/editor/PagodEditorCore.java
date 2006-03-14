@@ -518,6 +518,7 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 	private final String[]					extsRTF					= { "rtf" };
 	private final String[]					extsB64					= { "b64" };
 	private final String[]					extsSer					= { "ser" };
+	
 	private boolean							DOC_SAVED				= true;
 	private String							SOURCE_DOC;
 
@@ -2302,6 +2303,7 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 	 * 
 	 * @see java.awt.event.KeyListener#keyTyped(java.awt.event.KeyEvent)
 	 */
+	@SuppressWarnings("static-access")
 	public void keyTyped (KeyEvent ke)
 	{
 		Element elem;
@@ -2322,6 +2324,7 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 					}
 					else
 					{
+						
 						int sOffset = this.htmlDoc.getParagraphElement(pos)
 								.getStartOffset();
 						if (sOffset == this.jtpMain.getSelectionStart())
@@ -2402,10 +2405,11 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 		}
 		else if (ke.getKeyChar() == KeyEvent.VK_ENTER)
 		{
+			// TODO arno : bug touche enter
 			try
 			{
 				if (this.htmlUtilities.checkParentsTag(HTML.Tag.UL) == true
-						| this.htmlUtilities.checkParentsTag(HTML.Tag.OL) == true)
+						|| this.htmlUtilities.checkParentsTag(HTML.Tag.OL) == true)
 				{
 					elem = this.htmlUtilities.getListItemParent();
 					int so = elem.getStartOffset();
@@ -2471,6 +2475,12 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 							this.setCaretPosition(newLi.getEndOffset() - 1);
 						}
 					}
+				}
+				else {
+					//System.err.println("keytyped enter !");
+					/*
+					int caret = this.getCaretPosition();
+					this.getTextPane().replaceSelection("<br>");*/
 				}
 			}
 			catch (BadLocationException ble)
@@ -2977,13 +2987,16 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 	 * @throws BadLocationException 
 	 * @throws RuntimeException 
 	 */
+	// TODO arno : correction insertBreak()
 	private void insertBreak () throws IOException, BadLocationException,
 			RuntimeException
 	{
 		int caretPos = this.jtpMain.getCaretPosition();
 		this.htmlKit.insertHTML(this.htmlDoc, caretPos, "<BR>", 0, 0,
 				HTML.Tag.BR);
+		//System.err.println("pagodeditorcore.inserbreak");
 		this.jtpMain.setCaretPosition(caretPos + 1);
+		this.jtpMain.getCaret().isVisible();
 	}
 
 	/**
@@ -3163,6 +3176,7 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 	 * Method that handles initial list insertion and deletion
 	 * @param element 
 	 */
+	// TODO arno : à voir
 	public void manageListElement (Element element)
 	{
 		Element h = this.htmlUtilities.getListItemParent();

@@ -43,7 +43,7 @@ public class ListAutomationAction extends HTMLEditorKit.InsertHTMLTextAction
 	private HTML.Tag baseTag;
 	private String sListType;
 	private HTMLUtilities htmlUtilities;
-
+	
 	public ListAutomationAction(PagodEditorCore ekit, String sLabel, HTML.Tag listType)
 	{
 		super(sLabel, "", listType, HTML.Tag.LI);
@@ -84,7 +84,8 @@ public class ListAutomationAction extends HTMLEditorKit.InsertHTMLTextAction
 				}
 				else
 				{
-					sbNew.append("<" + sListType + "><li></li></" + sListType + "><p>&nbsp;</p>");
+					// sbNew.append("<" + sListType + "><li></li></" + sListType + "><p>&nbsp;</p>");
+					sbNew.append("<" + sListType + "><li></li></" + sListType + "><br><p>&nbsp</p>");
 					insertHTML(parentEkit.getTextPane(), parentEkit.getExtendedHtmlDoc(), parentEkit.getTextPane().getCaretPosition(), sbNew.toString(), 0, 0, (sListType.equals("ol") ? HTML.Tag.OL : HTML.Tag.UL));
 				}
 				parentEkit.refreshOnUpdate();
