@@ -33,7 +33,7 @@ public class PagodEditorAboutDialog extends JFrame implements ActionListener
     * 
     * @param sVersion
     */
-    public PagodEditorAboutDialog(String sVersion)
+    public PagodEditorAboutDialog(String sVersion,JFrame fParent)
     {
 
         this.pbOk = new JButton("OK");
@@ -109,6 +109,7 @@ public class PagodEditorAboutDialog extends JFrame implements ActionListener
         this.getContentPane().add(southPanel, BorderLayout.SOUTH);
         this.getContentPane().add(centerPanel, BorderLayout.CENTER);
         // boîte de dialogue modale et centrée par rapport à l'appelant
+        this.setLocation(fParent.getX()+((fParent.getWidth()-this.getWidth())/4) , fParent.getY()+((fParent.getHeight()-this.getHeight())/4));
         this.setResizable(false);
         this.pack();
         this.setVisible(true);

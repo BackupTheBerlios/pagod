@@ -60,6 +60,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -138,7 +139,7 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 	private Step							step					= null;
 	// public Observable editorObservable = new Observable();
 	JPanel									jpanel_source;
-
+	JFrame	fParent = null;
 	/* Components */
 	private JSplitPane						jspltDisplay;
 	private JTextPane						jtpMain;
@@ -577,11 +578,11 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 			boolean hasSpellChecker, boolean multiBar, String toolbarSeq)
 	{
 		super();
-
+		
 		this.exclusiveEdit = editModeExclusive;
 
 		this.frameHandler = new Frame();
-
+		
 		// Determine if system clipboard is available
 		this.secManager = System.getSecurityManager();
 		if (this.secManager != null)
@@ -836,13 +837,12 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 		this.jMenuFile.add(jmiSaveRTF);
 		
 		// tire le menu save as
-		/*
 		JMenuItem jmiSaveAs = new JMenuItem(Translatrix
 				.getTranslationString("SaveAs")
 				+ this.menuDialog);
 		jmiSaveAs.setActionCommand("saveas");
 		jmiSaveAs.addActionListener(this);
-		this.jMenuFile.add(jmiSaveAs);*/
+		this.jMenuFile.add(jmiSaveAs);
 		
 		// arno : menu sauvegarde Save To Pagod
 		// JMenuItem jmiSaveB64 = new
@@ -1941,6 +1941,7 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 			}
 			else if (command.equals("saveas"))
 			{
+				// TODO arno bug: ici
 				writeOut((HTMLDocument) (this.jtpMain.getDocument()), null);
 			}
 			else if (command.equals("savebody"))
@@ -2233,7 +2234,7 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 			else if (command.equals("helpabout"))
 			{
 				// arno / about
-				new PagodEditorAboutDialog(this.PAGOD_EDITOR_VERSION);
+				new PagodEditorAboutDialog(this.PAGOD_EDITOR_VERSION, fParent);
 			}
 			else if (command.equals("spellcheck"))
 			{
@@ -2632,10 +2633,12 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 	 * @throws BadLocationException 
 	 * @throws IOException 
 	 */
+	/*
 	public void insertListStyle (Element element) throws BadLocationException,
-			IOException
+			IOException */
+	public void insertListStyle (Element element) throws BadLocationException, IOException
 	{
-		// System.err.println("PagodEditorCore.insertListStyle");
+		// System.err.println("PagodEditorCore.insertListStyle : list inserted");
 		if (element.getParentElement().getName() == "ol")
 		{
 			this.actionListOrdered.actionPerformed(new ActionEvent(
@@ -3388,19 +3391,26 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 	private void writeOut (HTMLDocument doc, File whatFile) throws IOException,
 			BadLocationException
 	{
-		/*
-		 * if(whatFile == null) { whatFile = getFileFromChooser(".",
-		 * JFileChooser.SAVE_DIALOG, extsHTML,
-		 * Translatrix.getTranslationString("FiletypeHTML")); } if(whatFile !=
-		 * null) { FileWriter fw = new FileWriter(whatFile); htmlKit.write(fw,
-		 * doc, 0, doc.getLength()); fw.flush(); fw.close(); currentFile =
-		 * whatFile; updateTitle(); } refreshOnUpdate();
-		 */
+		 if (whatFile == null)
+		{
+			whatFile = getFileFromChooser(".", JFileChooser.SAVE_DIALOG,
+					extsHTML, Translatrix.getTranslationString("FiletypeHTML"));
+		}
+		if (whatFile != null)
+		{
+			FileWriter fw = new FileWriter(whatFile);
+			htmlKit.write(fw, doc, 0, doc.getLength());
+			fw.flush();
+			fw.close();
+			currentFile = whatFile;
+			updateTitle();
+		}
+		refreshOnUpdate();
 		// arno
 		// Sauvegarde Pagod
-		this.step.setComment(doc.toString());
-		// TODO arno : bug ici
-		this.stepsTable.getModel().setValueAt(this.step, this.StepRowNumber, 2);
+		// this.step.setComment(doc.toString());
+		// arno : bug ici
+		// this.stepsTable.getModel().setValueAt(this.step, this.StepRowNumber, 2);
 	}
 
 	/**
@@ -4646,5 +4656,15 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 			// Bloc de traitement des exceptions g�n�r� automatiquement
 			e.printStackTrace();
 		}
+	}
+
+	public JFrame getFParent ()
+	{
+		return this.fParent;
+	}
+
+	public void setFParent (JFrame parent)
+	{
+		this.fParent = parent;
 	}
 }

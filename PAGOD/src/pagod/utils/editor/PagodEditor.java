@@ -151,7 +151,7 @@ public class PagodEditor extends JFrame implements WindowListener, Runnable
 		this.pagodEditorCore.setStep(steptoedit);
 		this.pagodEditorCore.setStepsTable(stepsTable);
 		this.pagodEditorCore.setStepRowNumber(StepRowNumber);
-		//		 this.editorObserver.setComposant(fromPanel);
+		this.pagodEditorCore.setFParent(this);
 	}
 	
 	/**
