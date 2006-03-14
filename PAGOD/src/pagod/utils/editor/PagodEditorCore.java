@@ -153,7 +153,7 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 	private JToolBar						jToolBarStyles;
 
 	private JButtonNoFocus					jbtnNewHTML;
-	// private JButtonNoFocus jbtnOpenHTML;
+	private JButtonNoFocus 					jbtnOpenHTML;
 	private JButtonNoFocus					jbtnSaveHTML;
 	private JButtonNoFocus					jbtnCut;
 	private JButtonNoFocus					jbtnCopy;
@@ -291,139 +291,137 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 	 * 
 	 */
 	public static final String				KEY_TOOL_OPEN			= "OP";
-	
+
 	/**
 	 * Commentaire pour <code>KEY_TOOL_SAVE</code>
 	 */
 	public static final String				KEY_TOOL_SAVE			= "SV";
-	
+
 	/**
 	 * Commentaire pour <code>KEY_TOOL_CUT</code>
 	 */
 	public static final String				KEY_TOOL_CUT			= "CT";
-	
+
 	/**
 	 * Commentaire pour <code>KEY_TOOL_COPY</code>
 	 */
 	public static final String				KEY_TOOL_COPY			= "CP";
-	
+
 	/**
 	 * Commentaire pour <code>KEY_TOOL_PASTE</code>
 	 */
 	public static final String				KEY_TOOL_PASTE			= "PS";
-	
+
 	/**
 	 * Commentaire pour <code>KEY_TOOL_UNDO</code>
 	 */
 	public static final String				KEY_TOOL_UNDO			= "UN";
-	
+
 	/**
 	 * Commentaire pour <code>KEY_TOOL_REDO</code>
 	 */
 	public static final String				KEY_TOOL_REDO			= "RE";
-	
+
 	/**
 	 * Commentaire pour <code>KEY_TOOL_BOLD</code>
 	 */
 	public static final String				KEY_TOOL_BOLD			= "BL";
-	
+
 	/**
 	 * Commentaire pour <code>KEY_TOOL_ITALIC</code>
 	 */
 	public static final String				KEY_TOOL_ITALIC			= "IT";
-	
+
 	/**
 	 * Commentaire pour <code>KEY_TOOL_UNDERLINE</code>
 	 */
 	public static final String				KEY_TOOL_UNDERLINE		= "UD";
-	
+
 	/**
 	 * Commentaire pour <code>KEY_TOOL_STRIKE</code>
 	 */
 	public static final String				KEY_TOOL_STRIKE			= "SK";
-	
+
 	/**
 	 * Commentaire pour <code>KEY_TOOL_SUPER</code>
 	 */
 	public static final String				KEY_TOOL_SUPER			= "SU";
-	
+
 	/**
 	 * Commentaire pour <code>KEY_TOOL_SUB</code>
 	 */
 	public static final String				KEY_TOOL_SUB			= "SB";
-	
+
 	/**
 	 * Commentaire pour <code>KEY_TOOL_ULIST</code>
 	 */
 	public static final String				KEY_TOOL_ULIST			= "UL";
-	
+
 	/**
 	 * Commentaire pour <code>KEY_TOOL_OLIST</code>
 	 */
 	public static final String				KEY_TOOL_OLIST			= "OL";
-	
+
 	/**
 	 * Commentaire pour <code>KEY_TOOL_ALIGNL</code>
 	 */
 	public static final String				KEY_TOOL_ALIGNL			= "AL";
-	
+
 	/**
 	 * Commentaire pour <code>KEY_TOOL_ALIGNC</code>
 	 */
 	public static final String				KEY_TOOL_ALIGNC			= "AC";
-	
+
 	/**
 	 * Commentaire pour <code>KEY_TOOL_ALIGNR</code>
 	 */
 	public static final String				KEY_TOOL_ALIGNR			= "AR";
-	
+
 	/**
 	 * Commentaire pour <code>KEY_TOOL_ALIGNJ</code>
 	 */
 	public static final String				KEY_TOOL_ALIGNJ			= "AJ";
-	
+
 	/**
 	 * Commentaire pour <code>KEY_TOOL_UNICODE</code>
 	 */
 	public static final String				KEY_TOOL_UNICODE		= "UC";
-	
+
 	/**
 	 * Commentaire pour <code>KEY_TOOL_UNIMATH</code>
 	 */
 	public static final String				KEY_TOOL_UNIMATH		= "UM";
-	
+
 	/**
 	 * Commentaire pour <code>KEY_TOOL_FIND</code>
 	 */
 	public static final String				KEY_TOOL_FIND			= "FN";
-	
+
 	/**
 	 * Commentaire pour <code>KEY_TOOL_ANCHOR</code>
 	 */
 	public static final String				KEY_TOOL_ANCHOR			= "LK";
-	
+
 	/**
 	 * Commentaire pour <code>KEY_TOOL_SOURCE</code>
 	 */
 	public static final String				KEY_TOOL_SOURCE			= "SR";
-	
+
 	/**
 	 * Commentaire pour <code>KEY_TOOL_STYLES</code>
 	 */
 	public static final String				KEY_TOOL_STYLES			= "ST";
-	
+
 	/**
 	 * Commentaire pour <code>KEY_TOOL_FONTS</code>
 	 */
 	public static final String				KEY_TOOL_FONTS			= "FO";
 
-	
-
 	/**
 	 * Commentaire pour <code>TOOLBAR_DEFAULT_MULTI</code>
 	 */
 	public static final String				TOOLBAR_DEFAULT_MULTI	= "NW|OP|SV|SP|CT|CP|PS|SP|UN|RE|SP|FN|SP|UC|UM|SP|SR|*|BL|IT|UD|SP|SK|SU|SB|SP|AL|AC|AR|AJ|SP|UL|OL|SP|LK|*|ST|SP|FO";
-	
+
 	/**
 	 * Commentaire pour <code>TOOLBAR_DEFAULT_SINGLE</code>
 	 */
@@ -433,28 +431,26 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 	 * Commentaire pour <code>TOOLBAR_SINGLE</code>
 	 */
 	public static final int					TOOLBAR_SINGLE			= 0;
-	
+
 	/**
 	 * Commentaire pour <code>TOOLBAR_MAIN</code>
 	 */
 	public static final int					TOOLBAR_MAIN			= 1;
-	
+
 	/**
 	 * Commentaire pour <code>TOOLBAR_FORMAT</code>
 	 */
 	public static final int					TOOLBAR_FORMAT			= 2;
-	
+
 	/**
 	 * Commentaire pour <code>TOOLBAR_STYLES</code>
 	 */
 	public static final int					TOOLBAR_STYLES			= 3;
 
-	
-
 	// Menu & Tool Key Arrays
-	
+
 	private static Hashtable				htMenus					= new Hashtable();
-	
+
 	private static Hashtable				htTools					= new Hashtable();
 
 	private final String					appName					= "PAGOD Editor";
@@ -474,22 +470,22 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 																																															 */
 
 	private final boolean					useFormIndicator		= true;																												/*
-																																														 * Creates
-																																														 * a
-																																														 * highlighted
-																																														 * background
-																																														 * on a
-																																														 * new
-																																														 * FORM
-																																														 * so
-																																														 * that
-																																														 * it
-																																														 * may
-																																														 * be
-																																														 * more
-																																														 * easily
-																																														 * edited
-																																														 */
+																																															 * Creates
+																																															 * a
+																																															 * highlighted
+																																															 * background
+																																															 * on a
+																																															 * new
+																																															 * FORM
+																																															 * so
+																																															 * that
+																																															 * it
+																																															 * may
+																																															 * be
+																																															 * more
+																																															 * easily
+																																															 * edited
+																																															 */
 	private final String					clrFormIndicator		= "#cccccc";
 
 	// System Clipboard Settings
@@ -521,8 +517,8 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 	private final String[]					extsRTF					= { "rtf" };
 	private final String[]					extsB64					= { "b64" };
 	private final String[]					extsSer					= { "ser" };
-	private boolean	DOC_SAVED = true;
-	private String	SOURCE_DOC;
+	private boolean							DOC_SAVED				= true;
+	private String							SOURCE_DOC;
 
 	/**
 	 * Master Constructor
@@ -792,22 +788,21 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 			jmiNew.setIcon(getEkitIcon("New"));
 		}
 		this.jMenuFile.add(jmiNew);
-		JMenuItem jmiSaveBody = new JMenuItem(Translatrix
-				.getTranslationString("SaveToPagod")
-				+ this.menuDialog);
-		jmiSaveBody.setActionCommand("savebody");
-		jmiSaveBody.addActionListener(this);
-		jmiSaveBody.setAccelerator(KeyStroke.getKeyStroke('S',
+		
+		 JMenuItem jmiOpenHTML = new JMenuItem(Translatrix
+				.getTranslationString("OpenDocument")
+				+ menuDialog);
+		jmiOpenHTML.setActionCommand("openhtml");
+		jmiOpenHTML.addActionListener(this);
+		jmiOpenHTML.setAccelerator(KeyStroke.getKeyStroke('O',
 				KeyEvent.CTRL_MASK, false));
-		this.jMenuFile.add(jmiSaveBody);
-		// JMenuItem jmiOpenHTML = new
-		// JMenuItem(Translatrix.getTranslationString("OpenDocument") +
-		// menuDialog); jmiOpenHTML.setActionCommand("openhtml");
-		// jmiOpenHTML.addActionListener(this);
-		// jmiOpenHTML.setAccelerator(KeyStroke.getKeyStroke('O',
-		// KeyEvent.CTRL_MASK, false)); if(showMenuIcons) {
-		// jmiOpenHTML.setIcon(getEkitIcon("Open")); };
-		// jMenuFile.add(jmiOpenHTML);
+		if (showMenuIcons)
+		{
+			jmiOpenHTML.setIcon(getEkitIcon("Open"));
+		}
+		;
+		jMenuFile.add(jmiOpenHTML);
+		
 		// JMenuItem jmiOpenCSS = new
 		// JMenuItem(Translatrix.getTranslationString("OpenStyle") +
 		// menuDialog); jmiOpenCSS.setActionCommand("opencss");
@@ -822,19 +817,33 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 		// jmiSave.setAccelerator(KeyStroke.getKeyStroke('S',
 		// KeyEvent.CTRL_MASK, false)); if(showMenuIcons) {
 		// jmiSave.setIcon(getEkitIcon("Save")); }; jMenuFile.add(jmiSave);
+		 
 		this.jMenuFile.addSeparator();
+		JMenuItem jmiSaveBody = new JMenuItem(Translatrix
+				.getTranslationString("SaveToPagod")
+				+ this.menuDialog);
+		jmiSaveBody.setActionCommand("savebody");
+		jmiSaveBody.addActionListener(this);
+		jmiSaveBody.setAccelerator(KeyStroke.getKeyStroke('S',
+				KeyEvent.CTRL_MASK, false));
+		this.jMenuFile.add(jmiSaveBody);
+		
 		JMenuItem jmiSaveRTF = new JMenuItem(Translatrix
 				.getTranslationString("SaveRTF")
 				+ this.menuDialog);
 		jmiSaveRTF.setActionCommand("savertf");
 		jmiSaveRTF.addActionListener(this);
 		this.jMenuFile.add(jmiSaveRTF);
+		
+		// tire le menu save as
+		/*
 		JMenuItem jmiSaveAs = new JMenuItem(Translatrix
 				.getTranslationString("SaveAs")
 				+ this.menuDialog);
 		jmiSaveAs.setActionCommand("saveas");
 		jmiSaveAs.addActionListener(this);
-		this.jMenuFile.add(jmiSaveAs);
+		this.jMenuFile.add(jmiSaveAs);*/
+		
 		// arno : menu sauvegarde Save To Pagod
 		// JMenuItem jmiSaveB64 = new
 		// JMenuItem(Translatrix.getTranslationString("SaveB64") + menuDialog);
@@ -1226,9 +1235,9 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 		// if(showMenuIcons) { jmiUList.setIcon(getEkitIcon("UList")); }
 		this.jMenuFormat.add(new JMenuItem(new FormatAction(this, Translatrix
 				.getTranslationString("ListItem"), HTML.Tag.LI))); // if(showMenuIcons)
-																	// {
-																	// jmiUList.setIcon(getEkitIcon("UList"));
-																	// }
+		// {
+		// jmiUList.setIcon(getEkitIcon("UList"));
+		// }
 		JMenuItem jmiOList = new JMenuItem(this.actionListOrdered);
 		if (showMenuIcons)
 		{
@@ -1557,13 +1566,13 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 			this.jbtnNewHTML.setActionCommand("newdoc");
 			this.jbtnNewHTML.addActionListener(this);
 			htTools.put(KEY_TOOL_NEW, this.jbtnNewHTML);
-			/*
-			 * jbtnOpenHTML = new JButtonNoFocus(getEkitIcon("Open"));
-			 * jbtnOpenHTML.setToolTipText(Translatrix.getTranslationString("OpenDocument"));
-			 * jbtnOpenHTML.setActionCommand("openhtml");
-			 * jbtnOpenHTML.addActionListener(this); htTools.put(KEY_TOOL_OPEN,
-			 * jbtnOpenHTML);
-			 */
+			
+			this.jbtnOpenHTML = new JButtonNoFocus(getEkitIcon("Open"));
+			this.jbtnOpenHTML.setToolTipText(Translatrix.getTranslationString("OpenDocument"));
+			this.jbtnOpenHTML.setActionCommand("openhtml");
+			this.jbtnOpenHTML.addActionListener(this); htTools.put(KEY_TOOL_OPEN,
+					this.jbtnOpenHTML);
+			 
 
 			this.jbtnSaveHTML = new JButtonNoFocus(getEkitIcon("Save"));
 			this.jbtnSaveHTML.setToolTipText(Translatrix
@@ -1880,7 +1889,7 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 	 * @param ae
 	 * 
 	 */
-	@SuppressWarnings({"unchecked","static-access"})
+	@SuppressWarnings( { "unchecked", "static-access" })
 	public void actionPerformed (ActionEvent ae)
 	{
 		try
@@ -2329,7 +2338,8 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 											eo - so).toCharArray();
 									for (int i = 0; i < temp.length; i++)
 									{
-										if (!(new Character(temp[i])).isWhitespace(temp[i]))
+										if (!(new Character(temp[i]))
+												.isWhitespace(temp[i]))
 										{
 											content = true;
 										}
@@ -2370,6 +2380,7 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 			catch (BadLocationException ble)
 			{
 				logException("BadLocationException in keyTyped method", ble);
+				@SuppressWarnings("unused")
 				SimpleInfoDialog sidAbout = new SimpleInfoDialog(
 						this.getFrame(),
 						Translatrix.getTranslationString("Error"),
@@ -2513,9 +2524,10 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 			setFormattersActive(false);
 		}
 	}
-/** (non-Javadoc)
- * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
- */
+
+	/** (non-Javadoc)
+	 * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
+	 */
 
 	public void focusLost (FocusEvent fe)
 	{
@@ -3387,6 +3399,7 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 		// arno
 		// Sauvegarde Pagod
 		this.step.setComment(doc.toString());
+		// TODO arno : bug ici
 		this.stepsTable.getModel().setValueAt(this.step, this.StepRowNumber, 2);
 	}
 
@@ -4613,7 +4626,7 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 	{
 		this.jpanel_source = jpan;
 	}
-	
+
 	protected void write ()
 	{
 		int choice = new JOptionPane().showConfirmDialog(this, Translatrix
@@ -4625,12 +4638,12 @@ public class PagodEditorCore extends JPanel implements ActionListener,
 		}
 		catch (IOException e)
 		{
-			// Bloc de traitement des exceptions généré automatiquement
+			// Bloc de traitement des exceptions gï¿½nï¿½rï¿½ automatiquement
 			e.printStackTrace();
 		}
 		catch (BadLocationException e)
 		{
-			// Bloc de traitement des exceptions généré automatiquement
+			// Bloc de traitement des exceptions gï¿½nï¿½rï¿½ automatiquement
 			e.printStackTrace();
 		}
 	}

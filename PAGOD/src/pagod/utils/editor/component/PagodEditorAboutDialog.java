@@ -79,14 +79,15 @@ public class PagodEditorAboutDialog extends JFrame implements ActionListener
         gridBagConstraints.anchor = GridBagConstraints.NORTH;
         gridBagConstraints.insets = new Insets(10, 0, 0, 0);
         centerPanel.add(lbl, gridBagConstraints);
-
+        
+        /*
         lbl = new JLabel("<html>Authors:<ul><li>Arnaud GIULIANI</li></ul></html>");
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
         gridBagConstraints.anchor = GridBagConstraints.WEST;
-        centerPanel.add(lbl, gridBagConstraints);
+        centerPanel.add(lbl, gridBagConstraints);*/
 
         lbl = new JLabel(LanguagesManager.getInstance().getString(
                 "aboutDialogUsedComponents"));

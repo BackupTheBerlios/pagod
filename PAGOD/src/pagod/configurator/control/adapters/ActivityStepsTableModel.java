@@ -1,5 +1,5 @@
 /*
- * $Id: ActivityStepsTableModel.java,v 1.1 2005/10/30 10:45:00 yak Exp $
+ * $Id: ActivityStepsTableModel.java,v 1.2 2006/03/14 16:06:57 garwind111 Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -33,25 +33,25 @@ import pagod.utils.LanguagesManager;
 import pagod.utils.LanguagesManager.NotInitializedException;
 
 /**
- * Classe permettant d'adapter une activité pour récupérer la liste de ses
- * activités
+ * Classe permettant d'adapter une activitï¿½ pour rï¿½cupï¿½rer la liste de ses
+ * activitï¿½s
  * 
  * @author Benjamin
  */
 public class ActivityStepsTableModel  extends AbstractTableModel 
 {
     /**
-     * l'activité à adapter
+     * l'activitï¿½ ï¿½ adapter
      */
     private Activity activity;
 
     /**
-     * en-têtes de colonnes
+     * en-tï¿½tes de colonnes
      */
     private String[] columnNames ;
 
     /**
-     * classe des colonnes (plus facile à maintenir en passant par un tableau de
+     * classe des colonnes (plus facile ï¿½ maintenir en passant par un tableau de
      * la sorte)
      */
     private Class[] columnClasses = { Integer.class, String.class,
@@ -76,7 +76,7 @@ public class ActivityStepsTableModel  extends AbstractTableModel
     public ActivityStepsTableModel(Activity a)
     {
         super();
-        // sauvegarde de l'activité sur laquelle le modèle repose
+        // sauvegarde de l'activitï¿½ sur laquelle le modï¿½le repose
         this.activity = a;
     }
 
@@ -107,16 +107,16 @@ public class ActivityStepsTableModel  extends AbstractTableModel
         switch (columnIndex)
         {
             case 0:
-                // première colonne : renvoyer le rang de l'étape (= ligne)
+                // premiï¿½re colonne : renvoyer le rang de l'ï¿½tape (= ligne)
                 return new Integer(rowIndex + 1);
             case 1:
-                // deuxième colonne : nom étape
+                // deuxiï¿½me colonne : nom ï¿½tape
                 return this.activity.getSteps().get(rowIndex).getName();
             case 2:
-                // troisième colonne : contenu étape
+                // troisiï¿½me colonne : contenu ï¿½tape
                 return this.activity.getSteps().get(rowIndex).getComment();
             case 3:
-                // quatrième colonne : renvoyer l'étape (à
+                // quatriï¿½me colonne : renvoyer l'ï¿½tape (ï¿½
                 // mettre en forme avec renderer ad hoc pour afficher les
                 // outputproducts
                 return this.activity.getSteps().get(rowIndex);
@@ -147,7 +147,7 @@ public class ActivityStepsTableModel  extends AbstractTableModel
      */
     public boolean isCellEditable(int row, int col)
     {
-        // toutes les colonnes sont éditables sauf la première (numéro d'étape)
+        // toutes les colonnes sont ï¿½ditables sauf la premiï¿½re (numï¿½ro d'ï¿½tape)
         if (col == 0)
         {
             return false;
@@ -160,7 +160,7 @@ public class ActivityStepsTableModel  extends AbstractTableModel
 
     /**
      * @param row
-     * @return l'étape à la ligne row
+     * @return l'ï¿½tape ï¿½ la ligne row
      */
     public Step getStepByRow(int row)
     {
@@ -168,7 +168,7 @@ public class ActivityStepsTableModel  extends AbstractTableModel
     }
 
     /**
-     * @return l'activité adaptée dans le modèle
+     * @return l'activitï¿½ adaptï¿½e dans le modï¿½le
      */
     public Activity getActivity()
     {
@@ -187,10 +187,11 @@ public class ActivityStepsTableModel  extends AbstractTableModel
                 stepAModifier.setName((String) aValue);
                 break;
             case 2:
+            	// TODO arno : bug ici
                 stepAModifier.setComment((String) aValue);
                 break;
             case 3:
-                // modif gérée automatiquement par l'éditeur lui-même
+                // modif gï¿½rï¿½e automatiquement par l'ï¿½diteur lui-mï¿½me
                 break;
 
         }
@@ -199,7 +200,7 @@ public class ActivityStepsTableModel  extends AbstractTableModel
 
     /**
      * @param numRow
-     *            enlève l'étape numRow de l'activité
+     *            enlï¿½ve l'ï¿½tape numRow de l'activitï¿½
      */
     public void RemoveStep(int numRow)
     {
@@ -209,7 +210,7 @@ public class ActivityStepsTableModel  extends AbstractTableModel
 
     /**
      * @param numRow
-     *            ligne à passer en tête
+     *            ligne ï¿½ passer en tï¿½te
      */
     public void moveFirst(int numRow)
     {
@@ -221,7 +222,7 @@ public class ActivityStepsTableModel  extends AbstractTableModel
 
     /**
      * @param numRow
-     *            ligne à remonter d'un cran
+     *            ligne ï¿½ remonter d'un cran
      */
     public void moveUp(int numRow)
     {
@@ -235,7 +236,7 @@ public class ActivityStepsTableModel  extends AbstractTableModel
 
     /**
      * @param numRow
-     *            ligne à descendre d'un cran
+     *            ligne ï¿½ descendre d'un cran
      */
     public void moveDown(int numRow)
     {
@@ -249,7 +250,7 @@ public class ActivityStepsTableModel  extends AbstractTableModel
 
     /**
      * @param numRow
-     *            ligne à descendre tout en bas
+     *            ligne ï¿½ descendre tout en bas
      */
     public void moveLast(int numRow)
     {
@@ -262,7 +263,7 @@ public class ActivityStepsTableModel  extends AbstractTableModel
     }
 
     /**
-     * faire que le modèle n'adapte plus aucune étape
+     * faire que le modï¿½le n'adapte plus aucune ï¿½tape
      */
     public void clear()
     {
