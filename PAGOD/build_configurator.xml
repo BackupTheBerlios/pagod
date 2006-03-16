@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="PAGOD_Config" default="" basedir=".">
+<project name="PAGOD_Config" default="config" basedir=".">
 	<!--fichier de propriété de ant tel que le build number-->
 	<propertyfile file="antwizard.properties" comment="Fichier propriété">
 	</propertyfile>
