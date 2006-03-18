@@ -1,5 +1,5 @@
 /*
- * $Id: Constants.java,v 1.17 2006/03/12 02:11:23 fabfoot Exp $
+ * $Id: Constants.java,v 1.18 2006/03/18 11:33:06 biniou Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -123,6 +123,11 @@ public interface Constants
      * <code>ACTION_CLOSEPROJECT</code>
      */
     public static final String ACTION_CLOSEPROJECT = "closeProjectAction";
+    
+    /**
+     * <code>ACTION_DELETEPROJECT</code>
+     */
+    public static final String ACTION_DELETEPROJECT = "deleteProjectAction";
     
     /**
      * <code>ACTION_ABOUT</code>

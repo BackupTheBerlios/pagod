@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrameMenuBar.java,v 1.8 2006/03/12 02:11:23 fabfoot Exp $
+ * $Id: MainFrameMenuBar.java,v 1.9 2006/03/18 11:33:06 biniou Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -66,6 +66,12 @@ public class MainFrameMenuBar extends JMenuBar
                 Constants.ACTION_CLOSEPROJECT));
         mFile.add(miCloseProject);
         mFile.addSeparator();
+        
+        JMenuItem miDeleteProject = new JMenuItem(ActionManager.getInstance().getAction(
+                Constants.ACTION_DELETEPROJECT));
+        mFile.add(miDeleteProject);
+        mFile.addSeparator();
+        
         JMenuItem miToolsSettings = new JMenuItem(ActionManager.getInstance()
                 .getAction(Constants.ACTION_TOOLSSETTINGS));
         mFile.add(miToolsSettings);

@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrame.java,v 1.60 2006/03/12 02:11:22 fabfoot Exp $
+ * $Id: MainFrame.java,v 1.61 2006/03/18 11:33:06 biniou Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -1068,7 +1068,9 @@ public class MainFrame extends JFrame implements Observer
 				ActionManager.getInstance().getAction(
 						Constants.ACTION_TIME_CURRENT_ITERATION).setEnabled(
 						false);
-
+				ActionManager.getInstance().getAction(
+						Constants.ACTION_DELETEPROJECT).setEnabled(false);
+				
 				// on affiche la fen?tre
 				this.setVisible(true);
 				this.setExtendedState(Frame.MAXIMIZED_BOTH);
@@ -1159,6 +1161,8 @@ public class MainFrame extends JFrame implements Observer
 							Constants.ACTION_NEWPROJECT).setEnabled(true);
 					ActionManager.getInstance().getAction(
 							Constants.ACTION_OPENPROJECT).setEnabled(true);
+					ActionManager.getInstance().getAction(
+							Constants.ACTION_DELETEPROJECT).setEnabled(true);
 					/*
 					 * ActionManager.getInstance().getAction(
 					 * Constants.ACTION_TIMEACTIVITY).setEnabled(true);
@@ -1178,6 +1182,8 @@ public class MainFrame extends JFrame implements Observer
 						Constants.ACTION_OPENPROCESS).setEnabled(true);
 				ActionManager.getInstance().getAction(
 						Constants.ACTION_CLOSEPROJECT).setEnabled(true);
+				ActionManager.getInstance().getAction(
+						Constants.ACTION_DELETEPROJECT).setEnabled(false);
 
 				// on change le titre de l'appli pour afficher le nom du projet
 				// on recupere le nom du projet en cours
