@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ImportProjectAction.java,v 1.3 2006/03/19 18:21:47 cyberal82 Exp $
+ * $Id: ImportProjectAction.java,v 1.4 2006/03/19 22:43:28 flotueur Exp $
  */
 
 package pagod.wizard.control.actions;
@@ -75,10 +75,8 @@ public class ImportProjectAction extends CustomAction
 				File targetdir = new File(currentWorkspace.getAbsolutePath()
 						+ File.separator + selectedPath.getName());
 				
-				// TODO A SUPPR targetdir.mkdir();
-				
 				// On recopie le répertoire
-				if (targetdir.mkdir() /*&& targetdir.exists()*/
+				if (targetdir.mkdir()
 						&& !selectedPath.equals(targetdir)
 						&& FilesManager.copyDirectory(selectedPath, targetdir,
 								targetdir))
