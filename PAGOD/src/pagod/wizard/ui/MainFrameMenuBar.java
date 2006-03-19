@@ -1,5 +1,5 @@
 /*
- * $Id: MainFrameMenuBar.java,v 1.9 2006/03/18 11:33:06 biniou Exp $
+ * $Id: MainFrameMenuBar.java,v 1.10 2006/03/19 14:47:56 flotueur Exp $
  *
  * PAGOD- Personal assistant for group of development
  * Copyright (C) 2004-2005 IUP ISI - Universite Paul Sabatier
@@ -67,6 +67,12 @@ public class MainFrameMenuBar extends JMenuBar
         mFile.add(miCloseProject);
         mFile.addSeparator();
         
+        // ajout d'une option du menu pour l'import de projet
+        /* TODO ALEX A FAIRE AVEC FLO */
+        JMenuItem miImportProject = new JMenuItem(ActionManager.getInstance()
+                .getAction(Constants.ACTION_IMPORT_PROJECT));
+        mFile.add(miImportProject);
+        
         JMenuItem miDeleteProject = new JMenuItem(ActionManager.getInstance().getAction(
                 Constants.ACTION_DELETEPROJECT));
         mFile.add(miDeleteProject);
@@ -76,13 +82,6 @@ public class MainFrameMenuBar extends JMenuBar
                 .getAction(Constants.ACTION_TOOLSSETTINGS));
         mFile.add(miToolsSettings);
         
-        // ajout d'une option du menu pour l'import de projet
-        /* TODO ALEX A FAIRE AVEC FLO 
-        mFile.addSeparator();
-        JMenuItem miImportProject = new JMenuItem(ActionManager.getInstance()
-                .getAction(Constants.ACTION_IMPORT_PROJECT));
-        mFile.add(miImportProject);
-        */
         mFile.addSeparator();
         JMenuItem miQuit = new JMenuItem(ActionManager.getInstance().getAction(
                 Constants.ACTION_QUIT));
