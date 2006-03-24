@@ -1,7 +1,7 @@
 /*
  * Projet PAGOD
  * 
- * $Id: ImportProjectAction.java,v 1.4 2006/03/19 22:43:28 flotueur Exp $
+ * $Id: ImportProjectAction.java,v 1.5 2006/03/24 15:06:39 cyberal82 Exp $
  */
 
 package pagod.wizard.control.actions;
@@ -60,6 +60,10 @@ public class ImportProjectAction extends CustomAction
 		// creation et affichage de l'arborescence
 		// a partir du poste de travail
 		WorkspaceFileChooser workspaceChooser = new WorkspaceFileChooser();
+		
+		// on change le titre car la il faut choisir une repertoire projet
+		workspaceChooser.setDialogTitle(LanguagesManager.getInstance().getString(
+        "projectFileChooserTitle"));
 
 		// une fois qu'on a choisi une application
 		if (workspaceChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
