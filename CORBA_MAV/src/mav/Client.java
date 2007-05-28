@@ -9,7 +9,6 @@ import MAV.Candidat;
 import MAV.ResultVote;
 import MAV.SRV;
 import MAV.SRVHelper;
-import MAV.SRVPackage.AlreadyVote;
 import MAV.SRVPackage.AlreadyVoteException;
 import constants.Constants;
 
@@ -20,6 +19,10 @@ public class Client {
 			return;
 		}
 
+		// récupération des identifiants de la machine
+		int idMav = Integer.parseInt(args[0]);
+		int idBV = Integer.parseInt(args[1]);
+		
 		try {
 			// create and initialize the ORB
 			ORB orb = ORB.init(args, null);
@@ -30,13 +33,10 @@ public class Client {
 			NamingContext ncRef = NamingContextHelper.narrow(objRef);
 
 			// resolve the Object Reference in Naming
-			NameComponent nc = new NameComponent(Constants.SRV_SERVANT_NAME, "");
+			NameComponent nc = new NameComponent(Constants.SRV_SERVANT_NAME + idBV, "");
 			NameComponent path[] = { nc };
 			SRV srvRef = SRVHelper.narrow(ncRef.resolve(path));
 
-			// récupération des identifiants de la machine
-			int idMav = Integer.parseInt(args[0]);
-			int idBV = Integer.parseInt(args[1]);
 			System.out.println("" + srvRef.authMAV(idMav, idBV));
 
 			

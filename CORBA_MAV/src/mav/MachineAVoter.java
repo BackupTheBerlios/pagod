@@ -207,6 +207,10 @@ public class MachineAVoter {
 			System.out.println("erreur pas assez d'arg");
 			return;
 		}
+		
+		// récupération des identifiants de la machine
+		int idMav = Integer.parseInt(args[0]);
+		int idBV = Integer.parseInt(args[1]);
 
 		try {
 			// create and initialize the ORB
@@ -218,13 +222,10 @@ public class MachineAVoter {
 			NamingContext ncRef = NamingContextHelper.narrow(objRef);
 
 			// resolve the Object Reference in Naming
-			NameComponent nc = new NameComponent(Constants.SRV_SERVANT_NAME, "");
+			NameComponent nc = new NameComponent(Constants.SRV_SERVANT_NAME + idBV, "");
 			NameComponent path[] = { nc };
 			SRV srvRef = SRVHelper.narrow(ncRef.resolve(path));
 
-			// récupération des identifiants de la machine
-			int idMav = Integer.parseInt(args[0]);
-			int idBV = Integer.parseInt(args[1]);
 			System.out.println("" + srvRef.authMAV(idMav, idBV));
 
 			srvRef.authPersonne(1, "1234", 1);
