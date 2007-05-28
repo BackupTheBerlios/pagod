@@ -125,7 +125,7 @@ public class DBHelper {
 			Statement st = this.connection.createStatement();
 
 			// creation des candidats
-			String SQL = "INSERT INTO CANDIDATS VALUES (1,'SARKOZY','NICOLAS','Description sarkozy')";
+			String SQL = "INSERT INTO CANDIDATS VALUES (1,'SARKOZY','NICOLAS','Description  sarkozy ')";
 			st.execute(SQL);
 			SQL = "INSERT INTO CANDIDATS VALUES (2,'ROYAL','SEGOLENE','Description royal')";
 			st.execute(SQL);

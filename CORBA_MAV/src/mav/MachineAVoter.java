@@ -12,9 +12,9 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import mav.dialogs.MavConnectionDialog;
 import mav.layout.CandidateImageCacheManager;
 import mav.layout.JXCandidateShelf;
-import mav.layout.MavConnectionDialog;
 
 import org.jdesktop.swingx.JXFrame;
 import org.omg.CORBA.ORB;

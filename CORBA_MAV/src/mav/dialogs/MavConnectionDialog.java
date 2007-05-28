@@ -1,9 +1,8 @@
-package mav.layout;
+package mav.dialogs;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -15,11 +14,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import mav.MachineAVoter;
 import MAV.SRV;
 import MAV.SRVPackage.InternalErrorException;
 
-import mav.MachineAVoter;
-
+@SuppressWarnings("serial")
 public class MavConnectionDialog extends JFrame
 {
 	
@@ -38,7 +37,6 @@ public class MavConnectionDialog extends JFrame
 	{
 
 		JButton button;
-		JTextField textField;
 		JLabel label;
 		JPanel panel = new JPanel();
 		
@@ -123,8 +121,5 @@ public class MavConnectionDialog extends JFrame
 		this.add(PanelButton, BorderLayout.CENTER);
 		this.pack();
 		this.setTitle("Connexion de la machine à voter");
-		
-
-	
 	}
 }

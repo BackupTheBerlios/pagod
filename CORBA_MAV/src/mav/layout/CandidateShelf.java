@@ -36,10 +36,6 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableModel;
-
-import org.jdesktop.swingx.JXTable;
 
 import MAV.Candidat;
 

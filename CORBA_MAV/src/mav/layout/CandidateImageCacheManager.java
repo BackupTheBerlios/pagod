@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
-
+@SuppressWarnings("serial")
 public class CandidateImageCacheManager {
     private static CandidateImageCacheManager instance;
     private Map<String, Image> coversCache;
