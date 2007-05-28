@@ -12,10 +12,6 @@ import server.db.DBHelper;
 import constants.Constants;
 
 /**
- * 
- */
-
-/**
  * @author breton
  * 
  */
@@ -25,13 +21,13 @@ public class Server {
 	 */
 	public static void main(String[] args) {
 
-		// recupère le premier argument correspondant au nom du serveur
+		// recupère le premier argument correspondant a l'identifiant du BV
 		if (args.length < 1) {
 			System.out.println("ERREUR pas assez d'arg");
 			return;
 		}
 
-		String name = args[0];
+		String idBV = args[0];
 		try {
 			// create and initialize the ORB
 			ORB orb = ORB.init(args, null);
@@ -46,7 +42,7 @@ public class Server {
 			NamingContext ncRef = NamingContextHelper.narrow(objRef);
 
 			// bind the Object Reference in Naming
-			NameComponent nc = new NameComponent(Constants.SRV_SERVANT_NAME
+			NameComponent nc = new NameComponent(Constants.SRV_SERVANT_NAME + idBV
 					, "");
 			NameComponent path[] = { nc };
 			ncRef.rebind(path, SRVRef);
@@ -56,7 +52,7 @@ public class Server {
 
 			System.out.println("Create schema");
 			// creation du schema
-			DBHelper.getInstance().createConnection(name);
+			DBHelper.getInstance().createConnection(idBV);
 			DBHelper.getInstance().createSchema();
 
 			// initialisation de la base

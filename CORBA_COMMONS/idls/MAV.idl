@@ -25,6 +25,12 @@ module MAV
 		readonly attribute string prenom;
 		readonly attribute long nbVote;
 	};
+	
+	interface VTR
+	{
+		void notifieVTR();
+	};
+	
 	interface SRV
 	{
 			exception BadAuthentificationException {string reason;};
@@ -40,6 +46,8 @@ module MAV
 			boolean authMAV(in long idMAV,in long idBV) raises (InternalErrorException);
 			void authPersonne(in long numInsee,in string password, in long idBV ) raises (BadAuthentificationException,AlreadyVoteException,InternalErrorException,IncorrectBVPersonException);
 			boolean vote (in long numInsee, in string password, in long idCandidat, in long idBV) raises (BadAuthentificationException,AlreadyVoteException,InternalErrorException,IncorrectBVPersonException);
+			
+			void enregistrerVTR(in VTR vtr);
 	};
 	
 	
