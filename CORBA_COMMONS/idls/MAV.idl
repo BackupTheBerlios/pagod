@@ -1,0 +1,48 @@
+module MAV
+{
+	interface Candidat
+	{
+			readonly attribute long id;
+		 	readonly attribute string nom;
+       		readonly attribute string prenom;
+       		readonly attribute string description;
+	};
+	
+	interface ResultVote
+	{
+		readonly attribute long idBV;
+		readonly attribute string nomBV;
+		readonly attribute long idCanton;
+		readonly attribute string canton;
+		readonly attribute long idCirc;
+		readonly attribute string circonscription;
+		readonly attribute long idDept;
+		readonly attribute string departement;
+		
+		
+		readonly attribute long idCandidat;
+		readonly attribute string nom;
+		readonly attribute string prenom;
+		readonly attribute long nbVote;
+	};
+	interface SRV
+	{
+			exception BadAuthentificationException {string reason;};
+			exception AlreadyVoteException {string reason;};
+			exception InternalErrorException {string reason;};
+			exception IncorrectBVPersonException {string reason;};
+			
+			typedef sequence<Candidat> CandidatSeq;
+			typedef sequence<ResultVote> ResultSeq;
+			
+			ResultSeq listeResultat () raises (InternalErrorException);
+			CandidatSeq listeCandidat() raises (InternalErrorException);
+			boolean authMAV(in long idMAV,in long idBV) raises (InternalErrorException);
+			void authPersonne(in long numInsee,in string password, in long idBV ) raises (BadAuthentificationException,AlreadyVoteException,InternalErrorException,IncorrectBVPersonException);
+			boolean vote (in long numInsee, in string password, in long idCandidat, in long idBV) raises (BadAuthentificationException,AlreadyVoteException,InternalErrorException,IncorrectBVPersonException);
+	};
+	
+	
+	
+};
+
