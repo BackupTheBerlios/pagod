@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path=""/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry exported="true" kind="src" path="/COMMONS"/>
 	<classpathentry kind="lib" path="libs/hsqldb.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/CORBA_COMMONS"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
