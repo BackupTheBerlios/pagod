@@ -9,25 +9,43 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import mav.dialogs.MavConnectionDialog;
+import mav.dialogs.UserConnectionDialog;
 import mav.layout.CandidateImageCacheManager;
 import mav.layout.JXCandidateShelf;
 
 import org.jdesktop.swingx.JXFrame;
 import org.omg.CORBA.ORB;
+import org.omg.CORBA.ORBPackage.InvalidName;
 import org.omg.CosNaming.NameComponent;
 import org.omg.CosNaming.NamingContext;
 import org.omg.CosNaming.NamingContextHelper;
+import org.omg.CosNaming.NamingContextPackage.CannotProceed;
+import org.omg.CosNaming.NamingContextPackage.NotFound;
 
 import MAV.Candidat;
 import MAV.SRV;
 import MAV.SRVHelper;
+import MAV.SRVPackage.AlreadyVoteException;
+import MAV.SRVPackage.BadAuthentificationException;
+import MAV.SRVPackage.IncorrectBVPersonException;
+import MAV.SRVPackage.InternalErrorException;
 import constants.Constants;
 
 public class MachineAVoter {
+
+	int id_mav;
+
+	int id_bv;
+
+	int numinsee_voter;
+
+	String password_voter;
 
 	/**
 	 * image manager
@@ -36,12 +54,10 @@ public class MachineAVoter {
 
 	private JPanel connectedPanel;
 
-	private JPanel disconnectedPanel;
-
 	/**
 	 * la frame de l'application
 	 */
-	private JXFrame mainFrame;
+	private JFrame mainFrame;
 
 	/**
 	 * panneau titre
@@ -88,6 +104,8 @@ public class MachineAVoter {
 	 */
 	private JXCandidateShelf cdShelf;
 
+	private SRV srvRef;
+
 	/**
 	 * initialise les fenetres
 	 */
@@ -114,15 +132,34 @@ public class MachineAVoter {
 		}
 
 		this.cdShelf.setList(list);
+		
 
 		this.buttonPanel = new JPanel();
 		this.voteButton = new JButton("voter");
 		this.voteButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				// TODO faire un confirmation avec le nom du candidat
-				System.out.println(MachineAVoter.this.cdShelf
-						.getSelectedCandidat().nom());
+			try {
+				MachineAVoter.this.srvRef.vote(MachineAVoter.this.numinsee_voter,MachineAVoter.this.password_voter,MachineAVoter.this.cdShelf.getSelectedCandidat().id(),MachineAVoter.this.id_bv);
+			} catch (BadAuthentificationException e1) {
+				JOptionPane.showMessageDialog(
+						MachineAVoter.this.mainFrame,
+						"Vous n'êtes pas authentifier", "Erreur au cours du vote",
+						JOptionPane.ERROR_MESSAGE);
+			} catch (AlreadyVoteException e1) {
+				JOptionPane.showMessageDialog(
+						MachineAVoter.this.mainFrame,
+						"Vous avez deja voté", "Erreur au cours du vote",
+						JOptionPane.ERROR_MESSAGE);
+			} catch (InternalErrorException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IncorrectBVPersonException e1) {
+				JOptionPane.showMessageDialog(
+						MachineAVoter.this.mainFrame,
+						"Vous ne pouvez voter dans ce bureau de vote", "Erreur au cours du vote",
+						JOptionPane.ERROR_MESSAGE);
+			}
 
 			}
 		});
@@ -157,15 +194,8 @@ public class MachineAVoter {
 		this.connectedPanel.add(this.buttonPanel, BorderLayout.SOUTH);
 	}
 
-	private void createDisconnectedPanel() {
-		this.disconnectedPanel = new JPanel();
-		this.disconnectedPanel.setLayout(new BorderLayout());
-		this.disconnectedPanel.add(this.titlePanel, BorderLayout.NORTH);
-
-	}
-
-	private JXFrame createBasicFrame(Candidat[] candidats) {
-		this.mainFrame = new JXFrame("Machine a voter");
+	private JFrame createBasicFrame(Candidat[] candidats) {
+		this.mainFrame = new JFrame("Machine a voter");
 		this.mainFrame.setDefaultCloseOperation(JXFrame.EXIT_ON_CLOSE);
 
 		// setting desc
@@ -178,41 +208,56 @@ public class MachineAVoter {
 		this.descPanel.add(this.descLabel);
 
 		this.createConnectedPanel(candidats);
-		this.createDisconnectedPanel();
-
-		this.mainFrame.add(this.disconnectedPanel);
 		this.mainFrame.add(this.connectedPanel);
-		this.mainFrame.setLocationRelativeTo(null);
 		return mainFrame;
 	}
 
-	public void connect() {
-		this.connectedPanel.setVisible(false);
-		this.disconnectedPanel.setVisible(true);
-		this.mainFrame.setVisible(true);
-	}
-
-	public void disconnect() {
-		this.connectedPanel.setVisible(true);
-		this.disconnectedPanel.setVisible(false);
-		this.mainFrame.setVisible(true);
-	}
-
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-
-		if (args.length < 2) {
-			System.out.println("erreur pas assez d'arg");
-			return;
-		}
-		
-		// récupération des identifiants de la machine
-		int idMav = Integer.parseInt(args[0]);
-		int idBV = Integer.parseInt(args[1]);
-
+	public void connect(int id_mav, int id_bv) {
+		this.id_mav = id_mav;
+		this.id_bv = id_bv;
+		Candidat[] tabCandidat;
 		try {
+			tabCandidat = this.srvRef.listeCandidat();
+			this.init(tabCandidat, this.srvRef);
+			UserConnectionDialog ucd = new UserConnectionDialog(this, srvRef);
+			ucd.setModal(true);
+			
+			//this.mainFrame.setLocationRelativeTo(null);
+			this.connectedPanel.setVisible(true);
+			this.mainFrame.setResizable(false);
+			
+			this.mainFrame.setSize(500,500);
+			this.mainFrame.setLocationRelativeTo(null);
+			this.mainFrame.setVisible(true);
+			ucd.setVisible(true);
+			
+			
+			
+			
+		} catch (InternalErrorException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	public boolean authMAV(int id_mav, int id_bv) {
+		try {
+			SRV srv = this.getSRCConnect(id_bv);
+			return srv.authMAV(id_mav, id_bv);
+
+		} catch (Exception e) {
+			System.out.println("ERROR : " + e);
+			e.printStackTrace();
+		}
+		return false;
+
+	}
+
+	public SRV getSRCConnect(int id) throws InvalidName, NotFound,
+			CannotProceed, org.omg.CosNaming.NamingContextPackage.InvalidName {
+		if (this.srvRef == null) {
+			String[] args = new String[0];
 			// create and initialize the ORB
 			ORB orb = ORB.init(args, null);
 
@@ -222,29 +267,57 @@ public class MachineAVoter {
 			NamingContext ncRef = NamingContextHelper.narrow(objRef);
 
 			// resolve the Object Reference in Naming
-			NameComponent nc = new NameComponent(Constants.SRV_SERVANT_NAME + idBV, "");
+			NameComponent nc = new NameComponent(Constants.SRV_SERVANT_NAME
+					+ id, "");
 			NameComponent path[] = { nc };
-			SRV srvRef = SRVHelper.narrow(ncRef.resolve(path));
-
-			System.out.println("" + srvRef.authMAV(idMav, idBV));
-
-			srvRef.authPersonne(1, "1234", 1);
-			System.out.println("Liste candidat: ");
-			Candidat[] tabCandidat = srvRef.listeCandidat();
-
-			MachineAVoter m = new MachineAVoter();
-			m.init(tabCandidat, srvRef);
-			MavConnectionDialog tvd = new MavConnectionDialog(m, srvRef);
-			tvd.init();
-
-			tvd.setLocationRelativeTo(null);
-			tvd.setVisible(true);
-
-		} catch (Exception e) {
-			System.out.println("ERROR : " + e);
-			e.printStackTrace();
+			this.srvRef = SRVHelper.narrow(ncRef.resolve(path));
 		}
 
+		return this.srvRef;
+	}
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+
+		// creation de la machine a voter
+		MachineAVoter m = new MachineAVoter();
+
+		// creation du dialog
+		MavConnectionDialog tvd = new MavConnectionDialog(m);
+		tvd.init();
+		tvd.setVisible(true);
+		tvd.setLocationRelativeTo(null);
+
+	}
+
+	public int getId_bv() {
+		return id_bv;
+	}
+
+	public int getId_mav() {
+		return id_mav;
+	}
+
+	public int getNuminsee_voter() {
+		return numinsee_voter;
+	}
+
+	public void setNuminsee_voter(int numinsee_voter) {
+		this.numinsee_voter = numinsee_voter;
+	}
+
+	public String getPassword_voter() {
+		return password_voter;
+	}
+
+	public void setPassword_voter(String password_voter) {
+		this.password_voter = password_voter;
+	}
+
+	public JFrame getMainFrame() {
+		return mainFrame;
 	}
 
 }
