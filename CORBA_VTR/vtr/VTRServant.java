@@ -55,7 +55,7 @@ public class VTRServant extends _VTRImplBase {
 		}
 
 		public int getColumnCount() {
-			return 12;
+			return 7;
 		}
 
 		public int getRowCount() {
@@ -68,33 +68,22 @@ public class VTRServant extends _VTRImplBase {
 
 			switch (c) {
 			case 0:
-				return new Integer(ligne.idBV());
-			case 1:
-				return ligne.nomBV();
-			case 2:
-				return new Integer(ligne.idCanton());
-			case 3:
-				return ligne.canton();
-			case 4:
-				return new Integer(ligne.idCirc());
-			case 5:
-				return ligne.circonscription();
-			case 6:
-				return new Integer(ligne.idDept());
-			case 7:
 				return ligne.departement();
-			case 8:
-				return new Integer(ligne.idCandidat());
-			case 9:
+			case 1:
+				return ligne.circonscription();
+			case 2:
+				return ligne.canton();
+			case 3:
+				return ligne.nomBV();
+			case 4:
 				return ligne.nom();
-			case 10:
+			case 5:
 				return ligne.prenom();
-			case 11:
+			case 6:
 				return new Integer(ligne.nbVote());
 
 			default:
 				return null;
-
 			}
 
 			// TODO A SUPPRIMER
@@ -119,36 +108,26 @@ public class VTRServant extends _VTRImplBase {
 		public String getColumnName(int c) {
 
 			switch (c) {
+			
 			case 0:
-				return "BV ID";
-			case 1:
-				return "BV NOM";
-			case 2:
-				return "CANTON ID";
-			case 3:
-				return "CANTON";
-			case 4:
-				return "CIRC NOM";
-			case 5:
-				return "CIRCONSCRIPTION";
-			case 6:
-				return "DEPARTEMENT ID";
-			case 7:
 				return "DEPARTEMENT";
-			case 8:
-				return "CANDIDAT ID";
-			case 9:
+			case 1:
+				return "CIRCONSCRIPTION";
+			case 2:
+				return "CANTON";
+			case 3:
+				return "BV NOM";
+			case 4:
 				return "CANDIDAT NOM";
-			case 10:
+			case 5:
 				return "CANDIDAT PRENOM";
-			case 11:
+			case 6:
 				return "NB VOTES";
 
 			default:
 				return null;
 
 			}
-
 		}
 
 		public ResultVote[] getResultVote() {
@@ -157,7 +136,7 @@ public class VTRServant extends _VTRImplBase {
 
 		public void setResultVote(ResultVote[] resultVote) {
 			this.resultVote = resultVote;
-			
+
 			// on notifie que les données de la table ont changé
 			this.fireTableDataChanged();
 		}
