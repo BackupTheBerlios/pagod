@@ -21,6 +21,8 @@ import constants.Constants;
 /**
  * @author breton
  * 
+ * TODO FAUDRA GERER LES RETOURS DES EXECUTES
+ * 
  */
 public class DBHelper {
 
@@ -75,163 +77,206 @@ public class DBHelper {
 
 	/**
 	 * créer le schéma de la base
+	 * 
+	 * @throws SQLException
 	 */
-	public void createSchema() {
+	public void createSchema() throws SQLException {
+		Statement st = this.connection.createStatement();
 
-		try {
-			Statement st = this.connection.createStatement();
+		// create tables
+		String createTableCandidate = "CREATE TABLE CANDIDATS(ID INTEGER, NOM VARCHAR(50),PRENOM VARCHAR(50),DESCRIPTIF VARCHAR(500), PRIMARY KEY (ID))";
+		st.executeUpdate(createTableCandidate);
 
-			// create tables
-			String createTableCandidate = "CREATE TABLE CANDIDATS(ID INTEGER, NOM VARCHAR(50),PRENOM VARCHAR(50),DESCRIPTIF VARCHAR(500), PRIMARY KEY (ID))";
-			st.executeUpdate(createTableCandidate);
+		String createTableDepartement = "CREATE TABLE DEPARTEMENTS (ID INTEGER, NOM VARCHAR(50),PRIMARY KEY (ID))";
+		st.executeUpdate(createTableDepartement);
 
-			String createTableDepartement = "CREATE TABLE DEPARTEMENTS (ID INTEGER, NOM VARCHAR(50),PRIMARY KEY (ID))";
-			st.executeUpdate(createTableDepartement);
+		String createTableCirconscription = "CREATE TABLE CIRCONSCRIPTIONS (ID INTEGER, NOM VARCHAR(50),DEPT_ID INTEGER ,PRIMARY KEY (ID), FOREIGN KEY (DEPT_ID) REFERENCES DEPARTEMENTS(ID))";
+		st.executeUpdate(createTableCirconscription);
 
-			String createTableCirconscription = "CREATE TABLE CIRCONSCRIPTIONS (ID INTEGER, NOM VARCHAR(50),DEPT_ID INTEGER ,PRIMARY KEY (ID), FOREIGN KEY (DEPT_ID) REFERENCES DEPARTEMENTS(ID))";
-			st.executeUpdate(createTableCirconscription);
+		String createTableCanton = "CREATE TABLE CANTONS (ID INTEGER, NOM VARCHAR(50),CIRC_ID INTEGER , PRIMARY KEY (ID), FOREIGN KEY (CIRC_ID) REFERENCES CIRCONSCRIPTIONS(ID))";
+		st.executeUpdate(createTableCanton);
 
-			String createTableCanton = "CREATE TABLE CANTONS (ID INTEGER, NOM VARCHAR(50),CIRC_ID INTEGER , PRIMARY KEY (ID), FOREIGN KEY (CIRC_ID) REFERENCES CIRCONSCRIPTIONS(ID))";
-			st.executeUpdate(createTableCanton);
+		String createTableBV = "CREATE TABLE BV(ID INTEGER, NOM VARCHAR(50),CANTON_ID INTEGER, PRIMARY KEY (ID),FOREIGN KEY (CANTON_ID) REFERENCES CANTONS(ID))";
+		st.executeUpdate(createTableBV);
 
-			String createTableBV = "CREATE TABLE BV(ID INTEGER, NOM VARCHAR(50),CANTON_ID INTEGER, PRIMARY KEY (ID),FOREIGN KEY (CANTON_ID) REFERENCES CANTONS(ID))";
-			st.executeUpdate(createTableBV);
+		String createTableMAV = "CREATE TABLE MAV(ID INTEGER,BV_ID INTEGER, PRIMARY KEY (ID), FOREIGN KEY (BV_ID) REFERENCES BV(ID))";
+		st.executeUpdate(createTableMAV);
 
-			String createTableMAV = "CREATE TABLE MAV(ID INTEGER,BV_ID INTEGER, PRIMARY KEY (ID), FOREIGN KEY (BV_ID) REFERENCES BV(ID))";
-			st.executeUpdate(createTableMAV);
+		String createTablePersonne = "CREATE TABLE PERSONNES(NUMINSEE INTEGER, NOM VARCHAR(50),PRENOM VARCHAR(50),MDP VARCHAR(50), AVOTE NUMERIC(1),BV_ID INTEGER, PRIMARY KEY (NUMINSEE), FOREIGN KEY (BV_ID) REFERENCES BV (ID))";
+		st.executeUpdate(createTablePersonne);
 
-			String createTablePersonne = "CREATE TABLE PERSONNES(NUMINSEE INTEGER, NOM VARCHAR(50),PRENOM VARCHAR(50),MDP VARCHAR(50), AVOTE NUMERIC(1),BV_ID INTEGER, PRIMARY KEY (NUMINSEE), FOREIGN KEY (BV_ID) REFERENCES BV (ID))";
-			st.executeUpdate(createTablePersonne);
+		String createTableBVCandidat = "CREATE TABLE BV_CANDIDAT(NBVOTE INTEGER, BV_ID INTEGER, CANDIDAT_ID INTEGER, PRIMARY KEY (BV_ID, CANDIDAT_ID), FOREIGN KEY (CANDIDAT_ID) REFERENCES CANDIDATS (ID), FOREIGN KEY (BV_ID) REFERENCES BV(ID)  )";
+		st.executeUpdate(createTableBVCandidat);
 
-			String createTableBVCandidat = "CREATE TABLE BV_CANDIDAT(NBVOTE INTEGER, BV_ID INTEGER, CANDIDAT_ID INTEGER, PRIMARY KEY (BV_ID, CANDIDAT_ID), FOREIGN KEY (CANDIDAT_ID) REFERENCES CANDIDATS (ID), FOREIGN KEY (BV_ID) REFERENCES BV(ID)  )";
-			st.executeUpdate(createTableBVCandidat);
-
-			this.connection.commit();
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		this.connection.commit();
 
 	}
 
 	/**
 	 * fonction qui initialise la base de données avec les données de
 	 * l'application
+	 * 
+	 * @throws SQLException
 	 */
-	public void initDB() {
+	public void initDB() throws SQLException {
 
-		try {
-			Statement st = this.connection.createStatement();
+		Statement st = this.connection.createStatement();
 
-			// creation des candidats
-			String SQL = "INSERT INTO CANDIDATS VALUES (1,'SARKOZY','NICOLAS','Description  sarkozy ')";
-			st.execute(SQL);
-			SQL = "INSERT INTO CANDIDATS VALUES (2,'ROYAL','SEGOLENE','Description royal')";
-			st.execute(SQL);
-			SQL = "INSERT INTO CANDIDATS VALUES (3,'BAYROU','FRANCOIS','Description BAYROU')";
-			st.execute(SQL);
+		String SQL;
 
-			// creation des DEPARTEMENTS
-			SQL = "INSERT INTO DEPARTEMENTS VALUES (31,'Haute-garonne')";
-			st.execute(SQL);
-			SQL = "INSERT INTO DEPARTEMENTS VALUES (64,'Pyrénées-Atlantique')";
-			st.execute(SQL);
-			// SQL = "INSERT INTO DEPARTEMENTS VALUES (63,'Puy de dôme')";
-			// st.execute(SQL);
+		// creation des DEPARTEMENTS
+		SQL = "INSERT INTO DEPARTEMENTS VALUES (31,'Haute-garonne')";
+		st.execute(SQL);
+		SQL = "INSERT INTO DEPARTEMENTS VALUES (64,'Pyrénées-Atlantique')";
+		st.execute(SQL);
+		// SQL = "INSERT INTO DEPARTEMENTS VALUES (63,'Puy de dôme')";
+		// st.execute(SQL);
 
-			// creation des circonscription
-			SQL = "INSERT INTO CIRCONSCRIPTIONS VALUES (1,'CIRC31_1',31)";
-			st.execute(SQL);
-			SQL = "INSERT INTO CIRCONSCRIPTIONS VALUES (2,'CIRC31_2',31)";
-			st.execute(SQL);
-			SQL = "INSERT INTO CIRCONSCRIPTIONS VALUES (3,'CIRC64_1',64)";
-			st.execute(SQL);
-			// SQL = "INSERT INTO CIRCONSCRIPTIONS VALUES (4,'CIRC64_2',64)";
-			// st.execute(SQL);
-			// SQL = "INSERT INTO CIRCONSCRIPTIONS VALUES (5,'CIRC63_1',63)";
-			// st.execute(SQL);
-			// SQL = "INSERT INTO CIRCONSCRIPTIONS VALUES (6,'CIRC63_2',63)";
-			// st.execute(SQL);
+		// creation des circonscription
+		SQL = "INSERT INTO CIRCONSCRIPTIONS VALUES (1,'CIRC31_1',31)";
+		st.execute(SQL);
+		SQL = "INSERT INTO CIRCONSCRIPTIONS VALUES (2,'CIRC31_2',31)";
+		st.execute(SQL);
+		SQL = "INSERT INTO CIRCONSCRIPTIONS VALUES (3,'CIRC64_1',64)";
+		st.execute(SQL);
+		// SQL = "INSERT INTO CIRCONSCRIPTIONS VALUES (4,'CIRC64_2',64)";
+		// st.execute(SQL);
+		// SQL = "INSERT INTO CIRCONSCRIPTIONS VALUES (5,'CIRC63_1',63)";
+		// st.execute(SQL);
+		// SQL = "INSERT INTO CIRCONSCRIPTIONS VALUES (6,'CIRC63_2',63)";
+		// st.execute(SQL);
 
-			// creation des cantons
-			SQL = "INSERT INTO CANTONS VALUES (1,'CANTON1',1)";
-			st.execute(SQL);
-			SQL = "INSERT INTO CANTONS VALUES (2,'CANTON2',1)";
-			st.execute(SQL);
-			SQL = "INSERT INTO CANTONS VALUES (3,'CANTON3',2)";
-			st.execute(SQL);
-			SQL = "INSERT INTO CANTONS VALUES (4,'CANTON4',3)";
-			st.execute(SQL);
-			// SQL = "INSERT INTO CANTONS VALUES (5,'CANTON5',3)";
-			// st.execute(SQL);
-			// SQL = "INSERT INTO CANTONS VALUES (6,'CANTON2',3)";
-			// st.execute(SQL);
+		// creation des cantons
+		SQL = "INSERT INTO CANTONS VALUES (1,'CANTON1',1)";
+		st.execute(SQL);
+		SQL = "INSERT INTO CANTONS VALUES (2,'CANTON2',1)";
+		st.execute(SQL);
+		SQL = "INSERT INTO CANTONS VALUES (3,'CANTON3',2)";
+		st.execute(SQL);
+		SQL = "INSERT INTO CANTONS VALUES (4,'CANTON4',3)";
+		st.execute(SQL);
+		// SQL = "INSERT INTO CANTONS VALUES (5,'CANTON5',3)";
+		// st.execute(SQL);
+		// SQL = "INSERT INTO CANTONS VALUES (6,'CANTON2',3)";
+		// st.execute(SQL);
 
-			// bureau de vote
-			SQL = "INSERT INTO BV VALUES (1,'BUREAU 1',1)";
-			st.execute(SQL);
-			SQL = "INSERT INTO BV VALUES (2,'BUREAU 2',1)";
-			st.execute(SQL);
-			SQL = "INSERT INTO BV VALUES (3,'BUREAU 3',2)";
-			st.execute(SQL);
-			SQL = "INSERT INTO BV VALUES (4,'BUREAU 4',2)";
-			st.execute(SQL);
-			SQL = "INSERT INTO BV VALUES (5,'BUREAU 5',3)";
-			st.execute(SQL);
-			SQL = "INSERT INTO BV VALUES (6,'BUREAU 6',3)";
-			st.execute(SQL);
-			SQL = "INSERT INTO BV VALUES (7,'BUREAU 7',4)";
-			st.execute(SQL);
-			SQL = "INSERT INTO BV VALUES (8,'BUREAU 8',4)";
-			st.execute(SQL);
+		// bureau de vote
+		SQL = "INSERT INTO BV VALUES (1,'BUREAU 1',1)";
+		st.execute(SQL);
+		SQL = "INSERT INTO BV VALUES (2,'BUREAU 2',1)";
+		st.execute(SQL);
+		SQL = "INSERT INTO BV VALUES (3,'BUREAU 3',2)";
+		st.execute(SQL);
+		SQL = "INSERT INTO BV VALUES (4,'BUREAU 4',2)";
+		st.execute(SQL);
+		SQL = "INSERT INTO BV VALUES (5,'BUREAU 5',3)";
+		st.execute(SQL);
+		SQL = "INSERT INTO BV VALUES (6,'BUREAU 6',3)";
+		st.execute(SQL);
+		SQL = "INSERT INTO BV VALUES (7,'BUREAU 7',4)";
+		st.execute(SQL);
+		SQL = "INSERT INTO BV VALUES (8,'BUREAU 8',4)";
+		st.execute(SQL);
 
-			// creation des personnes
-			SQL = "INSERT INTO PERSONNES VALUES(1,'BES','ALEXANDRE', '1234', 0,1)";
-			st.execute(SQL);
+		// creation des personnes
+		SQL = "INSERT INTO PERSONNES VALUES(1,'BES','ALEXANDRE', '1234', 0,1)";
+		st.execute(SQL);
 
-			SQL = "INSERT INTO PERSONNES VALUES(2,'BRETON','GUILLAUME', '1234', 0,2)";
-			st.execute(SQL);
+		SQL = "INSERT INTO PERSONNES VALUES(2,'BRETON','GUILLAUME', '1234', 0,2)";
+		st.execute(SQL);
 
-			SQL = "INSERT INTO PERSONNES VALUES(3,'CANAYE','KURVIN', '1234', 0,4)";
-			st.execute(SQL);
+		SQL = "INSERT INTO PERSONNES VALUES(3,'CANAYE','KURVIN', '1234', 0,4)";
+		st.execute(SQL);
 
-			// creation des MAV
-			SQL = "INSERT INTO MAV VALUES (1,1)";
-			st.execute(SQL);
-			SQL = "INSERT INTO MAV VALUES (2,1)";
-			st.execute(SQL);
-			SQL = "INSERT INTO MAV VALUES (3,2)";
-			st.execute(SQL);
-			SQL = "INSERT INTO MAV VALUES (4,2)";
-			st.execute(SQL);
-			SQL = "INSERT INTO MAV VALUES (5,3)";
-			st.execute(SQL);
-			SQL = "INSERT INTO MAV VALUES (6,3)";
-			st.execute(SQL);
-			SQL = "INSERT INTO MAV VALUES (7,4)";
-			st.execute(SQL);
-			SQL = "INSERT INTO MAV VALUES (8,4)";
-			st.execute(SQL);
-			SQL = "INSERT INTO MAV VALUES (9,5)";
-			st.execute(SQL);
-			SQL = "INSERT INTO MAV VALUES (10,5)";
-			st.execute(SQL);
-			SQL = "INSERT INTO MAV VALUES (11,6)";
-			st.execute(SQL);
-			SQL = "INSERT INTO MAV VALUES (12,6)";
-			st.execute(SQL);
+		// creation des MAV
+		SQL = "INSERT INTO MAV VALUES (1,1)";
+		st.execute(SQL);
+		SQL = "INSERT INTO MAV VALUES (2,1)";
+		st.execute(SQL);
+		SQL = "INSERT INTO MAV VALUES (3,2)";
+		st.execute(SQL);
+		SQL = "INSERT INTO MAV VALUES (4,2)";
+		st.execute(SQL);
+		SQL = "INSERT INTO MAV VALUES (5,3)";
+		st.execute(SQL);
+		SQL = "INSERT INTO MAV VALUES (6,3)";
+		st.execute(SQL);
+		SQL = "INSERT INTO MAV VALUES (7,4)";
+		st.execute(SQL);
+		SQL = "INSERT INTO MAV VALUES (8,4)";
+		st.execute(SQL);
+		SQL = "INSERT INTO MAV VALUES (9,5)";
+		st.execute(SQL);
+		SQL = "INSERT INTO MAV VALUES (10,5)";
+		st.execute(SQL);
+		SQL = "INSERT INTO MAV VALUES (11,6)";
+		st.execute(SQL);
+		SQL = "INSERT INTO MAV VALUES (12,6)";
+		st.execute(SQL);
 
-			this.connection.commit();
+		this.createCandidat(1, "SARKOZY", "NICOLAS", "Description  sarkozy ");
 
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		this.createCandidat(2, "ROYAL", "SEGOLENE", "Description  royal ");
+
+		this.createCandidat(3, "BAYROU", "FRANCOIS", "Description  BAYROU ");
+
+		this.connection.commit();
 
 	}
-	
-	
+
+	/**
+	 * Fonction qui crée un nouveau candidat et apres pour chaque bureau de vote
+	 * crée une associtation BV candidat et initialise le nombre de vote pour ce
+	 * candidat a 0.
+	 * 
+	 * Remarque les données ne sont pas commité
+	 * 
+	 * @throws SQLException
+	 *             s'il y a une exception SQL
+	 * 
+	 */
+	private void createCandidat(int idCandidat, String nom, String prenom,
+			String description) throws SQLException {
+
+		// creation de la requete candidat
+		String insertCandidat = "INSERT INTO CANDIDATS VALUES (?, ?, ?, ?)";
+
+		PreparedStatement prStInsertCandidat = this.connection
+				.prepareStatement(insertCandidat);
+		prStInsertCandidat.setInt(1, idCandidat);
+		prStInsertCandidat.setString(2, nom);
+		prStInsertCandidat.setString(3, prenom);
+		prStInsertCandidat.setString(4, description);
+
+		prStInsertCandidat.execute();
+
+		// pour chaque bureau de vote on fait fait l'association entre un bureau
+		// de vote et le candidat que l'on
+		// vient de créer pour initialiser le nombre de vote.
+
+		// on recupere tous les identifiants des BV
+		String selectBVId = "SELECT ID FROM BV";
+		Statement st = this.connection.createStatement();
+		ResultSet result = st.executeQuery(selectBVId);
+
+		PreparedStatement prStInsertBVCandidat = this.connection
+				.prepareStatement("INSERT INTO BV_CANDIDAT VALUES (?, ?, ?)");
+
+		// pour chaque BV
+		boolean erreur = false;
+		while (result.next()) {
+			int idBV = result.getInt(1);
+
+			// on cree l'association
+			prStInsertBVCandidat.setInt(1, 0);
+			prStInsertBVCandidat.setInt(2, idBV);
+			prStInsertBVCandidat.setInt(3, idCandidat);
+
+			prStInsertBVCandidat.execute();
+
+		}
+	}
+
 	/**
 	 * 
 	 * @param MAV
@@ -394,6 +439,7 @@ public class DBHelper {
 		String SQL;
 		PreparedStatement st;
 		ResultSet result;
+		
 		// on indique que la personne a voté
 		SQL = "UPDATE PERSONNES SET AVOTE = 1 WHERE NUMINSEE = ?";
 		st = this.connection.prepareStatement(SQL);
@@ -426,29 +472,9 @@ public class DBHelper {
 			// on execute la requête
 			result = st.executeQuery();
 
-			// si personne n'a encore voté pour le candidat il faut crée
-			// une ligne correspondant
-			// au candidat dans la table BV_CANDIDAT
-			if (!result.next()) {
-				System.out.println("creation d'un ligne bv_candidat");
-
-				SQL = "INSERT INTO BV_CANDIDAT VALUES (?, ?, ?)";
-				st = this.connection.prepareStatement(SQL);
-				st.setInt(1, 0);
-				st.setInt(2, idBV);
-				st.setInt(3, idCandidat);
-
-				res = st.executeUpdate();
-
-				if (res == 0) {
-					this.connection.rollback();
-					return false;
-				}
-
-				System.out.println("==> bv candidat ajouté");
-			}
-
 			// le candidat existe il faut donc lui ajouter une voix
+			// lorsqu'on crée un candidat on cree systèmatiquement une ligne
+			// dans BV_CANDIDAT
 			SQL = "UPDATE BV_CANDIDAT SET NBVOTE = NBVOTE + 1 WHERE CANDIDAT_ID = ? AND BV_ID = ?";
 			st = this.connection.prepareStatement(SQL);
 			st.setInt(1, idCandidat);

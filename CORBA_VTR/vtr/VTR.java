@@ -3,7 +3,6 @@ package vtr;
 import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
@@ -34,31 +33,6 @@ public class VTR {
 		int idBV = 1; 
 		
 		try {
-			/* a priori on n'en a pas besoin
-			 * 
-			// create and initialize the ORB
-			ORB orb = ORB.init(args, null);
-
-			// create servant and register it with the ORB
-			VTRServant SRVRef = new VTRServant();
-			orb.connect(SRVRef);
-
-			// get the root naming context
-			org.omg.CORBA.Object objRef = orb
-					.resolve_initial_references("NameService");
-			NamingContext ncRef = NamingContextHelper.narrow(objRef);
-
-			// bind the Object Reference in Naming
-			NameComponent nc = new NameComponent(Constants.SRV_SERVANT_NAME
-					+ idVTR, "");
-			NameComponent path[] = { nc };
-			ncRef.rebind(path, SRVRef);
-			
-			*/
-			
-			// wait for invocations from clients
-			java.lang.Object sync = new java.lang.Object();
-
 			System.out.println("VTR lancé");
 			
 			SRV srv = connectBV(idBV);
@@ -96,12 +70,6 @@ public class VTR {
 			
 			mainFrame.setVisible(true);
 			mainFrame.pack();
-
-			
-//			TODO a suppr
-//			synchronized (sync) {
-//				sync.wait();
-//			}
 
 		} catch (InterruptedException e) {
 			System.err
