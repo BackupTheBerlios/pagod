@@ -68,29 +68,29 @@ public class VTRServant extends _VTRImplBase {
 
 			switch (c) {
 			case 0:
-				return ligne.idBV();
+				return new Integer(ligne.idBV());
 			case 1:
 				return ligne.nomBV();
 			case 2:
-				return ligne.idCanton();
+				return new Integer(ligne.idCanton());
 			case 3:
 				return ligne.canton();
 			case 4:
-				return ligne.idCirc();
+				return new Integer(ligne.idCirc());
 			case 5:
 				return ligne.circonscription();
 			case 6:
-				return ligne.idDept();
+				return new Integer(ligne.idDept());
 			case 7:
 				return ligne.departement();
 			case 8:
-				return ligne.idCandidat();
+				return new Integer(ligne.idCandidat());
 			case 9:
 				return ligne.nom();
 			case 10:
 				return ligne.prenom();
 			case 11:
-				return ligne.nbVote();
+				return new Integer(ligne.nbVote());
 
 			default:
 				return null;
