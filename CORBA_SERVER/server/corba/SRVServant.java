@@ -25,7 +25,7 @@ import MAV.SRVPackage.InternalErrorException;
 public class SRVServant extends _SRVImplBase {
 
 	/**
-	 * 
+	 * serial version id
 	 */
 	private static final long serialVersionUID = 6704221871768262118L;
 
@@ -132,7 +132,7 @@ public class SRVServant extends _SRVImplBase {
 				{
 					VTR vtr = (VTR) it.next();
 					
-					vtr.notifieVTR();
+					vtr.notifieVTR(idCandidat, idBV);
 				}
 			}
 			

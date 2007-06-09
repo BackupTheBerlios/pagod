@@ -59,6 +59,8 @@ public class Server {
 			System.out.println("Initialisation de la base");
 			DBHelper.getInstance().initDB();
 
+			System.out.println("SRV pret");
+			
 			synchronized (sync) {
 				sync.wait();
 			}

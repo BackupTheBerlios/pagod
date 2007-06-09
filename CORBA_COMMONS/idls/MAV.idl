@@ -23,31 +23,31 @@ module MAV
 		readonly attribute long idCandidat;
 		readonly attribute string nom;
 		readonly attribute string prenom;
-		readonly attribute long nbVote;
+		attribute long nbVote;
 	};
 	
 	interface VTR
 	{
-		void notifieVTR();
+		void notifieVTR(in long idCandidat, in long idBV);
 	};
 	
 	interface SRV
 	{
-			exception BadAuthentificationException {string reason;};
-			exception AlreadyVoteException {string reason;};
-			exception InternalErrorException {string reason;};
-			exception IncorrectBVPersonException {string reason;};
+		exception BadAuthentificationException {string reason;};
+		exception AlreadyVoteException {string reason;};
+		exception InternalErrorException {string reason;};
+		exception IncorrectBVPersonException {string reason;};
+		
+		typedef sequence<Candidat> CandidatSeq;
+		typedef sequence<ResultVote> ResultSeq;
+		
+		ResultSeq listeResultat () raises (InternalErrorException);
+		CandidatSeq listeCandidat() raises (InternalErrorException);
+		boolean authMAV(in long idMAV,in long idBV) raises (InternalErrorException);
+		void authPersonne(in long numInsee,in string password, in long idBV ) raises (BadAuthentificationException,AlreadyVoteException,InternalErrorException,IncorrectBVPersonException);
+		boolean vote (in long numInsee, in string password, in long idCandidat, in long idBV) raises (BadAuthentificationException,AlreadyVoteException,InternalErrorException,IncorrectBVPersonException);
 			
-			typedef sequence<Candidat> CandidatSeq;
-			typedef sequence<ResultVote> ResultSeq;
-			
-			ResultSeq listeResultat () raises (InternalErrorException);
-			CandidatSeq listeCandidat() raises (InternalErrorException);
-			boolean authMAV(in long idMAV,in long idBV) raises (InternalErrorException);
-			void authPersonne(in long numInsee,in string password, in long idBV ) raises (BadAuthentificationException,AlreadyVoteException,InternalErrorException,IncorrectBVPersonException);
-			boolean vote (in long numInsee, in string password, in long idCandidat, in long idBV) raises (BadAuthentificationException,AlreadyVoteException,InternalErrorException,IncorrectBVPersonException);
-			
-			void enregistrerVTR(in VTR vtr);
+		void enregistrerVTR(in VTR vtr);
 	};
 	
 	

@@ -5,9 +5,13 @@ import javax.swing.table.AbstractTableModel;
 import MAV.ResultVote;
 import MAV.SRV;
 import MAV._VTRImplBase;
-import MAV.SRVPackage.InternalErrorException;
 
 public class VTRServant extends _VTRImplBase {
+
+	/**
+	 * serial version id
+	 */
+	private static final long serialVersionUID = -6193959437095814709L;
 
 	/**
 	 * le serveur sur lequel est connecté le VTR TODO faudra le supprimer des
@@ -17,13 +21,49 @@ public class VTRServant extends _VTRImplBase {
 
 	private ResultVoteTableModel tableModel;
 
-	public void notifieVTR() {
+	/**
+	 * fonction qui permet d'indiquer au VTR qu'il y a eu un vote supplémentaire
+	 * dans le bureau de vote passé en parametre pour le candidat passé en
+	 * paramètre.
+	 */
+	public void notifieVTR(int idCandidat, int idBV) {
 		System.out.println(" *** notifieVTR ");
-		try {
-			this.tableModel.setResultVote(srv.listeResultat());
-		} catch (InternalErrorException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+		// on recherche la ligne de résultat qui correspond au bureau de vote et
+		// au candidat passé en paramètre
+		boolean finded = false;
+		int i = 0;
+
+		// tant qu'on a pas trouvé et qu'il reste des lignes de resultat a
+		// explorer la ligne courante
+		ResultVote aLine = null;
+		while (!finded && i < this.tableModel.getRowCount()) {
+			aLine = this.tableModel.getLine(i);
+
+			// si l'identifiant du candidat ainsi que l'identifiant du bv
+			// correspondent a ceux passé en paramètre
+			if (aLine.idCandidat() == idCandidat && aLine.idBV() == idBV) {
+				// on a trouvé la ligne qui vient de changer
+				finded = true;
+			} else {
+				// on passe a la ligne suivante
+				i++;
+			}
+		}
+
+		// si on a trouvé la ligne qui vient de changer
+		if (finded) {
+			// on augmente de 1 le nombre de vote pour ce candidat dans ce
+			// bureau de vote
+			aLine.nbVote(aLine.nbVote() + 1);
+			
+			// on indique que la cellule a changé
+			// la colonne 6 correspond au nb de vote
+			this.tableModel.fireTableCellUpdated(i, 6);
+		} else {
+			// ne devrait jamais arrivé
+			System.err
+					.println("VTRServant.notifieVTR() : impossible de trouver la ligne qui a changé (ceci ne devrait jamais arriver)");
 		}
 	}
 
@@ -45,6 +85,10 @@ public class VTRServant extends _VTRImplBase {
 
 	private class ResultVoteTableModel extends AbstractTableModel {
 
+		/**
+		 * serial version id
+		 */
+		private static final long serialVersionUID = 1617825674845171851L;
 		/**
 		 * les resultats qu'a collecté le BV sur lequel est connecté le VTR
 		 */
@@ -108,7 +152,7 @@ public class VTRServant extends _VTRImplBase {
 		public String getColumnName(int c) {
 
 			switch (c) {
-			
+
 			case 0:
 				return "DEPARTEMENT";
 			case 1:
@@ -139,6 +183,19 @@ public class VTRServant extends _VTRImplBase {
 
 			// on notifie que les données de la table ont changé
 			this.fireTableDataChanged();
+		}
+
+		/**
+		 * Fonction qui permet de récuperer la ligne i du table model
+		 * 
+		 * @param i
+		 *            est le numéro de la ligne que l'on souhaite récuperer
+		 * 
+		 * Remarque : cette méthode a été créé pour améliorer la lisibilité de
+		 * la méthode qui notifie un vtr
+		 */
+		public ResultVote getLine(int i) {
+			return this.resultVote[i];
 		}
 	}
 

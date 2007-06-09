@@ -122,6 +122,9 @@ public class ResultVoteImpl extends _ResultVoteImplBase {
 	public void setPrenom(String prenom) {
 		this.prenom = prenom;
 	}
-
 	
+	public void nbVote (int newNbVote)
+	{
+		this.nbVote = newNbVote;
+	}
 }
