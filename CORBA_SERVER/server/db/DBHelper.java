@@ -181,6 +181,12 @@ public class DBHelper {
 		// creation des personnes
 		SQL = "INSERT INTO PERSONNES VALUES(1,'BES','ALEXANDRE', '1234', 0,1)";
 		st.execute(SQL);
+		
+		SQL = "INSERT INTO PERSONNES VALUES(4,'BES','PATRICK', '1234', 0,1)";
+		st.execute(SQL);
+		
+		SQL = "INSERT INTO PERSONNES VALUES(5,'BES','BENEDICTE', '1234', 0,1)";
+		st.execute(SQL);
 
 		SQL = "INSERT INTO PERSONNES VALUES(2,'BRETON','GUILLAUME', '1234', 0,2)";
 		st.execute(SQL);

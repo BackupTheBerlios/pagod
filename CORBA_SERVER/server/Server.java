@@ -43,7 +43,7 @@ public class Server {
 
 			// bind the Object Reference in Naming
 			NameComponent nc = new NameComponent(Constants.SRV_SERVANT_NAME + idBV
-					, "");
+					, Constants.SRV_KIND);
 			NameComponent path[] = { nc };
 			ncRef.rebind(path, SRVRef);
 			// wait for invocations from clients

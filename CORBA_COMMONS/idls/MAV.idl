@@ -48,6 +48,7 @@ module MAV
 		boolean vote (in long numInsee, in string password, in long idCandidat, in long idBV) raises (BadAuthentificationException,AlreadyVoteException,InternalErrorException,IncorrectBVPersonException);
 			
 		void enregistrerVTR(in VTR vtr);
+		void desenristrerVTR(in VTR vtr);
 	};
 	
 	

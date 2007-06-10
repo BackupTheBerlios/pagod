@@ -323,7 +323,7 @@ public class MachineAVoter {
 
 			// resolve the Object Reference in Naming
 			NameComponent nc = new NameComponent(Constants.SRV_SERVANT_NAME
-					+ id, "");
+					+ id, Constants.SRV_KIND);
 			NameComponent path[] = { nc };
 			this.srvRef = SRVHelper.narrow(ncRef.resolve(path));
 		}

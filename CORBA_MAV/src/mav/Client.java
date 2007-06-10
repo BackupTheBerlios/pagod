@@ -33,7 +33,7 @@ public class Client {
 			NamingContext ncRef = NamingContextHelper.narrow(objRef);
 
 			// resolve the Object Reference in Naming
-			NameComponent nc = new NameComponent(Constants.SRV_SERVANT_NAME + idBV, "");
+			NameComponent nc = new NameComponent(Constants.SRV_SERVANT_NAME + idBV, Constants.SRV_KIND);
 			NameComponent path[] = { nc };
 			SRV srvRef = SRVHelper.narrow(ncRef.resolve(path));
 

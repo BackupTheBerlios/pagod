@@ -152,4 +152,13 @@ public class SRVServant extends _SRVImplBase {
 		this.vtrList.add(vtr);
 	}
 
+	/**
+	 * Desenregistre un vtr afin qu'il ne soit plus notifié des changements.
+	 */
+	public void desenristrerVTR(VTR vtr) {
+		// TODO supprime le bouleen
+		boolean b = this.vtrList.remove(vtr);
+		
+		System.out.println("DESNEREGISTRE LE VTR : " + b);
+	}
 }
