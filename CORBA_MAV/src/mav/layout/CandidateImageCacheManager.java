@@ -9,15 +9,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
-@SuppressWarnings("serial")
+
 public class CandidateImageCacheManager {
     private static CandidateImageCacheManager instance;
-    private Map<String, Image> coversCache;
+    private Map coversCache;
     private CDFX fx;
     private BufferedImage mask;
     
     private CandidateImageCacheManager() {
-        coversCache = Collections.synchronizedMap(new HashMap<String, Image>(300));
+        coversCache = Collections.synchronizedMap(new HashMap(300));
         
         fx = new CDFX();
         BufferedImage noArtImage = null;
@@ -46,7 +46,7 @@ public class CandidateImageCacheManager {
     }
     
     public Image getImage(String id) {
-        return coversCache.get(id);
+        return (Image)coversCache.get(id);
     }
     
     public void putImage(String artist, String album, Image image) {

@@ -37,9 +37,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import mav.MachineAVoter;
+
 import MAV.Candidat;
 
-@SuppressWarnings("serial")
+
 public class CandidateShelf extends JPanel {
     private static final double ANIM_SCROLL_DELAY = 450;
     private static final int CD_SIZE = 148;
@@ -47,7 +49,7 @@ public class CandidateShelf extends JPanel {
     private int displayWidth = CD_SIZE;
     private int displayHeight = (int) (CD_SIZE * 2 / 1.12);
     
-    private List<Image> avatars = null;
+    private List avatars = null;
     
     
 
@@ -89,12 +91,13 @@ public class CandidateShelf extends JPanel {
 
     private CDFX fx;
     private CandidateImageCacheManager cache;
+    private MachineAVoter mav;
    
     public Candidat getSelectedCandidat()
     {
     	return (Candidat)this.candidatList.get(avatarIndex);
     }
-    public CandidateShelf() {
+    public CandidateShelf(MachineAVoter mav) {
         avatarFont = new Font("Dialog", Font.PLAIN, 24);
         
         cache = CandidateImageCacheManager.getInstance();
@@ -109,6 +112,8 @@ public class CandidateShelf extends JPanel {
 
         initInputListeners();
         addInputListeners();
+        this.mav = mav;
+        
     }
 
    
@@ -118,6 +123,7 @@ public class CandidateShelf extends JPanel {
             this.candidatList = list;
             loadAvatars();
             this.startLoading();
+           
            
         }
     }
@@ -129,11 +135,12 @@ public class CandidateShelf extends JPanel {
     public void startLoading() {
         if (this.candidatList != null && this.candidatList.size() > 0) {
             loadChunk(0,  this.candidatList.size() - 1);
+            
         }
     }
     
     public void setAmount(int amount) {
-        if (amount > avatars.size()) {
+        if (amount > this.avatars.size()) {
             throw new IllegalArgumentException("Too many avatars");
         }
         this.avatarAmount = amount;
@@ -165,27 +172,26 @@ public class CandidateShelf extends JPanel {
         repaint();
     }
     
-    @Override
+    
     public Dimension getPreferredSize() {
         return new Dimension(displayWidth * 5, (int) (displayHeight * 3));
     }
     
-    @Override
+    
     public Dimension getMinimumSize() {
         return getPreferredSize();
     }
     
-    @Override
+   
     public boolean isOpaque() {
         return false;
     }
 
-    @Override
+    
     public boolean isFocusable() {
         return true;
     }
 
-    @Override
     protected void paintChildren(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         
@@ -194,9 +200,10 @@ public class CandidateShelf extends JPanel {
                                                    veilAlphaLevel));
         super.paintChildren(g);
         g2.setComposite(oldComposite);
+        
     }
 
-    @Override
+    
     protected void paintComponent(Graphics g) {
         if (!isVisible()) {
             return;
@@ -232,33 +239,34 @@ public class CandidateShelf extends JPanel {
         
         if (drawableAvatars.length > 0) {
             drawAvatarName(g2);
-            drawAvatarDescription(g2);
+            
         }
         
         g2.setComposite(oldComposite);
     }
 
     private void drawAvatars(Graphics2D g2, DrawableAvatar[] drawableAvatars) {
-        for (DrawableAvatar avatar: drawableAvatars) {
+    	for (int i = 0; i < drawableAvatars.length; i++)
+        {
             AlphaComposite composite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 
-                                                                  (float) avatar.getAlpha());
+                                                                  (float) drawableAvatars[i].getAlpha());
             g2.setComposite(composite);
-            g2.drawImage(avatars.get(avatar.getIndex()),
-                         (int) avatar.getX(), (int) avatar.getY(),
-                         avatar.getWidth(), avatar.getHeight(), null);
+            g2.drawImage((Image)avatars.get(drawableAvatars[i].getIndex()),
+                         (int) drawableAvatars[i].getX(), (int) drawableAvatars[i].getY(),
+                         drawableAvatars[i].getWidth(), drawableAvatars[i].getHeight(), null);
         }
     }
 
     private DrawableAvatar[] sortAvatarsByDepth(int x, int y,
                                                 int width, int height) {
-        List<DrawableAvatar> drawables = new LinkedList<DrawableAvatar>();
+        List drawables = new LinkedList();
         for (int i = 0; i < avatars.size(); i++) {
-            promoteAvatarToDrawable(drawables,
+            this.promoteAvatarToDrawable(drawables,
                                     x, y, width, height, i - avatarIndex);
         }
 
         DrawableAvatar[] drawableAvatars = new DrawableAvatar[drawables.size()];
-        drawableAvatars = drawables.toArray(drawableAvatars);
+        drawableAvatars = (DrawableAvatar[])drawables.toArray(drawableAvatars);
         Arrays.sort(drawableAvatars);
         return drawableAvatars;
     }
@@ -335,7 +343,7 @@ public class CandidateShelf extends JPanel {
          g2.setComposite(composite);
     }
 
-    private void promoteAvatarToDrawable(List<DrawableAvatar> drawables,
+    private void promoteAvatarToDrawable(List drawables,
                                          int x, int y, int width, int height,
                                          int offset) {
 
@@ -428,7 +436,7 @@ public class CandidateShelf extends JPanel {
     }
 
     private void loadAvatars() {
-        avatars = new ArrayList<Image>();
+        avatars = new ArrayList();
     }
 
     private void setAvatarIndex(int index) {
@@ -459,9 +467,9 @@ public class CandidateShelf extends JPanel {
             
             DrawableAvatar drawable = null;
             if (drawableAvatars != null) {
-                for (DrawableAvatar avatar: drawableAvatars) {
-                    if (avatar.index == index) {
-                        drawable = avatar;
+            	for (int i = 0; i < this.drawableAvatars.length; i++) {
+                    if (this.drawableAvatars[i].index == index) {
+                        drawable = this.drawableAvatars[i];
                         break;
                     }
                 }
@@ -481,11 +489,11 @@ public class CandidateShelf extends JPanel {
     }
 
     private DrawableAvatar getHitAvatar(int x, int y) {
-        for (DrawableAvatar avatar: drawableAvatars) {
-            Rectangle hit = new Rectangle((int) avatar.getX(), (int) avatar.getY(),
-                                          avatar.getWidth(), avatar.getHeight() / 2);
+    	for (int i = 0; i < this.drawableAvatars.length; i++) {
+            Rectangle hit = new Rectangle((int) this.drawableAvatars[i].getX(), (int) this.drawableAvatars[i].getY(),
+            		this.drawableAvatars[i].getWidth(), this.drawableAvatars[i].getHeight() / 2);
             if (hit.contains(x, y)) {
-                return avatar;
+                return this.drawableAvatars[i];
             }
         }
         return null;
@@ -613,7 +621,7 @@ public class CandidateShelf extends JPanel {
     }
 
     private class KeyScroller extends KeyAdapter {
-        @Override
+       
         public void keyPressed(KeyEvent e) {
             int keyCode = e.getKeyCode();
             switch (keyCode) {
@@ -642,14 +650,14 @@ public class CandidateShelf extends JPanel {
     }
 
     private class FocusGrabber extends MouseAdapter {
-        @Override
+        
         public void mouseClicked(MouseEvent e) {
             requestFocus();
         }
     }
     
     private class AvatarScroller extends MouseAdapter {
-        @Override
+        
         public void mouseClicked(MouseEvent e) {
             if ((scrollerTimer != null && scrollerTimer.isRunning()) ||
                 drawableAvatars == null) {
@@ -662,11 +670,12 @@ public class CandidateShelf extends JPanel {
                     scrollAndAnimate(avatar);
                 }
             }
+        	CandidateShelf.this.mav.updateDescription();
         }
     }
 
     private class DamageManager extends ComponentAdapter {
-        @Override
+        
         public void componentResized(ComponentEvent e) {
             damaged = true;
         }
@@ -701,6 +710,7 @@ public class CandidateShelf extends JPanel {
             if (elapsed >= ANIM_SCROLL_DELAY) {
                 ((Timer) e.getSource()).stop();
                 setAvatarIndex(index);
+            	CandidateShelf.this.mav.updateDescription();
                 setPosition(0.0);
                 return;
             }
@@ -710,7 +720,7 @@ public class CandidateShelf extends JPanel {
     }
 
     private class CursorChanger extends MouseMotionAdapter {
-        @Override
+       
         public void mouseMoved(MouseEvent e) {
             if ((scrollerTimer != null && scrollerTimer.isRunning()) ||
                 drawableAvatars == null) {
@@ -727,27 +737,26 @@ public class CandidateShelf extends JPanel {
     }
 
     private class KeyAvatarSelector extends KeyAdapter {
-        @Override
+        
         public void keyPressed(KeyEvent e) {
             if ((scrollerTimer == null || !scrollerTimer.isRunning()) &&
                 drawableAvatars != null) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                   //TODO faire qq chose ici
+                	CandidateShelf.this.mav.updateDescription();
                 }
             }
         }
     }
     
     private class MouseAvatarSelector extends MouseAdapter {
-        @Override
+        
         public void mouseClicked(MouseEvent e) {
             if ((scrollerTimer == null || !scrollerTimer.isRunning()) &&
                 drawableAvatars != null) {
                 if (e.getButton() == MouseEvent.BUTTON1) {
                     DrawableAvatar avatar = getHitAvatar(e.getX(), e.getY());
                     if (avatar != null && avatar.getIndex() == avatarIndex) {
-                        //TODO faire qq chose ici
-                    	System.out.println("key select");
+                        CandidateShelf.this.mav.updateDescription();
                     }
                 }
             }

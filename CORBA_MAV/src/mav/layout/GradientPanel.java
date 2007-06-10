@@ -16,7 +16,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
-@SuppressWarnings("serial")
+
 public class GradientPanel extends JPanel {
     protected BufferedImage gradientImage;
     protected Color gradientStart = new Color(110, 110, 110);
@@ -31,7 +31,7 @@ public class GradientPanel extends JPanel {
         addComponentListener(new GradientCacheManager());
     }
 
-    @Override
+    
 	protected void paintComponent(Graphics g) {
         createImageCache();
 

@@ -7,7 +7,7 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 
-@SuppressWarnings("serial")
+
 public class ZoomyPanel extends JPanel {
     //private static final double ZOOM_FACTOR = 0.5;
     private ZoomyBackground background;
@@ -18,7 +18,6 @@ public class ZoomyPanel extends JPanel {
 //        FrequenciesDispatcher.getInstance().addProcessor(this);
     }
     
-    @Override
     protected void paintComponent(Graphics g) {
         if (!isVisible()) {
             return;

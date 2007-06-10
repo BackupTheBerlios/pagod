@@ -13,7 +13,7 @@ public class StackLayout implements LayoutManager2 {
     public static final String BOTTOM = "bottom";
     public static final String TOP = "top";
     
-    private List<Component> components = new LinkedList<Component>();
+    private List components = new LinkedList();
 
     public void addLayoutComponent(Component comp, Object constraints) {
         synchronized (comp.getTreeLock()) {
@@ -52,8 +52,11 @@ public class StackLayout implements LayoutManager2 {
         synchronized (parent.getTreeLock()) {
             int width = 0;
             int height = 0;
-
-            for (Component comp: components) {
+            
+            
+            for (int i = 0 ; i < this.components.size(); i++)
+            {
+            	Component comp = (Component)components.get(i);
                 Dimension size = comp.getPreferredSize();
                 width = Math.max(size.width, width);
                 height = Math.max(size.height, height);
@@ -72,7 +75,9 @@ public class StackLayout implements LayoutManager2 {
             int width = 0;
             int height = 0;
 
-            for (Component comp: components) {
+            for (int i = 0 ; i < this.components.size(); i++)
+            {
+            	Component comp = (Component)components.get(i);
                 Dimension size = comp.getMinimumSize();
                 width = Math.max(size.width, width);
                 height = Math.max(size.height, height);
@@ -101,7 +106,7 @@ public class StackLayout implements LayoutManager2 {
             int componentsCount = components.size();
             
             for (int i = 0; i < componentsCount; i++) {
-                Component comp = components.get(i);
+                Component comp = (Component)components.get(i);
                 comp.setBounds(bounds);
                 parent.setComponentZOrder(comp, componentsCount - i - 1);
             }

@@ -2,6 +2,7 @@ package mav;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,6 +29,8 @@ import org.omg.CosNaming.NamingContextHelper;
 import org.omg.CosNaming.NamingContextPackage.CannotProceed;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
+import sun.management.snmp.util.JvmContextFactory;
+
 import MAV.Candidat;
 import MAV.SRV;
 import MAV.SRVHelper;
@@ -53,6 +56,7 @@ public class MachineAVoter {
 	CandidateImageCacheManager imageManager;
 
 	private JPanel connectedPanel;
+	private JLabel descriptionLabel;
 
 	/**
 	 * la frame de l'application
@@ -83,6 +87,8 @@ public class MachineAVoter {
 	 * panneau bouton
 	 */
 	private JPanel buttonPanel;
+	
+	
 
 	/**
 	 * bouton droit
@@ -94,6 +100,10 @@ public class MachineAVoter {
 	 */
 	private JButton leftButton;
 
+	/**
+	 * bouton de déconnexion
+	 */
+	private JButton discButton;
 	/**
 	 * bouton voter
 	 */
@@ -125,7 +135,7 @@ public class MachineAVoter {
 		this.titleLabel.setText("Election présidentielle 2007");
 		this.titlePanel.add(this.titleLabel);
 
-		this.cdShelf = new JXCandidateShelf();
+		this.cdShelf = new JXCandidateShelf(this);
 		List list = new ArrayList();
 		for (int i = 0; i < candidats.length; i++) {
 			list.add(candidats[i]);
@@ -134,13 +144,19 @@ public class MachineAVoter {
 		this.cdShelf.setList(list);
 		
 
-		this.buttonPanel = new JPanel();
+		
 		this.voteButton = new JButton("voter");
 		this.voteButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 			try {
-				MachineAVoter.this.srvRef.vote(MachineAVoter.this.numinsee_voter,MachineAVoter.this.password_voter,MachineAVoter.this.cdShelf.getSelectedCandidat().id(),MachineAVoter.this.id_bv);
+				
+				if (JOptionPane.showConfirmDialog( MachineAVoter.this.mainFrame,"Voulez vous voter pour"+MachineAVoter.this.cdShelf.getSelectedCandidat().prenom()+" "+MachineAVoter.this.cdShelf.getSelectedCandidat().nom()+" ?","Confirmation", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+					
+				{
+					MachineAVoter.this.srvRef.vote(MachineAVoter.this.numinsee_voter,MachineAVoter.this.password_voter,MachineAVoter.this.cdShelf.getSelectedCandidat().id(),MachineAVoter.this.id_bv);
+					MachineAVoter.this.reconnect();
+				}
 			} catch (BadAuthentificationException e1) {
 				JOptionPane.showMessageDialog(
 						MachineAVoter.this.mainFrame,
@@ -169,6 +185,7 @@ public class MachineAVoter {
 
 			public void actionPerformed(ActionEvent e) {
 				MachineAVoter.this.cdShelf.getShelf().scrollAndAnimateBy(1);
+				MachineAVoter.this.updateDescription();
 
 			}
 		});
@@ -177,13 +194,40 @@ public class MachineAVoter {
 
 			public void actionPerformed(ActionEvent e) {
 				MachineAVoter.this.cdShelf.getShelf().scrollAndAnimateBy(-1);
+				MachineAVoter.this.updateDescription();
+			}
+		});
+		
+		this.discButton = new JButton("Déconnection");
+		this.discButton.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				MachineAVoter.this.reconnect();
 
 			}
 		});
+//		 setting desc
+		
+		JPanel p = new JPanel();
+		p.setBackground(Color.BLACK);
+		p.setLayout(new FlowLayout());
+		p.add(this.leftButton);
+		p.add(this.voteButton);
+		p.add(this.discButton);
+		p.add(this.rightButton);
+		this.descLabel = new JLabel();
+		this.descLabel.setBackground(Color.BLACK);
+		this.descLabel.setForeground(Color.WHITE);
+		this.descLabel.setFont(new Font("Dialog", Font.PLAIN, 12));
+		this.descLabel.setText("");
+		
+		this.buttonPanel = new JPanel();
 		this.buttonPanel.setBackground(Color.BLACK);
-		this.buttonPanel.add(this.leftButton);
-		this.buttonPanel.add(this.voteButton);
-		this.buttonPanel.add(this.rightButton);
+		this.buttonPanel.setLayout(new BorderLayout());
+		this.buttonPanel.add(p, BorderLayout.SOUTH);
+		
+		
+		this.buttonPanel.add(this.descLabel, BorderLayout.NORTH);
 
 		/**
 		 * setting jpanel
@@ -198,17 +242,12 @@ public class MachineAVoter {
 		this.mainFrame = new JFrame("Machine a voter");
 		this.mainFrame.setDefaultCloseOperation(JXFrame.EXIT_ON_CLOSE);
 
-		// setting desc
-		this.descPanel = new JPanel();
-		this.descPanel.setBackground(Color.BLACK);
-		this.descLabel = new JLabel();
-		this.descLabel.setForeground(Color.WHITE);
-		this.descLabel.setFont(new Font("Dialog", Font.PLAIN, 24));
-		this.descLabel.setText("Election présidentielle 2007");
-		this.descPanel.add(this.descLabel);
+		
 
 		this.createConnectedPanel(candidats);
 		this.mainFrame.add(this.connectedPanel);
+		this.descLabel.setText("<html><body><strong><u>DESCRIPTION<br></u></strong>"+candidats[0].description()+"</body></html>");
+
 		return mainFrame;
 	}
 
@@ -239,6 +278,22 @@ public class MachineAVoter {
 			e.printStackTrace();
 		}
 
+	}
+	
+	public void reconnect()
+	{
+			UserConnectionDialog ucd = new UserConnectionDialog(this, srvRef);
+			ucd.setModal(true);
+			
+			//this.mainFrame.setLocationRelativeTo(null);
+			this.connectedPanel.setVisible(true);
+			this.mainFrame.setResizable(false);
+			
+			this.mainFrame.setSize(500,500);
+			this.mainFrame.setLocationRelativeTo(null);
+			this.mainFrame.setVisible(true);
+			ucd.setVisible(true);
+			
 	}
 
 	public boolean authMAV(int id_mav, int id_bv) {
@@ -318,6 +373,20 @@ public class MachineAVoter {
 
 	public JFrame getMainFrame() {
 		return mainFrame;
+	}
+	public void exit()
+	{
+		this.mainFrame.dispose();
+		System.exit(0);
+	}
+	public void hide()
+	{
+		this.mainFrame.setVisible(false);
+		this.mainFrame.dispose();
+	}
+	public void updateDescription()
+	{
+		this.descLabel.setText("<html><body><strong><u>DESCRIPTION<br></u></strong>"+this.cdShelf.getSelectedCandidat().description()+"</body></html>");
 	}
 
 }

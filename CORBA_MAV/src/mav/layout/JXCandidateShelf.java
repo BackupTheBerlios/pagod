@@ -8,27 +8,24 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import mav.MachineAVoter;
+
 import org.jdesktop.binding.BindingContext;
 import org.jdesktop.swingx.DataBoundUtils;
 
 import MAV.Candidat;
 
-@SuppressWarnings("serial")
 public class JXCandidateShelf extends JPanel {
-    /**
-     * For data binding
-     */
-    private String dataPath = "";
-    private BindingContext ctx = null;
+    
     private CandidateShelf shelf;
 
-    public JXCandidateShelf() {
+    public JXCandidateShelf(MachineAVoter mav) {
         super(new StackLayout());
         GradientPanel gp = new GradientPanel();
        
         add(gp, StackLayout.TOP);
         this.setBackground(Color.BLACK);
-        shelf = new CandidateShelf();    
+        shelf = new CandidateShelf(mav);    
        
         add(shelf, StackLayout.TOP);
        

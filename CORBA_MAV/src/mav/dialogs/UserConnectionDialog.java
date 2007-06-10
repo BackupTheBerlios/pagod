@@ -5,6 +5,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -21,7 +23,7 @@ import MAV.SRVPackage.BadAuthentificationException;
 import MAV.SRVPackage.IncorrectBVPersonException;
 import MAV.SRVPackage.InternalErrorException;
 
-@SuppressWarnings("serial")
+
 public class UserConnectionDialog extends JDialog {
 
 	JTextField nom;
@@ -38,6 +40,44 @@ public class UserConnectionDialog extends JDialog {
 		theMav = mav;
 		this.srvRef = srvRef;
 		this.setLocationRelativeTo(mav.getMainFrame());
+		this.addWindowListener(new WindowListener (){
+
+			public void windowActivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			public void windowClosed(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			public void windowClosing(WindowEvent e) {
+				UserConnectionDialog.this.exit();
+				
+			}
+
+			public void windowDeactivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			public void windowDeiconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			public void windowIconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			public void windowOpened(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
 
 	}
 
@@ -135,13 +175,17 @@ public class UserConnectionDialog extends JDialog {
 			}
 		});
 		PanelButton.add(button);
-		button = new JButton("cancel");
+		button = new JButton("Quitter");
 		button.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 
-				UserConnectionDialog.this.setVisible(false);
-				UserConnectionDialog.this.dispose();
+				UserConnectionDialog.this.exit();
+				
+				
+				
+				
+				
 
 			}
 		});
@@ -152,5 +196,17 @@ public class UserConnectionDialog extends JDialog {
 		this.add(PanelButton, BorderLayout.CENTER);
 		this.pack();
 		this.setTitle("Connexion de la personne");
+	}
+	
+	public  void exit()
+	{
+		this.setVisible(false);
+		this.dispose();
+		this.theMav.hide();
+		MavConnectionDialog tvd = new MavConnectionDialog(UserConnectionDialog.this.theMav);
+		
+		tvd.init();
+		tvd.setVisible(true);
+		tvd.setLocationRelativeTo(null);
 	}
 }

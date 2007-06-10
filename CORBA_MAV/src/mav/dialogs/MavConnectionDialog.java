@@ -16,7 +16,6 @@ import javax.swing.JTextField;
 
 import mav.MachineAVoter;
 
-@SuppressWarnings("serial")
 public class MavConnectionDialog extends JFrame {
 
 	JTextField idMav;
@@ -86,25 +85,27 @@ public class MavConnectionDialog extends JFrame {
 
 				if (MavConnectionDialog.this.theMav.authMAV(id_mav, id_bv)) {
 					MavConnectionDialog.this.setVisible(false);
+					
 					MavConnectionDialog.this.theMav.connect(id_mav, id_bv);
 					
 					MavConnectionDialog.this.dispose();
 				} else {
 					JOptionPane.showMessageDialog(MavConnectionDialog.this,
-							"Machine à voter non identifier",
+							"Machine à voter non identifiée",
 							"Erreur de connexion", JOptionPane.ERROR_MESSAGE);
 				}
 
 			}
 		});
 		PanelButton.add(button);
-		button = new JButton("cancel");
+		button = new JButton("Quitter");
 		button.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 
 				MavConnectionDialog.this.setVisible(false);
 				MavConnectionDialog.this.dispose();
+				MavConnectionDialog.this.theMav.exit();
 
 			}
 		});
