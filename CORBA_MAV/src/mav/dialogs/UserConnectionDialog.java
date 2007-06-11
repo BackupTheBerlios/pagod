@@ -5,8 +5,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -20,6 +20,7 @@ import mav.MachineAVoter;
 import MAV.SRV;
 import MAV.SRVPackage.AlreadyVoteException;
 import MAV.SRVPackage.BadAuthentificationException;
+import MAV.SRVPackage.ElectionFinishedException;
 import MAV.SRVPackage.IncorrectBVPersonException;
 import MAV.SRVPackage.InternalErrorException;
 
@@ -40,40 +41,10 @@ public class UserConnectionDialog extends JDialog {
 		theMav = mav;
 		this.srvRef = srvRef;
 		this.setLocationRelativeTo(mav.getMainFrame());
-		this.addWindowListener(new WindowListener (){
-
-			public void windowActivated(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			public void windowClosed(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
+		this.addWindowListener(new WindowAdapter (){
 
 			public void windowClosing(WindowEvent e) {
 				UserConnectionDialog.this.exit();
-				
-			}
-
-			public void windowDeactivated(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			public void windowDeiconified(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			public void windowIconified(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			public void windowOpened(WindowEvent e) {
-				// TODO Auto-generated method stub
 				
 			}
 			
@@ -165,6 +136,9 @@ public class UserConnectionDialog extends JDialog {
 								"Erreur de connexion",
 								JOptionPane.ERROR_MESSAGE);
 
+					} catch (ElectionFinishedException e1) {
+						// TODO Yak faut gerer l'exception ElectionFinishedException
+						e1.printStackTrace();
 					}
 
 				} catch (InternalErrorException e1) {

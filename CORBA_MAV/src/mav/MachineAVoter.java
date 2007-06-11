@@ -36,6 +36,7 @@ import MAV.SRV;
 import MAV.SRVHelper;
 import MAV.SRVPackage.AlreadyVoteException;
 import MAV.SRVPackage.BadAuthentificationException;
+import MAV.SRVPackage.ElectionFinishedException;
 import MAV.SRVPackage.IncorrectBVPersonException;
 import MAV.SRVPackage.InternalErrorException;
 import constants.Constants;
@@ -175,6 +176,9 @@ public class MachineAVoter {
 						MachineAVoter.this.mainFrame,
 						"Vous ne pouvez voter dans ce bureau de vote", "Erreur au cours du vote",
 						JOptionPane.ERROR_MESSAGE);
+			} catch (ElectionFinishedException e1) {
+				// TODO Yak faut gerer l'exception ElectionFinishedException
+				e1.printStackTrace();
 			}
 
 			}

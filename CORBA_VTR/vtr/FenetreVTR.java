@@ -33,6 +33,11 @@ import constants.Constants;
 
 public class FenetreVTR extends JFrame {
 
+	/**
+	 * serial version id
+	 */
+	private static final long serialVersionUID = 783203706240064861L;
+
 	private VTRServant vtrServant;
 
 	private ORB orb;

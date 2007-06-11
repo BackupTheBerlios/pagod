@@ -3,9 +3,11 @@ package server.corba;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import server.Server;
 import server.db.DBHelper;
 import server.model.ResultVoteImpl;
 import MAV.Candidat;
@@ -16,6 +18,7 @@ import MAV.SRVPackage.AlreadyVoteException;
 import MAV.SRVPackage.BadAuthentificationException;
 import MAV.SRVPackage.IncorrectBVPersonException;
 import MAV.SRVPackage.InternalErrorException;
+import MAV.SRVPackage.ElectionFinishedException;
 
 /**
  * 
@@ -34,13 +37,19 @@ public class SRVServant extends _SRVImplBase {
 	 * données sur ce bureau de vote
 	 */
 	private List vtrList;
+	
+	/**
+	 * represente la date de fin de l'election
+	 */
+	private Date endDateElection;
 
 	/**
 	 * Construit un SRV.
 	 *
 	 */
-	public SRVServant() {
+	public SRVServant(Date endDateElection) {
 		this.vtrList = new ArrayList();
+		this.endDateElection = endDateElection;		
 	}
 
 	public ResultVote[] listeResultat() throws InternalErrorException {
@@ -90,8 +99,13 @@ public class SRVServant extends _SRVImplBase {
 		}
 	}
 
-	public boolean authMAV(int idMAV, int idBV) throws InternalErrorException {
+	public boolean authMAV(int idMAV, int idBV) throws InternalErrorException, ElectionFinishedException {
 
+		if (isFinishedElection())
+		{
+			throw new ElectionFinishedException("Election terminé, authentification impossible.");
+		}
+		
 		try {
 			return DBHelper.getInstance().authMAV(idMAV, idBV);
 		} catch (SQLException e) {
@@ -103,8 +117,14 @@ public class SRVServant extends _SRVImplBase {
 
 	public void authPersonne(int idPersonne, String password, int idBV)
 			throws InternalErrorException, BadAuthentificationException,
-			AlreadyVoteException, IncorrectBVPersonException {
+			AlreadyVoteException, IncorrectBVPersonException, ElectionFinishedException {
 		System.out.println("appel de SRVServant.authPersonne");
+		
+		if (isFinishedElection())
+		{
+			throw new ElectionFinishedException("Election terminé, vous ne pouvez plus vous authentifier");
+		}
+		
 		try {
 			DBHelper.getInstance().authPersonne(idPersonne, password, idBV);
 		} catch (SQLException e) {
@@ -118,8 +138,14 @@ public class SRVServant extends _SRVImplBase {
 	public boolean vote(int idPersonne, String password, int idCandidat,
 			int idBV) throws InternalErrorException,
 			BadAuthentificationException, AlreadyVoteException,
-			IncorrectBVPersonException {
+			IncorrectBVPersonException, ElectionFinishedException {
 		System.out.println("appel de SRVServant.vote");
+		
+		if (isFinishedElection())
+		{
+			throw new ElectionFinishedException("Election terminé, vous ne pouvez plus voter");
+		}
+		
 		try {
 			boolean result = DBHelper.getInstance().vote(idPersonne, password,
 					idCandidat, idBV);
@@ -156,9 +182,20 @@ public class SRVServant extends _SRVImplBase {
 	 * Desenregistre un vtr afin qu'il ne soit plus notifié des changements.
 	 */
 	public void desenristrerVTR(VTR vtr) {
-		// TODO supprime le bouleen
-		boolean b = this.vtrList.remove(vtr);
+		this.vtrList.remove(vtr);
+	}
+	
+	/**
+	 * Retourne true si l'élection est terminé sinon false.
+	 * 
+	 * @return Retourne true si l'élection est terminé sinon false. 
+	 */
+	private boolean isFinishedElection()
+	{
+		// on recupere la date courante
+		Date currentDate = new Date(System.currentTimeMillis());
 		
-		System.out.println("DESNEREGISTRE LE VTR : " + b);
+		return this.endDateElection.compareTo(currentDate) <= 0;
+		
 	}
 }

@@ -37,15 +37,16 @@ module MAV
 		exception AlreadyVoteException {string reason;};
 		exception InternalErrorException {string reason;};
 		exception IncorrectBVPersonException {string reason;};
+		exception ElectionFinishedException {string reason;};
 		
 		typedef sequence<Candidat> CandidatSeq;
 		typedef sequence<ResultVote> ResultSeq;
 		
 		ResultSeq listeResultat () raises (InternalErrorException);
 		CandidatSeq listeCandidat() raises (InternalErrorException);
-		boolean authMAV(in long idMAV,in long idBV) raises (InternalErrorException);
-		void authPersonne(in long numInsee,in string password, in long idBV ) raises (BadAuthentificationException,AlreadyVoteException,InternalErrorException,IncorrectBVPersonException);
-		boolean vote (in long numInsee, in string password, in long idCandidat, in long idBV) raises (BadAuthentificationException,AlreadyVoteException,InternalErrorException,IncorrectBVPersonException);
+		boolean authMAV(in long idMAV,in long idBV) raises (InternalErrorException,ElectionFinishedException);
+		void authPersonne(in long numInsee,in string password, in long idBV ) raises (BadAuthentificationException,AlreadyVoteException,InternalErrorException,IncorrectBVPersonException, ElectionFinishedException);
+		boolean vote (in long numInsee, in string password, in long idCandidat, in long idBV) raises (BadAuthentificationException,AlreadyVoteException,InternalErrorException,IncorrectBVPersonException, ElectionFinishedException);
 			
 		void enregistrerVTR(in VTR vtr);
 		void desenristrerVTR(in VTR vtr);
