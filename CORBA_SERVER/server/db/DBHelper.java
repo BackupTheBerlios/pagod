@@ -57,7 +57,8 @@ public class DBHelper {
 			SQLException {
 
 		Class.forName("org.hsqldb.jdbcDriver");
-		this.connection = DriverManager.getConnection("jdbc:hsqldb:file:"
+		// on lance la bd hsql en mode memoire
+		this.connection = DriverManager.getConnection("jdbc:hsqldb:mem:"
 				+ Constants.DB_PATH + "BD_" + name, Constants.DB_USER,
 				Constants.DB_PASSWORD);
 
@@ -269,7 +270,6 @@ public class DBHelper {
 				.prepareStatement("INSERT INTO BV_CANDIDAT VALUES (?, ?, ?)");
 
 		// pour chaque BV
-		boolean erreur = false;
 		while (result.next()) {
 			int idBV = result.getInt(1);
 
@@ -453,8 +453,6 @@ public class DBHelper {
 
 		int res = st.executeUpdate();
 
-		System.out.println("res modif de avote" + res);
-
 		if (res == 0) {
 			return false;
 		} else {
@@ -462,12 +460,9 @@ public class DBHelper {
 
 			// si le candidat n'existe pas
 			if (!candidatExiste(idCandidat)) {
-				System.out.println("Le candidat n'existe pas");
 				this.connection.rollback();
 				return false;
 			}
-
-			System.out.println("Le candidat existe");
 
 			// on regarde si le candidat a déjà eu des votes
 			SQL = "SELECT * FROM BV_CANDIDAT WHERE CANDIDAT_ID = ? AND BV_ID = ?";
@@ -489,8 +484,6 @@ public class DBHelper {
 			// on execute la requête
 			res = st.executeUpdate();
 
-			System.out.println("modif nbVote " + res);
-
 			if (res == 0) {
 				// on n'a pas put ajouter une voix au candidat pour qui
 				// la personne a voté
@@ -499,7 +492,6 @@ public class DBHelper {
 
 				return false;
 			}
-
 		}
 		this.connection.commit();
 		return true;

@@ -50,13 +50,9 @@ public class Server {
 			// la date de fin des elections attention la methode parse peut
 			// lever une exception
 			Date endDateElection = DATE_FORMATTER.parse(sEndDateElection);
-			
-			// TODO a suppr
-			System.out.println("endDateElection : " + DATE_FORMATTER.format(endDateElection));
 
 			// create and initialize the ORB
 			ORB orb = ORB.init(args, null);
-			System.out.println(orb.getClass().getName());
 
 			// create servant and register it with the ORB
 			SRVServant SRVRef = new SRVServant(endDateElection);

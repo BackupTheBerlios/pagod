@@ -36,7 +36,7 @@ public class Client {
 			NameComponent nc = new NameComponent(Constants.SRV_SERVANT_NAME + idBV, Constants.SRV_KIND);
 			NameComponent path[] = { nc };
 			SRV srvRef = SRVHelper.narrow(ncRef.resolve(path));
-
+			
 			System.out.println("" + srvRef.authMAV(idMav, idBV));
 
 			
