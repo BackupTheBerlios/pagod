@@ -242,6 +242,7 @@ public class ServerTest extends TestCase {
 					nbVotesAvant = unResultat.nbVote();
 					trouve = true;
 				}
+				i++;
 			}
 			
 		} catch (InternalErrorException e1) {
@@ -270,6 +271,7 @@ public class ServerTest extends TestCase {
 					trouve = true;
 					nbVotesApres = unResultat.nbVote();
 				}
+				i++;
 			}
 			
 			assertTrue(trouve);
