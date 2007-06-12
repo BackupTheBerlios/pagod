@@ -56,6 +56,7 @@ public class Server {
 
 			// create and initialize the ORB
 			ORB orb = ORB.init(args, null);
+			System.out.println(orb.getClass().getName());
 
 			// create servant and register it with the ORB
 			SRVServant SRVRef = new SRVServant(endDateElection);
