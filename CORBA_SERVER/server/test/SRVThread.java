@@ -36,7 +36,6 @@ public class SRVThread extends Thread {
 		// Construit le tableau d'argument pour pouvoir lancer le SRV
 		String[] srvArgs = {SRVId, endDateElection};
 		
-		// TODO a supprimer
 		System.out.println("Thread SRV " + SRVId + " go !");
 		
 		// lance le SRV

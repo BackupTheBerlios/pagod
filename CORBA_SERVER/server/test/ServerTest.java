@@ -1,5 +1,7 @@
 package server.test;
 
+import java.util.Date;
+
 import junit.framework.TestCase;
 
 import org.omg.CORBA.ORB;
@@ -7,6 +9,8 @@ import org.omg.CosNaming.NameComponent;
 import org.omg.CosNaming.NamingContext;
 import org.omg.CosNaming.NamingContextHelper;
 
+import server.Server;
+import MAV.Candidat;
 import MAV.ResultVote;
 import MAV.SRV;
 import MAV.SRVHelper;
@@ -20,46 +24,119 @@ import constants.Constants;
 /**
  * Classe qui permet de tester le serveur.
  * 
- * Prerequis : - avoir lancé le srv 1 et le srv 2 - le srv 1 doit avoir une date
+ * Remarques: 
+ * - la méthode testLaunchSRV doit être la premiere méthode de test dans la classe car 
+ * elle permet de lancer les 2 SRV et d'initialiser des attributs static pour les tests
+ * -  le srv 1 doit avoir une date
  * de fin d'election suffisament loin pour que les tests unitaires ait le temps
- * de se faire - le srv 2 doit avoir une date de fin d'election déjà passée
- * 
+ * de se faire 
+ * - le srv 2 doit avoir une date de fin d'election déjà passée
+ * - la méthode testStopSRV arrete les deux threads SRV lancé pour les besoins des tests
  * 
  * @author bes
  * 
  */
 public class ServerTest extends TestCase {
 
-	private SRV srv1;
+	/**
+	 * Le thread qui fait tourner le SRV 1
+	 */
+	private static SRVThread threadSRV1;
 
-	private SRV srv2;
+	/**
+	 * Le thread qui fait tourner le SRV 2
+	 */
+	private static SRVThread threadSRV2;
 
-	// TODO methode a tester puis a supprimer
-	// ResultSeq listeResultat () raises (InternalErrorException);
-	// CandidatSeq listeCandidat() raises (InternalErrorException);
+	/**
+	 * la reference vers le srv1
+	 */
+	private static SRV srv1;
 
-	public void setUp() throws Exception {
+	/**
+	 * la reference vers le srv2
+	 */
+	private static SRV srv2;
+
+
+	/**
+	 * Cette méthode permet de lancer 2 thread qui font tourner les 2 SRV
+	 * necessaires aux tests unitaire. Elle initialise srv1 et srv2.
+	 * 
+	 * Il est très important que cela soit la premiere dans le test afin qu'elle
+	 * soit appelé en premier lors du lancement des tests unitaires.
+	 * 
+	 */
+	public void testLaunchSRV() {
+		// construit du thread pour le SRV1, la date de fin d'election arrivera
+		// dans 4 minutes ce qui laissera largement le temps au test de se
+		// terminer
+		Date endDateElection = new Date(
+				System.currentTimeMillis() + 1000 * 60 * 4);
+		String sEndDateElection = Server.DATE_FORMATTER.format(endDateElection);
+		ServerTest.threadSRV1 = new SRVThread("1", sEndDateElection);
+
+		// construit le thread pour le SRV2, la date de fin d'election est déjà
+		// passé (date courante - 10 ms)
+		endDateElection = new Date(System.currentTimeMillis() - 10);
+		sEndDateElection = Server.DATE_FORMATTER.format(endDateElection);
+		ServerTest.threadSRV2 = new SRVThread("2", sEndDateElection);
+
+		// lance le thread pour le SRV1
+		ServerTest.threadSRV1.start();
+
+		// on attend 2 secondes que le serveur aient bien eu le temps de
+		// s'enregistrer auprès du service de nommage
+		try {
+			Thread.sleep(1000 * 2);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+			fail("Problème lors du lancement du serveur SRV1");
+		}
+
+		// lance le thread pour le SRV2
+		ServerTest.threadSRV2.start();
+
+		// on attend 2 secondes que le serveur aient bien eu le temps de
+		// s'enregistrer auprès du service de nommage
+		try {
+			Thread.sleep(1000 * 2);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+			fail("Problème lors du lancement du serveur SRV2");
+		}
+
+		// initilisation des 2 references vers les SRV
+
 		String[] args = { "" };
 
 		// create and initialize the ORB
 		ORB orb = ORB.init(args, null);
 
-		// get the root naming context
-		org.omg.CORBA.Object objRef = orb
-				.resolve_initial_references("NameService");
-		NamingContext ncRef = NamingContextHelper.narrow(objRef);
+		try {
+			// get the root naming context
+			org.omg.CORBA.Object objRef = orb
+					.resolve_initial_references("NameService");
+			NamingContext ncRef = NamingContextHelper.narrow(objRef);
 
-		// on recupere le srv1
-		NameComponent nc = new NameComponent(Constants.SRV_SERVANT_NAME + 1,
-				Constants.SRV_KIND);
-		NameComponent path[] = { nc };
-		this.srv1 = SRVHelper.narrow(ncRef.resolve(path));
+			// on recupere le srv1
+			NameComponent nc = new NameComponent(
+					Constants.SRV_SERVANT_NAME + 1, Constants.SRV_KIND);
+			NameComponent path[] = { nc };
+			ServerTest.srv1 = SRVHelper.narrow(ncRef.resolve(path));
+			assertNotNull(ServerTest.srv1);
 
-		// on recupere le srv2
-		nc = new NameComponent(Constants.SRV_SERVANT_NAME + 2,
-				Constants.SRV_KIND);
-		path[0] = nc;
-		this.srv2 = SRVHelper.narrow(ncRef.resolve(path));
+			// on recupere le srv2
+			nc = new NameComponent(Constants.SRV_SERVANT_NAME + 2,
+					Constants.SRV_KIND);
+			path[0] = nc;
+			ServerTest.srv2 = SRVHelper.narrow(ncRef.resolve(path));
+			assertNotNull(ServerTest.srv2);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("Erreur lors de l'initialisation des 2 references");
+		}
 	}
 
 	public void testAuthMAV() {
@@ -68,7 +145,7 @@ public class ServerTest extends TestCase {
 		boolean authentificationOk = true;
 		boolean retour = false;
 		try {
-			retour = this.srv1.authMAV(1, 1);
+			retour = ServerTest.srv1.authMAV(1, 1);
 		} catch (InternalErrorException e) {
 			e.printStackTrace();
 			authentificationOk = false;
@@ -82,7 +159,7 @@ public class ServerTest extends TestCase {
 		// car la mav 100 n'existe pas
 		boolean exceptionLeve = false;
 		try {
-			retour = this.srv1.authMAV(100, 1);
+			retour = ServerTest.srv1.authMAV(100, 1);
 		} catch (InternalErrorException e) {
 			e.printStackTrace();
 			exceptionLeve = true;
@@ -96,7 +173,7 @@ public class ServerTest extends TestCase {
 		// car la bv 100 n'existe pas
 		exceptionLeve = false;
 		try {
-			retour = this.srv1.authMAV(1, 100);
+			retour = ServerTest.srv1.authMAV(1, 100);
 		} catch (InternalErrorException e) {
 			e.printStackTrace();
 			exceptionLeve = true;
@@ -110,7 +187,7 @@ public class ServerTest extends TestCase {
 		// car l'election est fini
 		boolean ElectionFinishedExceptionLeve = false;
 		try {
-			this.srv2.authMAV(3, 2);
+			ServerTest.srv2.authMAV(3, 2);
 		} catch (ElectionFinishedException e) {
 			ElectionFinishedExceptionLeve = true;
 		} catch (Exception e) {
@@ -123,7 +200,7 @@ public class ServerTest extends TestCase {
 		// test d'une authentification qui doit reussir
 		boolean authentificationOk = true;
 		try {
-			this.srv1.authPersonne(1, "1234", 1);
+			ServerTest.srv1.authPersonne(1, "1234", 1);
 		} catch (InternalErrorException e) {
 			e.printStackTrace();
 			authentificationOk = false;
@@ -137,7 +214,7 @@ public class ServerTest extends TestCase {
 		// car le mot de passe n'est pas le bon
 		boolean badAuthentificationExceptionLeve = false;
 		try {
-			this.srv1.authPersonne(1, "1", 1);
+			ServerTest.srv1.authPersonne(1, "1", 1);
 		} catch (BadAuthentificationException e) {
 			badAuthentificationExceptionLeve = true;
 		} catch (Exception e) {
@@ -149,7 +226,7 @@ public class ServerTest extends TestCase {
 		// car la personne 100 n'existe pas
 		badAuthentificationExceptionLeve = false;
 		try {
-			this.srv1.authPersonne(100, "1234", 1);
+			ServerTest.srv1.authPersonne(100, "1234", 1);
 		} catch (BadAuthentificationException e) {
 			badAuthentificationExceptionLeve = true;
 		} catch (Exception e) {
@@ -161,7 +238,7 @@ public class ServerTest extends TestCase {
 		// car la personne 1 doit voter dans le bv 1 et non pas 2
 		boolean incorrectBVPersonExceptionLeve = false;
 		try {
-			this.srv1.authPersonne(1, "1234", 2);
+			ServerTest.srv1.authPersonne(1, "1234", 2);
 		} catch (IncorrectBVPersonException e) {
 			incorrectBVPersonExceptionLeve = true;
 		} catch (Exception e) {
@@ -176,7 +253,7 @@ public class ServerTest extends TestCase {
 		// car l'election est fini
 		boolean ElectionFinishedExceptionLeve = false;
 		try {
-			this.srv2.authPersonne(2, "1234", 2);
+			ServerTest.srv2.authPersonne(2, "1234", 2);
 		} catch (ElectionFinishedException e) {
 			ElectionFinishedExceptionLeve = true;
 		} catch (Exception e) {
@@ -185,13 +262,96 @@ public class ServerTest extends TestCase {
 		assertTrue(ElectionFinishedExceptionLeve);
 
 	}
+	
+	public void testListeCandidat()
+	{
+		
+		try {
+			Candidat[] candidats = ServerTest.srv1.listeCandidat();
+			
+			assertEquals(candidats.length, 3);
+			
+			// parcours de la liste des candidats
+			for (int i = 0 ; i < candidats.length ; i++)
+			{
+				Candidat currentCandidat = candidats[i]; 
+				switch (currentCandidat.id()) {
+				case 1:
+					assertEquals("SARKOZY", currentCandidat.nom());
+					assertEquals("NICOLAS", currentCandidat.prenom());
+					assertEquals("Description  sarkozy ", currentCandidat.description());
+					
+					break;
+					
+				case 2:
+					assertEquals("ROYAL", currentCandidat.nom());
+					assertEquals("SEGOLENE", currentCandidat.prenom());
+					assertEquals("Description  royal ", currentCandidat.description());
+					
+					break;
+				case 3:
+					assertEquals("BAYROU", currentCandidat.nom());
+					assertEquals("FRANCOIS", currentCandidat.prenom());
+					assertEquals("Description  BAYROU ", currentCandidat.description());
+					
+					break;
+
+				default:
+						fail();
+					break;
+				}
+			}
+			
+			
+			candidats = ServerTest.srv2.listeCandidat();
+			
+			assertEquals(candidats.length, 3);
+			
+			// parcours de la liste des candidats
+			for (int i = 0 ; i < candidats.length ; i++)
+			{
+				Candidat currentCandidat = candidats[i]; 
+				switch (currentCandidat.id()) {
+				case 1:
+					assertEquals("SARKOZY", currentCandidat.nom());
+					assertEquals("NICOLAS", currentCandidat.prenom());
+					assertEquals("Description  sarkozy ", currentCandidat.description());
+					
+					break;
+					
+				case 2:
+					assertEquals("ROYAL", currentCandidat.nom());
+					assertEquals("SEGOLENE", currentCandidat.prenom());
+					assertEquals("Description  royal ", currentCandidat.description());
+					
+					break;
+				case 3:
+					assertEquals("BAYROU", currentCandidat.nom());
+					assertEquals("FRANCOIS", currentCandidat.prenom());
+					assertEquals("Description  BAYROU ", currentCandidat.description());
+					
+					break;
+
+				default:
+						fail();
+					break;
+				}
+			}
+			
+		} catch (InternalErrorException e) {
+			e.printStackTrace();
+			fail();
+		}
+		
+		
+	}
 
 	public void testVote() {
 		// test d'un vote qui doit echouer
 		// car le mot de passe n'est pas le bon
 		boolean badAuthentificationExceptionLeve = false;
 		try {
-			this.srv1.vote(1, "1", 1, 1);
+			ServerTest.srv1.vote(1, "1", 1, 1);
 		} catch (BadAuthentificationException e) {
 			badAuthentificationExceptionLeve = true;
 		} catch (Exception e) {
@@ -203,7 +363,7 @@ public class ServerTest extends TestCase {
 		// car la personne 100 n'existe pas
 		badAuthentificationExceptionLeve = false;
 		try {
-			this.srv1.vote(100, "1234", 1, 1);
+			ServerTest.srv1.vote(100, "1234", 1, 1);
 		} catch (BadAuthentificationException e) {
 			badAuthentificationExceptionLeve = true;
 		} catch (Exception e) {
@@ -215,7 +375,7 @@ public class ServerTest extends TestCase {
 		// car la personne 1 doit voter dans le bv 1 et non pas 2
 		boolean incorrectBVPersonExceptionLeve = false;
 		try {
-			this.srv1.authPersonne(1, "1234", 2);
+			ServerTest.srv1.authPersonne(1, "1234", 2);
 		} catch (IncorrectBVPersonException e) {
 			incorrectBVPersonExceptionLeve = true;
 		} catch (Exception e) {
@@ -225,26 +385,28 @@ public class ServerTest extends TestCase {
 
 		// test d'un vote qui doit réussir
 
-		// parcours des resultats pour recuperer le nb de vote pour le candidat dans le bv
+		// parcours des resultats pour recuperer le nb de vote pour le candidat
+		// dans le bv
 		int idBv = 1;
 		int idCandidat = 1;
 		int nbVotesAvant = 0;
-		
+
 		try {
-			ResultVote[] resultats = this.srv1.listeResultat();
+			ResultVote[] resultats = ServerTest.srv1.listeResultat();
 
 			// parcours des resultats pour voir si le vote a été pris en compte
 			boolean trouve = false;
 			int i = 0;
 			while (!trouve && i < resultats.length) {
 				ResultVote unResultat = resultats[i];
-				if (unResultat.idBV() == idBv && unResultat.idCandidat() == idCandidat) {
+				if (unResultat.idBV() == idBv
+						&& unResultat.idCandidat() == idCandidat) {
 					nbVotesAvant = unResultat.nbVote();
 					trouve = true;
 				}
 				i++;
 			}
-			
+
 		} catch (InternalErrorException e1) {
 			e1.printStackTrace();
 			fail();
@@ -252,14 +414,14 @@ public class ServerTest extends TestCase {
 
 		boolean aVote = false;
 		try {
-			aVote = this.srv1.vote(1, "1234", 1, 1);
+			aVote = ServerTest.srv1.vote(1, "1234", 1, 1);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		assertTrue(aVote);
 		// on verifie que le vote a bien été pris en compte
 		try {
-			ResultVote[] resultats = this.srv1.listeResultat();
+			ResultVote[] resultats = ServerTest.srv1.listeResultat();
 
 			int nbVotesApres = 0;
 			// parcours des resultats pour voir si le vote a été pris en compte
@@ -273,10 +435,10 @@ public class ServerTest extends TestCase {
 				}
 				i++;
 			}
-			
+
 			assertTrue(trouve);
 			assertEquals(nbVotesAvant + 1, nbVotesApres);
-			
+
 		} catch (InternalErrorException e1) {
 			e1.printStackTrace();
 			fail();
@@ -285,7 +447,7 @@ public class ServerTest extends TestCase {
 		// test d'un vote qui ne doit pas reussir car la personne a déjà voté
 		boolean alreadyVoteExceptionLeve = false;
 		try {
-			this.srv1.vote(1, "1234", 1, 1);
+			ServerTest.srv1.vote(1, "1234", 1, 1);
 		} catch (AlreadyVoteException e) {
 			alreadyVoteExceptionLeve = true;
 		} catch (Exception e) {
@@ -297,7 +459,7 @@ public class ServerTest extends TestCase {
 		// voté
 		alreadyVoteExceptionLeve = false;
 		try {
-			this.srv1.authPersonne(1, "1234", 1);
+			ServerTest.srv1.authPersonne(1, "1234", 1);
 		} catch (AlreadyVoteException e) {
 			alreadyVoteExceptionLeve = true;
 		} catch (Exception e) {
@@ -309,7 +471,7 @@ public class ServerTest extends TestCase {
 		// car l'election est fini
 		boolean ElectionFinishedExceptionLeve = false;
 		try {
-			this.srv2.vote(2, "1234", 1, 2);
+			ServerTest.srv2.vote(2, "1234", 1, 2);
 		} catch (ElectionFinishedException e) {
 			ElectionFinishedExceptionLeve = true;
 		} catch (Exception e) {
@@ -318,4 +480,12 @@ public class ServerTest extends TestCase {
 		assertTrue(ElectionFinishedExceptionLeve);
 	}
 
+	/**
+	 * Cette fonction permet d'arreter les 2 threads qui font tourné les 2 SRV.
+	 * 
+	 */
+	public void testStopSRV() {
+		ServerTest.threadSRV1.stop();
+		ServerTest.threadSRV2.stop();
+	}
 }

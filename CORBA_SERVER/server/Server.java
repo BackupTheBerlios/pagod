@@ -43,7 +43,7 @@ public class Server {
 
 		// on recupere l'identifiant du bureau de vote
 		String idBV = args[0];
-
+		
 		try {
 			// on recupere la date de fin des elections
 			String sEndDateElection = args[1];
@@ -81,7 +81,7 @@ public class Server {
 			System.out.println("Initialisation de la base");
 			DBHelper.getInstance().initDB();
 
-			System.out.println("SRV pret");
+			System.out.println("SRV " + idBV + " pret !!!");
 
 			synchronized (sync) {
 				sync.wait();

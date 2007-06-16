@@ -284,6 +284,7 @@ public class DBHelper {
 	}
 
 	/**
+	 * Authentifie une machine a voter.
 	 * 
 	 * @param MAV
 	 *            l'identifiant de la machine a voter
@@ -313,10 +314,7 @@ public class DBHelper {
 	}
 
 	/**
-	 * TODO METTRE EN PLACE UNE VERIFICATION DU PASSWORD ET DU BV ET UN RETOUR
-	 * (EXCEPTION...) => A PRIORI FAIT
-	 * 
-	 * TODO faudrait pas passer l'identiifant de la machine a voter
+	 * Authentifie une personne.
 	 * 
 	 * @param numInsee
 	 *            le numéro insee
@@ -414,13 +412,6 @@ public class DBHelper {
 	/**
 	 * Fonction qui permet à une personne de voter dans un bureau de vote si
 	 * elle n'a pas déjà voté.
-	 * 
-	 * TODO FAUDRA VOIR POUR LES EXCEPTIONS DU GENRE LA PERSONNE N EST PAS
-	 * PRESENTE ... CF authPers => FAIT
-	 * 
-	 * TODO JE PENSE QU IL EST PLUS JUDICIEX LORSQU'ON VOTE DE PASSER EN
-	 * PARAMETRE LE PASSWORD COMME CELA LA METHODE VOTE POURRA UTILISER LA
-	 * METHODE AUTHPERSONNE => FAIT
 	 * 
 	 * @param idPersonne
 	 *            l'identifiant de la personne
