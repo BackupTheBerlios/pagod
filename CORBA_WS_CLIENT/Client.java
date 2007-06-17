@@ -14,7 +14,14 @@ public class Client {
 		ElectionWSService service = new ElectionWSServiceLocator();
 		try {
 			ElectionWS election = service.getElectionWS();
-			System.out.println(""+election.getResult(1));
+			String [][] result = election.getResult(1);
+			for (int i = 0; i < result.length; i++)
+			{
+				for (int j=0; j < result[0].length; j++)
+				{
+					System.out.println(result[i][j]);
+				}
+			}
 		} catch (ServiceException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
